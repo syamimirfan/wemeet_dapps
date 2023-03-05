@@ -21,22 +21,31 @@ Future studentLogin(String studEmail, String studPassword) async {
 
   //API for student reset the password
   Future studentResetPassword(String studEmail, String studPassword) async {
-     final response = await http.post(Uri.parse('${Utils.baseURL}/student/resetpassword'),
+     final response = await http.patch(Uri.parse('${Utils.baseURL}/student/resetpassword'),
       headers:  {
-        "Accept": "Application/json"
+        "Accept": "application/json;charset=UTF-8",
+        'Charset': 'utf-8'
       },
-      body: {
-        'studEmail': studEmail,
-        'studPassword': studPassword
-      }
-     );
-
-     return jsonDecode(response.body);
+     body: {
+      'studEmail': studEmail,
+      'studPassword': studPassword,
+       },
+      );
+     if(response.statusCode == 200) {
+      return jsonDecode(response.body);
+     } else {
+      print(response.body); 
+    throw Exception(response.statusCode);
+     }
   }
 
   //API for student detail by passing the matricNo
   Future getStudentDetail(String matricNo) async{ 
-      final response = await http.get(Uri.parse('${Utils.baseURL}/student/getstudent/${matricNo}'));
+      final response = await http.get(Uri.parse('${Utils.baseURL}/student/getstudent/${matricNo}'),
+        headers: {
+          "Accept": "Application/json"
+        }
+      );
       if(response.statusCode == 200) {
           return jsonDecode(response.body);
       } else{ 

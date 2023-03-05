@@ -18,17 +18,23 @@ class Lecturer {
   }
 
   //API for lecturer reset the password
-  Future lecturerResetPassword(String lecturerEmail, String lecturerPassword) async {
-     final response = await http.post(Uri.parse('${Utils.baseURL}/lecturer/resetpassword'),
+    Future lecturerResetPassword(String lecturerEmail, String lecturerPassword) async {
+     final response = await http.patch(Uri.parse('${Utils.baseURL}/lecturer/resetpassword'),
       headers:  {
-        "Accept": "Application/json"
+        "Accept": "application/json;charset=UTF-8",
+        'Charset': 'utf-8'
       },
-      body: {
-        'lecturerEmail': lecturerEmail,
-        'lecturerPassword': lecturerPassword
-      }
-     );
-
-     return jsonDecode(response.body);
+     body: {
+      'lecturerEmail': lecturerEmail,
+      'lecturerPassword': lecturerPassword,
+       },
+       );
+     if(response.statusCode == 200) {
+      return jsonDecode(response.body);
+     } else {
+      print(response.body); 
+    throw Exception(response.statusCode);
+     }
   }
+
 }

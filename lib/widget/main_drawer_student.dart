@@ -69,13 +69,9 @@ class _MainDrawerStudentState extends State<MainDrawerStudent> {
   bool yourHistory;
 
 late String matricNumber = "";
-  late String studentName = "";
-  late String studentImage = "";
+late String studentName = "";
+late String studentImage = "";
    
-
-  // final pb = PocketBase('http://127.0.0.1:8090');
-
-
  @override
  void initState() {
     //implement initState
@@ -114,12 +110,12 @@ late String matricNumber = "";
                   width: 5,
                   color: Constants().secondaryColor,
                  ),
-                  image:  const  DecorationImage(
-                       image: AssetImage('assets/student.png'),
+                image:   DecorationImage(
+                       image: NetworkImage(studentImage),
                       ),
- 
               ),
             ),
+  
 
            Text(
             matricNumber,
@@ -312,6 +308,7 @@ late String matricNumber = "";
                          final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
                         _sharedPreferences.remove('matricNo');
                         _sharedPreferences.remove('studEmail');
+                        print("LOGOUT!");
                         nextScreen(context, Login());
                       }, 
                       icon: const Icon(Icons.done, color: Colors.green,size: 30,)),
@@ -341,7 +338,7 @@ late String matricNumber = "";
 
    viewStudent(String? matricNo) async {
       var responseStudent = await new Student().getStudentDetail(matricNo!);
-   
+  
       if(responseStudent['success']) {
          setState(()  {
            studentImage =  responseStudent['student'][0]['studImage'];

@@ -38,7 +38,6 @@ dependencies:
   shared_preferences: ^2.0.16
   date_picker_timeline: ^1.2.3
   email_otp: ^1.0.4
-  pocketbase: ^0.7.3
   
 
 

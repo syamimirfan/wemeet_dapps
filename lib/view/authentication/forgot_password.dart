@@ -262,7 +262,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                            }else {
                             showMessage(context, "OTP are not Verified", "WronG OTP entered, Please enter correct OTP", "OK");
                            }
-                       }
+                        }
                       }, 
                       child: const Text(
                          "Reset Password",
@@ -286,11 +286,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   //function for reset the password
   resetPassword(String email, String password) async{
       var responseStudent = await new Student().studentResetPassword(email.trim(), password.trim());
-      var  responseLecturer = await new Lecturer().lecturerResetPassword(email.trim(), password.trim());
+       var  responseLecturer = await new Lecturer().lecturerResetPassword(email.trim(), password.trim());
 
       if(responseStudent["success"]) {
         showMessageResetPassword(context, "OTP Verified", "Password for ${email} has been updated", "OK");
-      } else if(responseLecturer["success"]) {
+       }
+       else if(responseLecturer["success"]) {
         showMessageResetPassword(context, "OTP Verified", "Password for ${email} has been updated", "OK");
       }else {
        showMessage(context, "Ooops!", "Cannot update password for ${email} ", "OK");
