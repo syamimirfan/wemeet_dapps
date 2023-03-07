@@ -3,16 +3,16 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/widget/message_tile.dart';
 
-class Message extends StatefulWidget {
+class LecturerMessage extends StatefulWidget {
   final String images;
-  final String lecturerName;
-  const Message({super.key, required this.images, required this.lecturerName});
+  final String studentName;
+  const LecturerMessage({super.key, required this.images, required this.studentName});
 
   @override
-  State<Message> createState() => _MessageState();
+  State<LecturerMessage> createState() => _LecturerMessageState();
 }
 
-class _MessageState extends State<Message> {
+class _LecturerMessageState extends State<LecturerMessage> {
    
    //variable for message
   List<String> sendMessage = ["Asslamualaikum dear student",
@@ -23,7 +23,7 @@ class _MessageState extends State<Message> {
    "You can come to my table at 8.30 AM",
    "Noted Dr"
   ];
-  List<bool> sendByMe = [false,true,false,true,false,true,false,true];
+  List<bool> sendByMe = [true,false,true,false,true,false,true,false];
 
   double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.height;
@@ -123,7 +123,7 @@ class _MessageState extends State<Message> {
            Flexible(
             fit: FlexFit.loose,
             child: Text(
-            "Dr "+widget.lecturerName,
+            widget.studentName,
             style: const TextStyle(
               fontFamily: 'Poppins',
               fontSize:20,
@@ -158,6 +158,7 @@ class _MessageState extends State<Message> {
                     ],
                 ),
             ),
+            
           ),
       ),
     );

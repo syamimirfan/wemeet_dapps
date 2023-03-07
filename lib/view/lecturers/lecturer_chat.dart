@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wemeet_dapps/about.dart';
-import 'package:wemeet_dapps/view/students/student_message.dart';
-import 'package:wemeet_dapps/widget/main_drawer_student.dart';
+import 'package:wemeet_dapps/widget/main_drawer_lecturer.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 
-class StudentChat extends StatefulWidget {
-  const StudentChat({super.key});
+import 'lecturer_message.dart';
+
+class LecturerChat extends StatefulWidget {
+  const LecturerChat({super.key});
 
   @override
-  State<StudentChat> createState() => _StudentChatState();
+  State<LecturerChat> createState() => _LecturerChatState();
 }
 
-class _StudentChatState extends State<StudentChat> {
+class _LecturerChatState extends State<LecturerChat> {
 
   //variable for chat
-  List<String> images = ["assets/lecturer.png", "assets/icon.png","assets/icon.png","assets/icon.png","assets/icon.png"];
-  List<String> lecturerName = ["Nur Ariffin Bin Mohd Zin", "Zainuri Bin Saringat", "Salama A Mostafa", "Mazidah Binti Mat Rejab", "Noraini Binti Ibrahim"];
+  List<String> images = ["assets/student.png", "assets/student.png","assets/icon.png","assets/icon.png","assets/icon.png"];
+  List<String> lecturerName = ["MUHAMAD SYAMIM IRFAN BIN AHMAD SHOKKRI", "MUHAMAD SYAMIM IRFAN BIN AHMAD SHOKKRI", "LEE ZI JIA", "ABU BIN ALI", "AISYAH BINTI RAMDAN"];
 
   double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.height;
@@ -47,7 +48,7 @@ class _StudentChatState extends State<StudentChat> {
                         ),
                       ),
                       onTap: () {
-                        nextScreen(context, Message(images: images[index], lecturerName: lecturerName[index]));
+                        nextScreen(context, LecturerMessage(images: images[index], studentName: lecturerName[index]));
                       },
                   ), 
                 ],
@@ -83,7 +84,7 @@ class _StudentChatState extends State<StudentChat> {
           ],
         ),
 
-        drawer: MainDrawerStudent(home: false, profile: false, book: false, appointment: false, reward: false, chat: true, yourHistory: false),
+        drawer: MainDrawerLecturer(home: false, profile: false, slot: false, appointment: false, attendance: false, chat: true),
 
         body: Padding(
           padding: Device.screenType == ScreenType.tablet? 

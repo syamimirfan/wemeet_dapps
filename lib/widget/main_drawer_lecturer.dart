@@ -1,96 +1,88 @@
-// ignore_for_file: unnecessary_this
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wemeet_dapps/api_services/api_students.dart';
+import 'package:wemeet_dapps/api_services/api_lecturers.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/view/authentication/login.dart';
-import 'package:wemeet_dapps/view/students/book1_student.dart';
-import 'package:wemeet_dapps/view/students/history.dart';
-import 'package:wemeet_dapps/view/students/home_students.dart';
-import 'package:wemeet_dapps/view/students/manage_booking.dart';
-import 'package:wemeet_dapps/view/students/reward.dart';
-import 'package:wemeet_dapps/view/students/student_chat.dart';
-import 'package:wemeet_dapps/view/students/student_profile.dart';
+import 'package:wemeet_dapps/view/lecturers/appointment.dart';
+import 'package:wemeet_dapps/view/lecturers/attendance.dart';
+import 'package:wemeet_dapps/view/lecturers/home_lecturers.dart';
+import 'package:wemeet_dapps/view/lecturers/lecturer_chat.dart';
+import 'package:wemeet_dapps/view/lecturers/lecturer_profile.dart';
+import 'package:wemeet_dapps/view/lecturers/slot1.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 
-// ignore: must_be_immutable
-class MainDrawerStudent extends StatefulWidget {
-   MainDrawerStudent({
-    Key? key,
+class MainDrawerLecturer extends StatefulWidget {
+   MainDrawerLecturer({ 
+     Key? key,
     required this.home,
     required this.profile,
-    required this.book,
+    required this.slot,
     required this.appointment,
-    required this.reward,
+    required this.attendance,
     required this.chat,
-    required this.yourHistory,
   }) : super(key: key);
 
-  bool reward;
-  bool appointment;
-  bool book;
-  bool chat;
   bool home;
   bool profile;
-  bool yourHistory;
+  bool slot;
+  bool appointment;
+  bool attendance;
+  bool chat;
 
   @override
-  // ignore: no_logic_in_create_state
-  State<MainDrawerStudent> createState() => _MainDrawerStudentState(
-     this.home,
-     this.profile,
-     this.book,
-     this.appointment,
-     this.reward,
-     this.chat,
-     this.yourHistory,
+  State<MainDrawerLecturer> createState() => _MainDrawerLecturerState(
+      this.home,
+      this.profile,
+      this.slot,
+      this.appointment,
+      this.attendance,
+      this.chat,
   );
 }
 
-class _MainDrawerStudentState extends State<MainDrawerStudent> {
-  _MainDrawerStudentState( 
+class _MainDrawerLecturerState extends State<MainDrawerLecturer> {
+  _MainDrawerLecturerState( 
     this.home,
     this.profile,
-    this.book,
+    this.slot,
     this.appointment,
-    this.reward,
+    this.attendance,
     this.chat,
-    this.yourHistory,
-     );
-
-  bool reward;
-  bool appointment;
-  bool book;
-  bool chat;
+    );
   bool home;
   bool profile;
-  bool yourHistory;
+  bool slot;
+  bool appointment;
+  bool attendance;
+  bool chat;
+  
+  String staffNumber = "";
+  String lectName = "";
+  String lectImage = "";
 
-late String matricNumber = "";
-late String studentName = "";
-late String studentImage = "";
-   
- @override
+  @override
  void initState() {
     //implement initState
     super.initState();
 
-    getMatricNo();
+    getStaffNo();
   }
   
   //method to call the view student
   //WE CANNOT MAKE ASYNC IN void InitState() for some reason
-  Future<void> getMatricNo() async {
+  Future<void> getStaffNo() async {
      final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-     viewStudent(_sharedPreferences.getString('matricNo'));
+     viewLecturer(_sharedPreferences.getString('staffNo'));
   }
   
+
   @override
   Widget build(BuildContext context) {
-      return Drawer(
-        child: ListView(
+    return Drawer(    
+         child: ListView(
           padding:  const EdgeInsets.symmetric(vertical: 0),
           children: [
            Container(
@@ -112,22 +104,22 @@ late String studentImage = "";
                   color: Constants().secondaryColor,
                  ),
                 image:   DecorationImage(
-                       image: NetworkImage(studentImage),
+                       image: NetworkImage(lectImage),
                       ),
               ),
             ),
   
 
            Text(
-            matricNumber,
-            style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontSize: 22,fontFamily: 'Poppins'),
+            staffNumber,
+            style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontSize: 22,fontFamily: 'Poppins',),
           ),
           const SizedBox(height:10),
 
           Flexible(
             child: Container(
              child:  Text(
-            studentName,
+            lectName,
              style: TextStyle(
                color: Colors.white,
                fontSize: 13,
@@ -144,7 +136,7 @@ late String studentImage = "";
          
            ListTile(
             onTap: () {
-              nextScreen(context, HomeStudents());
+              nextScreen(context, HomeLecturer());
             },
             contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical:5),
             leading: const Icon(Icons.home, size: 30,),
@@ -163,7 +155,7 @@ late String studentImage = "";
            ),
            ListTile(
             onTap: () {
-               nextScreen(context, StudentProfile());
+                nextScreen(context, LecturerProfile());
             },
             contentPadding: const EdgeInsets.symmetric(horizontal:20, vertical: 5),
             leading: const Icon(Icons.account_circle_rounded,size: 30,),
@@ -182,17 +174,17 @@ late String studentImage = "";
            ),
            ListTile(
              onTap: () {
-                nextScreen(context, Book());
+                nextScreen(context, Slot());
              }, 
              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-             leading: const Icon(Icons.add_circle, size: 30,),
-             selectedTileColor: book == true? Constants().secondaryColor:Colors.white,
-             selectedColor: book == true? Colors.white:Constants().secondaryColor,
-             selected: book == true? true:false,
+             leading: const Icon(Icons.access_time_filled, size: 30,),
+             selectedTileColor: slot == true? Constants().secondaryColor:Colors.white,
+             selectedColor: slot == true? Colors.white:Constants().secondaryColor,
+             selected: slot == true? true:false,
              title:  Text(
-              "Book",
+              "Slot",
               style: TextStyle(
-                color: book == true?Colors.white:Colors.black,
+                color: slot == true?Colors.white:Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
                 fontFamily: 'Poppins',
@@ -201,7 +193,7 @@ late String studentImage = "";
            ),
                ListTile(
              onTap: () {
-                nextScreen(context, ManageBooking());
+                nextScreen(context, Appointment());
              }, 
              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
              leading: const Icon(Icons.calendar_month_sharp, size: 30,),
@@ -220,17 +212,17 @@ late String studentImage = "";
            ),
             ListTile(
              onTap: () {
-                nextScreen(context, Reward());
+               nextScreen(context, Attendance());
              }, 
              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-             leading: const Icon(Icons.token_sharp , size: 30,),
-             selectedTileColor: reward == true? Constants().secondaryColor:Colors.white,
-             selectedColor: reward == true? Colors.white:Constants().secondaryColor,
-             selected: reward == true? true:false,
+             leading: const Icon(Icons.class_rounded , size: 30,),
+             selectedTileColor: attendance == true? Constants().secondaryColor:Colors.white,
+             selectedColor: attendance == true? Colors.white:Constants().secondaryColor,
+             selected: attendance == true? true:false,
              title:  Text(
-              "Reward",
+              "Attendance",
               style: TextStyle(
-                 color: reward == true?Colors.white:Colors.black,
+                 color: attendance == true?Colors.white:Colors.black,
                  fontWeight: FontWeight.bold,
                 fontSize: 20,
                 fontFamily: 'Poppins',
@@ -239,7 +231,7 @@ late String studentImage = "";
            ),
             ListTile(
              onTap: () {
-                nextScreen(context, StudentChat());
+                 nextScreen(context, LecturerChat());
              }, 
              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
              leading: const Icon(Icons.chat_rounded, size: 30,),
@@ -250,25 +242,6 @@ late String studentImage = "";
               "Chat",
               style: TextStyle(
                 color: chat == true? Colors.white:Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                fontFamily: 'Poppins',
-              ),
-             ),
-           ),
-          ListTile(
-             onTap: () {
-                nextScreen(context, ManageHistory());
-             }, 
-             contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-             leading: const Icon(Icons.history_sharp,size: 30,),
-             selectedTileColor: yourHistory == true? Constants().secondaryColor:Colors.white,
-             selectedColor: yourHistory == true? Colors.white:Constants().secondaryColor,
-             selected: yourHistory == true? true:false,
-             title: Text(
-              "Your History",
-              style: TextStyle(
-                color: yourHistory == true? Colors.white:Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
                 fontFamily: 'Poppins',
@@ -307,8 +280,8 @@ late String studentImage = "";
                        ),
                       IconButton(onPressed: () async{
                          final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-                        _sharedPreferences.remove('matricNo');
-                         _sharedPreferences.remove('statusStudent');
+                        _sharedPreferences.remove('staffNo');
+                        _sharedPreferences.remove('statusLecturer');
                         print("LOGOUT!");
                         nextScreenReplacement(context, Login());
                       }, 
@@ -333,23 +306,24 @@ late String studentImage = "";
            ),
           ],
         ),
-        );
-       
+    );
   }
 
-   viewStudent(String? matricNo) async {
-      var responseStudent = await new Student().getStudentDetail(matricNo!);
   
-      if(responseStudent['success']) {
+   viewLecturer(String? staffNo) async {
+      var responseLecturer = await new Lecturer().getLecturerDetail(staffNo!);
+  
+      if(responseLecturer['success']) {
          setState(()  {
-           studentImage =  responseStudent['student'][0]['studImage'];
-           matricNumber = responseStudent['student'][0]['matricNo'];
-           studentName = responseStudent['student'][0]['studName'];
+           lectImage =  responseLecturer['lecturer'][0]['lecturerImage'];
+           staffNumber = responseLecturer['lecturer'][0]['staffNo'];
+           lectName = responseLecturer['lecturer'][0]['lecturerName'];
          });
-         print(studentImage);
+         print(lectImage);
       } else {
          throw Exception("Failed to get the data");
       }
  
   }
+
 }

@@ -2,25 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wemeet_dapps/about.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
-import 'package:wemeet_dapps/view/students/update_book.dart';
-import 'package:wemeet_dapps/widget/main_drawer_student.dart';
+import 'package:wemeet_dapps/widget/main_drawer_lecturer.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 
-class ManageBooking extends StatefulWidget {
-  const ManageBooking({super.key});
+class Attendance extends StatefulWidget {
+  const Attendance({super.key});
 
   @override
-  State<ManageBooking> createState() => _ManageBookingState();
+  State<Attendance> createState() => _AttendanceState();
 }
 
-class _ManageBookingState extends State<ManageBooking> {
-
-  List<String> images = ["assets/lecturer.png", "assets/icon.png","assets/icon.png","assets/icon.png","assets/icon.png"];
-  List<String> lecturerName = ["Nur Ariffin Bin Mohd Zin", "Zainuri Bin Saringat", "Salama A Mostafa", "Mazidah Binti Mat Rejab", "Noraini Binti Ibrahim"];
-  List<int> number = [1,3,2,6,10];
-  List<String> date = ["Sunday, 0ctober 16","Sunday, 0ctober 16","Sunday, 0ctober 16","Sunday, 0ctober 16","Sunday, 0ctober 16"];
-  List<String> time = ["10.00 AM","10.00 AM","10.00 AM","10.00 AM","10.00 AM"];
-  List<String> statusBooking = ["Accepted", "Appending", "Rejected", "Appending", "Rejected"];
+class _AttendanceState extends State<Attendance> {
 
   double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
@@ -31,7 +23,7 @@ class _ManageBookingState extends State<ManageBooking> {
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         title: const Text(
-            "Appointment",
+            "Attendance",
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -49,8 +41,7 @@ class _ManageBookingState extends State<ManageBooking> {
              ),
           ],
       ),
-      drawer: MainDrawerStudent(home: false, profile: false, book: false, appointment: true, reward: false, chat: false, yourHistory: false),
-
+    drawer: MainDrawerLecturer(home: false, profile: false, slot: false, appointment: false, attendance: true, chat: false),
       body: Padding(
         padding: Device.screenType == ScreenType.tablet? 
                   const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
@@ -93,35 +84,6 @@ class _ManageBookingState extends State<ManageBooking> {
                           ),
                           child: Column(
                             children:[
-                           //for status booking
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                  Text(
-                                    "Status: ",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: "Poppins",
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    statusBooking[i],
-                                    style: TextStyle(
-                                     color:statusBooking[i] == "Accepted" ? Constants().acceptedColor : statusBooking[i] == "Appending" ? Constants().primaryColor : statusBooking[i] == "Rejected" ? Constants().secondaryColor : Colors.black,
-                                      fontFamily: "Poppins",
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )
-                              ],
-                          ),
-                            ),
-
                             //for booking information
                             Row(
                                mainAxisAlignment: MainAxisAlignment.start,
@@ -131,7 +93,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                   Container(
                                     child: CircleAvatar(
                                       radius: 40,
-                                      backgroundImage: AssetImage(images[i]),
+                                      backgroundImage: AssetImage("assets/student.png"),
                                     ),
                                   ),
                                   //for booking information
@@ -147,11 +109,9 @@ class _ManageBookingState extends State<ManageBooking> {
                                             Container(
                                             margin: Device.screenType == ScreenType.tablet? 
                                               const EdgeInsets.only(bottom: 20):
-                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.01,
-                                                right: deviceWidth(context) * 0.01,
-                                              ) ,
+                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
-                                              "DR " +lecturerName[i],
+                                             "MUHAMAD SYAMIM IRFAN BIN AHMAD SHOKKRI",
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                               0.18.dp: 0.28.dp,
@@ -166,7 +126,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                               const EdgeInsets.only(bottom: 20):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
-                                              number[i].toString() + " Student",
+                                              "1 student",
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                               0.16.dp: 0.26.dp,
@@ -179,12 +139,12 @@ class _ManageBookingState extends State<ManageBooking> {
                                            Container(
                                             margin: Device.screenType == ScreenType.tablet? 
                                               const EdgeInsets.only(bottom: 20):
-                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.008) ,
+                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
-                                              date[i],
+                                              "16 OCT SUN",
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
-                                                               0.16.dp: 0.26.dp,
+                                                              0.16.dp: 0.26.dp,
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.black,
@@ -196,7 +156,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                               const EdgeInsets.only(bottom: 20):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
-                                              time[i],
+                                              "10.00 AM",
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                                0.16.dp: 0.26.dp,
@@ -224,20 +184,20 @@ class _ManageBookingState extends State<ManageBooking> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 SizedBox(
-                             
+                                    width: deviceWidth(context) * 0.13,
                                    child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: Constants().primaryColor,
+                                        backgroundColor: Constants().secondaryColor,
                                         elevation: 0,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(10),
                                         ),
                                       ),
                                       onPressed: () {
-                                    
+                                      showConfirmationAbsentBox(context, "Confirm?", "Are you sure to sign absent for this session?");
                                       },
                                       child: const Text(
-                                        "Contact Lecturer",
+                                        "Absent",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w500,
@@ -248,20 +208,20 @@ class _ManageBookingState extends State<ManageBooking> {
                                   ),
                                 ),
                                    SizedBox(
-                               
+                                  width: deviceWidth(context) * 0.13,
                                   child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: Constants().quaternaryColor,
+                                        backgroundColor: Constants().primaryColor,
                                         elevation: 0,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(10),
                                         ),
                                       ),
                                       onPressed: () {
-                                         nextScreen(context, UpdateBook());
+                                      showConfirmationAttendBox(context, "Confirm?", "Are you sure to sign attend for this session?");
                                       },
                                       child: const Text(
-                                        "Update",
+                                        "Attend",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w500,
@@ -282,6 +242,55 @@ class _ManageBookingState extends State<ManageBooking> {
             ),
         ),
       ),
+    );
+  }
+
+  //message to confirmation of action for attend meeting from the lecturer (INSERT to attendance table , DELETE/DONT DELETE the current data in booking table in database)
+  static void showConfirmationAttendBox(BuildContext context, String title, String message) {
+    showDialog(
+    context: context, 
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', fontSize: 20),),
+        content: Text(message, style: TextStyle( fontFamily: 'Poppins', fontSize: 13),),
+        actions: [
+         IconButton(
+          onPressed: () {
+          nextScreenPop(context);
+           },
+          icon: const Icon(Icons.cancel,color: Colors.red,size: 30,),
+           ),
+          IconButton(onPressed: () async{
+             print("ATTEND!");
+          }, 
+         icon: const Icon(Icons.done, color: Colors.green,size: 30,)),            
+      ],
+      );
+      }
+    );
+  }
+    //message to confirmation of action for absent meeting from the lecturer (INSERT to attendance table , DELETE/DONT DELETE the current data in booking table in database)
+  static void showConfirmationAbsentBox(BuildContext context, String title, String message) {
+    showDialog(
+    context: context, 
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', fontSize: 20),),
+        content: Text(message, style: TextStyle( fontFamily: 'Poppins', fontSize: 13),),
+        actions: [
+         IconButton(
+          onPressed: () {
+          nextScreenPop(context);
+           },
+          icon: const Icon(Icons.cancel,color: Colors.red,size: 30,),
+           ),
+          IconButton(onPressed: () async{
+             print("ABSENT!");
+          }, 
+         icon: const Icon(Icons.done, color: Colors.green,size: 30,)),            
+      ],
+      );
+      }
     );
   }
 }

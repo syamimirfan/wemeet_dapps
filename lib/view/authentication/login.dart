@@ -302,6 +302,7 @@ class _LoginState extends State<Login> {
 
   }
   
+  //error message if user enter wrong email or password
   static void showErrorMessage(BuildContext context, String title, String message, String buttonText) {
       showDialog(context: context,
        builder: (BuildContext context) {

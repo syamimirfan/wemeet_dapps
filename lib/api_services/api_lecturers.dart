@@ -4,6 +4,7 @@ import 'package:wemeet_dapps/constants/utils.dart';
 
 class Lecturer {
   
+  //API for lecturer login
   Future lecturerLogin(String lecturerEmail, String lecturerPassword) async{
     final response = await http.post(Uri.parse('${Utils.baseURL}/lecturer/lecturerlogin'),
       headers: {
@@ -36,5 +37,20 @@ class Lecturer {
     throw Exception(response.statusCode);
      }
   }
+  
+  //API for lecturer detail by passing the staffNo
+  Future getLecturerDetail(String staffNo) async{ 
+      final response = await http.get(Uri.parse('${Utils.baseURL}/lecturer/getlecturer/${staffNo}'),
+        headers: {
+          "Accept": "Application/json"
+        }
+      );
+      if(response.statusCode == 200) {
+          return jsonDecode(response.body);
+      } else{ 
+         throw Exception("Failed to load data");
+      }
+  }
+
 
 }

@@ -5,6 +5,7 @@ import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:wemeet_dapps/view/students/book_successful_student.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
+import 'package:intl/intl.dart';
 
 class Book2 extends StatefulWidget {
   const Book2({super.key});
@@ -16,9 +17,6 @@ class Book2 extends StatefulWidget {
 class _Book2State extends State<Book2> {
   double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
-
-  //date variable
-  DateTime selectedDate = DateTime.now();
 
   //slot variable
   late String color;
@@ -113,9 +111,11 @@ class _Book2State extends State<Book2> {
         ),
         onDateChange: (date){
           setState(() {
-            selectedDate = date;  
-            print(selectedDate);
+              DateFormat dateFormat = DateFormat('MMMMEEEEd');
+             late String dateFormatted = dateFormat.format(date);
+            print(dateFormatted);
           });
+          
         },
        ),
     );

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wemeet_dapps/about.dart';
+import 'package:wemeet_dapps/shared/constants.dart';
+import 'package:wemeet_dapps/widget/main_drawer_lecturer.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 
 
@@ -12,6 +14,7 @@ class HomeLecturer extends StatefulWidget {
 }
 
 class _HomeLecturerState extends State<HomeLecturer> {
+
   @override
   Widget build(BuildContext context) {
       double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
@@ -38,7 +41,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
             ),
         ],
       ),
-    
+      drawer: MainDrawerLecturer(home: true, profile: false, slot: false, appointment: false, attendance: false, chat: false),
        body: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, ),
              child: Column(
@@ -78,7 +81,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                          const SizedBox(height: 40,),
                      Flexible(
                       child: Text(
-                      "Dr Nur Ariffin Bin Mohd Zin",
+                      "DR NUR ARIFFIN BIN MOHD ZIN",
                        style: TextStyle(
                        color: Colors.white,
                        fontSize:  Device.screenType == ScreenType.tablet?  
@@ -149,8 +152,206 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                 fontFamily: 'Poppins',
                                ),
                               ),
-                               
-                               SizedBox(height: deviceHeight(context) * 0.03,)
+                      for(int i = 0; i < 5; i++) 
+                               Container(
+                                  margin: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.03, vertical: deviceHeight(context) * 0.02),
+                                  padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02,vertical: deviceHeight(context) * 0.009),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    color: Constants().BoxShadowColor,
+                                  ),
+                                  boxShadow:  [
+                                          BoxShadow(
+                                            color: Constants().BoxShadowColor,
+                                            offset: const Offset(0, 10),
+                                            blurRadius: 15,
+                                            spreadRadius: 0,
+                                          ),
+                                        ],
+                                 ),
+                                 child: Column(
+                                   children: [
+                                     Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          child: CircleAvatar(
+                                              radius: 60,
+                                              backgroundImage: AssetImage("assets/student.png"),
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: Container(
+                                            margin:  Device.screenType == ScreenType.tablet? 
+                                            const EdgeInsets.only(left: 20):
+                                            EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                       Container(
+                                            margin: Device.screenType == ScreenType.tablet? 
+                                              const EdgeInsets.only(bottom: 20):
+                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                            child: Text(
+                                              "AI200104",
+                                              style:TextStyle(
+                                                  fontSize: Device.screenType == ScreenType.tablet? 
+                                                              0.18.dp: 0.28.dp,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                           Container(
+                                            margin: Device.screenType == ScreenType.tablet? 
+                                              const EdgeInsets.only(bottom: 20):
+                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                            child: Text(
+                                              "MUHAMAD SYAMIM IRFAN BIN AHMAD SHOKKRI",
+                                              style:TextStyle(
+                                                  fontSize: Device.screenType == ScreenType.tablet? 
+                                                              0.16.dp: 0.26.dp,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                           Container(
+                                            margin: Device.screenType == ScreenType.tablet? 
+                                              const EdgeInsets.only(bottom: 20):
+                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                            child: Text(
+                                              "0194078581",
+                                              style:TextStyle(
+                                                  fontSize: Device.screenType == ScreenType.tablet? 
+                                                               0.16.dp: 0.26.dp,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                           Container(
+                                            margin: Device.screenType == ScreenType.tablet? 
+                                              const EdgeInsets.only(bottom: 20):
+                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                            child: Text(
+                                              "1 students",
+                                              style:TextStyle(
+                                                  fontSize: Device.screenType == ScreenType.tablet? 
+                                                               0.16.dp: 0.26.dp,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                                ),
+                                               ),
+                                               ),
+                                          Container(
+                                            margin: Device.screenType == ScreenType.tablet? 
+                                              const EdgeInsets.only(bottom: 20):
+                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                            child: Text(
+                                              "16 OCT SUN",
+                                              style:TextStyle(
+                                                  fontSize: Device.screenType == ScreenType.tablet? 
+                                                               0.16.dp: 0.26.dp,
+                                                  fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                                ),
+                                               ),
+                                               ),
+                                          Container(
+                                            margin: Device.screenType == ScreenType.tablet? 
+                                              const EdgeInsets.only(bottom: 20):
+                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                            child: Text(
+                                              "10.00 AM",
+                                              style:TextStyle(
+                                                  fontSize: Device.screenType == ScreenType.tablet? 
+                                                               0.16.dp: 0.26.dp,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Constants().secondaryColor,
+                                                ),
+                                               ),
+                                               ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                     ),
+                              //for divider between booking information and button
+                                  Divider(
+                                    color: Constants().dividerColor,
+                                    thickness: 1.5,
+                                    ),
+                                const SizedBox(width: 50,),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        SizedBox(
+                                    width: deviceWidth(context) * 0.30,
+                                   child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Constants().secondaryColor,
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        showConfirmationRejectBox(context, "Confirm?", "Are you sure to reject this session?");
+                                      },
+                                      child: const Text(
+                                        "Reject",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 15,
+                                            fontFamily: 'Poppins',
+                                        ),
+                                      ),
+                                  ),
+                                ),
+                                  SizedBox(
+                                    width: deviceWidth(context) * 0.30,
+                                   child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Constants().acceptedColor,
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        showConfirmationAcceptBox(context, "Confirm?", "Are you sure to accept this session?");
+                                      },
+                                      child: const Text(
+                                        "Accept",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 15,
+                                            fontFamily: 'Poppins',
+                                        ),
+                                      ),
+                                        ),
+                                      ),
+                                      ],
+                                    ),
+
+                                   ],
+                                 ),
+                               ),
                             ],
                           ),
                         ),
@@ -160,6 +361,57 @@ class _HomeLecturerState extends State<HomeLecturer> {
               ],
              ),
            ),
+    );
+  }
+
+  //message to confirmation of action for reject request from the lecturer (DELETE booking from the database)
+  static void showConfirmationRejectBox(BuildContext context, String title, String message) {
+    showDialog(
+    context: context, 
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', fontSize: 20),),
+        content: Text(message, style: TextStyle( fontFamily: 'Poppins', fontSize: 13),),
+        actions: [
+         IconButton(
+          onPressed: () {
+          nextScreenPop(context);
+           },
+          icon: const Icon(Icons.cancel,color: Colors.red,size: 30,),
+           ),
+          IconButton(onPressed: () async{
+             print("APPOINTMENT DELETED!");
+          }, 
+         icon: const Icon(Icons.done, color: Colors.green,size: 30,)),            
+      ],
+      );
+      }
+    );
+  }
+    
+    //message to confirmation of action for accept request from the lecturer (UPDATE statusBooking from database)
+    //MAKE SURE TO REMOVE THE APPOINTMENT THAT HAS BEEN ACCEPTED FROM THE UI
+    static void showConfirmationAcceptBox(BuildContext context, String title, String message) {
+    showDialog(
+    context: context, 
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', fontSize: 20),),
+        content: Text(message, style: TextStyle( fontFamily: 'Poppins', fontSize: 13),),
+        actions: [
+         IconButton(
+          onPressed: () {
+          nextScreenPop(context);
+           },
+          icon: const Icon(Icons.cancel,color: Colors.red,size: 30,),
+           ),
+          IconButton(onPressed: () async{
+            print("APPOINTMENT ACCEPTED");
+          }, 
+         icon: const Icon(Icons.done, color: Colors.green,size: 30,)),            
+      ],
+      );
+      }
     );
   }
 }

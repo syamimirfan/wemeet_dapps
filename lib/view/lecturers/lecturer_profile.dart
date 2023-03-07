@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wemeet_dapps/about.dart';
-import 'package:wemeet_dapps/widget/main_drawer_student.dart';
+import 'package:wemeet_dapps/widget/main_drawer_lecturer.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 import '../../shared/constants.dart';
 
-class StudentProfile extends StatefulWidget {
-  const StudentProfile({super.key});
+class LecturerProfile extends StatefulWidget {
+  const LecturerProfile({super.key});
 
   @override
-  State<StudentProfile> createState() => _StudentProfileState();
+  State<LecturerProfile> createState() => _LecturerProfileState();
 }
 
-class _StudentProfileState extends State<StudentProfile> {
+class _LecturerProfileState extends State<LecturerProfile> {
 
   double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
@@ -41,7 +41,7 @@ class _StudentProfileState extends State<StudentProfile> {
               ),
           ],
         ),
-    drawer: MainDrawerStudent(home: false, profile: true, book: false, appointment: false, reward: false, chat: false, yourHistory: false),
+    drawer: MainDrawerLecturer(home: false, profile: true, slot: false, appointment: false, attendance: false, chat: false),
 
         body: Padding(
           padding: Device.screenType == ScreenType.tablet? 
@@ -75,7 +75,7 @@ class _StudentProfileState extends State<StudentProfile> {
                   color: Constants().secondaryColor,
                  ),
                      image:  const  DecorationImage(
-                       image: AssetImage('assets/student.png'),
+                       image: AssetImage('assets/lecturer.png'),
                         ),
                        ),
                       ),
@@ -85,129 +85,8 @@ class _StudentProfileState extends State<StudentProfile> {
                       child: Column(
                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          //name 
-                          Text("Name",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 72, 71, 71),
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.30.dp,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),
-                            const SizedBox(height: 10,),
-                          Text("MUHAMAD SYAMIM IRFAN BIN AHMAD SHOKKRI",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.28.dp,
-                              fontWeight: FontWeight.w600,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),          
-                            const SizedBox(height: 10,),
-                             //matric number 
-                          Text("Matric Number",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 72, 71, 71),
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.30.dp,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),
-                          const SizedBox(height: 10,),
-                         Text("AI200104",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.28.dp,
-                              fontWeight: FontWeight.w600,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),      
-                           const SizedBox(height: 10,),
-                           //telephone number 
-                          Text("Telephone Number",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 72, 71, 71),
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.30.dp,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),
-                          const SizedBox(height: 10,),
-                         Text("0194078581",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.28.dp,
-                              fontWeight: FontWeight.w600,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),
-                          const SizedBox(height: 10,),
-                           //email 
-                          Text("Email Address",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 72, 71, 71),
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.30.dp,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),
-                          const SizedBox(height: 10,),
-                         Text("syamimirfan59@gmail.com",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.28.dp,
-                              fontWeight: FontWeight.w600,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),      
-                            const SizedBox(height: 10,),
-                                 //faculty 
-                          Text("faculty",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 72, 71, 71),
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.30.dp,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),
-                          const SizedBox(height: 10,),
-                         Text("FSKTM",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.28.dp,
-                              fontWeight: FontWeight.w600,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),      
-                            const SizedBox(height: 10,),
-                                 //program 
-                          Text("Program",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 72, 71, 71),
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.30.dp,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),
-                          const SizedBox(height: 10,),
-                         Text("BACHELOR OF COMPUTER SCIENCE (SOFTWARE ENGINEER) WITH HONOURS",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.28.dp,
-                              fontWeight: FontWeight.w600,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),      
-                            const SizedBox(height: 10,),
-                    
-                           //metamask account address
-                          Text("Metamask Account Address",
+                           //Floor level
+                          Text("Floor Level",
                           style: TextStyle(
                             color: Color.fromARGB(255, 72, 71, 71),
                             fontSize: Device.screenType == ScreenType.tablet? 
@@ -218,11 +97,98 @@ class _StudentProfileState extends State<StudentProfile> {
                           const SizedBox(height: 10,),
                           TextFormField(    
                             decoration: textInputDecorationMain.copyWith(
-                                hintText: "0xDe9D80fC9aCf342D4E0C30593aFBf6a55821f422",
+                                hintText: "7",
                                 fillColor: Color(0xffC0C0C0),
                             ),
                           ),   
-                           const SizedBox(height: 30,),
+                         const SizedBox(height: 30,),
+                       //Room Number
+                          Text("Room Number",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 72, 71, 71),
+                            fontSize: Device.screenType == ScreenType.tablet? 
+                              0.20.dp:0.30.dp,
+                            fontFamily: 'Poppins',
+                          ),
+                          ),
+                          const SizedBox(height: 10,),
+                          TextFormField(    
+                            decoration: textInputDecorationMain.copyWith(
+                                hintText: "12",
+                                fillColor: Color(0xffC0C0C0),
+                            ),
+                          ),   
+                         const SizedBox(height: 30,),
+                          //Academic Qualification 1
+                          Text("Academic Qualification 1",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 72, 71, 71),
+                            fontSize: Device.screenType == ScreenType.tablet? 
+                              0.20.dp:0.30.dp,
+                            fontFamily: 'Poppins',
+                          ),
+                          ),
+                          const SizedBox(height: 10,),
+                          TextFormField(    
+                            decoration: textInputDecorationMain.copyWith(
+                                hintText: "Academic Qualification 1",
+                                fillColor: Color(0xffC0C0C0),
+                            ),
+                          ),   
+                         const SizedBox(height: 30,),
+                         //Academic Qualification 2
+                          Text("Academic Qualification 2",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 72, 71, 71),
+                            fontSize: Device.screenType == ScreenType.tablet? 
+                              0.20.dp:0.30.dp,
+                            fontFamily: 'Poppins',
+                          ),
+                          ),
+                          const SizedBox(height: 10,),
+                          TextFormField(    
+                            decoration: textInputDecorationMain.copyWith(
+                                hintText: "Academic Qualification 2",
+                                fillColor: Color(0xffC0C0C0),
+                            ),
+                          ),   
+                         const SizedBox(height: 30,),
+          
+                          //Academic Qualification 3
+                          Text("Academic Qualification 3",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 72, 71, 71),
+                            fontSize: Device.screenType == ScreenType.tablet? 
+                              0.20.dp:0.30.dp,
+                            fontFamily: 'Poppins',
+                          ),
+                          ),
+                          const SizedBox(height: 10,),
+                          TextFormField(    
+                            decoration: textInputDecorationMain.copyWith(
+                                hintText: "Academic Qualification 3",
+                                fillColor: Color(0xffC0C0C0),
+                            ),
+                          ),   
+                         const SizedBox(height: 30,),
+          
+                          //Academic Qualification 4
+                          Text("Academic Qualification 4",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 72, 71, 71),
+                            fontSize: Device.screenType == ScreenType.tablet? 
+                              0.20.dp:0.30.dp,
+                            fontFamily: 'Poppins',
+                          ),
+                          ),
+                          const SizedBox(height: 10,),
+                          TextFormField(    
+                            decoration: textInputDecorationMain.copyWith(
+                                hintText: "Academic Qualification 4",
+                                fillColor: Color(0xffC0C0C0),
+                            ),
+                          ),   
+                         const SizedBox(height: 30,),
           
                  SizedBox(
                    width: double.infinity,
