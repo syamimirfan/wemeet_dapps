@@ -11,7 +11,7 @@ import 'package:wemeet_dapps/view/lecturers/attendance.dart';
 import 'package:wemeet_dapps/view/lecturers/home_lecturers.dart';
 import 'package:wemeet_dapps/view/lecturers/lecturer_chat.dart';
 import 'package:wemeet_dapps/view/lecturers/lecturer_profile.dart';
-import 'package:wemeet_dapps/view/lecturers/slot1.dart';
+import 'package:wemeet_dapps/view/lecturers/slot.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 
 class MainDrawerLecturer extends StatefulWidget {
