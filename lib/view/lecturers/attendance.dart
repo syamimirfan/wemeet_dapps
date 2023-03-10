@@ -77,7 +77,7 @@ class _AttendanceState extends State<Attendance> {
                                     BoxShadow(
                                       color: Constants().BoxShadowColor,
                                       offset: const Offset(0, 10),
-                                      blurRadius: 15,
+                                      blurRadius: 15, 
                                       spreadRadius: 0,
                                     ),
                                   ],
@@ -184,7 +184,7 @@ class _AttendanceState extends State<Attendance> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 SizedBox(
-                                    width: deviceWidth(context) * 0.13,
+  
                                    child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Constants().secondaryColor,
@@ -208,7 +208,6 @@ class _AttendanceState extends State<Attendance> {
                                   ),
                                 ),
                                    SizedBox(
-                                  width: deviceWidth(context) * 0.13,
                                   child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Constants().primaryColor,
