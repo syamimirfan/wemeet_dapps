@@ -53,17 +53,15 @@ final textInputDecorationMain = InputDecoration(
 
     filled: true,
 
-    border: UnderlineInputBorder(
-      borderSide: BorderSide(color: Color(0xffC0C0C0), width: 2)
-    ),
-
     enabledBorder: OutlineInputBorder (
-        borderRadius: BorderRadius.circular(30),
+     
         borderSide: BorderSide(color: Color(0xffC0C0C0), width: 2,),
     ),
+     errorBorder: OutlineInputBorder (
+       borderSide: BorderSide(color: Constants().secondaryColor, width: 1),
+    ), 
 
     focusedBorder: OutlineInputBorder(
-      borderRadius:BorderRadius.circular(30),
       borderSide: BorderSide(color: Color(0xffC0C0C0), width: 3)
     ),
 );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wemeet_dapps/about.dart';
+import 'package:wemeet_dapps/api_services/api_lecturers.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/view/students/book2_student.dart';
 import 'package:wemeet_dapps/widget/main_drawer_student.dart';
@@ -15,21 +16,29 @@ class Book extends StatefulWidget {
 
 class _BookState extends State<Book> {
   List<String> faculty = ["FSKTM","FKEE","FKMP","FPTP","FPTV","FKAAB","FAST","FTK","PPS","PPD","PPB"];
-  List<String> facultyLecturer = ["FSKTM","FSKTM","FSKTM","FSKTM","FSKTM"];
-  List<int> floorLvl = [7,3,1,2,1]; 
+ 
   //variable for faculty category
   List<IconData> icons = [Icons.computer, Icons.electric_bolt, Icons.precision_manufacturing, Icons.business, Icons.cast_for_education, Icons.engineering, Icons.science, Icons.military_tech_outlined, Icons.school, Icons.book_rounded, Icons.book_online_outlined];
 
-  //variable for list of lecturers
-  List<String> images = ["assets/lecturer.png", "assets/icon.png","assets/icon.png","assets/icon.png","assets/icon.png"];
-  List<String> lecturerName = ["Nur Ariffin Bin Mohd Zin", "Zainuri Bin Saringat", "Salama A Mostafa", "Mazidah Binti Mat Rejab", "Noraini Binti Ibrahim"];
-  List<String>  number = ["10","15","11","9","20","12","15","10","2","5","6"];  
-  List<int> roomNo = [12,11,9,5,3];
   int tappedIndex = 0;
-  List<String> telephoneNo = ["0127534475","0127534475","0127534475","0127534475","0127534475"];
+
+  List<dynamic> lecturerList = [];
+  List<dynamic> filterLecturerList = [];
+  List<dynamic> filterListViewLecturerList = [];
+  String selectedFaculty = "";
+  
+
+  final TextEditingController _searchController = TextEditingController();
 
   double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
+   
+  @override
+  void initState() {
+    super.initState();
+
+    getLecturer();
+  }
 
   //function of faculty category widgets
   Widget facultyCategory() {
@@ -78,40 +87,14 @@ class _BookState extends State<Book> {
                       ),
                     ),
                     SizedBox(height: 5,),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.01, ),
-                        decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          tappedIndex == index? Color(0xffFC7979) : Color(0xffE5E3E3),
-                          tappedIndex == index? Color(0xffFC7979) : Color(0xffE5E3E3),
-                        ],
-                          ),
-                         borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                          width: deviceWidth(context) * 0.0001,
-                          color: tappedIndex == index ? Color(0xffFC7979)  : Color(0xffE5E3E3),
-                           ), 
-                        ),
-                        child: Text(
-                          number[index] + "\nLecturer",
-                          textAlign: TextAlign.center,
-                        style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 0.209.dp,
-                        fontFamily: 'Poppins',
-                        color: tappedIndex == index ? Colors.white : Colors.black,
-                      ),
-                        ),
-                      )
                  ],
                 ),
               ),
               onTap: () {
                 setState(() {
                   tappedIndex = index;
+                  selectedFaculty = faculty[index];
+                  filterListViewLecturerList = lecturerList.where((lecturer) =>lecturer['faculty']== selectedFaculty).toList();
                 });
               },
              ),
@@ -124,6 +107,7 @@ class _BookState extends State<Book> {
   //function of list of lecturers
   Widget lecturers() {
     return Container(
+      
        padding: Device.screenType == ScreenType.tablet? 
                 const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.02),
@@ -131,8 +115,8 @@ class _BookState extends State<Book> {
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
            physics: const NeverScrollableScrollPhysics(),
-          itemCount: 5,
-          itemBuilder:  (context, index) {
+          itemCount: selectedFaculty != "" ?  filterListViewLecturerList.length : _searchController.text.isNotEmpty ? filterLecturerList.length : lecturerList.length,
+          itemBuilder:  (BuildContext context, int index) {
             return Container(
               padding: Device.screenType == ScreenType.tablet? 
                 const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
@@ -157,11 +141,11 @@ class _BookState extends State<Book> {
             leading: Container(
               child: CircleAvatar(
               radius: 30,
-              backgroundImage: AssetImage(images[index]),
+              backgroundImage: NetworkImage(selectedFaculty != "" ?  filterListViewLecturerList[index]['lecturerImage'] : _searchController.text.isNotEmpty ? filterLecturerList[index]['lecturerImage'] : lecturerList[index]['lecturerImage']),
             ),
             ),
-             title: Text(
-              "DR\t" + lecturerName[index],
+             title: Text( selectedFaculty != "" ?  filterListViewLecturerList[index]['lecturerName'] :
+             _searchController.text.isNotEmpty ? filterLecturerList[index]['lecturerName'] :  lecturerList[index]['lecturerName'],
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
@@ -170,17 +154,52 @@ class _BookState extends State<Book> {
                   ),
                  ),
            
-                subtitle: 
-                    Text(
-                  telephoneNo[index] + "\n" + facultyLecturer[index] + ",\tFLOOR "+ floorLvl[index].toString() + ",\tNO " +roomNo[index].toString(),
+                subtitle: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                      Text( selectedFaculty != "" ?  filterListViewLecturerList[index]['lecturerTelephoneNo'] :
+               _searchController.text.isNotEmpty ? filterLecturerList[index]['lecturerTelephoneNo'] :  lecturerList[index]['lecturerTelephoneNo'],
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 12,
                     fontFamily: "Poppins",
                     color: Colors.black,
                   ),
-              
+                  
                     ),
+                    Row(
+                      children: [
+                        Text( selectedFaculty != "" ?  filterListViewLecturerList[index]['faculty'] :
+                          _searchController.text.isNotEmpty ? filterLecturerList[index]['faculty'] : lecturerList[index]['faculty'],
+                            style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12,
+                            fontFamily: "Poppins",
+                            color: Colors.black,
+                          ),
+                         ),
+                           Text(",\tFLOOR "+ ( selectedFaculty != "" ?  filterListViewLecturerList[index]['floorLvl'] : _searchController.text.isNotEmpty ? filterLecturerList[index]['floorLvl'] : lecturerList[index]['floorLvl']),
+                            style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12,
+                            fontFamily: "Poppins",
+                            color: Colors.black,
+                          ),
+                         ),
+                          Text( ",\tNO "+ ( selectedFaculty != "" ?  filterListViewLecturerList[index]['roomNo'] : _searchController.text.isNotEmpty ? filterLecturerList[index]['roomNo'] : lecturerList[index]['roomNo']),
+                            style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12,
+                            fontFamily: "Poppins",
+                            color: Colors.black,
+                          ),
+                         )
+                      ],
+                    )
+                  ],
+                ),
+                    
                 onTap: () => {
                    nextScreen(context, Book2())
                 }, 
@@ -222,6 +241,8 @@ class _BookState extends State<Book> {
                   const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
           child: Container(
+                height: 100.h,
+            width: 100.w,
               decoration:  const BoxDecoration(
                       color: Colors.white,
                       borderRadius:
@@ -259,7 +280,14 @@ class _BookState extends State<Book> {
                       ),
                         const SizedBox(height: 15,),
                        Form(
-                        child: TextFormField(
+                        child: TextField(
+                        controller: _searchController,
+                        onChanged: (value) {
+                          setState(() {
+                            filterLecturerList = lecturerList.where((list) => list['lecturerName'].toLowerCase().contains(value)).toList();
+                          });
+                        },
+                        
                         decoration: inputTextDecorationSearch.copyWith(
                           hintText: "Search",
                           fillColor: Colors.white,
@@ -287,4 +315,21 @@ class _BookState extends State<Book> {
         ),
     );
   }
+
+  //function to get all lecturer list
+  Future<void> getLecturer() async {
+    var responseLecturer = await new Lecturer().getLecturerList();
+
+    if(responseLecturer['success']){
+        final responseData = responseLecturer['lecturer'];
+        if(responseData is List) {
+          setState(() {
+            lecturerList = responseData;
+          });
+        }else{
+          print("Error fetching data: ${responseLecturer['message']}");
+        }
+    }
+  }
+  
 }

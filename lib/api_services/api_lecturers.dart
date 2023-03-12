@@ -52,5 +52,59 @@ class Lecturer {
       }
   }
 
+ //API for get all lecturer list in book1.student.dart
+  Future getLecturerList() async{ 
+      final response = await http.get(Uri.parse('${Utils.baseURL}/lecturer/view'),
+        headers: {
+          "Accept": "Application/json"
+        }
+      );
+      if (response.statusCode == 200) {
+         return jsonDecode(response.body);
+     
+      } else {
+        throw Exception('API request failed with status code: ${response.statusCode}');
+      }
+   }
+
+   //API for update the lecturer information 
+Future lecturerInformation(String staffNo, String floorLvl, String roomNo, String academicQualification1,String academicQualification2, String academicQualification3, String academicQualification4) async {
+      final response = await http.patch(Uri.parse('${Utils.baseURL}/lecturer/lecturerinformation/${staffNo}'),
+        headers: {
+          "Accept": "application/json;charset=UTF-8",
+        'Charset': 'utf-8'
+        },
+        body: {
+          'floorLvl': floorLvl,
+          'roomNo': roomNo,
+          'academicQualification1': academicQualification1,
+          'academicQualification2': academicQualification2,
+          'academicQualification3': academicQualification3,
+          'academicQualification4': academicQualification4
+        }
+      );
+
+      if(response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }else {
+        print(response.body);
+        throw Exception(response.statusCode);
+      }
+  }
+
+   //API for get lecturer profile
+  Future getLecturerProfile(String staffNo) async{ 
+      final response = await http.get(Uri.parse('${Utils.baseURL}/lecturer/lecturerprofile/${staffNo}'),
+        headers: {
+          "Accept": "Application/json"
+        }
+      );
+      if(response.statusCode == 200) {
+          return jsonDecode(response.body);
+      } else{ 
+         throw Exception("Failed to load data");
+      }
+  }
+
 
 }
