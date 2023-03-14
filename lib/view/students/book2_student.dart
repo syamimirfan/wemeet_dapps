@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
+import 'package:wemeet_dapps/api_services/api_booking.dart';
+import 'package:wemeet_dapps/api_services/api_lecturers.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:wemeet_dapps/view/students/book_successful_student.dart';
@@ -8,23 +11,57 @@ import 'package:wemeet_dapps/widget/widgets.dart';
 import 'package:intl/intl.dart';
 
 class Book2 extends StatefulWidget {
-  const Book2({super.key});
+  Book2({Key? key, required this.staffNo}) : super(key: key);
+
+  String staffNo;
 
   @override
-  State<Book2> createState() => _Book2State();
+  State<Book2> createState() => _Book2State(this.staffNo);
 }
 
 class _Book2State extends State<Book2> {
+
+  _Book2State(this.staffNo);
+  String staffNo;
+
   double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
 
-  //slot variable
-  late String color;
-  late String backgroundColor;
-  int tappedIndex = 0;
-  bool isBook = false;
-  List<String> slot = ["8.00 AM", "10.00 AM", "12.00 PM", "2.00 PM", "4.00 PM"];
+   final TextEditingController _numberOfStudents = TextEditingController();
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
 
+  //slot variable
+  int tappedIndex = 0;
+
+  String lectImage = "";
+  String lectName = "";
+  String phoneNo = "";
+  String faculty = "";
+  String floorLvl = "";
+  String roomNo = "";
+
+  String date = "";
+  String time = "";
+
+  List<dynamic> slot = [];
+  bool notAvailableDay = false;
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+   
+   getSelectedLecturer(staffNo);
+  }
+
+  getDate(String bookDate) {
+     setState(() {
+        date = bookDate;
+     });
+  }
+
+ 
   //function for chosen lecturer
   Widget selectedLecturer() {
      return Container(
@@ -52,11 +89,11 @@ class _Book2State extends State<Book2> {
                 height: 300,
                 width: 50,
                 child: CircleAvatar(
-                backgroundImage: AssetImage("assets/lecturer.png"),
+                backgroundImage: NetworkImage(lectImage),
               ),
               ),
                title: Text(
-                "DR Nur Ariffin Bin Mohd Zin",
+                lectName,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
@@ -67,7 +104,7 @@ class _Book2State extends State<Book2> {
              
                   subtitle: 
                       Text(
-                   "0127534475" + "\nFSKTM" ",\tFLOOR 12"+ ",\tNO 12" ,
+                   phoneNo + "\n" + faculty + ",\t" + floorLvl + ",\t" + roomNo ,
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 12,
@@ -111,9 +148,13 @@ class _Book2State extends State<Book2> {
         ),
         onDateChange: (date){
           setState(() {
-              DateFormat dateFormat = DateFormat('MMMMEEEEd');
-             late String dateFormatted = dateFormat.format(date);
-            print(dateFormatted);
+            DateFormat dateFormatBooking = DateFormat('MMMMEEEEd');
+            late String dateFormattedBooking = dateFormatBooking.format(date);
+
+            getDate(dateFormattedBooking);
+        
+            getBookingSlot(staffNo, dateFormattedBooking);
+              
           });
           
         },
@@ -129,56 +170,183 @@ class _Book2State extends State<Book2> {
                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.006),
         child: ListView.builder(
           shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
-          itemCount: 5,
-          itemBuilder:  (context, index) {
-            return Container(
-        
-            width: deviceHeight(context) * 0.15,
-        
-            margin: const EdgeInsets.only(right: 10),
-            decoration: BoxDecoration(
-               gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    tappedIndex == index? Constants().secondaryColor : Colors.white,
-                    tappedIndex == index? Constants().secondaryColor : Colors.white,
-                  ]
-               ),
-               borderRadius: BorderRadius.circular(20),
-               border: Border.all(
-                 width: 1,
-               color: tappedIndex == index ? Colors.white : Colors.black,
-               ), 
-            ),  
-             child: ListTile(
-              title:Column(
-                 mainAxisAlignment: MainAxisAlignment.start,
-                 children: [
-                     Text(
-                      slot[index],
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        fontFamily: 'Poppins',
-                        color: tappedIndex == index ? Colors.white : Colors.black,
-                      ),
-                    ),
-                 ],
-                ),
-              
-              onTap: () {
-                setState(() {
-                  tappedIndex = index;
-                  print(slot[index]);
-                });
-              },
-             ),
+          itemCount: slot.length,
+          itemBuilder:   (context, index) {
+            return Column(
+                children: [
+                  Row(
+                    children: [  
+                    slot[index]['slot1'] != "" && notAvailableDay == false ? 
+                      GestureDetector(
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          padding:  Device.screenType == ScreenType.tablet? 
+                                        const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                                        EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.007),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                 tappedIndex == 1? Constants().secondaryColor : Colors.white,
+                                 tappedIndex == 1 ? Constants().secondaryColor : Colors.white,
+                                ]
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              width: 2,
+                            color:  tappedIndex == 1 ? Colors.white : Colors.black ,
+                            ), 
+                          ),  
+                          child: Text(slot[index]['slot1'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color: tappedIndex == 1 ? Colors.white : Colors.black ),),
+                        ),
+                        onTap:  () {
+                            setState(() {
+                              tappedIndex = 1;
+                              time = slot[index]['slot1'];
+                              
+                            });
+                        },
+                      ) :  Container(),
+                     slot[index]['slot2'] != "" && notAvailableDay == false ?  
+                      GestureDetector(
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          padding:  Device.screenType == ScreenType.tablet? 
+                                        const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                                        EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.007),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                 tappedIndex == 2? Constants().secondaryColor : Colors.white,
+                                 tappedIndex == 2? Constants().secondaryColor : Colors.white,
+                                ]
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              width: 2,
+                            color:  tappedIndex == 2 ? Colors.white : Colors.black ,
+                            ), 
+                          ),  
+                          child: Text(slot[index]['slot2'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color:tappedIndex == 2 ? Colors.white : Colors.black,),),
+                        ),
+                          onTap:  () {
+                             setState(() {
+                              tappedIndex = 2;
+                              time = slot[index]['slot2'];
+                          
+                            });
+                        },
+                      ):  Container(),
+                       slot[index]['slot3'] != "" && notAvailableDay == false  ?
+                      GestureDetector(
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          padding:  Device.screenType == ScreenType.tablet? 
+                                        const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                                        EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.007),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                   tappedIndex == 3? Constants().secondaryColor : Colors.white,
+                                   tappedIndex == 3? Constants().secondaryColor : Colors.white,
+                                ]
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              width: 2,
+                            color:  tappedIndex == 3 ? Colors.white : Colors.black ,
+                            ), 
+                          ),  
+                          child: Text(slot[index]['slot3'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color: tappedIndex == 3 ? Colors.white : Colors.black ,),),
+                        ),
+                          onTap: () {
+                             setState(() {
+                              tappedIndex = 3;
+                             time = slot[index]['slot3'];
+                          
+                            }); 
+                        },
+                      ) : Container(),
+                    ],
+                  ),
+                  SizedBox(height: 1.2.h,),
+                  Row(
+                    children: [
+                       slot[index]['slot4'] != "" && notAvailableDay == false  ?
+                      GestureDetector(
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          padding:  Device.screenType == ScreenType.tablet? 
+                                        const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                                        EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.007),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                    tappedIndex == 4? Constants().secondaryColor : Colors.white,
+                                    tappedIndex == 4? Constants().secondaryColor : Colors.white,
+                                ]
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              width: 2,
+                            color:  tappedIndex == 4 ? Colors.white : Colors.black ,
+                            ), 
+                          ),  
+                          child: Text(slot[index]['slot4'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color:tappedIndex == 4 ? Colors.white : Colors.black ,),),
+                        ),
+                          onTap:  () {
+                            setState(() {
+                              tappedIndex = 4;
+                              time = slot[index]['slot4'];                              
+                            });
+                        },
+                      ) : Container(),
+                       slot[index]['slot5'] != "" && notAvailableDay == false  ?
+                      GestureDetector(
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          padding:  Device.screenType == ScreenType.tablet? 
+                                        const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                                        EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.007),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  tappedIndex == 5? Constants().secondaryColor : Colors.white,
+                                  tappedIndex == 5? Constants().secondaryColor : Colors.white,
+                                ]
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              width: 2,
+                            color: tappedIndex == 5 ? Colors.white : Colors.black ,
+                            ), 
+                          ),  
+                          child: Text(slot[index]['slot5'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color: tappedIndex == 5 ? Colors.white : Colors.black ,),),
+                        ),
+                          onTap: () {
+                              setState(() {
+                              tappedIndex = 5;
+                              time = slot[index]['slot5'];
+                            });
+                        },
+                      ): Container(),
+                    ],
+                  ),
+                ],
             );
           }
         ),
     );
+   
   }
 
   @override
@@ -211,6 +379,8 @@ class _Book2State extends State<Book2> {
                   const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
           child: Container(
+                height: 100.h,
+              width: 100.w,
               decoration:  const BoxDecoration(
                       color: Colors.white,
                       borderRadius:
@@ -221,91 +391,106 @@ class _Book2State extends State<Book2> {
               ),
               child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
-                  child: Container(
-                    padding:EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05,vertical:deviceWidth(context) * 0.05),
-                    child: Column(
-                     mainAxisAlignment: MainAxisAlignment.start,
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: [
-                      const Text(
-                        "Your Lecturer: ",
-                        style: TextStyle(
+                  child: Form(
+                    key: _globalKey,
+                    child: Container(
+                      padding:EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05,vertical:deviceWidth(context) * 0.05),
+                      child: Column(
+                       mainAxisAlignment: MainAxisAlignment.start,
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       children: [
+                        const Text(
+                          "Your Lecturer: ",
+                          style: TextStyle(
+                              color: Colors.black,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                        selectedLecturer(),
+                        const SizedBox(height: 30,),
+                           const Text(
+                          "Number of Students",
+                            style: TextStyle(
                             color: Colors.black,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                          fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontFamily: 'Poppins',
+                          ),
                         ),
-                      ),
-                      selectedLecturer(),
-                      const SizedBox(height: 30,),
-                         const Text(
-                        "Number of Students",
-                          style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                        TextFormField(    
+                          TextFormField(    
+                            controller: _numberOfStudents,
+                            keyboardType: TextInputType.number,
                             decoration: textInputDecorationNumberStudent.copyWith(
-                                hintText: "e.g, 2",
-                                fillColor: Color(0xffC0C0C0),
-                            ),
+                                  hintText: "e.g, 2",
+                                  fillColor: Color(0xffC0C0C0),
+                              ),
+                            validator: (value) {
+                               if(value!.isEmpty) {
+                                return "Please enter number of students for meeting";
+                              }
+                            },
+                          ),
+                          const SizedBox(height: 20,),
+                           const Text(
+                          "Date",
+                            style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontFamily: 'Poppins',
+                          ),
                         ),
-                        const SizedBox(height: 20,),
-                         const Text(
-                        "Date",
-                          style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          fontFamily: 'Poppins',
+                        buildDate(),
+                         const SizedBox(height: 20,),
+                           const Text(
+                          "Slot",
+                            style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontFamily: 'Poppins',
+                          ),
                         ),
-                      ),
-                      buildDate(),
-                       const SizedBox(height: 20,),
-                         const Text(
-                        "Slot",
-                          style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                        SizedBox(height: 20),   
-                       SizedBox(height: 50,child: buildSlot()),
-             SizedBox(height: 40),       
-                 SizedBox(
-                   width: double.infinity,
-                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Constants().secondaryColor,
-                        elevation: 0,
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-
-                      ),
-                
-                    onPressed: () async{
-                      nextScreen(context, BookSuccessful());
-                    },
-                     child:  const Text(
-                       "Confirm Appointment",
-                       style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                          fontFamily: 'Poppins',
+                          SizedBox(height: 20),   
+                         SizedBox(height: 100,child: buildSlot()),
+                               SizedBox(height: 40),       
+                                   SizedBox(
+                     width: double.infinity,
+                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Constants().secondaryColor,
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),  
+                      onPressed: () async{
+                        if(_globalKey.currentState!.validate() && date != "" && time != ""){
+                           final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+                           String? matricNo = _sharedPreferences.getString('matricNo');
+                           addBooking(matricNo!, staffNo,int.parse( _numberOfStudents.text), date, time);
+                        }else {
+                          showMessage(context, "Booking Not Added", "Please enter the requirement for booking", "Ok");
+                    
+                        }
+                      },
+                       child:  const Text(
+                         "Confirm Appointment",
+                         style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                            fontFamily: 'Poppins',
+                         ),
                        ),
-                     ),
-                    ),
-                 ),
-                 SizedBox(height: deviceHeight(context) * 0.04,)
-                     ],
+                      ),
+                                   ),
+                                   SizedBox(height: deviceHeight(context) * 0.04,)
+                       ],
+                      ),
                     ),
                   ),
               ),
@@ -313,4 +498,76 @@ class _Book2State extends State<Book2> {
         ),
     );
   }
-}
+
+  //function to get selected lecturer
+  getSelectedLecturer(String? staffNo) async {
+     var responseLecturer = await new Lecturer().getLecturerBook2(staffNo!);
+
+     if(responseLecturer['success']) {
+      setState(() {
+        lectImage = responseLecturer['lecturer'][0]['lecturerImage'];
+        lectName = responseLecturer['lecturer'][0]['lecturerName'];
+        phoneNo = responseLecturer['lecturer'][0]['lecturerTelephoneNo'];
+        faculty = responseLecturer['lecturer'][0]['faculty'];
+        floorLvl = responseLecturer['lecturer'][0]['floorLvl'];
+        roomNo = responseLecturer['lecturer'][0]['roomNo'];
+      });
+     }
+  }
+
+  //function to get booking slot based on lecturer schedule
+  getBookingSlot(String? staffNo, String day) async {
+    var responseBooking = await new Booking().getBookingSlot(staffNo!, day);
+     
+     if(responseBooking['success']) {
+       final responseData = responseBooking['slot'];
+       if(responseData is List) {
+        setState(() {
+         slot = responseData;
+         notAvailableDay = false;
+        });
+       }else {
+        setState(() {
+          notAvailableDay = true;
+        });
+          print("Error fetching data: ${responseBooking['message']}");
+       }
+     }
+  }
+  
+  //function to add book
+  addBooking(String matricNo, String staffNo, int numberOfStudents, String date, String time,) async {
+    var responseBooking = await new Booking().addBooking(matricNo, staffNo, numberOfStudents, date, time);
+    
+    if(responseBooking['success'] && responseBooking['message'] == "Slot Booked") {
+      showMessage(context, "Slot Booked!", "The slot has been booked by student name ${responseBooking['student'][0]['studName']} with matric number ${responseBooking['student'][0]['matricNo']}", "OK");
+      
+    }else if(responseBooking['success']) {
+      nextScreenReplacement(context, BookSuccessful(lecturerName: lectName, numberOfStudents: numberOfStudents, date: date, time: time));
+    }else {
+    showMessage(context, "Ooops!", "Cannot book the slot", "OK");
+    }
+  }
+   
+  //show message box function
+  void showMessage(BuildContext context, String title, String message, String buttonText) {
+      showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+           title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', fontSize: 24),),
+           content: Text(message, style: TextStyle( fontFamily: 'Poppins', fontSize: 16),),
+           actions: [ 
+              ElevatedButton(
+                onPressed: () {
+                 nextScreenPop(context);
+              }, 
+              child: Text(buttonText),
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Constants().primaryColor), textStyle: MaterialStateProperty.all(TextStyle(fontFamily: 'Poppins', fontSize: 14))),
+              )
+           ],
+        );
+      }
+    );
+  }
+} 

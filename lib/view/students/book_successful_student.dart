@@ -3,17 +3,32 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/view/students/home_students.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
+import 'package:gif/gif.dart';
 
 class BookSuccessful extends StatefulWidget {
-  const BookSuccessful({super.key});
+   BookSuccessful({Key? key, required this.lecturerName, required this.numberOfStudents, required this.date, required this.time}) : super(key: key);
+
+  String lecturerName;
+  int numberOfStudents;
+  String date;
+  String time;
 
   @override
-  State<BookSuccessful> createState() => _BookSuccessfulState();
+  State<BookSuccessful> createState() => _BookSuccessfulState(this.lecturerName,  this.numberOfStudents,  this.date,  this.time);
 }
 
 class _BookSuccessfulState extends State<BookSuccessful> {
+  _BookSuccessfulState(this.lecturerName, this.numberOfStudents, this.date, this.time);
+  
+  String lecturerName;
+  int numberOfStudents;
+  String date;
+  String time;
+
   double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,9 +58,12 @@ class _BookSuccessfulState extends State<BookSuccessful> {
         
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                    Image(
+                    Gif(
                       image: AssetImage("assets/success.gif"),
+                      autostart: Autostart.once,
                       height: 150,
+                    
+                     duration: const Duration(seconds: 3),
                     ),
                    const Text(
                     "Booking Successful",
@@ -91,8 +109,8 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                         ),
                             SizedBox(height: 10,),
                                
-                          const Text(
-                          "Dr Nur Ariffin Bin Mohd Zin",
+                           Text(
+                          lecturerName,
                           style: TextStyle(
                             fontFamily: "Poppins",
                             fontSize: 16,
@@ -100,8 +118,8 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                           ),
                         ),
                                  SizedBox(height: 5,),
-                          const Text(
-                          "1 students",
+                           Text(
+                          numberOfStudents.toString() + " students",
                           style: TextStyle(
                             fontFamily: "Poppins",
                             fontSize: 16,
@@ -109,21 +127,21 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                           ),
                         ),
                                   SizedBox(height: 5,),
-                          const Text(
-                          "26 JAN 2023:",
+                          Text(
+                          date ,
                           style: TextStyle(
                             fontFamily: "Poppins",
-                            fontSize: 20,
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                            SizedBox(height: 5,),
                            Text(
-                          "10.00 AM",
+                           time,
                           style: TextStyle(
                             fontFamily: "Poppins",
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
                             color: Constants().secondaryColor,
                           ),
                         ),

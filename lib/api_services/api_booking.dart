@@ -67,4 +67,37 @@ class Booking {
     throw Exception(response.statusCode);
      }
    }
+
+  //get booking slot in detail
+    Future getBookingSlot(String staffNo,String day) async{ 
+      final response = await http.get(Uri.parse('${Utils.baseURL}/booking/slot/${staffNo}/${day}'),
+        headers: {
+          "Accept": "Application/json"
+        }
+      );
+      if (response.statusCode == 200) {
+         return jsonDecode(response.body);
+     
+      } else {
+        throw Exception('API request failed with status code: ${response.statusCode}');
+      }
+   }
+   
+   //create booking
+   Future addBooking(String matricNo, String staffNo, int numberOfStudents, String date, String time) async {
+     final response = await http.post(Uri.parse('${Utils.baseURL}/booking/addbook'),
+      headers: {
+        'Accept': 'Application/json'
+      },
+      body: {
+        'matricNo': matricNo,
+        'staffNo' : staffNo,
+        'numberOfStudents': numberOfStudents.toString(),
+        'date' : date,
+        'time': time,
+      }
+     );
+      return jsonDecode(response.body);
+   }
+
 }

@@ -201,8 +201,9 @@ class _BookState extends State<Book> {
                 ),
                     
                 onTap: () => {
-                   nextScreen(context, Book2())
+                   nextScreen(context, Book2(staffNo: selectedFaculty != "" ?  filterListViewLecturerList[index]['staffNo'] : _searchController.text.isNotEmpty ? filterLecturerList[index]['staffNo'] : lecturerList[index]['staffNo']))
                 }, 
+
               ),
             );
           }
@@ -241,8 +242,8 @@ class _BookState extends State<Book> {
                   const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
           child: Container(
-                height: 100.h,
-            width: 100.w,
+              height: 100.h,
+              width: 100.w,
               decoration:  const BoxDecoration(
                       color: Colors.white,
                       borderRadius:

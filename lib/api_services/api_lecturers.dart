@@ -105,6 +105,21 @@ Future lecturerInformation(String staffNo, String floorLvl, String roomNo, Strin
          throw Exception("Failed to load data");
       }
   }
+  
+  //API for get lecturer detail in book2
+    Future getLecturerBook2(String staffNo) async{ 
+      final response = await http.get(Uri.parse('${Utils.baseURL}/lecturer/book2/${staffNo}'),
+        headers: {
+          "Accept": "Application/json"
+        }
+      );
+      if (response.statusCode == 200) {
+         return jsonDecode(response.body);
+     
+      } else {
+        throw Exception('API request failed with status code: ${response.statusCode}');
+      }
+   }
 
 
 }

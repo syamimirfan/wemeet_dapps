@@ -95,17 +95,14 @@ final textInputDecorationNumberStudent = InputDecoration(
 
     filled: true,
 
-    border: UnderlineInputBorder(
-      borderSide: BorderSide(color: Color(0xffC0C0C0), width:2 )
-    ),
-
     enabledBorder: OutlineInputBorder (
-        borderRadius: BorderRadius.circular(30),
-        borderSide: BorderSide(color: Color(0xffC0C0C0), width: 2,),
+ borderSide: BorderSide(color: Color(0xffC0C0C0), width: 3,),
     ),
+     errorBorder: OutlineInputBorder (
+       borderSide: BorderSide(color: Constants().secondaryColor, width: 1),
+    ), 
 
-    focusedBorder: UnderlineInputBorder(
-      borderRadius:BorderRadius.circular(30),
-      borderSide: BorderSide(color: Color(0xffC0C0C0), width: 2)
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Color(0xffC0C0C0), width: 3)
     ),
 );

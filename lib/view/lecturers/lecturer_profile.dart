@@ -129,7 +129,7 @@ class _LecturerProfileState extends State<LecturerProfile> {
                           ),
                           const SizedBox(height: 10,),
                           TextFormField(    
-                                    keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.number,
                             style: TextStyle(fontFamily: 'Poppins'),
                             decoration: textInputDecorationMain.copyWith(
                                 hintText: floorLevel,
