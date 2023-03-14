@@ -100,4 +100,17 @@ class Booking {
       return jsonDecode(response.body);
    }
 
+   Future getBookedSlot(String staffNo,String date) async{ 
+      final response = await http.get(Uri.parse('${Utils.baseURL}/booking/booked/${staffNo}/${date}'),
+        headers: {
+          "Accept": "Application/json"
+        }
+      );
+      if (response.statusCode == 200) {
+         return jsonDecode(response.body);
+     
+      } else {
+        throw Exception('API request failed with status code: ${response.statusCode}');
+      }
+   } 
 }

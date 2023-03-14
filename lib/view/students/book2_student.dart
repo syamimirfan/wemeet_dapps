@@ -44,6 +44,9 @@ class _Book2State extends State<Book2> {
   String time = "";
 
   List<dynamic> slot = [];
+  List<dynamic> bookTime = [];
+  List<dynamic> bookDate = [];
+  List<dynamic> bookStatus = [];
   bool notAvailableDay = false;
 
 
@@ -152,9 +155,9 @@ class _Book2State extends State<Book2> {
             late String dateFormattedBooking = dateFormatBooking.format(date);
 
             getDate(dateFormattedBooking);
-        
+            
             getBookingSlot(staffNo, dateFormattedBooking);
-              
+            getBooked(staffNo, dateFormattedBooking);
           });
           
         },
@@ -188,23 +191,22 @@ class _Book2State extends State<Book2> {
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
                                 colors: [
-                                 tappedIndex == 1? Constants().secondaryColor : Colors.white,
-                                 tappedIndex == 1 ? Constants().secondaryColor : Colors.white,
+                                 bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Constants().BoxShadowColor:tappedIndex == 1? Constants().secondaryColor : Colors.white,
+                                 bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Constants().BoxShadowColor:tappedIndex == 1 ? Constants().secondaryColor : Colors.white,
                                 ]
                             ),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
                               width: 2,
-                            color:  tappedIndex == 1 ? Colors.white : Colors.black ,
+                            color:  bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Colors.white: tappedIndex == 1 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot1'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color: tappedIndex == 1 ? Colors.white : Colors.black ),),
+                          child: Text(slot[index]['slot1'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Colors.white: tappedIndex == 1 ? Colors.white : Colors.black ),),
                         ),
-                        onTap:  () {
+                        onTap: bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? null : () {
                             setState(() {
                               tappedIndex = 1;
-                              time = slot[index]['slot1'];
-                              
+                              time = slot[index]['slot1']; 
                             });
                         },
                       ) :  Container(),
@@ -220,19 +222,19 @@ class _Book2State extends State<Book2> {
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
                                 colors: [
-                                 tappedIndex == 2? Constants().secondaryColor : Colors.white,
-                                 tappedIndex == 2? Constants().secondaryColor : Colors.white,
+                                 bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Constants().BoxShadowColor:tappedIndex == 2? Constants().secondaryColor : Colors.white,
+                                 bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Constants().BoxShadowColor:tappedIndex == 2? Constants().secondaryColor : Colors.white,
                                 ]
                             ),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
                               width: 2,
-                            color:  tappedIndex == 2 ? Colors.white : Colors.black ,
+                            color: bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Colors.white: tappedIndex == 2 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot2'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color:tappedIndex == 2 ? Colors.white : Colors.black,),),
+                          child: Text(slot[index]['slot2'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Colors.white:tappedIndex == 2 ? Colors.white : Colors.black,),),
                         ),
-                          onTap:  () {
+                          onTap:  bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted")  ? null : () {
                              setState(() {
                               tappedIndex = 2;
                               time = slot[index]['slot2'];
@@ -252,23 +254,22 @@ class _Book2State extends State<Book2> {
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
                                 colors: [
-                                   tappedIndex == 3? Constants().secondaryColor : Colors.white,
-                                   tappedIndex == 3? Constants().secondaryColor : Colors.white,
+                                  bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Constants().BoxShadowColor: tappedIndex == 3? Constants().secondaryColor : Colors.white,
+                                  bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Constants().BoxShadowColor:tappedIndex == 3? Constants().secondaryColor : Colors.white,
                                 ]
                             ),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
                               width: 2,
-                            color:  tappedIndex == 3 ? Colors.white : Colors.black ,
+                            color: bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Colors.white: tappedIndex == 3 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot3'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color: tappedIndex == 3 ? Colors.white : Colors.black ,),),
+                          child: Text(slot[index]['slot3'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color:bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Colors.white: tappedIndex == 3 ? Colors.white : Colors.black ,),),
                         ),
-                          onTap: () {
+                          onTap:  bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? null :() {
                              setState(() {
                               tappedIndex = 3;
-                             time = slot[index]['slot3'];
-                          
+                             time = slot[index]['slot3'];       
                             }); 
                         },
                       ) : Container(),
@@ -289,19 +290,19 @@ class _Book2State extends State<Book2> {
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
                                 colors: [
-                                    tappedIndex == 4? Constants().secondaryColor : Colors.white,
-                                    tappedIndex == 4? Constants().secondaryColor : Colors.white,
+                                    bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Constants().BoxShadowColor:tappedIndex == 4? Constants().secondaryColor : Colors.white,
+                                    bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Constants().BoxShadowColor:tappedIndex == 4? Constants().secondaryColor : Colors.white,
                                 ]
                             ),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
                               width: 2,
-                            color:  tappedIndex == 4 ? Colors.white : Colors.black ,
+                            color: bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Colors.white: tappedIndex == 4 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot4'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color:tappedIndex == 4 ? Colors.white : Colors.black ,),),
+                          child: Text(slot[index]['slot4'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color:bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Colors.white:tappedIndex == 4 ? Colors.white : Colors.black ,),),
                         ),
-                          onTap:  () {
+                          onTap:   bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? null : () {
                             setState(() {
                               tappedIndex = 4;
                               time = slot[index]['slot4'];                              
@@ -320,19 +321,19 @@ class _Book2State extends State<Book2> {
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
                                 colors: [
-                                  tappedIndex == 5? Constants().secondaryColor : Colors.white,
-                                  tappedIndex == 5? Constants().secondaryColor : Colors.white,
+                                 bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Constants().BoxShadowColor:tappedIndex == 5? Constants().secondaryColor : Colors.white,
+                                 bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Constants().BoxShadowColor: tappedIndex == 5? Constants().secondaryColor : Colors.white,
                                 ]
                             ),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
                               width: 2,
-                            color: tappedIndex == 5 ? Colors.white : Colors.black ,
+                            color:bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Colors.white: tappedIndex == 5 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot5'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color: tappedIndex == 5 ? Colors.white : Colors.black ,),),
+                          child: Text(slot[index]['slot5'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Colors.white: tappedIndex == 5 ? Colors.white : Colors.black ,),),
                         ),
-                          onTap: () {
+                          onTap:  bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? null : () {
                               setState(() {
                               tappedIndex = 5;
                               time = slot[index]['slot5'];
@@ -548,7 +549,24 @@ class _Book2State extends State<Book2> {
     showMessage(context, "Ooops!", "Cannot book the slot", "OK");
     }
   }
-   
+  
+  //function to get booked slot
+  getBooked(String staffNo, String date) async {
+    final responseBooking = await new Booking().getBookedSlot(staffNo, date);
+    if(responseBooking['success']) {
+       final responseData = responseBooking['booking'];
+         if(responseData is List){
+            setState(() {
+          bookTime = responseData.map((booking) => booking['time']).toList();
+          bookDate = responseData.map((booking) => booking['date']).toList();
+          bookStatus = responseData.map((booking) => booking['statusBooking']).toList();
+          });
+         }else {
+          print("No Data");
+         }
+    }
+  } 
+  
   //show message box function
   void showMessage(BuildContext context, String title, String message, String buttonText) {
       showDialog(
