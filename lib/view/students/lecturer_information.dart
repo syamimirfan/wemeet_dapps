@@ -1,18 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:wemeet_dapps/api_services/api_students.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 
 class LecturerInformation extends StatefulWidget {
-  const LecturerInformation({super.key});
+ LecturerInformation({Key? key, required this.staffNo}): super(key: key);
+
+ String staffNo;
 
   @override
-  State<LecturerInformation> createState() => _LecturerInformationState();
+  State<LecturerInformation> createState() => _LecturerInformationState(this.staffNo);
 }
 
 class _LecturerInformationState extends State<LecturerInformation> {
+  
+  _LecturerInformationState(this.staffNo);
+  
+  String staffNo;
+  
+  String lectImage = "";
+  String lectTelephoneNo = "";
+  String lectName = "";
+  String faculty = "";
+  int floorLvl = 0;
+  int roomNo = 0;
+  String department = "";
 
+  String academicQualification1 = "";
+  String academicQualification2 = "";
+  String academicQualification3 = "";
+  String academicQualification4 = ""; 
+
+ 
   double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
+
+  @override
+  void initState() {
+    super.initState();
+
+    getLecturerInformation(staffNo);
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +82,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
                            //for lecturer images
                             child: CircleAvatar(
                             radius: 50,
-                            backgroundImage: AssetImage("assets/lecturer.png"),
+                            backgroundImage: NetworkImage(lectImage),
                           ),
                         ),
 
@@ -61,9 +90,6 @@ class _LecturerInformationState extends State<LecturerInformation> {
                         //for lecturer basic information
                          Flexible(
                                 child: Container(
-                                  // margin: Device.screenType == ScreenType.tablet? 
-                                  //         const EdgeInsets.only(left: 20) :
-                                  //         EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02),
                                   padding:  EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.04, horizontal: deviceWidth(context) *0.01),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -74,7 +100,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
                                               const EdgeInsets.only(bottom: 20):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
-                                            "00011",
+                                            staffNo,
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                               0.22.dp: 0.32.dp,
@@ -89,7 +115,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
                                               const EdgeInsets.only(bottom: 20):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
-                                              "0127534475",
+                                              lectTelephoneNo,
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                              0.22.dp: 0.32.dp,
@@ -104,7 +130,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
                                               const EdgeInsets.only(bottom: 20):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
-                                              "FSKTM, LEVEL 7, NO 12",
+                                            faculty + ", LEVEL " + floorLvl.toString() + ", NO "+ roomNo.toString(),
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                               0.22.dp: 0.32.dp,
@@ -113,8 +139,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
                                                   color: Colors.black,
                                               ),
                                             ),
-                                        ),
-                                   
+                                        ),         
                                     ],
                                   ),
                                 )
@@ -125,7 +150,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
                     Container(
                       padding:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.015),
                       child:  Text(
-                        "DR NUR ARIFFIN BIN MOHD ZIN",
+                        lectName,
                         style: TextStyle(
                           fontFamily: "Poppins",
                           fontSize: 26,
@@ -149,7 +174,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
                   Container(
                     padding:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.015),
                     child: Text(
-                      "Jabatan Kejuruteraan Perisian",
+                      department,
                        style: TextStyle(
                           fontFamily: "Poppins",
                           fontSize: 20,
@@ -185,7 +210,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
                       Container(
                         padding:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.015),
                         child: Text(
-                      "DIPLOMA TELEKOMUNIKASI , KOLEJ UNIVERSITI TEKNOLOGI TUN HUSSEIN ONN (2005)",
+                        academicQualification1,
                        style: TextStyle(
                           fontFamily: "Poppins",
                           fontSize: 15,
@@ -198,7 +223,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
                             Container(
                         padding:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.015, vertical: deviceHeight(context) * 0.02),
                         child: Text(
-                      "SARJANA MUDA SAINS KOMPUTER , UNIVERSITI TEKNOLOGI MALAYSIA (2009)",
+                     academicQualification2,
                        style: TextStyle(
                           fontFamily: "Poppins",
                           fontSize: 15,
@@ -211,7 +236,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
                             Container(
                         padding:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.015, vertical: deviceHeight(context) * 0.02),
                         child: Text(
-                      "SARJANA SAINS KOMPUTER , UNIVERSITI KEBANGSAAN MALAYSIA (2013)",
+                      academicQualification3,
                        style: TextStyle(
                           fontFamily: "Poppins",
                           fontSize: 15,
@@ -224,7 +249,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
                             Container(
                         padding:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.015, vertical: deviceHeight(context) * 0.02),
                         child: Text(
-                      "DOKTOR FALSAFAH SAINS KOMPUTER , UNIVERSITI TEKNOLOGI MALAYSIA (2020)",
+                     academicQualification4,
                        style: TextStyle(
                           fontFamily: "Poppins",
                           fontSize: 15,
@@ -242,5 +267,28 @@ class _LecturerInformationState extends State<LecturerInformation> {
         ),
       ),
     );
+  }
+
+  //get lecturer information 
+  getLecturerInformation(String staffNo) async {
+     final responseStudent = await new Student().getLecturerInformationDetail(staffNo);
+
+     if(responseStudent['success']){
+        setState(() {
+          lectImage = responseStudent['lecturer'][0]['lecturerImage'];
+          lectName = responseStudent['lecturer'][0]['lecturerName'];
+          lectTelephoneNo = responseStudent['lecturer'][0]['lecturerTelephoneNo'];
+          department = responseStudent['lecturer'][0]['department'];
+          faculty = responseStudent['lecturer'][0]['faculty'];
+          floorLvl = responseStudent['lecturer'][0]['floorLvl'];
+          roomNo = responseStudent['lecturer'][0]['roomNo'];
+          academicQualification1 = responseStudent['lecturer'][0]['academicQualification1'];
+          academicQualification2 = responseStudent['lecturer'][0]['academicQualification2'];
+          academicQualification3 = responseStudent['lecturer'][0]['academicQualification3'];
+          academicQualification4 = responseStudent['lecturer'][0]['academicQualification4'];
+        });
+     }else{
+      throw Exception("Error fetching data");
+     }
   }
 }

@@ -53,6 +53,32 @@ Future studentLogin(String studEmail, String studPassword) async {
       }
   }
 
-  
+  //API for lecturer detail in homepage
+  Future getLecturer() async {
+     final response = await http.get(Uri.parse('${Utils.baseURL}/student/lecturer'),
+        headers: {
+          "Accept": "Application/json"
+        }
+      );
+      if(response.statusCode == 200) {
+          return jsonDecode(response.body);
+      } else{ 
+         throw Exception("Failed to load data");
+      }
+  }
+ 
+ //API for lecturer information in see more homepage
+ Future getLecturerInformationDetail(String staffNo) async {
+        final response = await http.get(Uri.parse('${Utils.baseURL}/student/lecturerinformation/${staffNo}'),
+          headers: {
+            "Accept" : "Application/json"
+          }
+        );
+        if(response.statusCode == 200) {
+          return jsonDecode(response.body);
+        }else {
+          throw Exception("Failed to load data");
+        }
+ }
 
 }

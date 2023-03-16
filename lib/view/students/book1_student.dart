@@ -179,7 +179,7 @@ class _BookState extends State<Book> {
                             color: Colors.black,
                           ),
                          ),
-                           Text(",\tFLOOR "+ ( selectedFaculty != "" ?  filterListViewLecturerList[index]['floorLvl'] : _searchController.text.isNotEmpty ? filterLecturerList[index]['floorLvl'] : lecturerList[index]['floorLvl']),
+                           Text(",\tFLOOR "+ ( selectedFaculty != "" ?  filterListViewLecturerList[index]['floorLvl'].toString() : _searchController.text.isNotEmpty ? filterLecturerList[index]['floorLvl'].toString() : lecturerList[index]['floorLvl'].toString()),
                             style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 12,
@@ -187,7 +187,7 @@ class _BookState extends State<Book> {
                             color: Colors.black,
                           ),
                          ),
-                          Text( ",\tNO "+ ( selectedFaculty != "" ?  filterListViewLecturerList[index]['roomNo'] : _searchController.text.isNotEmpty ? filterLecturerList[index]['roomNo'] : lecturerList[index]['roomNo']),
+                          Text( ",\tNO "+ ( selectedFaculty != "" ?  filterListViewLecturerList[index]['roomNo'].toString() : _searchController.text.isNotEmpty ? filterLecturerList[index]['roomNo'].toString() : lecturerList[index]['roomNo'].toString()),
                             style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 12,

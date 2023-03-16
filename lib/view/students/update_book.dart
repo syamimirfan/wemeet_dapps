@@ -2,23 +2,37 @@ import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wemeet_dapps/about.dart';
+import 'package:wemeet_dapps/api_services/api_lecturers.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/view/students/update_successful.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 
 class UpdateBook extends StatefulWidget {
-  const UpdateBook({super.key});
-
+  UpdateBook({Key? key, required this.staffNo }): super(key: key) ;
+  
+  String staffNo;
+  
   @override
-  State<UpdateBook> createState() => _UpdateBookState();
+  State<UpdateBook> createState() => _UpdateBookState(this.staffNo);
 }
 
 class _UpdateBookState extends State<UpdateBook> {
-    double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
-  double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
+  _UpdateBookState(this.staffNo);
 
+  String staffNo;
+
+  double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
+  double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
+    
   //date variable
   DateTime selectedDate = DateTime.now();
+
+  String lectImage = "";
+  String lectName = "";
+  String phoneNo = "";
+  String faculty = "";
+  String floorLvl = "";
+  String roomNo = "";
 
   //slot variable
   late String color;
@@ -27,7 +41,16 @@ class _UpdateBookState extends State<UpdateBook> {
   bool isBook = false;
   List<String> slot = ["8.00 AM", "10.00 AM", "12.00 PM", "2.00 PM", "4.00 PM"];
 
-  //function for chosen lecturer
+    @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+   
+   getSelectedLecturer(staffNo);
+  }
+
+
+//function for chosen lecturer
   Widget selectedLecturer() {
      return Container(
         padding: Device.screenType == ScreenType.tablet? 
@@ -54,11 +77,11 @@ class _UpdateBookState extends State<UpdateBook> {
                 height: 300,
                 width: 50,
                 child: CircleAvatar(
-                backgroundImage: AssetImage("assets/lecturer.png"),
+                backgroundImage: NetworkImage(lectImage),
               ),
               ),
                title: Text(
-                "DR Nur Ariffin Bin Mohd Zin",
+                lectName,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
@@ -69,7 +92,7 @@ class _UpdateBookState extends State<UpdateBook> {
              
                   subtitle: 
                       Text(
-                   "0127534475" + "\nFSKTM" ",\tFLOOR 12"+ ",\tNO 12" ,
+                   phoneNo + "\n" + faculty + ",\t" + floorLvl + ",\t" + roomNo ,
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 12,
@@ -353,4 +376,20 @@ class _UpdateBookState extends State<UpdateBook> {
         ),
      );
    }
+
+     //function to get selected lecturer
+  getSelectedLecturer(String? staffNo) async {
+     var responseLecturer = await new Lecturer().getLecturerBook2(staffNo!);
+
+     if(responseLecturer['success']) {
+      setState(() {
+        lectImage = responseLecturer['lecturer'][0]['lecturerImage'];
+        lectName = responseLecturer['lecturer'][0]['lecturerName'];
+        phoneNo = responseLecturer['lecturer'][0]['lecturerTelephoneNo'];
+        faculty = responseLecturer['lecturer'][0]['faculty'];
+        floorLvl = responseLecturer['lecturer'][0]['floorLvl'];
+        roomNo = responseLecturer['lecturer'][0]['roomNo'];
+      });
+     }
+  }
   }

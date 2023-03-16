@@ -4,6 +4,7 @@ import 'package:wemeet_dapps/constants/utils.dart';
 
 class Booking {
 
+  /* IN LECTURER SLOT SECTION */
   // API for add slot
   Future addSlot(String staffNo, String day, String slot1, String slot2, String slot3, String slot4, String slot5) async{
     final response = await http.post(Uri.parse('${Utils.baseURL}/slot/addslot/${staffNo}'), 
@@ -23,7 +24,6 @@ class Booking {
     if(response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      print(response.body);
       throw Exception(response.statusCode);
     }
   }
@@ -68,7 +68,8 @@ class Booking {
      }
    }
 
-  //get booking slot in detail
+  /* IN STUDENT BOOKING SECTION */
+  //API get booking slot in detail
     Future getBookingSlot(String staffNo,String day) async{ 
       final response = await http.get(Uri.parse('${Utils.baseURL}/booking/slot/${staffNo}/${day}'),
         headers: {
@@ -83,7 +84,7 @@ class Booking {
       }
    }
    
-   //create booking
+   //API create booking
    Future addBooking(String matricNo, String staffNo, int numberOfStudents, String date, String time) async {
      final response = await http.post(Uri.parse('${Utils.baseURL}/booking/addbook'),
       headers: {
@@ -100,6 +101,7 @@ class Booking {
       return jsonDecode(response.body);
    }
 
+  //API get selected slot from booking 
    Future getBookedSlot(String staffNo,String date) async{ 
       final response = await http.get(Uri.parse('${Utils.baseURL}/booking/booked/${staffNo}/${date}'),
         headers: {
@@ -113,4 +115,80 @@ class Booking {
         throw Exception('API request failed with status code: ${response.statusCode}');
       }
    } 
+
+   //API to get appointment request
+   Future getAppointmentRequest(String staffNo) async {
+     final response = await http.get(Uri.parse('${Utils.baseURL}/booking/appointmentrequest/${staffNo}'),
+          headers: {
+          "Accept": "Application/json"
+        }
+     );
+       if (response.statusCode == 200) {
+         return jsonDecode(response.body);
+     
+      } else {
+        throw Exception('API request failed with status code: ${response.statusCode}');
+      }
+   }
+   
+  //API get all manage booking appointment 
+  Future manageAppointmentStudent(String matricNo) async {
+    final response = await http.get(Uri.parse('${Utils.baseURL}/booking/studentbooking/${matricNo}'),
+      headers: {
+          "Accept": "Application/json"
+        }
+    );
+    if (response.statusCode == 200) {
+         return jsonDecode(response.body);
+     
+      } else {
+        throw Exception('API request failed with status code: ${response.statusCode}');
+      }
+  }
+
+  //API to reject the appointment requests
+  Future rejectAppointmentRequests(int bookingId) async {
+    final response = await http.patch(Uri.parse('${Utils.baseURL}/booking/reject/${bookingId}'),
+      headers: {
+        "Accept": "application/json;charset=UTF-8",
+        'Charset': 'utf-8'
+      },
+    );
+     if(response.statusCode == 200) {
+      return jsonDecode(response.body);
+     } else {
+     throw Exception(response.statusCode);
+     }
+  }
+
+    //API to accept the appointment requests
+  Future acceptAppointmentRequests(int bookingId) async {
+    final response = await http.patch(Uri.parse('${Utils.baseURL}/booking/accept/${bookingId}'),
+      headers: {
+        "Accept": "application/json;charset=UTF-8",
+        'Charset': 'utf-8'
+      },
+    );
+     if(response.statusCode == 200) {
+      return jsonDecode(response.body);
+     } else {
+     throw Exception(response.statusCode);
+     }
+  }
+
+  
+   //API to get appointment accepted in manage appointment and attendance for lecturer
+   Future getAcceptedAppointment(String staffNo) async {
+     final response = await http.get(Uri.parse('${Utils.baseURL}/booking/lecturerbooking/${staffNo}'),
+          headers: {
+          "Accept": "Application/json"
+        }
+     );
+       if (response.statusCode == 200) {
+         return jsonDecode(response.body);
+     
+      } else {
+        throw Exception('API request failed with status code: ${response.statusCode}');
+      }
+   }
 }

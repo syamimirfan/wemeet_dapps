@@ -68,15 +68,15 @@ class Lecturer {
    }
 
    //API for update the lecturer information 
-Future lecturerInformation(String staffNo, String floorLvl, String roomNo, String academicQualification1,String academicQualification2, String academicQualification3, String academicQualification4) async {
+Future lecturerInformation(String staffNo, int floorLvl, int roomNo, String academicQualification1,String academicQualification2, String academicQualification3, String academicQualification4) async {
       final response = await http.patch(Uri.parse('${Utils.baseURL}/lecturer/lecturerinformation/${staffNo}'),
         headers: {
           "Accept": "application/json;charset=UTF-8",
         'Charset': 'utf-8'
         },
         body: {
-          'floorLvl': floorLvl,
-          'roomNo': roomNo,
+          'floorLvl': floorLvl.toString(),
+          'roomNo': roomNo.toString(),
           'academicQualification1': academicQualification1,
           'academicQualification2': academicQualification2,
           'academicQualification3': academicQualification3,

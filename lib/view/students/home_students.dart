@@ -1,7 +1,12 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
-import 'package:wemeet_dapps/widget/home_card.dart';
+import 'package:wemeet_dapps/api_services/api_students.dart';
+import 'package:wemeet_dapps/shared/constants.dart';
+import 'package:wemeet_dapps/view/students/lecturer_information.dart';
+
 import 'package:wemeet_dapps/widget/main_drawer_student.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 
@@ -14,10 +19,30 @@ class HomeStudents extends StatefulWidget {
 }
 
 class _HomeStudentsState extends State<HomeStudents> {
+   
+  double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
+  double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
+
+  String studentName = "";
+  List<dynamic> lecturer = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    getMatricNo();
+    getLecturerInformation();
+  }
+
+  getMatricNo() async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    var matricNo = _sharedPreferences.getString('matricNo');
+    getStudent(matricNo);
+  }
+
   @override
   Widget build(BuildContext context) {
-      double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
-      double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
@@ -81,7 +106,7 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                          const SizedBox(height: 40,),
                      Flexible(
                       child: Text(
-                      "MUHAMAD SYAMIM IRFAN BIN AHMAD SHOKKRI",
+                      studentName,
                        style: TextStyle(
                        color: Colors.white,
                        fontSize:  Device.screenType == ScreenType.tablet?  
@@ -151,8 +176,120 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                                 fontFamily: 'Poppins',
                                ),
                               ),
-                            
-                               HomeCard(),
+                               Column(
+                                children: lecturer.map((lecturer) => 
+                                  Container(
+                                margin: const EdgeInsets.only(left: 20, top: 30, right: 20),
+                                padding: const EdgeInsets.all(15),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    color: Constants().BoxShadowColor,
+                                  ),
+                                  boxShadow:  [
+                                          BoxShadow(
+                                            color: Constants().BoxShadowColor,
+                                            offset: const Offset(0, 10),
+                                            blurRadius: 15,
+                                            spreadRadius: 0,
+                                          ),
+                                        ],
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      margin:  const EdgeInsets.only(left: 5),
+                                      child: CircleAvatar(
+                                        radius: 40,
+                                        backgroundImage: NetworkImage(lecturer['lecturerImage']),
+                                      ),
+                                    ),
+                                    Flexible(
+                                      child: Container(
+                                        margin:  Device.screenType == ScreenType.tablet? 
+                                                const EdgeInsets.only(left: 20):
+                                                EdgeInsets.only(left: deviceWidth(context) * 0.03, top: deviceHeight(context) * 0.02),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.only(top: deviceHeight(context) * 0.01),
+                                              child: Text(
+                                              lecturer['staffNo'] ,
+                                                style: TextStyle(
+                                                    fontSize:  Device.screenType == ScreenType.tablet? 
+                                                                0.18.dp: 0.30.dp,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: Device.screenType == ScreenType.tablet? 
+                                                const EdgeInsets.only(bottom: 20):
+                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                              child: Text(
+                                                lecturer['lecturerName'],
+                                                style:TextStyle(
+                                                    fontSize: Device.screenType == ScreenType.tablet? 
+                                                                0.18.dp: 0.28.dp,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                          margin: const EdgeInsets.only(bottom: 10),
+                                              child: Text(
+                                               lecturer['lecturerTelephoneNo'],
+                                                style: TextStyle(
+                                                    fontSize: Device.screenType == ScreenType.tablet? 
+                                                                0.18.dp: 0.26.dp,
+                                                    fontFamily: 'Poppins',
+                                                    color: Colors.black,
+                                                ),
+                                              ),
+                                            ),  
+                                              
+                                              Container(
+                                                margin:  Device.screenType == ScreenType.tablet? 
+                                                const  EdgeInsets.only(top: 10, left:520):
+                                                  EdgeInsets.only(top: 20, left: deviceWidth(context) * 0.35),
+                                                child: Text.rich(
+                                                  TextSpan(
+                                                    text: "See More",
+                                                        style:  TextStyle(
+                                                            color: Constants().secondaryColor,
+                                                            fontWeight: FontWeight.bold,
+                                                            fontFamily: 'Poppins',
+                                                            decoration: TextDecoration.underline,
+                                                            fontSize: 13,
+                                                        ),
+                                                        recognizer: TapGestureRecognizer()..onTap = () {
+                                                           nextScreen(context, LecturerInformation(staffNo: lecturer['staffNo'],));
+                                                
+                                                        }
+                                                  ),
+                                                ),
+                                              ),
+                                  
+                                          ],
+                                        ),
+                                        
+                                        ),
+                                    ),
+                                    
+                                  ],
+                                ),
+                            )
+                                ).toList(),
+                               ),
                                SizedBox(height: deviceHeight(context) * 0.03,)
                             ],
                           ),
@@ -164,5 +301,32 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
              ),
            ),
     );
+  }
+
+
+  //get student name at homepage
+  getStudent(String? matricNo) async {
+    final responseStudent = await new Student().getStudentDetail(matricNo!);
+
+    if(responseStudent['success']) {
+     setState(() {
+       studentName = responseStudent['student'][0]['studName'];
+     });
+    }
+  }
+
+  //get all lecturer in lecturer information
+  getLecturerInformation() async {
+    final responseStudent = await new Student().getLecturer();
+    if(responseStudent['success']){
+      final responseData = responseStudent['lecturer'];
+      if(responseData is List){
+        setState(() {
+          lecturer = responseData;
+        });
+      }else {
+        print(responseStudent['message']);
+      }
+    }
   }
 }

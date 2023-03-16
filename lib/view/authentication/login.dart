@@ -2,6 +2,7 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wemeet_dapps/api_services/api_lecturers.dart';
 import 'package:wemeet_dapps/api_services/api_students.dart';
@@ -238,7 +239,8 @@ class _LoginState extends State<Login> {
                 
                     onPressed: () async{
                       if(_globalKey.currentState!.validate()) {
-                       login(_controllerEmail.text.toString(), _controllerPassword.text.toString());
+                        SpinKitFadingCircle(color:Colors.white ,size: 25,);
+                        login(_controllerEmail.text.toString(), _controllerPassword.text.toString());
                       }
                 
                      // loginUsingMetamask(context);

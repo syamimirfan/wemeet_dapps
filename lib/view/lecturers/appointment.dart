@@ -15,7 +15,7 @@ class Appointment extends StatefulWidget {
 class _AppointmentState extends State<Appointment> {
 
   double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
-  double deviceWidth(BuildContext context) => MediaQuery.of(context).size.height;
+  double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
 
   @override
   Widget build(BuildContext context) {
@@ -181,10 +181,9 @@ class _AppointmentState extends State<Appointment> {
 
                             //for button contact lecturer and update
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 SizedBox(
-                                    width: deviceWidth(context) * 0.19,
                                    child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Constants().primaryColor,
@@ -208,7 +207,6 @@ class _AppointmentState extends State<Appointment> {
                                   ),
                                 ),
                                    SizedBox(
-                                  width: deviceWidth(context) * 0.13,
                                   child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Constants().secondaryColor,

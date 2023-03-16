@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,17 +18,17 @@ class _LecturerProfileState extends State<LecturerProfile> {
 
   double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
-  final TextEditingController _floorLvl = TextEditingController();
-  final TextEditingController _roomNo = TextEditingController();
-  final TextEditingController _academicQualification1 = TextEditingController();
-  final TextEditingController _academicQualification2 = TextEditingController();
-  final TextEditingController _academicQualification3 = TextEditingController();
-  final TextEditingController _academicQualification4 = TextEditingController();
+   TextEditingController _floorLvl = TextEditingController();
+   TextEditingController _roomNo = TextEditingController();
+   TextEditingController _academicQualification1 = TextEditingController();
+   TextEditingController _academicQualification2 = TextEditingController();
+  TextEditingController _academicQualification3 = TextEditingController();
+  TextEditingController _academicQualification4 = TextEditingController();
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
 
   String lectImage = "";
-  String floorLevel = "";
-  String roomNumber = "";
+  int floorLevel = 0;
+  int roomNumber = 0;
   String academicQualificationOne = "";
   String academicQualificationTwo = "";
   String academicQualificationThree = "";
@@ -132,15 +130,17 @@ class _LecturerProfileState extends State<LecturerProfile> {
                             keyboardType: TextInputType.number,
                             style: TextStyle(fontFamily: 'Poppins'),
                             decoration: textInputDecorationMain.copyWith(
-                                hintText: floorLevel,
+                                hintText: floorLevel.toString(),
                                 hintStyle: TextStyle(fontFamily: 'Poppins'),
                                 fillColor: Color(0xffC0C0C0),
                             ),
                             controller: _floorLvl,
                             validator: (value) {
                                if(value!.isEmpty) {
-                                return "Floor Level cannot be empty (enter:None if no data)";
+                                _floorLvl =  TextEditingController(text: floorLevel.toString()) ;
+                                // return "Floor Level cannot be empty (enter:None if no data)";
                               }
+                               return null;
                             },
                           ),   
                          const SizedBox(height: 30,),
@@ -158,15 +158,17 @@ class _LecturerProfileState extends State<LecturerProfile> {
                             keyboardType: TextInputType.number,
                             style: TextStyle(fontFamily: 'Poppins'),
                             decoration: textInputDecorationMain.copyWith(
-                               hintText: roomNumber,
+                               hintText: roomNumber.toString(),
                                hintStyle: TextStyle(fontFamily: 'Poppins'),
                                fillColor: Color(0xffC0C0C0),
                             ),
                             controller: _roomNo,
                               validator: (value) {
                                if(value!.isEmpty) {
-                                return "Room Number cannot be empty (enter:None if no data)";
+                                    _roomNo = TextEditingController(text: roomNumber.toString()) ;
+                                // return "Room Number cannot be empty (enter:None if no data)";
                               }
+                               return null;
                             },
                           ),   
                          const SizedBox(height: 30,),
@@ -190,8 +192,10 @@ class _LecturerProfileState extends State<LecturerProfile> {
                             controller: _academicQualification1,
                              validator: (value) {
                                if(value!.isEmpty) {
-                                return "Academic Qualification 1 cannot be empty (enter:None if no data)";
+                                 _academicQualification1 = TextEditingController(text: academicQualificationOne) ;
+                                // return "Academic Qualification 1 cannot be empty (enter:None if no data)";
                               }
+                               return null;
                             },
                           ),   
                          const SizedBox(height: 30,),
@@ -215,8 +219,9 @@ class _LecturerProfileState extends State<LecturerProfile> {
                             controller: _academicQualification2,
                             validator: (value) {
                                if(value!.isEmpty) {
-                                return "Academic Qualification 2 cannot be empty (enter:None if no data)";
+                                    _academicQualification2 = TextEditingController(text: academicQualificationTwo);
                               }
+                               return null;
                             },
                           ),   
                          const SizedBox(height: 30,),
@@ -241,8 +246,9 @@ class _LecturerProfileState extends State<LecturerProfile> {
                             controller: _academicQualification3,
                             validator: (value) {
                                if(value!.isEmpty) {
-                                return "Academic Qualification 3 cannot be empty (enter:None if no data)";
+                                _academicQualification3 = TextEditingController(text: academicQualificationThree);
                               }
+                               return null;
                             },
                           ),   
                          const SizedBox(height: 30,),
@@ -267,8 +273,9 @@ class _LecturerProfileState extends State<LecturerProfile> {
                             controller: _academicQualification4,
                              validator: (value) {
                                if(value!.isEmpty) {
-                                return "Academic Qualification 4 cannot be empty (enter:None if no data)";
+                                _academicQualification4 = TextEditingController(text: academicQualificationFour);
                               }
+                               return null;
                             },
                           ),   
                          const SizedBox(height: 30,),
@@ -289,14 +296,9 @@ class _LecturerProfileState extends State<LecturerProfile> {
                     onPressed: () async{
                         final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
                           var staffNo = _sharedPreferences.getString('staffNo');
-                          var lvl = _floorLvl.text.toString().trim();
-                          var number = _roomNo.text.toString().trim();
-                          var academic1 =  _academicQualification1.text.toString().trim();
-                          var academic2 =  _academicQualification2.text.toString().trim();
-                          var academic3 =   _academicQualification3.text.toString().trim();
-                          var academic4 =  _academicQualification4.text.toString().trim();
+    
                         if(_globalKey.currentState!.validate()) {
-                             updateLecturerInformation(staffNo, lvl, number,academic1, academic2,  academic3,  academic4);
+                             updateLecturerInformation(staffNo, int.parse(_floorLvl.text.toString().trim()), int.parse(_roomNo.text.toString().trim()),_academicQualification1.text.toString().trim(), _academicQualification2.text.toString().trim(),   _academicQualification3.text.toString().trim(),  _academicQualification4.text.toString().trim());
                         }
                     },
                      child:  const Text(
@@ -326,9 +328,9 @@ class _LecturerProfileState extends State<LecturerProfile> {
   }
   
   //function to update the lecturer information
-  updateLecturerInformation(String? staffNo, String floorLvl , String roomNo, String academicQualification1,String academicQualification2, String academicQualification3, String academicQualification4) async{
+  updateLecturerInformation(String? staffNo, int floorLvl , int roomNo, String academicQualification1,String academicQualification2, String academicQualification3, String academicQualification4) async{
  
-     var responseLecturer = await new Lecturer().lecturerInformation(staffNo!, floorLvl.trim() , roomNo.trim(), academicQualification1.trim(), academicQualification2.trim(), academicQualification3.trim(),academicQualification4.trim());
+     var responseLecturer = await new Lecturer().lecturerInformation(staffNo!, floorLvl , roomNo, academicQualification1.trim(), academicQualification2.trim(), academicQualification3.trim(),academicQualification4.trim());
 
      if(responseLecturer['success']) {
         showMessage(context, "Saved", "Your information has successfully updated", "OK");

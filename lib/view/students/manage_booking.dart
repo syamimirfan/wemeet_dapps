@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
+import 'package:wemeet_dapps/api_services/api_booking.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/view/students/update_book.dart';
 import 'package:wemeet_dapps/widget/main_drawer_student.dart';
@@ -15,15 +17,23 @@ class ManageBooking extends StatefulWidget {
 
 class _ManageBookingState extends State<ManageBooking> {
 
-  List<String> images = ["assets/lecturer.png", "assets/icon.png","assets/icon.png","assets/icon.png","assets/icon.png"];
-  List<String> lecturerName = ["Nur Ariffin Bin Mohd Zin", "Zainuri Bin Saringat", "Salama A Mostafa", "Mazidah Binti Mat Rejab", "Noraini Binti Ibrahim"];
-  List<int> number = [1,3,2,6,10];
-  List<String> date = ["Sunday, 0ctober 16","Sunday, 0ctober 16","Sunday, 0ctober 16","Sunday, 0ctober 16","Sunday, 0ctober 16"];
-  List<String> time = ["10.00 AM","10.00 AM","10.00 AM","10.00 AM","10.00 AM"];
-  List<String> statusBooking = ["Accepted", "Appending", "Rejected", "Appending", "Rejected"];
-
   double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
+
+  List<dynamic> appointment = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    getMatricNo();
+  }
+  
+  getMatricNo() async {
+     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+     var matricNo = _sharedPreferences.getString('matricNo');
+     getManageAppointment(matricNo);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,9 +81,10 @@ class _ManageBookingState extends State<ManageBooking> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
-                   children: [
-                    for (int i = 0; i < 5; i++) 
-                     Container(
+                   children: List.generate(
+                    appointment.length,
+                     (index) =>          
+                      Container(
                           margin: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.03, vertical: deviceHeight(context) * 0.04),
                             padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02,vertical: deviceHeight(context) * 0.009),
                           decoration: BoxDecoration(
@@ -91,9 +102,9 @@ class _ManageBookingState extends State<ManageBooking> {
                                     ),
                                   ],
                           ),
-                          child: Column(
-                            children:[
-                           //for status booking
+                         child:Column(
+                          children: [
+                                  //for status booking
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
@@ -110,9 +121,9 @@ class _ManageBookingState extends State<ManageBooking> {
                                     ),
                                   ),
                                   Text(
-                                    statusBooking[i],
+                                    appointment[index]['statusBooking'],
                                     style: TextStyle(
-                                     color:statusBooking[i] == "Accepted" ? Constants().acceptedColor : statusBooking[i] == "Appending" ? Constants().primaryColor : statusBooking[i] == "Rejected" ? Constants().secondaryColor : Colors.black,
+                                     color:  appointment[index]['statusBooking'] == "Accepted" ? Constants().acceptedColor :  appointment[index]['statusBooking'] == "Appending" ? Constants().primaryColor : appointment[index]['statusBooking'] == "Rejected" ? Constants().secondaryColor : Colors.black,
                                       fontFamily: "Poppins",
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
@@ -131,7 +142,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                   Container(
                                     child: CircleAvatar(
                                       radius: 40,
-                                      backgroundImage: AssetImage(images[i]),
+                                      backgroundImage: NetworkImage(appointment[index]['lecturerImage']),
                                     ),
                                   ),
                                   //for booking information
@@ -151,7 +162,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                                 right: deviceWidth(context) * 0.01,
                                               ) ,
                                             child: Text(
-                                              "DR " +lecturerName[i],
+                                              appointment[index]['lecturerName'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                               0.18.dp: 0.28.dp,
@@ -166,7 +177,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                               const EdgeInsets.only(bottom: 20):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
-                                              number[i].toString() + " Student",
+                                                appointment[index]['numberOfStudents'].toString() + " Student",
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                               0.16.dp: 0.26.dp,
@@ -181,7 +192,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                               const EdgeInsets.only(bottom: 20):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.008) ,
                                             child: Text(
-                                              date[i],
+                                                appointment[index]['date'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                                0.16.dp: 0.26.dp,
@@ -196,7 +207,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                               const EdgeInsets.only(bottom: 20):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
-                                              time[i],
+                                               appointment[index]['time'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                                0.16.dp: 0.26.dp,
@@ -258,7 +269,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                         ),
                                       ),
                                       onPressed: () {
-                                         nextScreen(context, UpdateBook());
+                                         nextScreen(context, UpdateBook(staffNo: appointment[index]['staffNo'],));
                                       },
                                       child: const Text(
                                         "Update",
@@ -272,16 +283,34 @@ class _ManageBookingState extends State<ManageBooking> {
                                   ),
                                 ),
                               ],
-                            ), 
-                    
+                            ),
                           ],
-                        ),
+                         ) ,
                      ),
-                   ],
+                   
+                   ),
+          
+                   
                 ),
             ),
         ),
       ),
     );
   }
+  
+  //function to get appointment
+  getManageAppointment(String? matricNo) async {
+    final responseBooking = await Booking().manageAppointmentStudent(matricNo!);
+    if(responseBooking['success']) {
+      final responseData = responseBooking['booking'];
+      if(responseData is List) {
+        setState(() {
+          appointment = responseData;
+        });
+      }else {
+       print("Error fetching data: ${responseBooking['message']}");
+      }
+    }
+  }
+   
 }

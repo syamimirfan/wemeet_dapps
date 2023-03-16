@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
+import 'package:wemeet_dapps/api_services/api_booking.dart';
+import 'package:wemeet_dapps/api_services/api_lecturers.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/widget/main_drawer_lecturer.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
@@ -14,6 +17,24 @@ class HomeLecturer extends StatefulWidget {
 }
 
 class _HomeLecturerState extends State<HomeLecturer> {
+  List<dynamic> appointment = [];
+  String lectName = "";
+  String noData = "";
+
+  @override
+  void initState() { 
+    super.initState();
+    
+    getStaffNo();
+}
+
+  getStaffNo() async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    var staffNo = _sharedPreferences.getString('staffNo');
+
+    getLecturer(staffNo);
+    getAppointment(staffNo);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +102,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                          const SizedBox(height: 40,),
                      Flexible(
                       child: Text(
-                      "DR NUR ARIFFIN BIN MOHD ZIN",
+                        lectName,
                        style: TextStyle(
                        color: Colors.white,
                        fontSize:  Device.screenType == ScreenType.tablet?  
@@ -152,8 +173,11 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                 fontFamily: 'Poppins',
                                ),
                               ),
-                      for(int i = 0; i < 5; i++) 
-                               Container(
+  
+                
+                              Column(
+                                 children: appointment.where((booking) => booking['statusBooking'] == "Appending").map((booking)=> 
+                                  Container(
                                   margin: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.03, vertical: deviceHeight(context) * 0.02),
                                   padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02,vertical: deviceHeight(context) * 0.009),
                                 decoration: BoxDecoration(
@@ -180,7 +204,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                         Container(
                                           child: CircleAvatar(
                                               radius: 60,
-                                              backgroundImage: AssetImage("assets/student.png"),
+                                              backgroundImage: NetworkImage(booking['studImage']),
                                           ),
                                         ),
                                         Flexible(
@@ -197,7 +221,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                               const EdgeInsets.only(bottom: 20):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
-                                              "AI200104",
+                                              booking['matricNo'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                               0.18.dp: 0.28.dp,
@@ -212,7 +236,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                               const EdgeInsets.only(bottom: 20):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
-                                              "MUHAMAD SYAMIM IRFAN BIN AHMAD SHOKKRI",
+                                              booking['studName'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                               0.16.dp: 0.26.dp,
@@ -227,7 +251,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                               const EdgeInsets.only(bottom: 20):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
-                                              "0194078581",
+                                              booking['studTelephoneNo'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                                0.16.dp: 0.26.dp,
@@ -242,7 +266,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                               const EdgeInsets.only(bottom: 20):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
-                                              "1 students",
+                                              booking['numberOfStudents'].toString() + " students",
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                                0.16.dp: 0.26.dp,
@@ -257,7 +281,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                               const EdgeInsets.only(bottom: 20):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
-                                              "16 OCT SUN",
+                                              booking['date'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                                0.16.dp: 0.26.dp,
@@ -272,7 +296,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                               const EdgeInsets.only(bottom: 20):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
-                                              "10.00 AM",
+                                              booking['time'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                                0.16.dp: 0.26.dp,
@@ -309,7 +333,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                         ),
                                       ),
                                       onPressed: () {
-                                        showConfirmationRejectBox(context, "Confirm?", "Are you sure to reject this session?");
+                                        showConfirmationRejectBox(context, "Confirm?", "Are you sure to reject this session?",booking['bookingId']);
                                       },
                                       child: const Text(
                                         "Reject",
@@ -333,7 +357,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                         ),
                                       ),
                                       onPressed: () {
-                                        showConfirmationAcceptBox(context, "Confirm?", "Are you sure to accept this session?");
+                                        showConfirmationAcceptBox(context, "Confirm?", "Are you sure to accept this session?", booking['bookingId']);
                                       },
                                       child: const Text(
                                         "Accept",
@@ -349,9 +373,32 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                       ],
                                     ),
 
-                                   ],
-                                 ),
-                               ),
+                                      ],
+                                    ),
+                                  ),
+                                 ).toList(),
+                              ),
+
+                              //if no appointment request
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  noData == "Empty Data" ?
+                                  Container(
+                                    margin: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.2),
+                                    child: Text(
+                                      "Sorry, No Appointment",
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                        color: Constants().secondaryColor
+                                      ),
+                                    ),
+                                  ):Center(),
+                                ],
+                              )
                             ],
                           ),
                         ),
@@ -363,35 +410,34 @@ class _HomeLecturerState extends State<HomeLecturer> {
            ),
     );
   }
+    //message to confirmation of action for reject request from the lecturer
+  void showConfirmationRejectBox(BuildContext context, String title, String message,int bookingId) {
+    showDialog(
+    context: context, 
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', fontSize: 20),),
+        content: Text(message, style: TextStyle( fontFamily: 'Poppins', fontSize: 13),),
+        actions: [
+         IconButton(
+          onPressed: () {
+          nextScreenPop(context);
+           },
+          icon: const Icon(Icons.cancel,color: Colors.red,size: 30,),
+           ),
+          IconButton(onPressed: () {
+            reject(bookingId);
+          }, 
+         icon: const Icon(Icons.done, color: Colors.green,size: 30,)),            
+      ],
+      );
+      }
+    );
+  }
 
-  //message to confirmation of action for reject request from the lecturer (DELETE booking from the database)
-  static void showConfirmationRejectBox(BuildContext context, String title, String message) {
-    showDialog(
-    context: context, 
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', fontSize: 20),),
-        content: Text(message, style: TextStyle( fontFamily: 'Poppins', fontSize: 13),),
-        actions: [
-         IconButton(
-          onPressed: () {
-          nextScreenPop(context);
-           },
-          icon: const Icon(Icons.cancel,color: Colors.red,size: 30,),
-           ),
-          IconButton(onPressed: () async{
-             print("APPOINTMENT DELETED!");
-          }, 
-         icon: const Icon(Icons.done, color: Colors.green,size: 30,)),            
-      ],
-      );
-      }
-    );
-  }
-    
-    //message to confirmation of action for accept request from the lecturer (UPDATE statusBooking from database)
+    //message to confirmation of action for accept request from the lecturer
     //MAKE SURE TO REMOVE THE APPOINTMENT THAT HAS BEEN ACCEPTED FROM THE UI
-    static void showConfirmationAcceptBox(BuildContext context, String title, String message) {
+    void showConfirmationAcceptBox(BuildContext context, String title, String message, int bookingId) {
     showDialog(
     context: context, 
     builder: (BuildContext context) {
@@ -406,7 +452,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
           icon: const Icon(Icons.cancel,color: Colors.red,size: 30,),
            ),
           IconButton(onPressed: () async{
-            print("APPOINTMENT ACCEPTED");
+            accept(bookingId);
           }, 
          icon: const Icon(Icons.done, color: Colors.green,size: 30,)),            
       ],
@@ -414,4 +460,54 @@ class _HomeLecturerState extends State<HomeLecturer> {
       }
     );
   }
+
+  //get lecturer name at homepage
+  getLecturer(String? staffNo) async {
+    final responseLecturer = await new Lecturer().getLecturerDetail(staffNo!);
+     if(responseLecturer['success']){
+       setState(() {
+         lectName = responseLecturer['lecturer'][0]['lecturerName'];
+       });
+     }
+  }
+
+   //get all lecturer in lecturer information
+  getAppointment(String? staffNo) async {
+    final responseBooking = await new Booking().getAppointmentRequest(staffNo!);
+    if(responseBooking['success']){
+      final responseData = responseBooking['booking'];
+      if(responseData is List){
+        setState(() {
+          appointment = responseData;
+        });
+      }else {
+        setState(() {
+          noData = responseBooking['message'];
+        });
+        print(responseBooking['message']);
+      }
+    }
+  }
+  
+  
+  //reject the appointment request
+  reject(int bookingId) async {
+    final responseBooking = await new Booking().rejectAppointmentRequests(bookingId);
+    if(responseBooking['success']){
+      nextScreenReplacement(context, HomeLecturer());
+    }else {
+      throw Exception(responseBooking['message']);
+    }
+  }
+
+   //accept the appointment request
+  accept(int bookingId) async {
+    final responseBooking = await new Booking().acceptAppointmentRequests(bookingId);
+    if(responseBooking['success']){
+      nextScreenReplacement(context, HomeLecturer());
+    }else {
+      throw Exception(responseBooking['message']);
+    }
+  }
+
 }
