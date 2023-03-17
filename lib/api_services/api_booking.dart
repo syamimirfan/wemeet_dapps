@@ -191,4 +191,40 @@ class Booking {
         throw Exception('API request failed with status code: ${response.statusCode}');
       }
    }
+
+   //API to update appointment in manage appointment for student
+   Future updateAppointment(int bookingId, String staffNo, int numberOfStudents, String date, String time) async {
+    final response = await http.patch(Uri.parse('${Utils.baseURL}/booking/updatebooking/${bookingId}'),
+      headers:  {
+        "Accept": "application/json;charset=UTF-8",
+        'Charset': 'utf-8'
+      },
+      body: {
+        'staffNo': staffNo,
+        'numberOfStudents' : numberOfStudents.toString(),
+        'date' : date,
+        'time' : time 
+      } 
+    );
+
+      if(response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }else {
+        throw Exception(response.statusCode);
+      }
+   }
+
+   //API to delete appointment in manage appointment for student and lecturer
+   Future deleteAppointment(int bookingId) async {
+     final response = await http.delete(Uri.parse('${Utils.baseURL}/booking/deletebooking/${bookingId}'),
+        headers: {
+          "Accept" : "Application/json"
+        }
+     );
+     if(response.statusCode == 200) {
+       return jsonDecode(response.body);
+     }else{
+       throw Exception(response.statusCode);
+     }
+   }
 }

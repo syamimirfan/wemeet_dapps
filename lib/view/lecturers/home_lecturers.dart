@@ -471,7 +471,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
      }
   }
 
-   //get all lecturer in lecturer information
+   //get all appointment in lecturer
   getAppointment(String? staffNo) async {
     final responseBooking = await new Booking().getAppointmentRequest(staffNo!);
     if(responseBooking['success']){

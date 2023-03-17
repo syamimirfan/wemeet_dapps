@@ -229,13 +229,12 @@ class _ManageBookingState extends State<ManageBooking> {
                              color: Constants().dividerColor,
                              thickness: 1.5,
                             ),
-
+                       
                             //for button contact lecturer and update
-                            Row(
+                      appointment[index]['statusBooking'] != "Rejected" ?  Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 SizedBox(
-                             
                                    child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Constants().primaryColor,
@@ -269,7 +268,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                         ),
                                       ),
                                       onPressed: () {
-                                         nextScreen(context, UpdateBook(staffNo: appointment[index]['staffNo'],));
+                                         nextScreen(context, UpdateBook(staffNo: appointment[index]['staffNo'],bookingId: appointment[index]['bookingId'],));
                                       },
                                       child: const Text(
                                         "Update",
@@ -283,6 +282,36 @@ class _ManageBookingState extends State<ManageBooking> {
                                   ),
                                 ),
                               ],
+                            ) : Container(
+                              margin: EdgeInsets.only(left: deviceWidth(context) * 0.6),
+                              child: Row(
+
+                                children: [
+                                   SizedBox(
+                                     child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Constants().secondaryColor,
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          deleteRejectedAppointment(appointment[index]['bookingId']);
+                                        },
+                                        child: const Text(
+                                          "Delete",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 15,
+                                              fontFamily: 'Poppins',
+                                          ),
+                                        ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                          ) ,
@@ -312,5 +341,36 @@ class _ManageBookingState extends State<ManageBooking> {
       }
     }
   }
-   
+  
+  //funtion to delete rejected appointment
+  deleteRejectedAppointment(int bookingId) async {
+     final responseBooking = await new Booking().deleteAppointment(bookingId);
+     if(responseBooking['success']){
+        showMessage(context, "Appointment Deleted", "The rejected appointment has been deleted. Please book your appointment again to continue meet with your lecturer", "Ok");
+     }else {
+       throw Exception(responseBooking['message']);
+     }
+  }
+
+    //show message box function
+  void showMessage(BuildContext context, String title, String message, String buttonText) {
+      showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+           title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', fontSize: 24),),
+           content: Text(message, style: TextStyle( fontFamily: 'Poppins', fontSize: 16),),
+           actions: [ 
+              ElevatedButton(
+                onPressed: () {
+                 nextScreenReplacement(context, ManageBooking());
+              }, 
+              child: Text(buttonText),
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Constants().secondaryColor), textStyle: MaterialStateProperty.all(TextStyle(fontFamily: 'Poppins', fontSize: 14))),
+              )
+           ],
+        );
+      }
+    );
+  }
 }

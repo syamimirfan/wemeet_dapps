@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
+import 'package:wemeet_dapps/api_services/api_booking.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/widget/main_drawer_lecturer.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
@@ -16,6 +18,23 @@ class _AttendanceState extends State<Attendance> {
 
   double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
+
+   List<dynamic> acceptedAppointments = [];
+  String noData = "";
+
+  @override
+  void initState() {
+    super.initState();
+
+    getStaffNo();
+  }
+
+  getStaffNo() async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    var staffNo = _sharedPreferences.getString('staffNo');
+    getAttendance(staffNo);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -60,183 +79,206 @@ class _AttendanceState extends State<Attendance> {
             child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                   children: [
-                    for (int i = 0; i < 5; i++) 
+                  children: [
+                    Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                     children: acceptedAppointments.where((booking) => booking['statusBooking'] == "Accepted")
+                    .map((booking) => 
                      Container(
-                          margin: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.03, vertical: deviceHeight(context) * 0.04),
-                            padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02,vertical: deviceHeight(context) * 0.009),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.white,
-                            border: Border.all(
-                              color: Constants().BoxShadowColor,
+                            margin: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.03, vertical: deviceHeight(context) * 0.04),
+                              padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02,vertical: deviceHeight(context) * 0.009),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white,
+                              border: Border.all(
+                                color: Constants().BoxShadowColor,
+                              ),
+                              boxShadow:  [
+                                      BoxShadow(
+                                        color: Constants().BoxShadowColor,
+                                        offset: const Offset(0, 10),
+                                        blurRadius: 15, 
+                                        spreadRadius: 0,
+                                      ),
+                                    ],
                             ),
-                            boxShadow:  [
-                                    BoxShadow(
-                                      color: Constants().BoxShadowColor,
-                                      offset: const Offset(0, 10),
-                                      blurRadius: 15, 
-                                      spreadRadius: 0,
+                            child: Column(
+                              children:[
+                              //for booking information
+                              Row(
+                                 mainAxisAlignment: MainAxisAlignment.start,
+                                 crossAxisAlignment: CrossAxisAlignment.center,
+                                 children: [
+                                  //for lecturer images
+                                    Container(
+                                      child: CircleAvatar(
+                                        radius: 40,
+                                        backgroundImage: NetworkImage(booking['studImage']),
+                                      ),
                                     ),
-                                  ],
+                                    //for booking information
+                                    Flexible(
+                                      child: Container(
+                                         margin:  Device.screenType == ScreenType.tablet? 
+                                        const EdgeInsets.only(left: 20):
+                                        EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                              margin: Device.screenType == ScreenType.tablet? 
+                                                const EdgeInsets.only(bottom: 20):
+                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                              child: Text(
+                                               booking['studName'],
+                                                style:TextStyle(
+                                                    fontSize: Device.screenType == ScreenType.tablet? 
+                                                                0.18.dp: 0.28.dp,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                             Container(
+                                              margin: Device.screenType == ScreenType.tablet? 
+                                                const EdgeInsets.only(bottom: 20):
+                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                              child: Text(
+                                               booking['numberOfStudents'].toString() + " student",
+                                                style:TextStyle(
+                                                    fontSize: Device.screenType == ScreenType.tablet? 
+                                                                0.16.dp: 0.26.dp,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                             Container(
+                                              margin: Device.screenType == ScreenType.tablet? 
+                                                const EdgeInsets.only(bottom: 20):
+                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                              child: Text(
+                                                booking['date'],
+                                                style:TextStyle(
+                                                    fontSize: Device.screenType == ScreenType.tablet? 
+                                                                0.16.dp: 0.26.dp,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                             Container(
+                                              margin: Device.screenType == ScreenType.tablet? 
+                                                const EdgeInsets.only(bottom: 20):
+                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                              child: Text(
+                                               booking['time'],
+                                                style:TextStyle(
+                                                    fontSize: Device.screenType == ScreenType.tablet? 
+                                                                 0.16.dp: 0.26.dp,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Constants().secondaryColor,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                 ],
+                              ),
+                
+                            //for divider between booking information and button
+                            Divider(
+                               color: Constants().dividerColor,
+                               thickness: 1.5,
+                              ),
+                
+                              //for button contact lecturer and update
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  SizedBox(
+                  
+                                     child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Constants().secondaryColor,
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                        showConfirmationAbsentBox(context, "Confirm?", "Are you sure to sign absent for this session?");
+                                        },
+                                        child: const Text(
+                                          "Absent",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 15,
+                                              fontFamily: 'Poppins',
+                                          ),
+                                        ),
+                                    ),
+                                  ),
+                                     SizedBox(
+                                    child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Constants().primaryColor,
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                        showConfirmationAttendBox(context, "Confirm?", "Are you sure to sign attend for this session?");
+                                        },
+                                        child: const Text(
+                                          "Attend",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 15,
+                                              fontFamily: 'Poppins',
+                                          ),
+                                        ),
+                                    ),
+                                  ),
+                                ],
+                              ), 
+                      
+                            ],
                           ),
-                          child: Column(
-                            children:[
-                            //for booking information
-                            Row(
-                               mainAxisAlignment: MainAxisAlignment.start,
-                               crossAxisAlignment: CrossAxisAlignment.center,
-                               children: [
-                                //for lecturer images
-                                  Container(
-                                    child: CircleAvatar(
-                                      radius: 40,
-                                      backgroundImage: AssetImage("assets/student.png"),
-                                    ),
-                                  ),
-                                  //for booking information
-                                  Flexible(
-                                    child: Container(
-                                       margin:  Device.screenType == ScreenType.tablet? 
-                                      const EdgeInsets.only(left: 20):
-                                      EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                            margin: Device.screenType == ScreenType.tablet? 
-                                              const EdgeInsets.only(bottom: 20):
-                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                            child: Text(
-                                             "MUHAMAD SYAMIM IRFAN BIN AHMAD SHOKKRI",
-                                              style:TextStyle(
-                                                  fontSize: Device.screenType == ScreenType.tablet? 
-                                                              0.18.dp: 0.28.dp,
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                           Container(
-                                            margin: Device.screenType == ScreenType.tablet? 
-                                              const EdgeInsets.only(bottom: 20):
-                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                            child: Text(
-                                              "1 student",
-                                              style:TextStyle(
-                                                  fontSize: Device.screenType == ScreenType.tablet? 
-                                                              0.16.dp: 0.26.dp,
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                           Container(
-                                            margin: Device.screenType == ScreenType.tablet? 
-                                              const EdgeInsets.only(bottom: 20):
-                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                            child: Text(
-                                              "16 OCT SUN",
-                                              style:TextStyle(
-                                                  fontSize: Device.screenType == ScreenType.tablet? 
-                                                              0.16.dp: 0.26.dp,
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                           Container(
-                                            margin: Device.screenType == ScreenType.tablet? 
-                                              const EdgeInsets.only(bottom: 20):
-                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                            child: Text(
-                                              "10.00 AM",
-                                              style:TextStyle(
-                                                  fontSize: Device.screenType == ScreenType.tablet? 
-                                                               0.16.dp: 0.26.dp,
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Constants().secondaryColor,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                               ],
-                            ),
-
-                          //for divider between booking information and button
-                          Divider(
-                             color: Constants().dividerColor,
-                             thickness: 1.5,
-                            ),
-
-                            //for button contact lecturer and update
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                SizedBox(
-  
-                                   child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Constants().secondaryColor,
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                      showConfirmationAbsentBox(context, "Confirm?", "Are you sure to sign absent for this session?");
-                                      },
-                                      child: const Text(
-                                        "Absent",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 15,
-                                            fontFamily: 'Poppins',
-                                        ),
-                                      ),
-                                  ),
-                                ),
-                                   SizedBox(
-                                  child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Constants().primaryColor,
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                      showConfirmationAttendBox(context, "Confirm?", "Are you sure to sign attend for this session?");
-                                      },
-                                      child: const Text(
-                                        "Attend",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 15,
-                                            fontFamily: 'Poppins',
-                                        ),
-                                      ),
-                                  ),
-                                ),
-                              ],
-                            ), 
-                    
-                          ],
-                        ),
+                       ),
+                    ).toList(),            
+                   ),
+                   Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                           noData == "Empty Data" ?
+                            Container(
+                             margin: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.4),
+                              child: Text(
+                              "Sorry, No Appointment",
+                               style: TextStyle(
+                               fontFamily: 'Poppins',
+                               fontSize: 20,
+                               fontWeight: FontWeight.w600,
+                               color: Constants().secondaryColor
+                                 ),
+                              ),
+                            ):Center(),
+                          ]
                      ),
-                   ],
+                  ],
                 ),
             ),
         ),
@@ -244,7 +286,7 @@ class _AttendanceState extends State<Attendance> {
     );
   }
 
-  //message to confirmation of action for attend meeting from the lecturer (INSERT to attendance table , DELETE/DONT DELETE the current data in booking table in database)
+  //message to confirmation of action for attend meeting from the lecturer (INSERT to attendance table , DELETE the current data in booking table in database)
   static void showConfirmationAttendBox(BuildContext context, String title, String message) {
     showDialog(
     context: context, 
@@ -268,7 +310,7 @@ class _AttendanceState extends State<Attendance> {
       }
     );
   }
-    //message to confirmation of action for absent meeting from the lecturer (INSERT to attendance table , DELETE/DONT DELETE the current data in booking table in database)
+    //message to confirmation of action for absent meeting from the lecturer (INSERT to attendance table , DELETE the current data in booking table in database)
   static void showConfirmationAbsentBox(BuildContext context, String title, String message) {
     showDialog(
     context: context, 
@@ -291,5 +333,22 @@ class _AttendanceState extends State<Attendance> {
       );
       }
     );
+  }
+  //get all accepted appointment for manage appointment in lecturer
+  getAttendance(String? staffNo) async {
+    final responseBooking = await new Booking().getAcceptedAppointment(staffNo!);
+    if(responseBooking['success']){
+      final responseData = responseBooking['booking'];
+      if(responseData is List){
+        setState(() {
+          acceptedAppointments = responseData;
+        });
+      }else {
+        setState(() {
+          noData = responseBooking['message'];
+        });
+        print(responseBooking['message']);
+      }
+    }
   }
 }

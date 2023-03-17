@@ -1,53 +1,68 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wemeet_dapps/about.dart';
+import 'package:wemeet_dapps/api_services/api_booking.dart';
 import 'package:wemeet_dapps/api_services/api_lecturers.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/view/students/update_successful.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 
 class UpdateBook extends StatefulWidget {
-  UpdateBook({Key? key, required this.staffNo }): super(key: key) ;
+  UpdateBook({Key? key, required this.staffNo, required this.bookingId }): super(key: key) ;
   
   String staffNo;
+  int bookingId;
   
   @override
-  State<UpdateBook> createState() => _UpdateBookState(this.staffNo);
+  State<UpdateBook> createState() => _UpdateBookState(this.staffNo, this.bookingId);
 }
 
 class _UpdateBookState extends State<UpdateBook> {
-  _UpdateBookState(this.staffNo);
+  _UpdateBookState(this.staffNo, this.bookingId);
 
   String staffNo;
+  int bookingId;
 
   double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
     
-  //date variable
-  DateTime selectedDate = DateTime.now();
+  final TextEditingController _numberOfStudents = TextEditingController();
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+
+   int tappedIndex = 0;
 
   String lectImage = "";
   String lectName = "";
   String phoneNo = "";
   String faculty = "";
-  String floorLvl = "";
-  String roomNo = "";
+  int floorLvl = 0;
+  int roomNo = 0;
+  
+  String date = "";
+  String time = "";
 
-  //slot variable
-  late String color;
-  late String backgroundColor;
-  int tappedIndex = 0;
-  bool isBook = false;
-  List<String> slot = ["8.00 AM", "10.00 AM", "12.00 PM", "2.00 PM", "4.00 PM"];
+  List<dynamic> slot = [];
+  List<dynamic> bookTime = [];
+  List<dynamic> bookDate = [];
+  List<dynamic> bookStatus = [];
+  bool notAvailableDay = false;
 
     @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
    
    getSelectedLecturer(staffNo);
   }
+
+    getDate(String bookDate) {
+     setState(() {
+        date = bookDate;
+     });
+  }
+
 
 
 //function for chosen lecturer
@@ -92,7 +107,7 @@ class _UpdateBookState extends State<UpdateBook> {
              
                   subtitle: 
                       Text(
-                   phoneNo + "\n" + faculty + ",\t" + floorLvl + ",\t" + roomNo ,
+                   phoneNo + "\n" + faculty + ",\t" + floorLvl.toString() + ",\t" + roomNo.toString() ,
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 12,
@@ -136,8 +151,11 @@ class _UpdateBookState extends State<UpdateBook> {
         ),
         onDateChange: (date){
           setState(() {
-            selectedDate = date;  
-            print(selectedDate);
+            DateFormat dateFormatBooking = DateFormat('MMMMEEEEd');
+            late String dateFormattedBooking = dateFormatBooking.format(date);
+            getDate(dateFormattedBooking);     
+            getBookingSlot(staffNo, dateFormattedBooking);
+            getBooked(staffNo, dateFormattedBooking);
           });
         },
        ),
@@ -152,56 +170,182 @@ class _UpdateBookState extends State<UpdateBook> {
                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.006),
         child: ListView.builder(
           shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
-          itemCount: 5,
-          itemBuilder:  (context, index) {
-            return Container(
+          itemCount: slot.length,
+          itemBuilder:   (context, index) {
+            return Column(
+                children: [
+                  Row(
+                    children: [  
         
-            width: deviceHeight(context) * 0.15,
-        
-            margin: const EdgeInsets.only(right: 10),
-            decoration: BoxDecoration(
-               gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    tappedIndex == index? Constants().secondaryColor : Colors.white,
-                    tappedIndex == index? Constants().secondaryColor : Colors.white,
-                  ]
-               ),
-               borderRadius: BorderRadius.circular(20),
-               border: Border.all(
-                 width: 1,
-               color: tappedIndex == index ? Colors.white : Colors.black,
-               ), 
-            ),  
-             child: ListTile(
-              title:Column(
-                 mainAxisAlignment: MainAxisAlignment.start,
-                 children: [
-                     Text(
-                      slot[index],
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        fontFamily: 'Poppins',
-                        color: tappedIndex == index ? Colors.white : Colors.black,
-                      ),
-                    ),
-                 ],
-                ),
-              
-              onTap: () {
-                setState(() {
-                  tappedIndex = index;
-                  print(slot[index]);
-                });
-              },
-             ),
+                    slot[index]['slot1'] != "" && notAvailableDay == false ? 
+                      GestureDetector(
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          padding:  Device.screenType == ScreenType.tablet? 
+                                        const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                                        EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.007),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                 bookTime.contains(slot[index]['slot1']) && bookDate.contains(date)  ? Constants().BoxShadowColor:tappedIndex == 1? Constants().secondaryColor : Colors.white,
+                                 bookTime.contains(slot[index]['slot1']) && bookDate.contains(date)  ? Constants().BoxShadowColor:tappedIndex == 1 ? Constants().secondaryColor : Colors.white,
+                                ]
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              width: 2,
+                            color:  bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) ? Colors.white: tappedIndex == 1 ? Colors.white : Colors.black ,
+                            ), 
+                          ),  
+                          child: Text(slot[index]['slot1'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) ? Colors.white: tappedIndex == 1 ? Colors.white : Colors.black ),),
+                        ),
+                        onTap: bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) ? null : () {
+                            setState(() {
+                              tappedIndex = 1;
+                              time = slot[index]['slot1']; 
+                            });
+                        },
+                      ) :  Container(),
+                     slot[index]['slot2'] != "" && notAvailableDay == false ?  
+                      GestureDetector(
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          padding:  Device.screenType == ScreenType.tablet? 
+                                        const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                                        EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.007),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                 bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) ? Constants().BoxShadowColor:tappedIndex == 2? Constants().secondaryColor : Colors.white,
+                                 bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) ? Constants().BoxShadowColor:tappedIndex == 2? Constants().secondaryColor : Colors.white,
+                                ]
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              width: 2,
+                            color: bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) ? Colors.white: tappedIndex == 2 ? Colors.white : Colors.black ,
+                            ), 
+                          ),  
+                          child: Text(slot[index]['slot2'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) ? Colors.white:tappedIndex == 2 ? Colors.white : Colors.black,),),
+                        ),
+                          onTap:  bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) ? null : () {
+                             setState(() {
+                              tappedIndex = 2;
+                              time = slot[index]['slot2'];
+                          
+                            });
+                        },
+                      ):  Container(),
+                       slot[index]['slot3'] != "" && notAvailableDay == false  ?
+                      GestureDetector(
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          padding:  Device.screenType == ScreenType.tablet? 
+                                        const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                                        EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.007),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  bookTime.contains(slot[index]['slot3']) && bookDate.contains(date)  ? Constants().BoxShadowColor: tappedIndex == 3? Constants().secondaryColor : Colors.white,
+                                  bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) ?  Constants().BoxShadowColor:tappedIndex == 3? Constants().secondaryColor : Colors.white,
+                                ]
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              width: 2,
+                            color: bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) ? Colors.white: tappedIndex == 3 ? Colors.white : Colors.black ,
+                            ), 
+                          ),  
+                          child: Text(slot[index]['slot3'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color:bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) ? Colors.white: tappedIndex == 3 ? Colors.white : Colors.black ,),),
+                        ),
+                          onTap:  bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) ? null :() {
+                             setState(() {
+                              tappedIndex = 3;
+                             time = slot[index]['slot3'];       
+                            }); 
+                        },
+                      ) : Container(),
+                    ],
+                  ),
+                  SizedBox(height: 1.2.h,),
+                  Row(
+                    children: [
+                       slot[index]['slot4'] != "" && notAvailableDay == false  ?
+                      GestureDetector(
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          padding:  Device.screenType == ScreenType.tablet? 
+                                        const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                                        EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.007),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                    bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) ? Constants().BoxShadowColor:tappedIndex == 4? Constants().secondaryColor : Colors.white,
+                                    bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) ? Constants().BoxShadowColor:tappedIndex == 4? Constants().secondaryColor : Colors.white,
+                                ]
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              width: 2,
+                            color: bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) ? Colors.white: tappedIndex == 4 ? Colors.white : Colors.black ,
+                            ), 
+                          ),  
+                          child: Text(slot[index]['slot4'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color:bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) ? Colors.white:tappedIndex == 4 ? Colors.white : Colors.black ,),),
+                        ),
+                          onTap:   bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) ? null : () {
+                            setState(() {
+                              tappedIndex = 4;
+                              time = slot[index]['slot4'];                              
+                            });
+                        },
+                      ) : Container(),
+                       slot[index]['slot5'] != "" && notAvailableDay == false  ?
+                      GestureDetector(
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          padding:  Device.screenType == ScreenType.tablet? 
+                                        const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                                        EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.007),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                 bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) ? Constants().BoxShadowColor:tappedIndex == 5? Constants().secondaryColor : Colors.white,
+                                 bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) ? Constants().BoxShadowColor: tappedIndex == 5? Constants().secondaryColor : Colors.white,
+                                ]
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              width: 2,
+                            color:bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) ? Colors.white: tappedIndex == 5 ? Colors.white : Colors.black ,
+                            ), 
+                          ),  
+                          child: Text(slot[index]['slot5'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) ? Colors.white: tappedIndex == 5 ? Colors.white : Colors.black ,),),
+                        ),
+                          onTap:  bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) ? null : () {
+                              setState(() {
+                              tappedIndex = 5;
+                              time = slot[index]['slot5'];
+                            });
+                        },
+                      ): Container(),
+                    ],
+                  ),
+                ],
             );
           }
         ),
     );
+   
   }
 
   //function show dialog
@@ -234,7 +378,8 @@ class _UpdateBookState extends State<UpdateBook> {
                    icon: const Icon(Icons.cancel,color: Colors.red,size: 30,),
                   ),
                    IconButton(onPressed: () async{
-                  nextScreen(context, UpdateSuccessful());
+               updateBook(bookingId, staffNo, int.parse(_numberOfStudents.text), date, time);
+
                  }, 
                 icon: const Icon(Icons.done, color: Colors.green,size: 30,)),
               ],
@@ -283,92 +428,106 @@ class _UpdateBookState extends State<UpdateBook> {
               ),
               child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
-                  child: Container(
-                    padding:EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05,vertical:deviceWidth(context) * 0.05),
-                    child: Column(
-                     mainAxisAlignment: MainAxisAlignment.start,
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: [
-                      const Text(
-                        "Your Lecturer: ",
-                        style: TextStyle(
+                  child: Form(
+                    key: _globalKey,
+                    child: Container(
+                      padding:EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05,vertical:deviceWidth(context) * 0.05),
+                      child: Column(
+                       mainAxisAlignment: MainAxisAlignment.start,
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       children: [
+                        const Text(
+                          "Your Lecturer: ",
+                          style: TextStyle(
+                              color: Colors.black,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                        selectedLecturer(),
+                        const SizedBox(height: 30,),
+                           const Text(
+                          "Number of Students",
+                            style: TextStyle(
                             color: Colors.black,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                          fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontFamily: 'Poppins',
+                          ),
                         ),
-                      ),
-                      selectedLecturer(),
-                      const SizedBox(height: 30,),
-                         const Text(
-                        "Number of Students",
-                          style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                        TextFormField(    
-                            decoration: textInputDecorationNumberStudent.copyWith(
-                                hintText: "e.g, 2",
-                                fillColor: Color(0xffC0C0C0),
+                              TextFormField(    
+                              controller: _numberOfStudents,
+                              keyboardType: TextInputType.number,
+                              decoration: textInputDecorationNumberStudent.copyWith(
+                                    hintText: "e.g, 2",
+                                    fillColor: Color(0xffC0C0C0),
+                                ),
+                              validator: (value) {
+                                 if(value!.isEmpty) {
+                                  return "Please enter number of students for meeting";
+                                }
+                              },
                             ),
+                          const SizedBox(height: 20,),
+                           const Text(
+                          "Date",
+                            style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontFamily: 'Poppins',
+                          ),
                         ),
-                        const SizedBox(height: 20,),
-                         const Text(
-                        "Date",
-                          style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          fontFamily: 'Poppins',
+                        buildDate(),
+                         const SizedBox(height: 20,),
+                           const Text(
+                          "Slot",
+                            style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontFamily: 'Poppins',
+                          ),
                         ),
-                      ),
-                      buildDate(),
-                       const SizedBox(height: 20,),
-                         const Text(
-                        "Slot",
-                          style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          fontFamily: 'Poppins',
+                          SizedBox(height: 20),   
+                         SizedBox(height: 100,child: buildSlot()),
+                               SizedBox(height: 40),       
+                                   SizedBox(
+                     width: double.infinity,
+                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Constants().secondaryColor,
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                  
                         ),
-                      ),
-                        SizedBox(height: 20),   
-                       SizedBox(height: 50,child: buildSlot()),
-             SizedBox(height: 40),       
-                 SizedBox(
-                   width: double.infinity,
-                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Constants().secondaryColor,
-                        elevation: 0,
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-
-                      ),
-                
-                    onPressed: () async{
-                        
-                        dialog();
-                    },
-                     child:  const Text(
-                       "Update Appointment",
-                       style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                          fontFamily: 'Poppins',
+                                  
+                      onPressed: () async{         
+                    if(_globalKey.currentState!.validate() && date != "" && time != ""){
+                               dialog();
+                      }else {
+                        showMessage(context, "Booking Not Added", "Please enter the requirement for booking", "Ok");                   
+                         }            
+                     
+                      },
+                       child:  const Text(
+                         "Update Appointment",
+                         style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                            fontFamily: 'Poppins',
+                         ),
                        ),
-                     ),
-                    ),
-                 ),
-                 SizedBox(height: deviceHeight(context) * 0.04,)
-                     ],
+                      ),
+                         ),
+                           SizedBox(height: deviceHeight(context) * 0.04,)
+                       ],
+                      ),
                     ),
                   ),
               ),
@@ -377,7 +536,7 @@ class _UpdateBookState extends State<UpdateBook> {
      );
    }
 
-     //function to get selected lecturer
+  //function to get selected lecturer
   getSelectedLecturer(String? staffNo) async {
      var responseLecturer = await new Lecturer().getLecturerBook2(staffNo!);
 
@@ -390,6 +549,79 @@ class _UpdateBookState extends State<UpdateBook> {
         floorLvl = responseLecturer['lecturer'][0]['floorLvl'];
         roomNo = responseLecturer['lecturer'][0]['roomNo'];
       });
+      }
+   }
+
+  //function to get booking slot based on lecturer schedule
+  getBookingSlot(String? staffNo, String day) async {
+    var responseBooking = await new Booking().getBookingSlot(staffNo!, day);
+     
+     if(responseBooking['success']) {
+       final responseData = responseBooking['slot'];
+       if(responseData is List) {
+        setState(() {
+         slot = responseData;
+         notAvailableDay = false;
+        });
+       }else {
+        setState(() {
+          notAvailableDay = true;
+        });
+  
+          print("Error fetching data: ${responseBooking['message']}");
+       }
      }
   }
+
+  //function to update book
+  updateBook(int bookingId, String staffNo, int numberOfStudents, String date, String time) async {
+    var responseBooking = await new Booking().updateAppointment(bookingId, staffNo, numberOfStudents, date, time);
+
+    if(responseBooking['success'] && responseBooking['message'] == "Slot Booked") {
+      showMessage(context, "Slot Booked!", "The slot has been booked by student name ${responseBooking['student'][0]['studName']} with matric number ${responseBooking['student'][0]['matricNo']}", "OK");
+      
+    }else if(responseBooking['success']) {
+      nextScreenReplacement(context, UpdateSuccessful(lecturerName: lectName, numberOfStudents: numberOfStudents, date: date, time: time));
+    }else {
+    showMessage(context, "Ooops!", "Cannot update the book slot", "OK");
+    }
   }
+
+  //function to get booked slot
+  getBooked(String staffNo, String date) async {
+    final responseBooking = await new Booking().getBookedSlot(staffNo, date);
+    if(responseBooking['success']) {
+       final responseData = responseBooking['booking'];
+         if(responseData is List){
+            setState(() {
+          bookTime = responseData.where((booking) => booking['statusBooking'] != "Rejected").map((booking) => booking['time']).toList();
+          bookDate = responseData.where((booking) => booking['statusBooking'] != "Rejected").map((booking) => booking['date']).toList();
+          });
+         }else {
+           return null;
+         }
+    }
+  }
+
+  //show message box function
+  void showMessage(BuildContext context, String title, String message, String buttonText) {
+      showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+           title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', fontSize: 24),),
+           content: Text(message, style: TextStyle( fontFamily: 'Poppins', fontSize: 16),),
+           actions: [ 
+              ElevatedButton(
+                onPressed: () {
+                 nextScreenPop(context);
+              }, 
+              child: Text(buttonText),
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Constants().primaryColor), textStyle: MaterialStateProperty.all(TextStyle(fontFamily: 'Poppins', fontSize: 14))),
+              )
+           ],
+        );
+      }
+    );
+  }
+}

@@ -119,7 +119,8 @@ class _ManageHistoryState extends State<ManageHistory> {
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
-                                )
+                                ),
+                                
                             ],
                           ),
 

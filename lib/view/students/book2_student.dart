@@ -27,10 +27,9 @@ class _Book2State extends State<Book2> {
   double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
 
-   final TextEditingController _numberOfStudents = TextEditingController();
+  final TextEditingController _numberOfStudents = TextEditingController();
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
 
-  //slot variable
   int tappedIndex = 0;
 
   String lectImage = "";
@@ -51,7 +50,6 @@ class _Book2State extends State<Book2> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
    
    getSelectedLecturer(staffNo);
@@ -198,7 +196,7 @@ class _Book2State extends State<Book2> {
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
                               width: 2,
-                            color:  bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) && bookStatus.contains("Appending") || bookStatus.contains("Accepted") ? Colors.white: tappedIndex == 1 ? Colors.white : Colors.black ,
+                            color:  bookTime.contains(slot[index]['slot1']) && bookDate.contains(date)? Colors.white: tappedIndex == 1 ? Colors.white : Colors.black ,
                             ), 
                           ),  
                           child: Text(slot[index]['slot1'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) ? Colors.white: tappedIndex == 1 ? Colors.white : Colors.black ),),
@@ -475,7 +473,7 @@ class _Book2State extends State<Book2> {
                            addBooking(matricNo!, staffNo,int.parse( _numberOfStudents.text), date, time);
                         }else {
                           showMessage(context, "Booking Not Added", "Please enter the requirement for booking", "Ok");
-                    
+                   
                         }
                       },
                        child:  const Text(
@@ -560,7 +558,6 @@ class _Book2State extends State<Book2> {
             setState(() {
           bookTime = responseData.where((booking) => booking['statusBooking'] != "Rejected").map((booking) => booking['time']).toList();
           bookDate = responseData.where((booking) => booking['statusBooking'] != "Rejected").map((booking) => booking['date']).toList();
-          // bookStatus = responseData.map((booking) => booking['statusBooking']).toList();
           });
          }else {
            return null;

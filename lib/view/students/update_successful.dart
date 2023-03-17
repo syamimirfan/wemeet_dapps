@@ -1,17 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:gif/gif.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/view/students/manage_booking.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 
 class UpdateSuccessful extends StatefulWidget {
-  const UpdateSuccessful({super.key});
+  UpdateSuccessful({Key? key, required this.lecturerName, required this.numberOfStudents, required this.date, required this.time}) : super(key: key);
+  
+  String lecturerName;
+  int numberOfStudents;
+  String date;
+  String time;
 
-  @override
-  State<UpdateSuccessful> createState() => _UpdateSuccessfulState();
+   @override
+  State<UpdateSuccessful> createState() => _UpdateSuccessfulState(this.lecturerName,  this.numberOfStudents,  this.date,  this.time);
 }
 
 class _UpdateSuccessfulState extends State<UpdateSuccessful> {
+  
+   _UpdateSuccessfulState(this.lecturerName, this.numberOfStudents, this.date, this.time);
+  
+  String lecturerName;
+  int numberOfStudents;
+  String date;
+  String time;
 
   double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
@@ -45,9 +58,12 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
         
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                    Image(
+                    Gif(
                       image: AssetImage("assets/success.gif"),
+                      autostart: Autostart.once,
                       height: 150,
+                    
+                     duration: const Duration(seconds: 3),
                     ),
                    const Text(
                     "Update Successful",
@@ -93,8 +109,8 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                         ),
                             SizedBox(height: 10,),
                                
-                          const Text(
-                          "Dr Nur Ariffin Bin Mohd Zin",
+                         Text(
+                         lecturerName,
                           style: TextStyle(
                             fontFamily: "Poppins",
                             fontSize: 16,
@@ -102,8 +118,8 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                           ),
                         ),
                                  SizedBox(height: 5,),
-                          const Text(
-                          "1 students",
+                           Text(
+                          numberOfStudents.toString() + " students",
                           style: TextStyle(
                             fontFamily: "Poppins",
                             fontSize: 16,
@@ -111,8 +127,8 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                           ),
                         ),
                                   SizedBox(height: 5,),
-                          const Text(
-                          "26 JAN 2023:",
+                           Text(
+                          date,
                           style: TextStyle(
                             fontFamily: "Poppins",
                             fontSize: 20,
@@ -121,7 +137,7 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                         ),
                            SizedBox(height: 5,),
                            Text(
-                          "10.00 AM",
+                          time,
                           style: TextStyle(
                             fontFamily: "Poppins",
                             fontSize: 20,
