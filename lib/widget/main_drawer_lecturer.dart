@@ -212,7 +212,7 @@ class _MainDrawerLecturerState extends State<MainDrawerLecturer> {
            ),
             ListTile(
              onTap: () {
-               nextScreen(context, Attendance());
+               nextScreen(context, AttendanceAppointment());
              }, 
              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
              leading: const Icon(Icons.class_rounded , size: 30,),

@@ -104,7 +104,7 @@ class _ManageBookingState extends State<ManageBooking> {
                           ),
                          child:Column(
                           children: [
-                                  //for status booking
+                            //for status booking
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
@@ -285,7 +285,6 @@ class _ManageBookingState extends State<ManageBooking> {
                             ) : Container(
                               margin: EdgeInsets.only(left: deviceWidth(context) * 0.6),
                               child: Row(
-
                                 children: [
                                    SizedBox(
                                      child: ElevatedButton(
@@ -344,7 +343,7 @@ class _ManageBookingState extends State<ManageBooking> {
   
   //funtion to delete rejected appointment
   deleteRejectedAppointment(int bookingId) async {
-     final responseBooking = await new Booking().deleteAppointment(bookingId);
+     var responseBooking = await new Booking().deleteAppointment(bookingId);
      if(responseBooking['success']){
         showMessage(context, "Appointment Deleted", "The rejected appointment has been deleted. Please book your appointment again to continue meet with your lecturer", "Ok");
      }else {

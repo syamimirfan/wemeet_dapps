@@ -68,7 +68,7 @@ class Booking {
      }
    }
 
-  /* IN STUDENT BOOKING SECTION */
+  /* IN STUDENT&LECTURER BOOKING SECTION */
   //API get booking slot in detail
     Future getBookingSlot(String staffNo,String day) async{ 
       final response = await http.get(Uri.parse('${Utils.baseURL}/booking/slot/${staffNo}/${day}'),

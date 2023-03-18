@@ -234,7 +234,7 @@ class _AppointmentState extends State<Appointment> {
                                           ),
                                         ),
                                         onPressed: () {
-                                        showConfirmationDeleteBox(context, "Confirm?", "Delete Appointment. Please let your student know that you cannot proceed the appointment.",booking['bookingId']);
+                                        showConfirmationDeleteBox(context, "Confirm?", "Delete Appointment. Please let your student know that you cannot proceed with the appointment.",booking['bookingId']);
                                         },
                                         child: const Text(
                                           "Delete",
@@ -326,7 +326,7 @@ class _AppointmentState extends State<Appointment> {
   }
 
   deleteAppointment(int bookingId) async {
-    final responseBooking = await new Booking().deleteAppointment(bookingId);
+    var responseBooking = await new Booking().deleteAppointment(bookingId);
     
     if(responseBooking['success']) {
       nextScreenReplacement(context, Appointment());

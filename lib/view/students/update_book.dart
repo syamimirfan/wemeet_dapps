@@ -467,6 +467,7 @@ class _UpdateBookState extends State<UpdateBook> {
                                  if(value!.isEmpty) {
                                   return "Please enter number of students for meeting";
                                 }
+                                 return null;
                               },
                             ),
                           const SizedBox(height: 20,),

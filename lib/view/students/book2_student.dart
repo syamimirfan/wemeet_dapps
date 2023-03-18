@@ -429,6 +429,7 @@ class _Book2State extends State<Book2> {
                                if(value!.isEmpty) {
                                 return "Please enter number of students for meeting";
                               }
+                               return null;
                             },
                           ),
                           const SizedBox(height: 20,),

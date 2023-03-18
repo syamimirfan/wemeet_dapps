@@ -2,24 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
+import 'package:wemeet_dapps/api_services/api_attendance.dart';
 import 'package:wemeet_dapps/api_services/api_booking.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/widget/main_drawer_lecturer.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 
-class Attendance extends StatefulWidget {
-  const Attendance({super.key});
+class AttendanceAppointment extends StatefulWidget {
+  const AttendanceAppointment({super.key});
 
   @override
-  State<Attendance> createState() => _AttendanceState();
+  State<AttendanceAppointment> createState() => _AttendanceAppointmentState();
 }
 
-class _AttendanceState extends State<Attendance> {
+class _AttendanceAppointmentState extends State<AttendanceAppointment> {
 
   double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
 
-   List<dynamic> acceptedAppointments = [];
+  List<dynamic> acceptedAppointments = [];
   String noData = "";
 
   @override
@@ -87,7 +88,7 @@ class _AttendanceState extends State<Attendance> {
                     .map((booking) => 
                      Container(
                             margin: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.03, vertical: deviceHeight(context) * 0.04),
-                              padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02,vertical: deviceHeight(context) * 0.009),
+                            padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02,vertical: deviceHeight(context) * 0.009),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                               color: Colors.white,
@@ -214,8 +215,10 @@ class _AttendanceState extends State<Attendance> {
                                             borderRadius: BorderRadius.circular(10),
                                           ),
                                         ),
-                                        onPressed: () {
-                                        showConfirmationAbsentBox(context, "Confirm?", "Are you sure to sign absent for this session?");
+                                        onPressed: () async{
+                            final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+                                  var staffNo = _sharedPreferences.getString('staffNo');
+                                        showConfirmationAbsentBox(context, "Confirm?", "Are you sure to sign absent for this session?",booking['matricNo'],staffNo!,booking['numberOfStudents'],booking['date'], booking['time'], booking['bookingId']);
                                         },
                                         child: const Text(
                                           "Absent",
@@ -237,8 +240,10 @@ class _AttendanceState extends State<Attendance> {
                                             borderRadius: BorderRadius.circular(10),
                                           ),
                                         ),
-                                        onPressed: () {
-                                        showConfirmationAttendBox(context, "Confirm?", "Are you sure to sign attend for this session?");
+                                        onPressed: () async{
+                                        final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+                                         var staffNo = _sharedPreferences.getString('staffNo');
+                                        showConfirmationAttendBox(context, "Confirm?", "Are you sure to sign attend for this session?",booking['matricNo'],staffNo!,booking['numberOfStudents'],booking['date'], booking['time'], booking['bookingId']);
                                         },
                                         child: const Text(
                                           "Attend",
@@ -287,7 +292,7 @@ class _AttendanceState extends State<Attendance> {
   }
 
   //message to confirmation of action for attend meeting from the lecturer (INSERT to attendance table , DELETE the current data in booking table in database)
-  static void showConfirmationAttendBox(BuildContext context, String title, String message) {
+  void showConfirmationAttendBox(BuildContext context, String title, String message, String matricNo, String staffNo, int numberOfStudents, String date, String time, int bookingId) {
     showDialog(
     context: context, 
     builder: (BuildContext context) {
@@ -302,7 +307,7 @@ class _AttendanceState extends State<Attendance> {
           icon: const Icon(Icons.cancel,color: Colors.red,size: 30,),
            ),
           IconButton(onPressed: () async{
-             print("ATTEND!");
+            attend(matricNo, staffNo, numberOfStudents, date, time, bookingId);
           }, 
          icon: const Icon(Icons.done, color: Colors.green,size: 30,)),            
       ],
@@ -311,7 +316,7 @@ class _AttendanceState extends State<Attendance> {
     );
   }
     //message to confirmation of action for absent meeting from the lecturer (INSERT to attendance table , DELETE the current data in booking table in database)
-  static void showConfirmationAbsentBox(BuildContext context, String title, String message) {
+   void showConfirmationAbsentBox(BuildContext context, String title, String message, String matricNo, String staffNo, int numberOfStudents, String date, String time, int bookingId) {
     showDialog(
     context: context, 
     builder: (BuildContext context) {
@@ -326,7 +331,7 @@ class _AttendanceState extends State<Attendance> {
           icon: const Icon(Icons.cancel,color: Colors.red,size: 30,),
            ),
           IconButton(onPressed: () async{
-             print("ABSENT!");
+             absent(matricNo, staffNo, numberOfStudents, date, time, bookingId);
           }, 
          icon: const Icon(Icons.done, color: Colors.green,size: 30,)),            
       ],
@@ -334,7 +339,7 @@ class _AttendanceState extends State<Attendance> {
       }
     );
   }
-  //get all accepted appointment for manage appointment in lecturer
+  //function get all accepted appointment for manage appointment in lecturer
   getAttendance(String? staffNo) async {
     final responseBooking = await new Booking().getAcceptedAppointment(staffNo!);
     if(responseBooking['success']){
@@ -350,5 +355,27 @@ class _AttendanceState extends State<Attendance> {
         print(responseBooking['message']);
       }
     }
+  }
+
+  //function absent the appointment
+  absent(String matricNo, String staffNo, int numberOfStudents, String date, String time, int bookingId) async{
+     var responseAttendance = await new Attendance().absentAttendance( matricNo,  staffNo,  numberOfStudents, date,  time);
+     var responseBooking = await new Booking().deleteAppointment(bookingId);
+     if(responseAttendance['success'] && responseBooking['success']){
+       nextScreenReplacement(context, AttendanceAppointment());
+     }else {
+       throw Exception(responseAttendance['message'] + responseBooking['message']);
+     }
+  }
+
+   //function absent the appointment
+  attend(String matricNo, String staffNo, int numberOfStudents, String date, String time, int bookingId) async{
+     var responseAttendance = await new Attendance().attendAppointment( matricNo,  staffNo,  numberOfStudents, date,  time);
+     var responseBooking = await new Booking().deleteAppointment(bookingId);
+     if(responseAttendance['success'] && responseBooking['success']){
+       nextScreenReplacement(context, AttendanceAppointment());
+     }else {
+       throw Exception(responseAttendance['message'] + responseBooking['message']);
+     }
   }
 }

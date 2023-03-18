@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
+import 'package:wemeet_dapps/api_services/api_attendance.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
+import 'package:wemeet_dapps/view/students/book2_student.dart';
 import 'package:wemeet_dapps/widget/main_drawer_student.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 
@@ -14,18 +17,25 @@ class ManageHistory extends StatefulWidget {
 
 class _ManageHistoryState extends State<ManageHistory> {
 
-  //variable for booking status
-  List<String> statusAttendance = ["Attend", "Absent", "Attend", "Absent","Attend"];
-
-  //variable for booking information
-  List<String> images = ["assets/lecturer.png", "assets/icon.png","assets/icon.png","assets/icon.png","assets/icon.png"];
-  List<String> lecturerName = ["Nur Ariffin Bin Mohd Zin", "Zainuri Bin Saringat", "Salama A Mostafa", "Mazidah Binti Mat Rejab", "Noraini Binti Ibrahim"];
-  List<int> number = [1,3,2,6,10];
-  List<String> date = ["16 OCT SUN","16 OCT SUN","27 JAN Fri","16 OCT SUN","16 OCT SUN"];
-  List<String> time = ["10.00 AM","10.00 AM","10.00 AM","10.00 AM","10.00 AM"];
-
   double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
+
+  List<dynamic> attendance = [];
+  String noData = "";
+
+  @override
+  void initState() {
+    super.initState();  
+
+    getMatricNo();
+  }
+
+  getMatricNo() async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    var matricNo = _sharedPreferences.getString("matricNo");
+
+    getAllAttendance(matricNo);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,87 +81,99 @@ class _ManageHistoryState extends State<ManageHistory> {
              child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
+ 
                 children: [
-                  for(int i = 0; i < 5; i++)
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal:  deviceWidth(context) * 0.03, vertical: deviceHeight(context) * 0.03),
-                      padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.07, vertical: deviceHeight(context) * 0.01 ),
-                      decoration: BoxDecoration(
-                         borderRadius: BorderRadius.circular(20), 
-                         color: Colors.white,
-                         border: Border.all(
-                            color: Constants().BoxShadowColor,
-                         ),
-                         boxShadow: [
-                               BoxShadow(
-                                  color: Constants().BoxShadowColor,
-                                  offset: const Offset(0, 10),
-                                  blurRadius: 15,
-                                  spreadRadius: 0,
-                              ),
-                         ]
-                      ),
-                      child: Column(
-                        children: [
-                          //for status attendance
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                                Text(
-                                  "Status: ",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: "Poppins",
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text(
-                                  statusAttendance[i],
-                                  style: TextStyle(
-                                    color: statusAttendance[i] == "Attend" ? Constants().acceptedColor :
-                                           statusAttendance[i] == "Absent" ? Constants().secondaryColor : 
-                                           Colors.black,
-                                    fontFamily: "Poppins",
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                
-                            ],
-                          ),
+                  Column(
+                     mainAxisAlignment: MainAxisAlignment.end,
+                     crossAxisAlignment: CrossAxisAlignment.end,
 
-                          //for booking information
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                                Container(
-                                  //for lecturer images
-                                  child: CircleAvatar(
-                                    radius: 30,
-                                    backgroundImage: AssetImage(images[i]),
+                     children: attendance.map((attendance) => 
+                        Container(
+                           margin: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.03, vertical: deviceHeight(context) * 0.04),
+                            padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02,vertical: deviceHeight(context) * 0.009),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white,
+                              border: Border.all(
+                                color: Constants().BoxShadowColor,
+                              ),
+                              boxShadow:  [
+                                      BoxShadow(
+                                        color: Constants().BoxShadowColor,
+                                        offset: const Offset(0, 10),
+                                        blurRadius: 15, 
+                                        spreadRadius: 0,
+                                      ),
+                                    ],
+                            ),
+                            child: Column(
+                              children: [
+                            //for status attendance
+                            Padding(
+                              padding:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.01),
+                              child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                  Text(
+                                    "Status: ",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontFamily: "Poppins",
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(width: 5,),
-                                Flexible(
-                                child: Container(
-                                  margin: Device.screenType == ScreenType.tablet? 
-                                          const EdgeInsets.only(left: 20) :
-                                          EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                        Container(
-                                          margin: Device.screenType == ScreenType.tablet? 
+                                  Text(
+                                    attendance['status'],
+                                    style: TextStyle(
+                                     color:  attendance['status'] == "Attend" ? Constants().acceptedColor :  attendance['status'] == "Absent" ? Constants().secondaryColor : Colors.black,
+                                      fontFamily: "Poppins",
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(width: 35.w,),
+                                  IconButton(
+                                   onPressed: () {
+             
+                                   },
+                                   icon: Icon(Icons.delete, size: 30, color: Constants().secondaryColor,)
+                                  ),
+
+                              ],
+                             ),
+                            ),
+                          //for attendance information
+                            Row(
+                               mainAxisAlignment: MainAxisAlignment.start,
+                               crossAxisAlignment: CrossAxisAlignment.center,
+                               children: [
+                                //for lecturer images
+                                  Container(
+                                    child: CircleAvatar(
+                                      radius: 40,
+                                      backgroundImage: NetworkImage(attendance['lecturerImage']),
+                                    ),
+                                  ),
+                                  //for booking information
+                                  Flexible(
+                                    child: Container(
+                                       margin:  Device.screenType == ScreenType.tablet? 
+                                      const EdgeInsets.only(left: 20):
+                                      EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                            margin: Device.screenType == ScreenType.tablet? 
                                               const EdgeInsets.only(bottom: 20):
-                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.01,
+                                                right: deviceWidth(context) * 0.01,
+                                              ) ,
                                             child: Text(
-                                              "DR "+ lecturerName[i],
+                                              attendance['lecturerName'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                               0.18.dp: 0.28.dp,
@@ -160,13 +182,13 @@ class _ManageHistoryState extends State<ManageHistory> {
                                                   color: Colors.black,
                                               ),
                                             ),
-                                        ),
-                                        Container(
-                                          margin: Device.screenType == ScreenType.tablet? 
+                                          ),
+                                           Container(
+                                            margin: Device.screenType == ScreenType.tablet? 
                                               const EdgeInsets.only(bottom: 20):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
-                                              number[i].toString() +" Student",
+                                              attendance['numberOfStudents'].toString() + " Student",
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                               0.16.dp: 0.26.dp,
@@ -175,13 +197,13 @@ class _ManageHistoryState extends State<ManageHistory> {
                                                   color: Colors.black,
                                               ),
                                             ),
-                                        ),
-                                        Container( 
-                                           margin: Device.screenType == ScreenType.tablet? 
+                                          ),
+                                           Container(
+                                            margin: Device.screenType == ScreenType.tablet? 
                                               const EdgeInsets.only(bottom: 20):
-                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.008) ,
                                             child: Text(
-                                              date[i],
+                                              attendance['date'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                                0.16.dp: 0.26.dp,
@@ -190,67 +212,89 @@ class _ManageHistoryState extends State<ManageHistory> {
                                                   color: Colors.black,
                                               ),
                                             ),
-                                        ),
-                                      Container(
-                                        margin: Device.screenType == ScreenType.tablet? 
+                                          ),
+                                           Container(
+                                            margin: Device.screenType == ScreenType.tablet? 
                                               const EdgeInsets.only(bottom: 20):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
-                                              time[i],
+                                              attendance['time'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                                0.16.dp: 0.26.dp,
                                                   fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Constants().secondaryColor,
                                               ),
                                             ),
-                                        ),
-                                    ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                )
-                               ),
-                            ],
-                          ),
-                         //for divider between booking information and button
-                          Divider(
-                            color: Constants().dividerColor,
-                            thickness: 1.5,
-                          ),
+                               ],
+                            ),
 
-                          //for button Meet Again
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              SizedBox(
-                                width: deviceWidth(context) * 0.35,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Constants().secondaryColor,
-                                    elevation: 0,
-                                   
-                                    shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                          //for divider between booking information and button
+                          Divider(
+                             color: Constants().dividerColor,
+                             thickness: 1.5,
+                            ),
+
+                            Container(
+                              margin: EdgeInsets.only(left: deviceWidth(context) * 0.55),
+                              child: Row(
+                                children: [
+                                   SizedBox(
+                                     child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Constants().secondaryColor,
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          nextScreen(context, Book2(staffNo: attendance['staffNo']));
+                                        },
+                                        child: const Text(
+                                          "Meet Again",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 15,
+                                              fontFamily: 'Poppins',
+                                          ),
+                                        ),
                                     ),
                                   ),
-                                  onPressed: () {},
-                                  child: const Text(
-                                    "Meet Again",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: "Poppins",
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500
-                                    ),
-                                  ),
-                                ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                            ),
+                              ],
+                            ),
+                        ),
+                     ).toList(),
+                  ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                           noData == "Empty Data" ?
+                            Container(
+                             margin: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.4),
+                              child: Text(
+                              "Sorry, No Appointment",
+                               style: TextStyle(
+                               fontFamily: 'Poppins',
+                               fontSize: 20,
+                               fontWeight: FontWeight.w600,
+                               color: Constants().secondaryColor
+                                 ),
+                              ),
+                            ):Center(),
+                          ]
+                     ),
                 ],
               ),
           ),
@@ -258,4 +302,58 @@ class _ManageHistoryState extends State<ManageHistory> {
       ),
     );
   }
+ 
+  //message confirmation to delete attendance   
+  void deleteConfirmationBox(BuildContext context, String title, String message,int attendanceId) async{
+    showDialog(
+    context: context, 
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', fontSize: 20),),
+        content: Text(message, style: TextStyle( fontFamily: 'Poppins', fontSize: 13),),
+        actions: [
+         IconButton(
+          onPressed: () {
+          nextScreenPop(context);
+           },
+          icon: const Icon(Icons.cancel,color: Colors.red,size: 30,),
+           ),
+          IconButton(onPressed: () async{
+            deleteSelectedAttendance(attendanceId);
+          }, 
+         icon: const Icon(Icons.done, color: Colors.green,size: 30,)),            
+      ],
+      );
+      }
+    );
+  }
+
+  //get all attendance from accepted appointments
+  getAllAttendance(String? matricNo) async {
+     var responseAttendance = await new Attendance().getAttendance(matricNo!);
+     if(responseAttendance['success']){
+        final responseData = responseAttendance['attendance'];
+        if(responseData is List) {
+          setState(() {
+            attendance = responseData;
+          });
+        }else{
+          setState(() {
+            noData = responseAttendance["message"];
+          });
+          throw Exception(responseAttendance['message']);
+        }
+     }
+  }  
+
+  //delete attendance
+  deleteSelectedAttendance(int attendanceId) async {
+     var responseAttendance = await new Attendance().deleteAttendance(attendanceId);
+     if(responseAttendance['success']) {
+        nextScreenReplacement(context, ManageHistory());
+     }else{
+        throw Exception(responseAttendance['message']);
+     }
+  }
+
 }
