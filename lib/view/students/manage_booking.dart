@@ -16,11 +16,8 @@ class ManageBooking extends StatefulWidget {
 }
 
 class _ManageBookingState extends State<ManageBooking> {
-
-  double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
-  double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
-
   List<dynamic> appointment = [];
+  String noData = "";
 
   @override
   void initState() {
@@ -28,11 +25,65 @@ class _ManageBookingState extends State<ManageBooking> {
 
     getMatricNo();
   }
-  
+
+  double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
+
+  double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
+
   getMatricNo() async {
      final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
      var matricNo = _sharedPreferences.getString('matricNo');
      getManageAppointment(matricNo);
+  }
+
+  //function to get appointment
+  getManageAppointment(String? matricNo) async {
+    final responseBooking = await Booking().manageAppointmentStudent(matricNo!);
+    if(responseBooking['success']) {
+      final responseData = responseBooking['booking'];
+      if(responseData is List) {
+        setState(() {
+          appointment = responseData;
+        });
+      }else {
+        setState(() {
+          noData = responseBooking['message'];
+        });
+       print("Error fetching data: ${responseBooking['message']}");
+      }
+    }
+  }
+
+  //funtion to delete rejected appointment
+  deleteRejectedAppointment(int bookingId) async {
+     var responseBooking = await new Booking().deleteAppointment(bookingId);
+     if(responseBooking['success']){
+        showMessage(context, "Appointment Deleted", "The rejected appointment has been deleted. Please book your appointment again to continue meet with your lecturer", "Ok");
+     }else {
+       throw Exception(responseBooking['message']);
+     }
+  }
+
+    //show message box function
+  void showMessage(BuildContext context, String title, String message, String buttonText) {
+      showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+           title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', fontSize: 24),),
+           content: Text(message, style: TextStyle( fontFamily: 'Poppins', fontSize: 16),),
+           actions: [ 
+              ElevatedButton(
+                onPressed: () {
+                 nextScreenReplacement(context, ManageBooking());
+              }, 
+              child: Text(buttonText),
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Constants().secondaryColor), textStyle: MaterialStateProperty.all(TextStyle(fontFamily: 'Poppins', fontSize: 14))),
+              )
+           ],
+        );
+      }
+    );
   }
 
   @override
@@ -79,11 +130,11 @@ class _ManageBookingState extends State<ManageBooking> {
             child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Column(
+       
                   mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                   children: List.generate(
-                    appointment.length,
-                     (index) =>          
+                   children: [
+                     Column(
+                      children: appointment.map((appointment) =>          
                       Container(
                           margin: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.03, vertical: deviceHeight(context) * 0.04),
                             padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02,vertical: deviceHeight(context) * 0.009),
@@ -121,9 +172,9 @@ class _ManageBookingState extends State<ManageBooking> {
                                     ),
                                   ),
                                   Text(
-                                    appointment[index]['statusBooking'],
+                                    appointment['statusBooking'],
                                     style: TextStyle(
-                                     color:  appointment[index]['statusBooking'] == "Accepted" ? Constants().acceptedColor :  appointment[index]['statusBooking'] == "Appending" ? Constants().primaryColor : appointment[index]['statusBooking'] == "Rejected" ? Constants().secondaryColor : Colors.black,
+                                     color:  appointment['statusBooking'] == "Accepted" ? Constants().acceptedColor :  appointment['statusBooking'] == "Appending" ? Constants().primaryColor : appointment['statusBooking'] == "Rejected" ? Constants().secondaryColor : Colors.black,
                                       fontFamily: "Poppins",
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
@@ -142,7 +193,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                   Container(
                                     child: CircleAvatar(
                                       radius: 40,
-                                      backgroundImage: NetworkImage(appointment[index]['lecturerImage']),
+                                      backgroundImage: NetworkImage(appointment['lecturerImage']),
                                     ),
                                   ),
                                   //for booking information
@@ -162,7 +213,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                                 right: deviceWidth(context) * 0.01,
                                               ) ,
                                             child: Text(
-                                              appointment[index]['lecturerName'],
+                                              appointment['lecturerName'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                               0.18.dp: 0.28.dp,
@@ -177,7 +228,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                               const EdgeInsets.only(bottom: 20):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
-                                                appointment[index]['numberOfStudents'].toString() + " Student",
+                                                appointment['numberOfStudents'].toString() + " Student",
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                               0.16.dp: 0.26.dp,
@@ -192,7 +243,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                               const EdgeInsets.only(bottom: 20):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.008) ,
                                             child: Text(
-                                                appointment[index]['date'],
+                                                appointment['date'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                                0.16.dp: 0.26.dp,
@@ -207,7 +258,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                               const EdgeInsets.only(bottom: 20):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
-                                               appointment[index]['time'],
+                                               appointment['time'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
                                                                0.16.dp: 0.26.dp,
@@ -231,7 +282,7 @@ class _ManageBookingState extends State<ManageBooking> {
                             ),
                        
                             //for button contact lecturer and update
-                      appointment[index]['statusBooking'] != "Rejected" ?  Row(
+                      appointment['statusBooking'] != "Rejected" ?  Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 SizedBox(
@@ -268,7 +319,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                         ),
                                       ),
                                       onPressed: () {
-                                         nextScreen(context, UpdateBook(staffNo: appointment[index]['staffNo'],bookingId: appointment[index]['bookingId'],));
+                                         nextScreen(context, UpdateBook(staffNo: appointment['staffNo'],bookingId: appointment['bookingId'],));
                                       },
                                       child: const Text(
                                         "Update",
@@ -296,7 +347,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                           ),
                                         ),
                                         onPressed: () {
-                                          deleteRejectedAppointment(appointment[index]['bookingId']);
+                                          deleteRejectedAppointment(appointment['bookingId']);
                                         },
                                         child: const Text(
                                           "Delete",
@@ -316,60 +367,35 @@ class _ManageBookingState extends State<ManageBooking> {
                          ) ,
                      ),
                    
-                   ),
-          
+                     ).toList(),
+                     ),
+                     //if no appointment
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  noData == "Empty Data" ?
+                                  Container(
+                                    margin: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.4),
+                                    child: Text(
+                                      "Sorry, No Appointment",
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                        color: Constants().secondaryColor
+                                      ),
+                                    ),
+                                  ):Center(),
+                                ],
+                              )
+                   ]
+              
                    
                 ),
             ),
         ),
       ),
-    );
-  }
-  
-  //function to get appointment
-  getManageAppointment(String? matricNo) async {
-    final responseBooking = await Booking().manageAppointmentStudent(matricNo!);
-    if(responseBooking['success']) {
-      final responseData = responseBooking['booking'];
-      if(responseData is List) {
-        setState(() {
-          appointment = responseData;
-        });
-      }else {
-       print("Error fetching data: ${responseBooking['message']}");
-      }
-    }
-  }
-  
-  //funtion to delete rejected appointment
-  deleteRejectedAppointment(int bookingId) async {
-     var responseBooking = await new Booking().deleteAppointment(bookingId);
-     if(responseBooking['success']){
-        showMessage(context, "Appointment Deleted", "The rejected appointment has been deleted. Please book your appointment again to continue meet with your lecturer", "Ok");
-     }else {
-       throw Exception(responseBooking['message']);
-     }
-  }
-
-    //show message box function
-  void showMessage(BuildContext context, String title, String message, String buttonText) {
-      showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-           title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', fontSize: 24),),
-           content: Text(message, style: TextStyle( fontFamily: 'Poppins', fontSize: 16),),
-           actions: [ 
-              ElevatedButton(
-                onPressed: () {
-                 nextScreenReplacement(context, ManageBooking());
-              }, 
-              child: Text(buttonText),
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Constants().secondaryColor), textStyle: MaterialStateProperty.all(TextStyle(fontFamily: 'Poppins', fontSize: 14))),
-              )
-           ],
-        );
-      }
     );
   }
 }

@@ -294,7 +294,7 @@ class _LoginState extends State<Login> {
     //check if the metamask account has been installed to the device or not
      bool isInstalled = await DeviceApps.isAppInstalled('io.metamask'); 
     if(responseStudent['success'] && responseStudent['status']== 1  && !isInstalled){
-       showNotInstalledMessage(context, "Login Restricted", "Please install Metamask in Google Play Store and register the account to use the apps. Thank you.\nNote!You need to run the Metamask after successfully installed", "Open PlayStore");
+       showNotInstalledMessage(context, "Login Restricted", "Please install Metamask in Google Play Store and register the account to use the apps. Thank you.\nNote! You need to run the Metamask after successfully installed", "Open PlayStore");
     } else if(responseStudent['success'] && responseStudent['status'] == 1 && responseStudent["tokenAddress"] == "") {
     //   //to set the sesssion and keep log 
       String matricNumber = responseStudent['student'][0]['matricNo'];
@@ -330,17 +330,6 @@ class _LoginState extends State<Login> {
     }
 
   }
-
-  //function to update token address when first time login
-  // updateTokenAddressMetamask(String? matricNo, String tokenAddress) async {
-  //    var responseStudent = await new Student().updateTokenAddress(matricNo!, tokenAddress);
-  //    if(responseStudent['success']){
-  //       nextScreenRemoveUntil(context, HomeStudents());
-  //    }else {
-  //       throw Exception(responseStudent['message']);
-  //    }
-     
-  // }
 
   //error message if user enter wrong email or password
   static void showErrorMessage(BuildContext context, String title, String message, String buttonText) {

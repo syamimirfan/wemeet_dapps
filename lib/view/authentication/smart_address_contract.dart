@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -177,12 +179,7 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                        IconButton(
                         onPressed: () {
                           Clipboard.setData(ClipboardData(text: UTHMTokenAddress));
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("UTHM Token Address has been copied"),
-                              duration: Duration(seconds: 3),
-                            ),
-                          );
+                          showSnackBarSuccessful(context, "UTHM Token Address copied", Constants().primaryColor);
                         }, 
                         icon: Icon(Icons.copy, size: 25, color: Colors.black, )
                         ),
@@ -287,7 +284,11 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
         _sharePreferences.setString('matricNo', matricNo);
         _sharePreferences.setInt('statusStudent', statusStudent);
         _sharePreferences.setString('tokenAddress', tokenAddress);
-        nextScreenRemoveUntil(context, HomeStudents());
+        nextScreenPop(context);
+        showSnackBarSuccessful(context, "Login Completed", Constants().acceptedColor);
+        Timer(const Duration(seconds: 2), () {
+           nextScreenRemoveUntil(context, HomeStudents());
+        });
      }else {
         throw Exception(responseStudent['message']);
      }
@@ -319,4 +320,33 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
     );
   }
 
+
+  //show snackbar 
+  void showSnackBarSuccessful(BuildContext context, String content, Color color) {
+     ScaffoldMessenger.of(context).showSnackBar(
+       SnackBar(
+          padding:EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.03,vertical:deviceWidth(context) * 0.1),
+          backgroundColor: color,
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(Icons.info_outline, size: 50, color: Colors.white,),
+              SizedBox(width: 5.w,),
+              Text(
+            content,
+            style: TextStyle(
+               fontWeight: FontWeight.bold, 
+               fontFamily: 'Poppins',
+               fontSize: 20,
+               color: Colors.white
+             ),  
+            ),
+
+            ],
+          ),
+          duration: Duration(seconds: 3),
+         ),
+      );
+  }
 }

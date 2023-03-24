@@ -25,6 +25,7 @@ class _HomeStudentsState extends State<HomeStudents> {
 
   String studentName = "";
   List<dynamic> lecturer = [];
+  String noData = "";
 
   @override
   void initState() {
@@ -290,7 +291,27 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                             )
                                 ).toList(),
                                ),
-                               SizedBox(height: deviceHeight(context) * 0.03,)
+                               SizedBox(height: deviceHeight(context) * 0.03,),
+                                //if no lecturer
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  noData == "Empty Data" ?
+                                  Container(
+                                    margin: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.2),
+                                    child: Text(
+                                      "Sorry, No Lecturer",
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                        color: Constants().secondaryColor
+                                      ),
+                                    ),
+                                  ):Center(),
+                                ],
+                              )
                             ],
                           ),
                         ),
@@ -325,6 +346,9 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
           lecturer = responseData;
         });
       }else {
+        setState(() {
+          noData = responseStudent['message'];
+        });
         print(responseStudent['message']);
       }
     }
