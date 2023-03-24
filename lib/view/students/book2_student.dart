@@ -378,7 +378,7 @@ class _Book2State extends State<Book2> {
                   const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
           child: Container(
-                height: 100.h,
+               height: 100.h,
               width: 100.w,
               decoration:  const BoxDecoration(
                       color: Colors.white,

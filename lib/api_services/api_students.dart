@@ -79,6 +79,23 @@ Future studentLogin(String studEmail, String studPassword) async {
         }else {
           throw Exception("Failed to load data");
         }
- }
-
+    }
+  
+  //API update token address for student when first time login
+  Future updateTokenAddress(String matricNo, String tokenAddress) async {
+    final response = await http.patch(Uri.parse('${Utils.baseURL}/student/updatetoken/${matricNo}'),
+      headers: {
+         "Accept": "application/json;charset=UTF-8",
+        'Charset': 'utf-8'
+      },
+      body: {
+        'tokenAddress' : tokenAddress
+      }
+    );
+    if(response.statusCode == 200) {
+       return jsonDecode(response.body);
+    }else{
+       throw Exception(response.statusCode);
+    }
+  }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
+import 'package:wemeet_dapps/api_services/api_students.dart';
 import 'package:wemeet_dapps/widget/main_drawer_student.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 import '../../shared/constants.dart';
@@ -16,6 +18,29 @@ class _StudentProfileState extends State<StudentProfile> {
 
   double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
+
+  String studentImage = "";
+  String studentName = "";
+  String matricNumber = "";
+  String icNumber = "";
+  String studentTelephoneNumber = "";
+  String studentEmail = "";
+  String faculty = "";
+  String program = "";
+  String tokenAddress = "";
+
+
+  @override
+  void initState() {
+    super.initState();
+    getMatricNo();
+  }
+
+  getMatricNo() async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    var matricNo = _sharedPreferences.getString('matricNo');
+    getStudentProfile(matricNo);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +73,8 @@ class _StudentProfileState extends State<StudentProfile> {
                   const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
           child: Container(
+               height: 100.h,
+            width: 100.w,
             decoration:  const BoxDecoration(
                       color: Colors.white,
                       borderRadius:
@@ -74,187 +101,210 @@ class _StudentProfileState extends State<StudentProfile> {
                   width: 5,
                   color: Constants().secondaryColor,
                  ),
-                     image:  const  DecorationImage(
-                       image: AssetImage('assets/student.png'),
+                     image:   DecorationImage(
+                       image: NetworkImage(studentImage),
                         ),
                        ),
                       ),
-                    Form(
-                    child: Container(
+                    Container(
                       padding: EdgeInsets.symmetric(horizontal:deviceWidth(context) * 0.06),
                       child: Column(
                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           //name 
-                          Text("Name",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 72, 71, 71),
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.30.dp,
-                            fontFamily: 'Poppins',
+                          Container(
+                            padding: EdgeInsets.symmetric( horizontal: deviceWidth(context) * 0.01),
+                            margin: EdgeInsets.only(bottom: deviceHeight(context) * 0.03),
+                            child:  Flexible(
+                                    child: Text(studentName,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: Device.screenType == ScreenType.tablet? 
+                                        0.20.dp:0.32.dp,
+                                        fontWeight: FontWeight.bold,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                    ),
+                                  ),       
                           ),
-                          ),
-                            const SizedBox(height: 10,),
-                          Text("MUHAMAD SYAMIM IRFAN BIN AHMAD SHOKKRI",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.28.dp,
-                              fontWeight: FontWeight.w600,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),          
-                            const SizedBox(height: 10,),
-                             //matric number 
-                          Text("Matric Number",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 72, 71, 71),
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.30.dp,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),
-                          const SizedBox(height: 10,),
-                         Text("AI200104",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.28.dp,
-                              fontWeight: FontWeight.w600,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),      
-                           const SizedBox(height: 10,),
-                           //telephone number 
-                          Text("Telephone Number",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 72, 71, 71),
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.30.dp,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),
-                          const SizedBox(height: 10,),
-                         Text("0194078581",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.28.dp,
-                              fontWeight: FontWeight.w600,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),
-                          const SizedBox(height: 10,),
-                           //email 
-                          Text("Email Address",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 72, 71, 71),
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.30.dp,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),
-                          const SizedBox(height: 10,),
-                         Text("syamimirfan59@gmail.com",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.28.dp,
-                              fontWeight: FontWeight.w600,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),      
-                            const SizedBox(height: 10,),
-                                 //faculty 
-                          Text("faculty",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 72, 71, 71),
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.30.dp,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),
-                          const SizedBox(height: 10,),
-                         Text("FSKTM",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.28.dp,
-                              fontWeight: FontWeight.w600,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),      
-                            const SizedBox(height: 10,),
-                                 //program 
-                          Text("Program",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 72, 71, 71),
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.30.dp,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),
-                          const SizedBox(height: 10,),
-                         Text("BACHELOR OF COMPUTER SCIENCE (SOFTWARE ENGINEER) WITH HONOURS",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.28.dp,
-                              fontWeight: FontWeight.w600,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),      
-                            const SizedBox(height: 10,),
-                    
-                           //metamask account address
-                          Text("Metamask Account Address",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 72, 71, 71),
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.30.dp,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),
-                          const SizedBox(height: 10,),
-                          TextFormField(    
-                            decoration: textInputDecorationMain.copyWith(
-                                hintText: "0xDe9D80fC9aCf342D4E0C30593aFBf6a55821f422",
-                                fillColor: Color(0xffC0C0C0),
-                            ),
-                          ),   
-                           const SizedBox(height: 30,),
-          
-                 SizedBox(
-                   width: double.infinity,
-                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Constants().secondaryColor,
-                        elevation: 0,
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
+                          //matric number 
+                           Padding(
+                            padding: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01, horizontal: deviceWidth(context) * 0.01),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.card_membership,
+                                  color: Constants().messageGreyColor,
+                                ),
 
-                      ),
-                
-                    onPressed: () async{},
-                     child:  const Text(
-                       "Save",
-                       style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                          fontFamily: 'Poppins',
-                       ),
-                     ),
-                    ),
-                 ),
+                          SizedBox(width: 10.w ,),
+                          Column(
+                             crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                          Text(matricNumber,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: Device.screenType == ScreenType.tablet? 
+                              0.20.dp:0.28.dp,
+                              fontWeight: FontWeight.w500,
+                            fontFamily: 'Poppins',
+                          ),
+                          ),      Text(icNumber,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: Device.screenType == ScreenType.tablet? 
+                              0.20.dp:0.28.dp,
+                              fontWeight: FontWeight.w500,
+                            fontFamily: 'Poppins',
+                          ),
+                          ),
+                            ],
+                          ),         
+                                ],
+                            ),
+                          ),
+                         Divider(
+                           color: Constants().dividerColor,
+                             thickness: 1,
+                         ),
+                         
+                           //telephone number 
+                              Padding(
+                            padding: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01, horizontal: deviceWidth(context) * 0.01),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.phone,
+                                  color: Constants().messageGreyColor,
+                                ),
+                                  SizedBox(width: 10.w ,),
+                                Text(studentTelephoneNumber,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: Device.screenType == ScreenType.tablet? 
+                                      0.20.dp:0.28.dp,
+                                      fontWeight: FontWeight.w500,
+                                    fontFamily: 'Poppins',
+                                  ),
+                                  ),  
+                                ],
+                            ),
+                          ),
+                           Divider(
+                           color: Constants().dividerColor,
+                             thickness: 1,
+                         ),
+                           //email 
+                              Padding(
+                            padding: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01, horizontal: deviceWidth(context) * 0.01),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                         Icon(
+                          Icons.email,
+                          color: Constants().messageGreyColor
+                         ),
+                          SizedBox(width: 10.w ,),
+                         Text(studentEmail,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: Device.screenType == ScreenType.tablet? 
+                              0.20.dp:0.28.dp,
+                              fontWeight: FontWeight.w500,
+                            fontFamily: 'Poppins',
+                          ),
+                          ),      
+                                ],
+                            ),
+                          ),
+                         Divider(
+                           color: Constants().dividerColor,
+                             thickness: 1,
+                         ),
+                          //faculty 
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01, horizontal: deviceWidth(context) * 0.01),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                          Icon(
+                            Icons.school,
+                            color: Constants().messageGreyColor,
+                          ),
+                            SizedBox(width: 10.w ,),
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                              Text(faculty,
+                               style: TextStyle(
+                              color: Colors.black,
+                              fontSize: Device.screenType == ScreenType.tablet? 
+                                0.20.dp:0.28.dp,
+                                fontWeight: FontWeight.w500,
+                              fontFamily: 'Poppins',
+                               ),
+                              ),    
+                                  
+                              Text(program,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: Device.screenType == ScreenType.tablet? 
+                                        0.20.dp:0.28.dp,
+                                        fontWeight: FontWeight.w500,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                    ),
+                                 
+                                ],
+                              ),
+                            )  
+                                ],
+                            ),
+                          ),
+                           Divider(
+                           color: Constants().dividerColor,
+                             thickness: 1,
+                         ),
+                           //metamask account address
+                           Padding(
+                            padding: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01, horizontal: deviceWidth(context) * 0.01),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                          Icon(
+                            Icons.token,
+                            color: Constants().messageGreyColor,
+                          ),
+                        SizedBox(width: 10.w,),
+                         Flexible(
+                           child: Text(tokenAddress,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: Device.screenType == ScreenType.tablet? 
+                                0.20.dp:0.26.dp,
+                                fontWeight: FontWeight.w500,
+                              fontFamily: 'Poppins',
+                            ),
+                            ),
+                         ),     
+                                ],
+                            ),
+                          ),
+                      
+      
                         ],
                       ),
                      ),
                     
-                    ),
-                      const SizedBox(height: 30,),
                    ],
                 ),
               ),
@@ -262,5 +312,24 @@ class _StudentProfileState extends State<StudentProfile> {
           ),
         ),
     );
+  }
+
+  getStudentProfile(String? matricNo) async {
+     var responseStudent = await new Student().getStudentDetail(matricNo!);
+    if(responseStudent['success']){
+      setState(() {
+      studentImage = responseStudent['student'][0]['studImage'];
+      studentName = responseStudent['student'][0]['studName'];
+      matricNumber = responseStudent['student'][0]['matricNo'];
+      icNumber = responseStudent['student'][0]['icNumber'];
+      studentTelephoneNumber = responseStudent['student'][0]['studTelephoneNo'];
+      studentEmail = responseStudent['student'][0]['studEmail'];
+      faculty = responseStudent['student'][0]['faculty'];
+      program = responseStudent['student'][0]['program'];
+      tokenAddress = responseStudent['student'][0]['tokenAddress'];
+      });
+    }else {
+      throw Exception(responseStudent['message']);
+    }
   }
 }

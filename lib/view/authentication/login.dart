@@ -1,23 +1,23 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wemeet_dapps/api_services/api_lecturers.dart';
 import 'package:wemeet_dapps/api_services/api_students.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/support.dart';
+import 'package:wemeet_dapps/view/authentication/smart_address_contract.dart';
 import 'package:wemeet_dapps/view/lecturers/home_lecturers.dart';
 import 'package:wemeet_dapps/view/authentication/forgot_password.dart';
 import 'package:wemeet_dapps/view/students/home_students.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
-import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-// import 'package:url_launcher/url_launcher.dart';
-// import 'package:walletconnect_dart/walletconnect_dart.dart';
-
+import 'package:walletconnect_dart/walletconnect_dart.dart';
+import 'package:device_apps/device_apps.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -28,42 +28,43 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  // var connector = WalletConnect(
-  //     bridge: 'https://bridge.walletconnect.org',
-  //     clientMeta: const PeerMeta(
-  //         name: 'My App',
-  //         description: 'An app for converting pictures to NFT',
-  //         url: 'https://walletconnect.org',
-  //         icons: [
-  //           'https://files.gitbook.com/v0/b/gitbook-legacy-files/o/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media'
-  //         ]));
+  var connector = WalletConnect(
+      bridge: 'https://bridge.walletconnect.org',
+      clientMeta: const PeerMeta(
+          name: 'My App',
+          description: 'An app for converting pictures to NFT',
+          url: 'https://walletconnect.org',
+          icons: [
+            'https://files.gitbook.com/v0/b/gitbook-legacy-files/o/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media'
+          ]));
 
-  // var _session, _uri, _signature, session;
-
+  var _session, _uri, _signature, session;
+  
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   bool isHiddenPassword = true;
   bool isApiCallProcess = false;
   bool studentLogin = false;
+  
+    loginUsingMetamask(BuildContext context, String matricNo, int statusStudent) async {
+    if (!connector.connected) {
+      try {
+            session = await connector.createSession(onDisplayUri: (uri) async {
+            _uri = uri;
+            await launchUrlString(uri, mode: LaunchMode.externalApplication);
+          });
+          print(session.accounts[0]);
+          setState(() { 
+            _session = session;
+          }); 
+      } catch (e) {
+        print(e); 
+      }
+      nextScreenReplacement(context, SmartContractAddress(matricNo: matricNo, statusStudent: statusStudent, tokenAddress: session.accounts[0].toString(),));
+    }
 
- 
-  //   loginUsingMetamask(BuildContext context) async {
-  //   if (!connector.connected) {
-  //     try {
-  //       session = await connector.createSession(onDisplayUri: (uri) async {
-  //         _uri = uri;
-  //         await launchUrlString(uri, mode: LaunchMode.externalApplication);
-  //       });
-  //       print(session.accounts[0]);
-  //       setState(() {
-  //         _session = session;
-  //       });
-  //     } catch (exp) {
-  //       print(exp);
-  //     }
-  //   }
-  // }
+  }
   
   //for reveal the password
   void _togglePasswordView() {
@@ -74,8 +75,8 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    
-          return Scaffold(
+
+     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: SingleChildScrollView(
         child: Padding(
@@ -242,8 +243,7 @@ class _LoginState extends State<Login> {
                         SpinKitFadingCircle(color:Colors.white ,size: 25,);
                         login(_controllerEmail.text.toString(), _controllerPassword.text.toString());
                       }
-                
-                     // loginUsingMetamask(context);
+              
                      },
                      child:  const Text(
                        "Sign In",
@@ -264,30 +264,57 @@ class _LoginState extends State<Login> {
       );
      } 
 
+  
+
    //function for authorization login student and lecturer
    login(String email, String password) async{
+           connector.on(
+        'connect',
+        (session) => setState(
+              () {
+                _session = _session;
+              },
+            ));
+    connector.on(
+        'session_update',
+        (payload) => setState(() {
+              _session = payload;
+       
+            }));
+    connector.on(
+        'disconnect',
+        (payload) => setState(() {
+              _session = null;
+            }));
    final SharedPreferences  _sharedPreferences = await SharedPreferences.getInstance();
 
     var responseStudent = await new Student().studentLogin(email.trim(), password.trim());
     var responseLecturer = await new Lecturer().lecturerLogin(email.trim(), password.trim());
-
-    if(responseStudent['success'] && responseStudent['status'] == 1) {
-      //to set the sesssion and keep logged 
+    
+    //check if the metamask account has been installed to the device or not
+     bool isInstalled = await DeviceApps.isAppInstalled('io.metamask'); 
+    if(responseStudent['success'] && responseStudent['status']== 1  && !isInstalled){
+       showNotInstalledMessage(context, "Login Restricted", "Please install Metamask in Google Play Store and register the account to use the apps. Thank you.\nNote!You need to run the Metamask after successfully installed", "Open PlayStore");
+    } else if(responseStudent['success'] && responseStudent['status'] == 1 && responseStudent["tokenAddress"] == "") {
+    //   //to set the sesssion and keep log 
       String matricNumber = responseStudent['student'][0]['matricNo'];
       int statusStudent = responseStudent['student'][0]['status'];
+      
+      loginUsingMetamask(context, matricNumber, statusStudent);
 
+    } else if(responseStudent['success'] && responseStudent['status'] == 1 && responseStudent["tokenAddress"] != "") {
+           //   //to set the sesssion and keep logged 
+      String matricNumber = responseStudent['student'][0]['matricNo'];
+      int statusStudent = responseStudent['student'][0]['status'];
+      String tokenAddress = responseStudent['student'][0]['tokenAddress'];
 
       _sharedPreferences.setString('matricNo', matricNumber);
       _sharedPreferences.setInt('statusStudent', statusStudent);
-      
-      nextScreenRemoveUntil(context, HomeStudents());
-      //redirect to metamask application in playstore
-      //   await LaunchApp.openApp(
-      //    androidPackageName: 'io.metamask&hl=en',
-      //    openStore: true,
-      // );
+     _sharedPreferences.setString('tokenAddress', tokenAddress);
 
-    } else if(responseLecturer['success'] && responseLecturer['status'] == 2) {
+       nextScreenRemoveUntil(context, HomeStudents());
+
+    }else if(responseLecturer['success'] && responseLecturer['status'] == 2) {
 
       //to set the sesssion and keep logged 
       String staffNo = responseLecturer['lecturer'][0]['staffNo'];
@@ -303,7 +330,18 @@ class _LoginState extends State<Login> {
     }
 
   }
-  
+
+  //function to update token address when first time login
+  // updateTokenAddressMetamask(String? matricNo, String tokenAddress) async {
+  //    var responseStudent = await new Student().updateTokenAddress(matricNo!, tokenAddress);
+  //    if(responseStudent['success']){
+  //       nextScreenRemoveUntil(context, HomeStudents());
+  //    }else {
+  //       throw Exception(responseStudent['message']);
+  //    }
+     
+  // }
+
   //error message if user enter wrong email or password
   static void showErrorMessage(BuildContext context, String title, String message, String buttonText) {
       showDialog(context: context,
@@ -317,6 +355,31 @@ class _LoginState extends State<Login> {
               child:  Text(buttonText),
               onPressed: () {
                  nextScreenPop(context);
+              },
+            )
+          ],
+         );
+        }
+       );
+  }
+
+  //error message if user enter wrong email or password
+  static void showNotInstalledMessage(BuildContext context, String title, String message, String buttonText) {
+      showDialog(context: context,
+       builder: (BuildContext context) {
+        return AlertDialog( 
+          title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', fontSize: 24),),
+          content: Text(message, style: TextStyle( fontFamily: 'Poppins', fontSize: 16),),
+          actions: [
+             ElevatedButton(
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Constants().primaryColor),textStyle: MaterialStateProperty.all(TextStyle(fontFamily: 'Poppins', fontSize: 14))),
+              child:  Text(buttonText),
+              onPressed: ()async {
+                  // redirect to metamask application in playstore
+                  await LaunchApp.openApp(
+                  androidPackageName: 'io.metamask&hl=en',
+                  openStore: true,
+                );
               },
             )
           ],
