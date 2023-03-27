@@ -29,7 +29,7 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
   double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
 
-  String UTHMTokenAddress = "0xD540796299d67A0e7f8880131159C2221e99EfF2";
+  String UTHMTokenAddress = "0x77B9B0ace19fe2Ec236679e94f9a3cDbC507D30B";
   bool isChecked = false;
   String textAgreement = "I have read all the instructions and successfuly import the token. If the token is not imported, I will responsible to not having any reward after the appointment";
 
