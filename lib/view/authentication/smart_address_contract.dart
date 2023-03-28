@@ -168,7 +168,7 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                      Text(
-                     "0xD540...EfF2",
+                     "0x77B9...D30B",
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                         fontWeight: FontWeight.bold,

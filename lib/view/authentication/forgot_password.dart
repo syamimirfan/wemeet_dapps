@@ -260,7 +260,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                            if(await myauth.verifyOTP(otp: _controllerVerifyOtp.text) == true) {
                               resetPassword(_controllerEmail.text.toString().trim(), _controllerConfirmNewPassword.text.toString().trim()); 
                            }else {
-                            showMessage(context, "OTP are not Verified", "WronG OTP entered, Please enter correct OTP", "OK");
+                            showMessage(context, "OTP are not Verified", "Wrong OTP entered, Please enter correct OTP", "OK");
                            }
                         }
                       }, 
