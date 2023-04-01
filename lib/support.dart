@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:wemeet_dapps/shared/constants.dart';
 
 class Support extends StatelessWidget {
   const Support({super.key});
@@ -88,7 +90,64 @@ class Support extends StatelessWidget {
                                     ),
                                     ),
                                      SizedBox(height: deviceHeight(context) * 0.04,),
-                                  const Text(
+                                   Text(
+                                  "NOTE! Please make sure you have enough GoerliETH Token to make transaction! Otherwise, you cannot make a transaction with seller. (i.e make sure earn more than 0 GoerliETH)",
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  fontFamily: 'Poppins',
+                                  color: Constants().secondaryColor
+                                     ),
+                                    ),
+                                     Row(
+                                      children: [ 
+                                      Text(
+                                      "Click",
+                                      textAlign: TextAlign.justify,
+                                      style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      fontFamily: 'Poppins',                               
+                                        ),
+                                        ),
+                                        SizedBox(width: deviceWidth(context) * 0.02,),
+                                    GestureDetector(
+                                        onTap: () {
+                                          launch('https://goerlifaucet.com/');
+                                        },
+                                        child: Text(
+                                          'https://goerlifaucet.com/',
+                                          style: TextStyle(
+                                             fontSize: 22,
+                                            color: Constants().primaryColor,
+                                            decoration: TextDecoration.underline,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                     ),
+                                      Text(
+                                      "Copy your Metamask Account Address and pass it to get free 0.2 GoerliETH",
+                                      textAlign: TextAlign.justify,
+                                      style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      fontFamily: 'Poppins',                               
+                                        ),
+                                        ),
+                                        Text(
+                                      "Everyday!",
+                                      textAlign: TextAlign.justify,
+                                      style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      fontFamily: 'Poppins',   
+                                      color: Constants().secondaryColor                            
+                                        ),
+                                        ),
+                                      SizedBox(height: deviceHeight(context) * 0.04,),
+                                    const Text(
                                   "Import UTHM Token",
                                   style: TextStyle(
                                   fontWeight: FontWeight.bold,
@@ -143,15 +202,6 @@ class Support extends StatelessWidget {
                                     ),
                                       const  Text(
                                   "Step 6 : Press “IMPORT” button and you ready to go.",
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  fontFamily: 'Poppins',
-                                 ),
-                                    ),
-                                     const  Text(
-                                  "Step 7 : PLEASE UPDATE YOUR METAMASK ACCOUNT ADDRESS IN YOUR PROFILE PAGE",
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
                                   fontWeight: FontWeight.w500,

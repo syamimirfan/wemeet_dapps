@@ -237,7 +237,7 @@ class _AppointmentState extends State<Appointment> {
                                         showConfirmationDeleteBox(context, "Confirm?", "Delete Appointment. Please let your student know that you cannot proceed with the appointment.",booking['bookingId']);
                                         },
                                         child: const Text(
-                                          "Delete",
+                                          "Cancel",
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,

@@ -242,9 +242,43 @@ class _ManageHistoryState extends State<ManageHistory> {
                             ),
 
                             Container(
-                              margin: EdgeInsets.only(left: deviceWidth(context) * 0.55),
+            
                               child: Row(
+                        
                                 children: [
+                                    Container(
+                                            margin: Device.screenType == ScreenType.tablet? 
+                                              const EdgeInsets.only(bottom: 20):
+                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                            child: Text(
+                                              "Token Gained: ",
+                                              style:TextStyle(
+                                                  fontSize: Device.screenType == ScreenType.tablet? 
+                                                               0.16.dp: 0.26.dp,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                     Container(
+                                            margin: Device.screenType == ScreenType.tablet? 
+                                              const EdgeInsets.only(bottom: 20):
+                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                            child: Text(
+                                             attendance['statusReward'] == "Not Send" ? "0 UTHM":
+                                            attendance['statusReward'] == "Send" ? "1 UTHM" :
+                                            "NO Token Send",
+                                              style:TextStyle(
+                                                  fontSize: Device.screenType == ScreenType.tablet? 
+                                                               0.16.dp: 0.26.dp,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.bold,
+                                                  color: attendance['statusReward'] == "Not Send" ? Constants().secondaryColor: attendance['statusReward'] == "Send" ? Constants().primaryColor: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                     SizedBox(width: 20.w,) ,
                                    SizedBox(
                                      child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(

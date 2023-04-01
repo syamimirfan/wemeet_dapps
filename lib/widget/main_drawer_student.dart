@@ -220,7 +220,7 @@ late String studentImage = "";
            ),
             ListTile(
              onTap: () {
-                nextScreen(context, Reward());
+                nextScreen(context, RewardToken());
              }, 
              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
              leading: const Icon(Icons.token_sharp , size: 30,),
@@ -309,6 +309,7 @@ late String studentImage = "";
                          final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
                         _sharedPreferences.remove('matricNo');
                          _sharedPreferences.remove('statusStudent');
+                         _sharedPreferences.remove('tokenAddress');
                         print("LOGOUT!");
                         nextScreenReplacement(context, Login());
                       }, 

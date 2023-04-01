@@ -1,21 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wemeet_dapps/about.dart';
+import 'package:wemeet_dapps/api_services/api_reward.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/widget/main_drawer_student.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 
-class Reward extends StatefulWidget {
-  const Reward({super.key});
+class RewardToken extends StatefulWidget {
+  const RewardToken({super.key});
 
   @override
-  State<Reward> createState() => _RewardState();
+  State<RewardToken> createState() => _RewardTokenState();
 }
 
-class _RewardState extends State<Reward> {
+class _RewardTokenState extends State<RewardToken> {
 
   double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
+
+  BigInt? token;
+  int? nullToken;
+
+  @override
+  void initState() {
+    super.initState();
+
+    getStudentTokenAddress();
+  }
+
+  getStudentTokenAddress() async{
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    var tokenAddress = _sharedPreferences.getString('tokenAddress');
+    getToken(tokenAddress);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,8 +98,8 @@ class _RewardState extends State<Reward> {
                  //for token value
                  Container(
                    margin: EdgeInsets.only(bottom: deviceHeight(context) * 0.05),
-                   child: Text(
-                    "12 UTHM",
+                   child:  token == BigInt.zero ? CircularProgressIndicator() : Text(
+                    token.toString() + "\tUTHM",
                     style: TextStyle(
                       fontFamily: "Poppins",
                       fontSize: 32,
@@ -114,7 +133,50 @@ class _RewardState extends State<Reward> {
                            ),
                          ),
                    ),
-
+              Container(
+                margin: EdgeInsets.only(top: deviceHeight(context) * 0.03, bottom: deviceHeight(context) * 0.03),
+                child: Column(
+                  children: [
+                    Text(
+                    "Not Enough GoerliETH?",
+                    style: TextStyle(
+                      fontFamily: "Poppins",
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                   ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                         children: [ 
+                            Text(
+                            "Click",
+                             textAlign: TextAlign.justify,
+                              style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              fontFamily: 'Poppins',                               
+                                ),
+                              ),
+                             SizedBox(width: deviceWidth(context) * 0.02,),
+                              GestureDetector(
+                             onTap: () {
+                               launch('https://goerlifaucet.com/');
+                               },
+                              child: Text(
+                              'https://goerlifaucet.com/',
+                               style: TextStyle(
+                                fontSize: 22,
+                                color: Constants().primaryColor,
+                                decoration: TextDecoration.underline,
+                               ),
+                            ),
+                           ),
+                         ],
+                       ),
+                  ],
+                ),
+              ),
                 //for transactions information
               ],
             ),
@@ -123,4 +185,20 @@ class _RewardState extends State<Reward> {
       ),
     );
   }
+
+  //get total token from metamask for student
+  getToken(String? studentMetamaskAddress) async {
+  final responseReward = await new Reward().getTotalToken(studentMetamaskAddress!);
+  if (responseReward != BigInt.zero) {
+    String numStr = responseReward.toString();
+    String nonZeroStr = numStr.replaceAll(RegExp('0+'), '');
+    setState(() {
+      token = BigInt.parse(nonZeroStr);
+    });
+  } else {
+    setState(() {
+      token = BigInt.zero;
+    });
+  }
+}
 }
