@@ -1,10 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/view/authentication/login.dart';
 import 'package:wemeet_dapps/view/lecturers/home_lecturers.dart';

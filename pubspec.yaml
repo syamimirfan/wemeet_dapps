@@ -43,6 +43,7 @@ dependencies:
   gif: ^2.2.0
   device_apps: ^2.2.0
   web3dart: ^2.5.1
+  qr_code_scanner: ^1.0.1
 
 
   # The following adds the Cupertino Icons font to your application.

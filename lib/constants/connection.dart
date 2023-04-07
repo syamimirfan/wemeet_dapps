@@ -1,7 +1,7 @@
 class Connection {
-    static String TOKEN_ADDRESS = "0x77B9B0ace19fe2Ec236679e94f9a3cDbC507D30B";
-    static String PRIVATE_KEY = "08eaf086281cf438441b5775b18882fec18960b479ddeaa9a528fc01dfd76abd";
-    static String  INFURA_GOERLI_ENDPOINT = "https://goerli.infura.io/v3/276c7bae23f04b20b4c17ef018855cba";
+    static String TOKEN_ADDRESS = "0xB5e5EAF54f06C08a727ce5BEbCe4fe8111fA90ec";
+    static String PRIVATE_KEY = "c6aab6dc71dffc8637b2cb695f1670bef99533df699d5f78d1e4f83fe5037952";
+    static String  INFURA_GOERLI_ENDPOINT = "https://goerli.infura.io/v3/d1efe2a22b0d4799a648e524ccca8a3d";
     static String CONTRACT_ABI =  '''
  [{
                 "inputs": [{

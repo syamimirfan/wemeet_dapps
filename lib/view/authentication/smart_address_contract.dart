@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/api_services/api_students.dart';
+import 'package:wemeet_dapps/constants/connection.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/view/students/home_students.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
@@ -29,7 +30,6 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
   double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
 
-  String UTHMTokenAddress = "0x77B9B0ace19fe2Ec236679e94f9a3cDbC507D30B";
   bool isChecked = false;
   String textAgreement = "I have read all the instructions and successfuly import the token. If the token is not imported, I will responsible to not having any reward after the appointment";
 
@@ -168,7 +168,7 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                      Text(
-                     "0x77B9...D30B",
+                     "0xB5e5...90ec",
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -178,7 +178,7 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                        ),
                        IconButton(
                         onPressed: () {
-                          Clipboard.setData(ClipboardData(text: UTHMTokenAddress));
+                          Clipboard.setData(ClipboardData(text: Connection.TOKEN_ADDRESS));
                           showSnackBarSuccessful(context, "UTHM Token Address copied", Constants().primaryColor);
                         }, 
                         icon: Icon(Icons.copy, size: 25, color: Colors.black, )

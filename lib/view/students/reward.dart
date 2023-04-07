@@ -5,8 +5,10 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:wemeet_dapps/about.dart';
 import 'package:wemeet_dapps/api_services/api_reward.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
+import 'package:wemeet_dapps/view/students/qr_code.dart';
 import 'package:wemeet_dapps/widget/main_drawer_student.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
+import 'package:web3dart/web3dart.dart';
 
 class RewardToken extends StatefulWidget {
   const RewardToken({super.key});
@@ -26,7 +28,6 @@ class _RewardTokenState extends State<RewardToken> {
   @override
   void initState() {
     super.initState();
-
     getStudentTokenAddress();
   }
 
@@ -98,7 +99,7 @@ class _RewardTokenState extends State<RewardToken> {
                  //for token value
                  Container(
                    margin: EdgeInsets.only(bottom: deviceHeight(context) * 0.05),
-                   child:  token == BigInt.zero ? CircularProgressIndicator() : Text(
+                   child:  Text(
                     token.toString() + "\tUTHM",
                     style: TextStyle(
                       fontFamily: "Poppins",
@@ -121,7 +122,9 @@ class _RewardTokenState extends State<RewardToken> {
                      borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                    onPressed: () {},
+                    onPressed: () {
+                        nextScreen(context, QrCode());
+                    },
                      child: const Text(
                           "Scan QR",
                            style: TextStyle(
@@ -153,7 +156,7 @@ class _RewardTokenState extends State<RewardToken> {
                             "Click",
                              textAlign: TextAlign.justify,
                               style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w500,
                               fontSize: 18,
                               fontFamily: 'Poppins',                               
                                 ),
@@ -161,10 +164,10 @@ class _RewardTokenState extends State<RewardToken> {
                              SizedBox(width: deviceWidth(context) * 0.02,),
                               GestureDetector(
                              onTap: () {
-                               launch('https://goerlifaucet.com/');
+                               launch('https://goerli-faucet.pk910.de/');
                                },
                               child: Text(
-                              'https://goerlifaucet.com/',
+                              'https://goerli-faucet.pk910.de/',
                                style: TextStyle(
                                 fontSize: 22,
                                 color: Constants().primaryColor,
@@ -176,8 +179,7 @@ class _RewardTokenState extends State<RewardToken> {
                        ),
                   ],
                 ),
-              ),
-                //for transactions information
+               ),
               ],
             ),
            ),
@@ -189,16 +191,8 @@ class _RewardTokenState extends State<RewardToken> {
   //get total token from metamask for student
   getToken(String? studentMetamaskAddress) async {
   final responseReward = await new Reward().getTotalToken(studentMetamaskAddress!);
-  if (responseReward != BigInt.zero) {
-    String numStr = responseReward.toString();
-    String nonZeroStr = numStr.replaceAll(RegExp('0+'), '');
-    setState(() {
-      token = BigInt.parse(nonZeroStr);
-    });
-  } else {
-    setState(() {
-      token = BigInt.zero;
-    });
-  }
+  setState(() {
+    token = responseReward;
+  });
 }
-}
+} 

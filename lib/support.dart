@@ -114,10 +114,10 @@ class Support extends StatelessWidget {
                                         SizedBox(width: deviceWidth(context) * 0.02,),
                                     GestureDetector(
                                         onTap: () {
-                                          launch('https://goerlifaucet.com/');
+                                          launch('https://goerli-faucet.pk910.de/');
                                         },
                                         child: Text(
-                                          'https://goerlifaucet.com/',
+                                          'https://goerli-faucet.pk910.de/',
                                           style: TextStyle(
                                              fontSize: 22,
                                             color: Constants().primaryColor,
