@@ -1,39 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wemeet_dapps/api_services/api_chat.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/widget/message_tile.dart';
 
 class Message extends StatefulWidget {
-  final String images;
-  final String lecturerName;
-  const Message({super.key, required this.images, required this.lecturerName});
+  Message({super.key, required this.staffNo});
+  String staffNo;
 
   @override
-  State<Message> createState() => _MessageState();
+  State<Message> createState() => _MessageState(this.staffNo);
 }
 
 class _MessageState extends State<Message> {
-   
-   //variable for message
-  List<String> sendMessage = ["Asslamualaikum dear student",
-   "Waalaikumussalam Dr, How about our appointment?",
-   "You can come to my table at 8.30 AM",
-   "Noted Dr","Asslamualaikum dear student",
-   "Waalaikumussalam Dr, How about our appointment?",
-   "You can come to my table at 8.30 AM",
-   "Noted Dr"
-  ];
-  List<bool> sendByMe = [false,true,false,true,false,true,false,true];
+
+  _MessageState(this.staffNo);
+  String staffNo;
+
+  late String lecturerImage = "";
+  late String lecturerName = "";
+
+  List<dynamic> chat = [];
+
+  final TextEditingController _controllerMessage = TextEditingController();
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
 
   double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.height;
 
+  @override
+  void initState() {
+    super.initState();
+    getLecturer(staffNo);
+    getMatricNo();
+  }
+ 
+  getMatricNo() async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    var matricNo = _sharedPreferences.getString("matricNo");
+    getMessage(matricNo, staffNo);
+  }
+ 
+
   //message
    message() {
     return ListView.builder(
-      itemCount: sendMessage.length,
+      itemCount: chat.length,
       itemBuilder: (context,index) {
-        return MessageTile(message: sendMessage[index], isSentByMe: sendByMe[index]);
+        //LETAK TERNARY OPERATOR KT isSentByMe, klau statusMessage 1 (student) dia true.. else false
+        //LETAK TERNARY OPERATOR KT isSentBtMe, klau statusMessage 2 (lecturer) dia true.. else false 
+        return MessageTile(message: chat[index]['messageText'], isSentByMe: chat[index]['statusMessage'] == 1 ? true : false);
       }
     
     );
@@ -51,7 +68,10 @@ class _MessageState extends State<Message> {
           children: [
             Flexible(
               child:  Form(
+                key: _globalKey,
+                autovalidateMode: AutovalidateMode.disabled,
                 child: TextFormField(
+                controller: _controllerMessage,
                 style: const TextStyle(
                   decoration: TextDecoration.none,
                   color: Colors.black,
@@ -76,14 +96,34 @@ class _MessageState extends State<Message> {
                     borderRadius: BorderRadius.circular(20),
                     borderSide: BorderSide(color: Constants().BoxShadowColor),
                   ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(color: Constants().BoxShadowColor ),
                   ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(color: Constants().BoxShadowColor),
+                  ),
+                  ),
+                   validator: (value) {
+                     if(value!.trim().isEmpty) {
+                          return null;
+                       }
+                     return null;
+                    },
                  ),
               ),
             ), 
              const SizedBox (width:12),
              GestureDetector(
-               onTap: () {
-
+               onTap: () async{
+                //INPUT THE MESSAGE RIGHT HERE
+                final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+                String? matricNo = _sharedPreferences.getString('matricNo');
+                if(_globalKey.currentState!.validate() && _controllerMessage.text.trim().isNotEmpty){
+                     addStudentMessage(matricNo!, staffNo, _controllerMessage.text);
+                     _controllerMessage.clear(); 
+                }
                },
                child: Container(
                 height: 50,
@@ -116,14 +156,14 @@ class _MessageState extends State<Message> {
             Container(
                child: CircleAvatar(
                radius: 20,
-              backgroundImage: AssetImage(widget.images),
+              backgroundImage: NetworkImage(lecturerImage),
           ),
             ),
             const SizedBox(width: 10,),
            Flexible(
             fit: FlexFit.loose,
             child: Text(
-            "Dr "+widget.lecturerName,
+            "DR "+ lecturerName,
             style: const TextStyle(
               fontFamily: 'Poppins',
               fontSize:20,
@@ -154,12 +194,48 @@ class _MessageState extends State<Message> {
                 child: Column(
                     children: [
                       SizedBox(height: deviceHeight(context) * 0.78, child:  message(),),
-                  sendingMessage()
+                      sendingMessage()
                     ],
                 ),
             ),
           ),
       ),
     );
+  }
+
+  //get specific lecturer
+  getLecturer(String staffNo) async{
+     var responseChat = await new Chat().getContactLecturer(staffNo);
+
+     if(responseChat['success']) {
+       setState(() {
+         lecturerImage = responseChat['chat'][0]['lecturerImage'];
+         lecturerName = responseChat['chat'][0]['lecturerName'];
+       });
+     }
+  }
+
+  //add student message
+  addStudentMessage(String matricNo, String staffNo, String messageText) async {
+     var responseChat = await new Chat().studentMessage(matricNo, staffNo, messageText);
+     if(responseChat['success']) {
+      //MAKE IT REFRESH SO WE CAN SEE THE MESSAGE
+       await getMessage(matricNo, staffNo);
+       print("message input");
+     }
+  }
+
+  getMessage(String? matricNo, String staffNo) async {
+     var responseChat = await new Chat().getUserMessage(matricNo!, staffNo);
+     if(responseChat['success']){
+       final responseData = responseChat['chat'];
+       if(responseData is List) {
+         setState(() {
+           chat = responseData;
+         });
+       }else {
+         print("Error fetching data: ${responseChat['message']}");
+       }
+     }
   }
 }

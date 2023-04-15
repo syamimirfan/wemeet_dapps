@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
 import 'package:wemeet_dapps/api_services/api_booking.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
+import 'package:wemeet_dapps/view/students/student_message.dart';
 import 'package:wemeet_dapps/view/students/update_book.dart';
 import 'package:wemeet_dapps/widget/main_drawer_student.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
@@ -295,7 +296,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                         ),
                                       ),
                                       onPressed: () {
-                                    
+                                        nextScreen(context, Message(staffNo: appointment['staffNo']));
                                       },
                                       child: const Text(
                                         "Contact Lecturer",

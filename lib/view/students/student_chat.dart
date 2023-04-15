@@ -47,7 +47,7 @@ class _StudentChatState extends State<StudentChat> {
                         ),
                       ),
                       onTap: () {
-                        nextScreen(context, Message(images: images[index], lecturerName: lecturerName[index]));
+                       
                       },
                   ), 
                 ],
