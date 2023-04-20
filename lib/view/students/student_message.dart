@@ -50,7 +50,7 @@ class _MessageState extends State<Message> {
       itemBuilder: (context,index) {
         //LETAK TERNARY OPERATOR KT isSentByMe, klau statusMessage 1 (student) dia true.. else false
         //LETAK TERNARY OPERATOR KT isSentBtMe, klau statusMessage 2 (lecturer) dia true.. else false 
-        return MessageTile(message: chat[index]['messageText'], isSentByMe: chat[index]['statusMessage'] == 1 ? true : false);
+        return MessageTile(message: chat[index]['messageText'], isSentByMe: chat[index]['statusMessage'] == 1 ? true : false, date: chat[index]['sendTextTime'],);
       }
     
     );

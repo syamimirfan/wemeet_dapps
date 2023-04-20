@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 
 class MessageTile extends StatefulWidget {
 
   final bool isSentByMe;
   final String message;
+  final String date;
 
-  const MessageTile({super.key, required this.isSentByMe, required this.message});
+  const MessageTile({super.key, required this.isSentByMe, required this.message, required this.date});
 
   @override
   State<MessageTile> createState() => _MessageTileState();
@@ -15,6 +18,7 @@ class MessageTile extends StatefulWidget {
 class _MessageTileState extends State<MessageTile> {
   @override
   Widget build(BuildContext context) {
+final String dateFormat = DateFormat.yMd().add_jm().format(DateTime.parse(widget.date).toLocal());
     return Container(
       padding: EdgeInsets.only(
       top: 10,
@@ -45,13 +49,24 @@ class _MessageTileState extends State<MessageTile> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            SelectableText(
              widget.message,
              textAlign: TextAlign.start,
              style: const TextStyle(
               fontFamily: 'Poppins',
               fontSize: 16,
               color: Colors.white,
+             ),
+            ),
+            SizedBox(height: 1.h,),
+              Text(
+             dateFormat,
+             textAlign: TextAlign.start,
+             style: const TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 10,
+              color: Colors.white,
+              fontWeight: FontWeight.bold
              ),
             ),
           ],
