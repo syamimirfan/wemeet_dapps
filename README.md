@@ -14,3 +14,7 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## ADD
+PLEASE ADD connection.dart class in constants folder that contain :
+TOKEN_ADDRESS(UTHM TOKEN OR ELSE), PRIVATE_KEY, INFURA_GOERLI_ENDPOINT , CONTRACT_ABI
