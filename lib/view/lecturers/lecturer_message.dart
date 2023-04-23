@@ -49,7 +49,7 @@ class _LecturerMessageState extends State<LecturerMessage> {
     return ListView.builder(
       itemCount: chat.length,
       itemBuilder: (context,index) {
-         return MessageTile(message: chat[index]['messageText'], isSentByMe: chat[index]['statusMessage'] == 2 ? true : false, date: chat[index]['sendTextTime'],);
+         return MessageTile(message: chat[index]['messageText'], isSentByMe: chat[index]['statusMessage'] == 2 ? true : false, date: chat[index]['sendTextTime'],chatId: chat[index]['chatId']);
       }
     
     );

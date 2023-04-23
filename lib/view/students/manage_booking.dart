@@ -28,7 +28,6 @@ class _ManageBookingState extends State<ManageBooking> {
   }
 
   double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
-
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
 
   getMatricNo() async {

@@ -76,4 +76,18 @@ class Chat {
        throw Exception('API request failed with status code: ${response.statusCode}');
     }
    }
+
+   //API for delete message
+   Future deleteMessage(int chatId) async {
+      final response = await http.delete(Uri.parse('${Utils.baseURL}/chat/deletechat/${chatId}'),
+        headers: {
+          "Accept" : "Application/json"
+        }
+      );
+       if(response.statusCode == 200) {
+       return jsonDecode(response.body);
+     }else{
+       throw Exception(response.statusCode);
+     }
+   }
 }
