@@ -90,4 +90,34 @@ class Chat {
        throw Exception(response.statusCode);
      }
    }
+
+   //API for chat in student
+   Future getChatStudents() async {
+     final response = await http.get(Uri.parse('${Utils.baseURL}/chat/chatstudent'),
+     headers: {
+        "Accept" : "Application/json"
+       }
+     );
+
+     if(response.statusCode == 200) {
+       return jsonDecode(response.body);
+     }else{
+       throw Exception('API request failed with status code: ${response.statusCode}');
+     }
+   }
+
+   //API for chat in student
+   Future getChatLecturers() async {
+     final response = await http.get(Uri.parse('${Utils.baseURL}/chat/chatlecturer'),
+     headers: {
+        "Accept" : "Application/json"
+       }
+     );
+
+     if(response.statusCode == 200) {
+       return jsonDecode(response.body);
+     }else{
+       throw Exception('API request failed with status code: ${response.statusCode}');
+     }
+   }
 }

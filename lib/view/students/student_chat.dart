@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
+import 'package:wemeet_dapps/api_services/api_chat.dart';
 import 'package:wemeet_dapps/view/students/student_message.dart';
 import 'package:wemeet_dapps/widget/main_drawer_student.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
@@ -14,18 +16,28 @@ class StudentChat extends StatefulWidget {
 
 class _StudentChatState extends State<StudentChat> {
 
-  //variable for chat
-  List<String> images = ["assets/lecturer.png", "assets/icon.png","assets/icon.png","assets/icon.png","assets/icon.png"];
-  List<String> lecturerName = ["Nur Ariffin Bin Mohd Zin", "Zainuri Bin Saringat", "Salama A Mostafa", "Mazidah Binti Mat Rejab", "Noraini Binti Ibrahim"];
-
+  List<dynamic> lecturers = [];
+  List<dynamic> filterLecturers = [];
+  String noData = "";
+  
   double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
-  double deviceWidth(BuildContext context) => MediaQuery.of(context).size.height;
+  double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
+
+  final TextEditingController _searchController = TextEditingController();
+  
+ @override
+  void initState() {
+    super.initState();
+
+    getLecturerChat();
+  }
+
 
   Widget buildChat() {
     return Container(
         padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.03),
         child: ListView.builder(
-        itemCount: 5,
+        itemCount:_searchController.text.isNotEmpty ? filterLecturers.length : lecturers.length,
         itemBuilder: (context, index) {
             return Container(
               margin: EdgeInsets.only(top: deviceHeight(context) * 0.03),
@@ -36,10 +48,10 @@ class _StudentChatState extends State<StudentChat> {
                   ListTile(
                     leading: CircleAvatar(
                       radius: 30,
-                      backgroundImage: AssetImage(images[index]),
+                      backgroundImage: NetworkImage(_searchController.text.isNotEmpty ? filterLecturers[index]['lecturerImage']: lecturers[index]['lecturerImage']),
                     ),
                      title:  Text(
-                        lecturerName[index],
+                        _searchController.text.isNotEmpty ? filterLecturers[index]['lecturerName']:lecturers[index]['lecturerName'],
                         style: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 18,
@@ -47,7 +59,7 @@ class _StudentChatState extends State<StudentChat> {
                         ),
                       ),
                       onTap: () {
-                       
+                        nextScreen(context, Message(staffNo: _searchController.text.isNotEmpty ? filterLecturers[index]['staffNo']:  lecturers[index]['staffNo']));
                       },
                   ), 
                 ],
@@ -117,6 +129,12 @@ class _StudentChatState extends State<StudentChat> {
                           fillColor: Colors.white,
                           prefixIcon:Icon(Icons.search,color: Colors.grey,),
                         ),
+                        controller: _searchController,
+                        onChanged: (value) {
+                          setState(() {
+                                filterLecturers = lecturers.where((list) => list['lecturerName'].toLowerCase().contains(value)).toList();
+                          });
+                        },
                       ),
                     ),
                   ),
@@ -127,5 +145,23 @@ class _StudentChatState extends State<StudentChat> {
           ),
         ),
     );
+  }
+
+   //function to get lecturer chat
+  getLecturerChat() async {
+    final responseChat = await Chat().getChatStudents();
+    if(responseChat['success']) {
+      final responseData = responseChat['chat'];
+      if(responseData is List) {
+        setState(() {
+          lecturers = responseData;
+        });
+      }else {
+        setState(() {
+          noData = responseChat['message'];
+        });
+       print("Error fetching data: ${responseChat['message']}");
+      }
+    }
   }
 }
