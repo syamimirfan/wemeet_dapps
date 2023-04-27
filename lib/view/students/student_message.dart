@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/api_services/api_chat.dart';
+import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/widget/message_tile.dart';
 
@@ -20,6 +21,7 @@ class _MessageState extends State<Message> {
 
   late String lecturerImage = "";
   late String lecturerName = "";
+  late String studentName = "";
 
   List<dynamic> chat = [];
 
@@ -40,6 +42,7 @@ class _MessageState extends State<Message> {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     var matricNo = _sharedPreferences.getString("matricNo");
     getMessage(matricNo, staffNo);
+    getStudent(matricNo);
   }
  
 
@@ -214,17 +217,29 @@ class _MessageState extends State<Message> {
        });
      }
   }
+  
+  //get student
+  getStudent(String? matricNo) async{
+     var responseChat = await new Chat().getContactStudent(matricNo!);
+
+     if(responseChat['success']) {
+       setState(() {
+         studentName = responseChat['chat'][0]['studName'];
+       });
+     }
+  }
 
   //add student message
   addStudentMessage(String matricNo, String staffNo, String messageText) async {
      var responseChat = await new Chat().studentMessage(matricNo, staffNo, messageText);
      if(responseChat['success']) {
       //MAKE IT REFRESH SO WE CAN SEE THE MESSAGE
-       await getMessage(matricNo, staffNo);
-       print("message input");
+      await getMessage(matricNo, staffNo);
+      
      }
   }
 
+  //get all message
   getMessage(String? matricNo, String staffNo) async {
      var responseChat = await new Chat().getUserMessage(matricNo!, staffNo);
      if(responseChat['success']){
