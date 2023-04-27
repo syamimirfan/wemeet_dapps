@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/view/splashscreen/splashscreen.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +14,10 @@ Future<void> main() async{
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
   ]);
+
+  //local notifications
+  WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
 
   runApp(const MyApp());
 }

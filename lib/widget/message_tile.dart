@@ -113,7 +113,12 @@ final String dateFormat = DateFormat.yMd().add_jm().format(DateTime.parse(widget
         Clipboard.setData(ClipboardData(text: widget.message));
         showSnackBarSuccessful(context, "Message Copied");
       } else if (value == 'delete') {
-         deleteChat(widget.chatId);
+        if(widget.isSentByMe == true) {
+           deleteChat(widget.chatId);
+        }else {
+          showSnackCannotDelete(context, "Cannot Delete Chat");
+        }
+         
       }
     });
   },
@@ -174,7 +179,7 @@ final String dateFormat = DateFormat.yMd().add_jm().format(DateTime.parse(widget
     );
   }
 
-   //delete chat
+   //delete chat 
   deleteChat(int chatId) async {
     var responseChat = await new Chat().deleteMessage(chatId);
 
@@ -184,16 +189,45 @@ final String dateFormat = DateFormat.yMd().add_jm().format(DateTime.parse(widget
       throw Exception(responseChat['message']);
     }
   }
-  //show snackbar 
+  //show snackbar successful copied message
   void showSnackBarSuccessful(BuildContext context, String content) {
      ScaffoldMessenger.of(context).showSnackBar(
        SnackBar(
-          padding:EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.03,vertical:deviceWidth(context) * 0.01),
+          padding:EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.03,vertical:deviceWidth(context) * 0.05),
           content: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(Icons.info_outline, size: 18, color: Colors.white,),
+              Icon(Icons.info_outline, size: 22, color: Colors.white,),
+              SizedBox(width: 5.w,),
+              Text(
+            content,
+            style: TextStyle(
+               fontWeight: FontWeight.bold, 
+               fontFamily: 'Poppins',
+               fontSize: 16,
+               color: Colors.white
+             ),  
+            ),
+
+            ],
+          ),
+          duration: Duration(seconds: 3),
+         ),
+      );
+  }
+
+  //show snackbar cannot delete message
+  void showSnackCannotDelete(BuildContext context, String content) {
+     ScaffoldMessenger.of(context).showSnackBar(
+       SnackBar(
+          padding:EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.03,vertical:deviceWidth(context) * 0.05),
+          backgroundColor: Constants().secondaryColor,
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(Icons.info_outline, size: 22, color: Colors.white,),
               SizedBox(width: 5.w,),
               Text(
             content,

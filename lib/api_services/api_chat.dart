@@ -77,7 +77,7 @@ class Chat {
     }
    }
 
-   //API for delete message
+   //API for delete message in student
    Future deleteMessage(int chatId) async {
       final response = await http.delete(Uri.parse('${Utils.baseURL}/chat/deletechat/${chatId}'),
         headers: {

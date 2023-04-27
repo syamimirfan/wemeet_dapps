@@ -44,6 +44,7 @@ dependencies:
   device_apps: ^2.2.0
   web3dart: ^2.5.1
   qr_code_scanner: ^1.0.1
+  flutter_local_notifications: ^13.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
