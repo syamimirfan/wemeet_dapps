@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/api_services/api_chat.dart';
+import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/widget/message_tile.dart';
 
@@ -221,7 +222,6 @@ class _LecturerMessageState extends State<LecturerMessage> {
      if(responseChat['success']) {
       //MAKE IT REFRESH SO WE CAN SEE THE MESSAGE
        await getMessage(matricNo, staffNo);
-       print("message input");
      }
   }
 
@@ -230,11 +230,16 @@ class _LecturerMessageState extends State<LecturerMessage> {
   getMessage(String matricNo, String? staffNo) async {
      var responseChat = await new Chat().getUserMessage(matricNo, staffNo!);
      if(responseChat['success']){
-       final responseData = responseChat['chat'];
+        final responseData = responseChat['chat'];
        if(responseData is List) {
          setState(() {
            chat = responseData;
-           print(chat);
+           bool lastMessageSentByStudent = chat.isNotEmpty && chat.last['statusMessage'] == 1;
+        if (lastMessageSentByStudent) {
+          NotificationService().showNotification(
+              title: 'New message from $studentName',
+              body: chat.last['messageText']);
+        }
          });
        }else {
          print("Error fetching data: ${responseChat['message']}");

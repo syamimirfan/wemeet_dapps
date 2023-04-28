@@ -3,6 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
 import 'package:wemeet_dapps/api_services/api_booking.dart';
+import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/view/students/student_message.dart';
 import 'package:wemeet_dapps/view/students/update_book.dart';
@@ -44,6 +45,15 @@ class _ManageBookingState extends State<ManageBooking> {
       if(responseData is List) {
         setState(() {
           appointment = responseData;
+          bool currentAcceptedAppointment = appointment.isNotEmpty && appointment.last['statusBooking'] == "Accepted";
+          bool currentRejectedAppointment = appointment.isNotEmpty && appointment.last['statusBooking'] == "Rejected";
+          if(currentAcceptedAppointment){
+             NotificationService()
+            .showNotification(title: "Congratulations! You're set" ,body: appointment.last['staffNo'] + " has accept your appointment");
+          }else if (currentRejectedAppointment) {
+            NotificationService()
+            .showNotification(title: "Sorry, You're not set" ,body: appointment.last['staffNo'] + " has reject your appointment");
+          }
         });
       }else {
         setState(() {
@@ -390,8 +400,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                 ],
                               )
                    ]
-              
-                   
+                            
                 ),
             ),
         ),

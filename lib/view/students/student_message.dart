@@ -42,7 +42,6 @@ class _MessageState extends State<Message> {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     var matricNo = _sharedPreferences.getString("matricNo");
     getMessage(matricNo, staffNo);
-    getStudent(matricNo);
   }
  
 
@@ -217,17 +216,6 @@ class _MessageState extends State<Message> {
        });
      }
   }
-  
-  //get student
-  getStudent(String? matricNo) async{
-     var responseChat = await new Chat().getContactStudent(matricNo!);
-
-     if(responseChat['success']) {
-       setState(() {
-         studentName = responseChat['chat'][0]['studName'];
-       });
-     }
-  }
 
   //add student message
   addStudentMessage(String matricNo, String staffNo, String messageText) async {
@@ -247,6 +235,12 @@ class _MessageState extends State<Message> {
        if(responseData is List) {
          setState(() {
            chat = responseData;
+           bool lastMessageSentByLecturer = chat.isNotEmpty && chat.last['statusMessage'] == 2;
+        if (lastMessageSentByLecturer) {
+          NotificationService().showNotification(
+              title: 'New message from DR $lecturerName',
+              body: chat.last['messageText']);
+        }
          });
        }else {
          print("Error fetching data: ${responseChat['message']}");

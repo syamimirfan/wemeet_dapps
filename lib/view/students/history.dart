@@ -133,13 +133,6 @@ class _ManageHistoryState extends State<ManageHistory> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  SizedBox(width: 35.w,),
-                                  IconButton(
-                                   onPressed: () {
-             
-                                   },
-                                   icon: Icon(Icons.delete, size: 30, color: Constants().secondaryColor,)
-                                  ),
 
                               ],
                              ),
