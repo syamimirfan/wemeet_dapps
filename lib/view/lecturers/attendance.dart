@@ -359,9 +359,12 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
 
   //function absent the appointment
   absent(String matricNo, String staffNo, int numberOfStudents, String date, String time, int bookingId) async{
+     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
      var responseAttendance = await new Attendance().absentAttendance( matricNo,  staffNo,  numberOfStudents, date,  time);
      var responseBooking = await new Booking().deleteAppointment(bookingId);
      if(responseAttendance['success'] && responseBooking['success']){
+       _sharedPreferences.setInt("studentAbsent", 1);
+       _sharedPreferences.setString("lecturerAbsentStaffNo", staffNo);
        nextScreenReplacement(context, AttendanceAppointment());
      }else {
        throw Exception(responseAttendance['message'] + responseBooking['message']);
@@ -370,9 +373,12 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
 
    //function absent the appointment
   attend(String matricNo, String staffNo, int numberOfStudents, String date, String time, int bookingId) async{
+     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
      var responseAttendance = await new Attendance().attendAppointment( matricNo,  staffNo,  numberOfStudents, date,  time);
      var responseBooking = await new Booking().deleteAppointment(bookingId);
      if(responseAttendance['success'] && responseBooking['success']){
+       _sharedPreferences.setInt("studentAttend", 1);
+       _sharedPreferences.setString("lecturerAttendStaffNo", staffNo);
        nextScreenReplacement(context, AttendanceAppointment());
      }else {
        throw Exception(responseAttendance['message'] + responseBooking['message']);

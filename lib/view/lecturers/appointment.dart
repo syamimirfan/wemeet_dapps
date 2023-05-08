@@ -3,6 +3,9 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
 import 'package:wemeet_dapps/api_services/api_booking.dart';
+import 'package:wemeet_dapps/api_services/api_lecturers.dart';
+import 'package:wemeet_dapps/api_services/api_notify_services.dart';
+import 'package:wemeet_dapps/api_services/api_students.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/view/lecturers/lecturer_message.dart';
 import 'package:wemeet_dapps/widget/main_drawer_lecturer.dart';
@@ -22,6 +25,8 @@ class _AppointmentState extends State<Appointment> {
 
   List<dynamic> acceptedAppointments = [];
   String noData = "";
+  String appointmentCancelStaffNo = "";
+  String studentName = "";
 
   @override
   void initState() {
@@ -34,6 +39,9 @@ class _AppointmentState extends State<Appointment> {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     var staffNo = _sharedPreferences.getString('staffNo');
     getAppointment(staffNo);
+    setState(() {
+      appointmentCancelStaffNo = staffNo!;
+    });
   }
 
   @override
@@ -308,14 +316,37 @@ class _AppointmentState extends State<Appointment> {
     );
   }
 
+  //to view some of student data
+    viewStudent(String? matricNo) async {
+      var responseStudent = await new Student().getStudentDetail(matricNo!);
+      if(responseStudent['success']) {
+         setState(()  {
+           studentName = responseStudent['student'][0]['studName'];
+         });
+      } else {
+         throw Exception("Failed to get the data");
+      }
+ 
+  }
+
   //get all accepted appointment for manage appointment in lecturer
   getAppointment(String? staffNo) async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     final responseBooking = await new Booking().getAcceptedAppointment(staffNo!);
     if(responseBooking['success']){
       final responseData = responseBooking['booking'];
       if(responseData is List){
         setState(() {
           acceptedAppointments = responseData;
+          if(_sharedPreferences.getInt("bookingUpdate") == 1 && _sharedPreferences.getString("bookingUpdateMatricNumber") != ""){
+            viewStudent(_sharedPreferences.getString("bookingUpdateMatricNumber")).then((value) => {
+             NotificationService()
+            .showNotification(title: "Appointment Updated!" ,body: studentName + " has update an appointment session with you").then((value) => {
+              _sharedPreferences.remove("bookingUpdate"),
+              _sharedPreferences.remove("bookingUpdateMatricNumber")
+            })
+           });
+          }
         });
       }else {
         setState(() {
@@ -326,11 +357,15 @@ class _AppointmentState extends State<Appointment> {
     }
   }
 
+ //to cancel appointment between student
   deleteAppointment(int bookingId) async {
     var responseBooking = await new Booking().deleteAppointment(bookingId);
     
     if(responseBooking['success']) {
       nextScreenReplacement(context, Appointment());
+      final SharedPreferences deletedAppointment = await SharedPreferences.getInstance();
+      deletedAppointment.setInt("appointmentCancel", 1);
+      deletedAppointment.setString("appointmentCancelStaffNo", appointmentCancelStaffNo);
     }else{
       throw Exception(responseBooking['message']);
     }

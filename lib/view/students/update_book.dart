@@ -2,6 +2,7 @@ import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
 import 'package:wemeet_dapps/api_services/api_booking.dart';
 import 'package:wemeet_dapps/api_services/api_lecturers.dart';
@@ -576,12 +577,16 @@ class _UpdateBookState extends State<UpdateBook> {
 
   //function to update book
   updateBook(int bookingId, String staffNo, int numberOfStudents, String date, String time) async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     var responseBooking = await new Booking().updateAppointment(bookingId, staffNo, numberOfStudents, date, time);
 
     if(responseBooking['success'] && responseBooking['message'] == "Slot Booked") {
       showMessage(context, "Slot Booked!", "The slot has been booked by student name ${responseBooking['student'][0]['studName']} with matric number ${responseBooking['student'][0]['matricNo']}", "OK");
       
     }else if(responseBooking['success']) {
+     _sharedPreferences.setInt("bookingUpdate", 1);
+     var matricNo = _sharedPreferences.getString("matricNo");
+      _sharedPreferences.setString("bookingUpdateMatricNumber", matricNo!);
       nextScreenReplacement(context, UpdateSuccessful(lecturerName: lectName, numberOfStudents: numberOfStudents, date: date, time: time));
     }else {
     showMessage(context, "Ooops!", "Cannot update the book slot", "OK");

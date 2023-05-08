@@ -338,6 +338,7 @@ late String studentImage = "";
        
   }
 
+  //to view some of student data
    viewStudent(String? matricNo) async {
       var responseStudent = await new Student().getStudentDetail(matricNo!);
   

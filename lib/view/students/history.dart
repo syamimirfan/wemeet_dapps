@@ -3,6 +3,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
 import 'package:wemeet_dapps/api_services/api_attendance.dart';
+import 'package:wemeet_dapps/api_services/api_lecturers.dart';
+import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/view/students/book2_student.dart';
 import 'package:wemeet_dapps/widget/main_drawer_student.dart';
@@ -22,6 +24,7 @@ class _ManageHistoryState extends State<ManageHistory> {
 
   List<dynamic> attendance = [];
   String noData = "";
+  String lectName = "";
 
   @override
   void initState() {
@@ -355,14 +358,44 @@ class _ManageHistoryState extends State<ManageHistory> {
     );
   }
 
+  //to view some of lecturer data  
+   viewLecturer(String? staffNo) async {
+      var responseLecturer = await new Lecturer().getLecturerDetail(staffNo!);
+      if(responseLecturer['success']) {
+         setState(()  {
+           lectName = responseLecturer['lecturer'][0]['lecturerName'];
+         });
+      } else {
+         throw Exception("Failed to get the data");
+      }
+  }
+
   //get all attendance from accepted appointments
   getAllAttendance(String? matricNo) async {
+     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
      var responseAttendance = await new Attendance().getAttendance(matricNo!);
      if(responseAttendance['success']){
         final responseData = responseAttendance['attendance'];
         if(responseData is List) {
           setState(() {
             attendance = responseData;
+            if(_sharedPreferences.getInt("studentAbsent") == 1 && _sharedPreferences.getString("lecturerAbsentStaffNo") != "") {
+              viewLecturer(_sharedPreferences.getString("lecturerAbsentStaffNo")).then((value) => {
+              NotificationService()
+            .showNotification(title: "You're ABSENT!" ,body: lectName + " has sign you absent for the appointment").then((value) => {
+              _sharedPreferences.remove("studentAbsent"),
+              _sharedPreferences.remove("lecturerAbsentStaffNo")
+             })
+            });
+            }else if(_sharedPreferences.getInt("studentAttend") == 1 && _sharedPreferences.getString("lecturerAttendStaffNo") != ""){
+              viewLecturer(_sharedPreferences.getString("lecturerAttendStaffNo")).then((value) => {
+              NotificationService()
+            .showNotification(title: "You're ATTEND!" ,body: lectName + " has sign you attend for the appointment").then((value) => {
+              _sharedPreferences.remove("studentAttend"),
+              _sharedPreferences.remove("lecturerAttendStaffNo")
+             })
+            });
+            }
           });
         }else{
           setState(() {

@@ -5,6 +5,7 @@ import 'package:wemeet_dapps/about.dart';
 import 'package:wemeet_dapps/api_services/api_booking.dart';
 import 'package:wemeet_dapps/api_services/api_lecturers.dart';
 import 'package:wemeet_dapps/api_services/api_notify_services.dart';
+import 'package:wemeet_dapps/api_services/api_students.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/widget/main_drawer_lecturer.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
@@ -21,6 +22,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
   List<dynamic> appointment = [];
   String lectName = "";
   String noData = "";
+  String studentName = "";
 
   @override
   void initState() { 
@@ -472,8 +474,22 @@ class _HomeLecturerState extends State<HomeLecturer> {
      }
   }
 
+  //to view some of student data
+    viewStudent(String? matricNo) async {
+      var responseStudent = await new Student().getStudentDetail(matricNo!);
+      if(responseStudent['success']) {
+         setState(()  {
+           studentName = responseStudent['student'][0]['studName'];
+         });
+      } else {
+         throw Exception("Failed to get the data");
+      }
+ 
+  }
+
    //get all appointment in lecturer
   getAppointment(String? staffNo) async {
+      final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     final responseBooking = await new Booking().getAppointmentRequest(staffNo!);
     if(responseBooking['success']){
       final responseData = responseBooking['booking'];
@@ -481,9 +497,14 @@ class _HomeLecturerState extends State<HomeLecturer> {
         setState(() {
           appointment = responseData;
           bool currentAppointmentRequested = appointment.isNotEmpty && appointment.last['statusBooking'] == "Appending";
-          if(currentAppointmentRequested){
-            NotificationService()
-            .showNotification(title: "New Appointment" ,body: appointment.last['matricNo'] + " has book an appointment session with you");
+          if(currentAppointmentRequested && _sharedPreferences.getInt("bookingAdd") == 1 && _sharedPreferences.getString("bookingAddMatricNumber") != ""){
+           viewStudent(_sharedPreferences.getString("bookingAddMatricNumber")).then((value) => {
+             NotificationService()
+            .showNotification(title: "New Appointment" ,body: studentName + " has book an appointment session with you").then((value) => {
+              _sharedPreferences.remove("bookingAdd"),
+              _sharedPreferences.remove("bookingAddMatricNumber")
+            })
+           });
           }
         });
       }else {
@@ -501,6 +522,9 @@ class _HomeLecturerState extends State<HomeLecturer> {
     final responseBooking = await new Booking().rejectAppointmentRequests(bookingId);
     if(responseBooking['success']){
       nextScreenReplacement(context, HomeLecturer());
+     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+      _sharedPreferences.setInt("rejectAppointment", 2);
+      _sharedPreferences.setString("rejectAppointmentLectName", lectName);
     }else {
       throw Exception(responseBooking['message']);
     }
@@ -510,7 +534,11 @@ class _HomeLecturerState extends State<HomeLecturer> {
   accept(int bookingId) async {
     final responseBooking = await new Booking().acceptAppointmentRequests(bookingId);
     if(responseBooking['success']){
+      print(lectName);
       nextScreenReplacement(context, HomeLecturer());
+       final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+      _sharedPreferences.setInt("acceptAppointment", 1);
+       _sharedPreferences.setString("acceptAppointmentLectName", lectName);
     }else {
       throw Exception(responseBooking['message']);
     }

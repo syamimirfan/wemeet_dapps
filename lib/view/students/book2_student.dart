@@ -538,12 +538,15 @@ class _Book2State extends State<Book2> {
   
   //function to add book
   addBooking(String matricNo, String staffNo, int numberOfStudents, String date, String time,) async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     var responseBooking = await new Booking().addBooking(matricNo, staffNo, numberOfStudents, date, time);
     
     if(responseBooking['success'] && responseBooking['message'] == "Slot Booked") {
       showMessage(context, "Slot Booked!", "The slot has been booked by student name ${responseBooking['student'][0]['studName']} with matric number ${responseBooking['student'][0]['matricNo']}", "OK");
       
     }else if(responseBooking['success']) {
+      _sharedPreferences.setInt("bookingAdd", 1);
+      _sharedPreferences.setString("bookingAddMatricNumber", matricNo);
       nextScreenReplacement(context, BookSuccessful(lecturerName: lectName, numberOfStudents: numberOfStudents, date: date, time: time));
     }else {
     showMessage(context, "Ooops!", "Cannot book the slot", "OK");
