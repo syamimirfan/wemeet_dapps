@@ -106,7 +106,7 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                     ),
                     SizedBox(height: 1.h,),
                      const Text(
-                      "3. Please change the Ethereum Main Network to Goerli Test Network by click the option on the top",
+                      "3. Please change the Ethereum Main Network to Sepolia Test Network by click the option on the top and click Add Network",
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -120,9 +120,25 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                       width: 70.w,
                       scale: 2,               
                     ),
+                       SizedBox(height: 1.5.h,), 
+                      const SelectableText(
+                      "4. At the Custom Networks section, please fill this form : \n Network Name - Sepolia test network \n New RPC URL - https://sepolia.infura.io/v3/a16a56f42e774895b94db13a6342829e \n Chain ID - 11155111 \n Currency Symbol - SepoliaETH \n Block explorer URL - https://sepolia.etherscan.io/",
+                        
+                        style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        fontFamily: 'Poppins',
+                        ),
+                     ),
+                      SizedBox(height: 1.h,),  
+                      Image.asset(
+                      "assets/import_token_9.png",
+                      width: 70.w,
+                      scale: 2,               
+                    ),
                       SizedBox(height: 1.h,),  
                       const Text(
-                      "4. You can see the test network has successfully changed to Goerli.",
+                      "4. You can see the test network has successfully changed to Sepolia.",
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -130,6 +146,14 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                         fontFamily: 'Poppins',
                         ),
                      ),
+              
+             
+                      Image.asset(
+                      "assets/import_token_9.png",
+                      width: 50.w,
+                      scale: 2,
+                      height: 50.h,
+                    ),
                      SizedBox(height: 1.h,),  
                       Image.asset(
                       "assets/import_token_4.png",
@@ -168,7 +192,7 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                      Text(
-                     "0xB5e5...90ec",
+                     "0xac60...b413",
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                         fontWeight: FontWeight.bold,

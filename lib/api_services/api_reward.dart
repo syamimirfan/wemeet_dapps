@@ -6,7 +6,7 @@ class Reward {
 
   //API get total token from metamask
 Future<BigInt> getTotalToken(String studentMetamaskAddress) async {
-  final client = Web3Client(Connection.INFURA_GOERLI_ENDPOINT, http.Client());
+  final client = Web3Client(Connection.INFURA_SEPOLIA_ENDPOINT, http.Client());
   final contract = DeployedContract(
     ContractAbi.fromJson(Connection.CONTRACT_ABI, 'UTHMToken'),
     EthereumAddress.fromHex(Connection.TOKEN_ADDRESS),

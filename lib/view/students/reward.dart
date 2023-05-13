@@ -141,7 +141,7 @@ class _RewardTokenState extends State<RewardToken> {
                 child: Column(
                   children: [
                     Text(
-                    "Not Enough GoerliETH?",
+                    "Not Enough SepoliaETH?",
                     style: TextStyle(
                       fontFamily: "Poppins",
                       fontSize: 18,
@@ -149,7 +149,7 @@ class _RewardTokenState extends State<RewardToken> {
                       color: Colors.black,
                     ),
                    ),
-                      Row(
+                      Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                          children: [ 
                             Text(
@@ -164,10 +164,33 @@ class _RewardTokenState extends State<RewardToken> {
                              SizedBox(width: deviceWidth(context) * 0.02,),
                               GestureDetector(
                              onTap: () {
-                               launch('https://goerli-faucet.pk910.de/');
+                               launch('https://sepolia-faucet.pk910.de/');
                                },
                               child: Text(
                               'https://goerli-faucet.pk910.de/',
+                               style: TextStyle(
+                                fontSize: 22,
+                                color: Constants().primaryColor,
+                                decoration: TextDecoration.underline,
+                               ),
+                            ),
+                           ),
+                          Text(
+                            "Or",
+                             textAlign: TextAlign.justify,
+                              style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
+                              fontFamily: 'Poppins',                               
+                                ),
+                           ),
+                             SizedBox(width: deviceWidth(context) * 0.02,),
+                              GestureDetector(
+                             onTap: () {
+                               launch('https://sepoliafaucet.com/');
+                               },
+                              child: Text(
+                              'https://sepoliafaucet.com/',
                                style: TextStyle(
                                 fontSize: 22,
                                 color: Constants().primaryColor,
