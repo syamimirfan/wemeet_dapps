@@ -91,7 +91,7 @@ class Support extends StatelessWidget {
                                     ),
                                      SizedBox(height: deviceHeight(context) * 0.04,),
                                    Text(
-                                  "NOTE! Please make sure you have enough GoerliETH Token to make transaction! Otherwise, you cannot make a transaction with seller. (i.e make sure earn more than 0 GoerliETH)",
+                                  "NOTE! Please make sure you have enough SepoliaETH Token to make transaction! Otherwise, you cannot make a transaction with seller. (i.e make sure earn more than 0 SepoliaETH)",
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
                                   fontWeight: FontWeight.bold,
@@ -100,24 +100,13 @@ class Support extends StatelessWidget {
                                   color: Constants().secondaryColor
                                      ),
                                     ),
-                                     Row(
-                                      children: [ 
-                                      Text(
-                                      "Click",
-                                      textAlign: TextAlign.justify,
-                                      style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      fontFamily: 'Poppins',                               
-                                        ),
-                                        ),
                                         SizedBox(width: deviceWidth(context) * 0.02,),
                                     GestureDetector(
                                         onTap: () {
-                                          launch('https://goerli-faucet.pk910.de/');
+                                          launch('https://sepoliafaucet.com/');
                                         },
                                         child: Text(
-                                          'https://goerli-faucet.pk910.de/',
+                                          '" https://sepoliafaucet.com/ "',
                                           style: TextStyle(
                                              fontSize: 22,
                                             color: Constants().primaryColor,
@@ -125,10 +114,8 @@ class Support extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                    ],
-                                     ),
                                       Text(
-                                      "Copy your Metamask Account Address and pass it to get free 0.2 GoerliETH",
+                                      "Copy your Metamask Account Address and pass it to get free 0.5 SepoliaETH",
                                       textAlign: TextAlign.justify,
                                       style: TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -155,14 +142,24 @@ class Support extends StatelessWidget {
                                   fontFamily: 'Poppins',
                                      ),
                                     ),
-                                      const  Text(
-                                  "Step 1  : Copy the token address from popup dialog. e.g , 0x77B9B0ace19fe2Ec236679e94f9a3cDbC507D30B",
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  fontFamily: 'Poppins',
-                                 ),
+                                   SelectableText.rich(
+                                      TextSpan(
+                                        text: "Step 1: Copy the token address from popup dialog. e.g, ",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                          fontFamily: 'Poppins',
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text: "0xac60Ae1E7BeE92cf1b8BBd35D73EDa77eae1b413",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      textAlign: TextAlign.justify,
                                     ),
                                   const  Text(
                                   "Step 2 : Open Metamask App and login with your password.",
@@ -174,7 +171,69 @@ class Support extends StatelessWidget {
                                  ),
                                     ),
                                   const  Text(
-                                  "Step 3 : Change Ethereum Main Network to Goerli Test Network.",
+                                  "Step 3 : Change Ethereum Main Network to Sepolia Test Network.",
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  fontFamily: 'Poppins',
+                                 ),
+                                    ),
+                               SelectableText.rich(
+                                TextSpan(
+                                  text: "Step 4: Add this to Custom Network:\n",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    fontFamily: 'Poppins',
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: "Network Name - ",
+                                      style: TextStyle(fontWeight: FontWeight.w500),
+                                    ),
+                                    TextSpan(
+                                      text: "Sepolia test network\n",
+                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                      ),
+                                    TextSpan(
+                                      text: "New RPC URL - ",
+                                      style: TextStyle(fontWeight: FontWeight.w500),
+                                    ),
+                                    TextSpan(
+                                      text: "https://sepolia.infura.io/v3/a16a56f42e774895b94db13a6342829e\n",
+                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                    TextSpan(
+                                      text: "Chain ID - ",
+                                      style: TextStyle(fontWeight: FontWeight.w500),
+                                    ),
+                                    TextSpan(
+                                      text: "11155111\n",
+                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                     ),
+                                    TextSpan(
+                                      text: "Currency Symbol - ",
+                                      style: TextStyle(fontWeight: FontWeight.w500),
+                                    ),
+                                    TextSpan(
+                                      text: "SepoliaETH\n",
+                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                      ),
+                                    TextSpan(
+                                      text: "Block explorer URL - ",
+                                      style: TextStyle(fontWeight: FontWeight.w500),
+                                    ),
+                                    TextSpan(
+                                      text: "https://sepolia.etherscan.io/",
+                                        style: TextStyle(fontWeight: FontWeight.bold),
+                                      ),
+                                  ],
+                                ),
+                                textAlign: TextAlign.justify,
+                              ),
+                                  const  Text(
+                                  "Step 5 : Click “Import Tokens”.",
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
                                   fontWeight: FontWeight.w500,
@@ -183,16 +242,7 @@ class Support extends StatelessWidget {
                                  ),
                                     ),
                                   const  Text(
-                                  "Step 4 : Click “Import Tokens”.",
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  fontFamily: 'Poppins',
-                                 ),
-                                    ),
-                                  const  Text(
-                                  "Step 5 : Paste the copied token address in Token Address textbox (It will automatically fill in the Token Symbol and Token Decimal).",
+                                  "Step 6 : Paste the copied token address in Token Address textbox (It will automatically fill in the Token Symbol and Token Decimal).",
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
                                   fontWeight: FontWeight.w500,
@@ -201,7 +251,7 @@ class Support extends StatelessWidget {
                                  ),
                                     ),
                                       const  Text(
-                                  "Step 6 : Press “IMPORT” button and you ready to go.",
+                                  "Step 7 : Press “IMPORT” button and you ready to go.",
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
                                   fontWeight: FontWeight.w500,

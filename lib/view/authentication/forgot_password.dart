@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wemeet_dapps/api_services/api_lecturers.dart';
 import 'package:wemeet_dapps/api_services/api_students.dart';
@@ -117,8 +118,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         color: Constants().secondaryColor,
                       ),
                        suffixIcon: TextButton(
-                        onPressed: () async {
-                       
+                        onPressed: () async {                  
+                          //loading for send request   
+                           EasyLoading.show(
+                            status: "Loading...",
+                            maskType: EasyLoadingMaskType.black,
+                            dismissOnTap: false
+                          );
                           // to send a OTP to user email
                           myauth.setConfig(
                               appEmail: "wemeetdeveloper@gmail.com",
@@ -128,12 +134,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               otpType: OTPType.digitsOnly
                           );
                           if(await myauth.sendOTP() == true) {
+                              EasyLoading.dismiss();
                               showMessage(context, "OTP Send Successfully", "OTP Email Verification has been sent to the ${_controllerEmail.text.toString().trim()}", "OK");
                           }else {
+                              EasyLoading.dismiss();
                               showMessage(context, "Ooops!", "OTP Email Verification cannot be sent", "OK");
-                     
-                           }
-                        
+                           }                       
                         },
                        child: Text(
                         "Send OTP",

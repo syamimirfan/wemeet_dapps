@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
@@ -20,6 +21,29 @@ Future<void> main() async{
   NotificationService().initNotification();
 
   runApp(const MyApp());
+  configLoading();
+}
+
+void configLoading() {
+  EasyLoading.instance
+    ..displayDuration = const Duration(milliseconds: 2000)
+    ..indicatorType = EasyLoadingIndicatorType.chasingDots
+    ..loadingStyle = EasyLoadingStyle.dark
+    ..indicatorSize = 45.0
+    ..radius = 10.0
+    ..progressColor = Colors.yellow
+    ..backgroundColor = Colors.green
+    ..indicatorColor = Colors.yellow
+    ..textColor = Colors.white
+    ..maskColor = Colors.blue.withOpacity(0.5)
+    ..userInteractions = false
+    ..dismissOnTap = false
+    ..textStyle = TextStyle(  
+      color: Colors.white,
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+      fontFamily: 'Poppins', // Replace 'Poppins' with your desired font family
+    );
 }
 
  class MyApp extends StatefulWidget {
@@ -28,9 +52,9 @@ Future<void> main() async{
    @override
    State<MyApp> createState() => _MyAppState();
  }
- 
+  
  class _MyAppState extends State<MyApp> {
-   
+
    @override
    void initState() {
     super.initState();
@@ -49,7 +73,7 @@ Future<void> main() async{
       ), 
       home: SplashScreen(),
       locale: Locale('en', 'US'),  
-
+      builder: EasyLoading.init(),
      );
     }
   );

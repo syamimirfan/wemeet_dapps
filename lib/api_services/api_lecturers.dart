@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 import 'package:wemeet_dapps/constants/utils.dart';
 
@@ -6,6 +7,10 @@ class Lecturer {
   
   //API for lecturer login
   Future lecturerLogin(String lecturerEmail, String lecturerPassword) async{
+      EasyLoading.show(
+      status: "Loading...",
+      maskType: EasyLoadingMaskType.black,
+    );
     final response = await http.post(Uri.parse('${Utils.baseURL}/lecturer/lecturerlogin'),
       headers: {
       'Accept': 'Application/json'
@@ -15,11 +20,22 @@ class Lecturer {
       'lecturerPassword': lecturerPassword
       }
     );
-    return jsonDecode(response.body);
+       if(response.statusCode == 200){
+       EasyLoading.dismiss();
+       return jsonDecode(response.body);
+    } else {
+        EasyLoading.showError("ERROR!");
+        print(response.body); 
+        throw Exception(response.statusCode);
+     }
   }
 
   //API for lecturer reset the password
     Future lecturerResetPassword(String lecturerEmail, String lecturerPassword) async {
+       EasyLoading.show(
+        status: "Loading...",
+        maskType: EasyLoadingMaskType.black,
+      );
      final response = await http.patch(Uri.parse('${Utils.baseURL}/lecturer/resetpassword'),
       headers:  {
         "Accept": "application/json;charset=UTF-8",
@@ -31,44 +47,62 @@ class Lecturer {
        },
        );
      if(response.statusCode == 200) {
-      return jsonDecode(response.body);
+       EasyLoading.dismiss();
+       return jsonDecode(response.body);
      } else {
-      print(response.body); 
-    throw Exception(response.statusCode);
+       EasyLoading.showError("ERROR!");
+       print(response.body); 
+       throw Exception(response.statusCode);
      }
   }
   
   //API for lecturer detail by passing the staffNo
-  Future getLecturerDetail(String staffNo) async{ 
+  Future getLecturerDetail(String staffNo) async{
+     EasyLoading.show(
+        status: "Loading...",
+        maskType: EasyLoadingMaskType.black,
+      ); 
       final response = await http.get(Uri.parse('${Utils.baseURL}/lecturer/getlecturer/${staffNo}'),
         headers: {
           "Accept": "Application/json"
         }
       );
       if(response.statusCode == 200) {
+          EasyLoading.dismiss();
           return jsonDecode(response.body);
       } else{ 
+         EasyLoading.showError("ERROR!");
          throw Exception("Failed to load data");
       }
   }
 
  //API for get all lecturer list in book1.student.dart
   Future getLecturerList() async{ 
+      EasyLoading.show(
+        status: "Loading...",
+        maskType: EasyLoadingMaskType.black
+      );
       final response = await http.get(Uri.parse('${Utils.baseURL}/lecturer/view'),
         headers: {
           "Accept": "Application/json"
         }
       );
       if (response.statusCode == 200) {
+         EasyLoading.dismiss();
          return jsonDecode(response.body);
      
       } else {
+        EasyLoading.showError("ERROR!");
         throw Exception('API request failed with status code: ${response.statusCode}');
       }
    }
 
    //API for update the lecturer information 
 Future lecturerInformation(String staffNo, int floorLvl, int roomNo, String academicQualification1,String academicQualification2, String academicQualification3, String academicQualification4) async {
+      EasyLoading.show(
+        status: "Loading...",
+        maskType: EasyLoadingMaskType.black
+      );
       final response = await http.patch(Uri.parse('${Utils.baseURL}/lecturer/lecturerinformation/${staffNo}'),
         headers: {
           "Accept": "application/json;charset=UTF-8",
@@ -85,8 +119,10 @@ Future lecturerInformation(String staffNo, int floorLvl, int roomNo, String acad
       );
 
       if(response.statusCode == 200) {
+        EasyLoading.dismiss();
         return jsonDecode(response.body);
       }else {
+        EasyLoading.showError("ERROR!");
         print(response.body);
         throw Exception(response.statusCode);
       }
@@ -94,29 +130,41 @@ Future lecturerInformation(String staffNo, int floorLvl, int roomNo, String acad
 
    //API for get lecturer profile
   Future getLecturerProfile(String staffNo) async{ 
+      EasyLoading.show(
+        status: "Loading...",
+        maskType: EasyLoadingMaskType.black
+      );
       final response = await http.get(Uri.parse('${Utils.baseURL}/lecturer/lecturerprofile/${staffNo}'),
         headers: {
           "Accept": "Application/json"
         }
       );
       if(response.statusCode == 200) {
-          return jsonDecode(response.body);
+         EasyLoading.dismiss();
+          return jsonDecode(response.body); 
       } else{ 
+         EasyLoading.showError("ERROR!");
          throw Exception("Failed to load data");
       }
   }
   
   //API for get lecturer detail in book2
     Future getLecturerBook2(String staffNo) async{ 
+      EasyLoading.show(
+        status: "Loading...",
+        maskType: EasyLoadingMaskType.black
+      );
       final response = await http.get(Uri.parse('${Utils.baseURL}/lecturer/book2/${staffNo}'),
         headers: {
           "Accept": "Application/json"
         }
       );
       if (response.statusCode == 200) {
+          EasyLoading.dismiss();
          return jsonDecode(response.body);
      
       } else {
+        EasyLoading.showError("ERROR!");
         throw Exception('API request failed with status code: ${response.statusCode}');
       }
    }
