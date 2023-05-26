@@ -285,12 +285,13 @@ class _BookState extends State<Book> {
                         controller: _searchController,
                         onChanged: (value) {
                           setState(() {
-                            filterLecturerList = lecturerList.where((list) => list['lecturerName'].toLowerCase().contains(value)).toList();
+                            selectedFaculty = "";
+                            filterLecturerList = lecturerList.where((list) => list['lecturerName'].toLowerCase().contains(value.toLowerCase())).toList();
                           });
                         },
                         
                         decoration: inputTextDecorationSearch.copyWith(
-                          hintText: "Search",
+                          hintText: "Search...",
                           fillColor: Colors.white,
                           prefixIcon:Icon(Icons.search,color: Colors.grey,),
                         ),

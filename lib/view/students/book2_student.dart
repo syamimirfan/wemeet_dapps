@@ -132,19 +132,19 @@ class _Book2State extends State<Book2> {
           fontFamily: 'Poppins',
           fontSize: 16,
           fontWeight: FontWeight.w600,
-          color: Constants().BoxShadowColor,
+          color: Colors.black,
         ),
         dateTextStyle: TextStyle(
           fontFamily: 'Poppins',
           fontSize: 20,
           fontWeight: FontWeight.w600,
-          color: Constants().BoxShadowColor,
+          color: Colors.black,
         ),
         monthTextStyle: TextStyle(
           fontFamily: 'Poppins',
           fontSize: 16,
           fontWeight: FontWeight.w600,
-          color: Constants().BoxShadowColor,
+          color: Colors.black,
         ),
         onDateChange: (date){
           setState(() {
@@ -164,11 +164,12 @@ class _Book2State extends State<Book2> {
 
   //function slot
   Widget buildSlot() {
+    
      return Container(
        padding: Device.screenType == ScreenType.tablet? 
                 const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.006),
-        child: ListView.builder(
+        child:ListView.builder(
           shrinkWrap: true,
           itemCount: slot.length,
           itemBuilder:   (context, index) {
@@ -176,7 +177,6 @@ class _Book2State extends State<Book2> {
                 children: [
                   Row(
                     children: [  
-        
                     slot[index]['slot1'] != "" && notAvailableDay == false ? 
                       GestureDetector(
                         child: Container(
@@ -517,9 +517,9 @@ class _Book2State extends State<Book2> {
 
   //function to get booking slot based on lecturer schedule
   getBookingSlot(String? staffNo, String day) async {
-    var responseBooking = await new Booking().getBookingSlot(staffNo!, day);
-     
-     if(responseBooking['success']) {
+   
+      var responseBooking = await new Booking().getBookingSlot(staffNo!, day);
+       if(responseBooking['success']) {
        final responseData = responseBooking['slot'];
        if(responseData is List) {
         setState(() {
@@ -534,6 +534,7 @@ class _Book2State extends State<Book2> {
           print("Error fetching data: ${responseBooking['message']}");
        }
      }
+
   }
   
   //function to add book

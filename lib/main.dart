@@ -42,7 +42,7 @@ void configLoading() {
       color: Colors.white,
       fontSize: 16,
       fontWeight: FontWeight.bold,
-      fontFamily: 'Poppins', // Replace 'Poppins' with your desired font family
+      fontFamily: 'Poppins', 
     );
 }
 

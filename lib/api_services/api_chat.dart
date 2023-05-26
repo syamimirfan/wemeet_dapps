@@ -1,10 +1,15 @@
 import 'dart:convert';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 import 'package:wemeet_dapps/constants/utils.dart';
 
 class Chat {
    //API for contact lecturer button
    Future getContactLecturer(String staffNo) async {
+     EasyLoading.show(
+        status: "Loading...",
+        maskType: EasyLoadingMaskType.black,
+      ); 
      final response = await http.get(Uri.parse('${Utils.baseURL}/chat/contactlecturer/${staffNo}'), 
        headers: {
         "Accept" : "Application/json"
@@ -12,14 +17,20 @@ class Chat {
      );
 
      if(response.statusCode == 200) {
+       EasyLoading.dismiss();
        return jsonDecode(response.body);
      }else{
+       EasyLoading.showError("ERROR!");
        throw Exception('API request failed with status code: ${response.statusCode}');
      }
    }
 
    //API for contact student button
    Future getContactStudent(String matricNo) async {
+      EasyLoading.show(
+        status: "Loading...",
+        maskType: EasyLoadingMaskType.black,
+      ); 
      final response = await http.get(Uri.parse('${Utils.baseURL}/chat/contactstudent/${matricNo}'), 
        headers: {
         "Accept" : "Application/json"
@@ -27,8 +38,10 @@ class Chat {
      );
 
      if(response.statusCode == 200) {
+       EasyLoading.dismiss();
        return jsonDecode(response.body);
      }else{
+      EasyLoading.showError("ERROR!");
        throw Exception('API request failed with status code: ${response.statusCode}');
      }
    }
@@ -45,7 +58,11 @@ class Chat {
           'messageText': messageText
         }
       );
-      return jsonDecode(response.body);
+     if(response.statusCode == 200) {
+       return jsonDecode(response.body);
+     }else{
+       throw Exception('API request failed with status code: ${response.statusCode}');
+     }
    }
 
   //API for lecturer sending message
@@ -60,7 +77,11 @@ class Chat {
           'messageText': messageText
         }
       );
-      return jsonDecode(response.body);
+        if(response.statusCode == 200) {
+       return jsonDecode(response.body);
+     }else{
+       throw Exception('API request failed with status code: ${response.statusCode}');
+     }
    }
 
    //API for get message
@@ -79,20 +100,30 @@ class Chat {
 
    //API for delete message in student
    Future deleteMessage(int chatId) async {
+     EasyLoading.show(
+        status: "Loading...",
+        maskType: EasyLoadingMaskType.black,
+      ); 
       final response = await http.delete(Uri.parse('${Utils.baseURL}/chat/deletechat/${chatId}'),
         headers: {
           "Accept" : "Application/json"
         }
       );
-       if(response.statusCode == 200) {
+        if(response.statusCode == 200) {
+       EasyLoading.dismiss();
        return jsonDecode(response.body);
      }else{
-       throw Exception(response.statusCode);
+      EasyLoading.showError("ERROR!");
+       throw Exception('API request failed with status code: ${response.statusCode}');
      }
    }
 
    //API for chat in student
    Future getChatStudents() async {
+     EasyLoading.show(
+        status: "Loading...",
+        maskType: EasyLoadingMaskType.black,
+      ); 
      final response = await http.get(Uri.parse('${Utils.baseURL}/chat/chatstudent'),
      headers: {
         "Accept" : "Application/json"
@@ -100,14 +131,20 @@ class Chat {
      );
 
      if(response.statusCode == 200) {
+       EasyLoading.dismiss();
        return jsonDecode(response.body);
      }else{
+       EasyLoading.showError("ERROR!");
        throw Exception('API request failed with status code: ${response.statusCode}');
      }
    }
 
    //API for chat in student
    Future getChatLecturers() async {
+      EasyLoading.show(
+        status: "Loading...",
+        maskType: EasyLoadingMaskType.black,
+      ); 
      final response = await http.get(Uri.parse('${Utils.baseURL}/chat/chatlecturer'),
      headers: {
         "Accept" : "Application/json"
@@ -115,8 +152,10 @@ class Chat {
      );
 
      if(response.statusCode == 200) {
+       EasyLoading.dismiss();
        return jsonDecode(response.body);
      }else{
+       EasyLoading.showError("ERROR!");
        throw Exception('API request failed with status code: ${response.statusCode}');
      }
    }

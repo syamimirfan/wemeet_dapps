@@ -287,13 +287,13 @@ class _RewardTokenState extends State<RewardToken> {
   //get total token from metamask for student
 getToken(String? studentMetamaskAddress) async {
   EasyLoading.show(
-     status: "Loading...",
-     maskType: EasyLoadingMaskType.black,
+    status: "Loading...",
+    maskType: EasyLoadingMaskType.black,
   );
 
   final responseReward = await new Reward().getTotalToken(studentMetamaskAddress!);
-  
-  if (responseReward != null && responseReward is BigInt) {
+
+  if (responseReward != "null") {
     EasyLoading.dismiss();
     setState(() {
       token = responseReward;
@@ -302,6 +302,7 @@ getToken(String? studentMetamaskAddress) async {
     EasyLoading.showError("ERROR!");
   }
 }
+
 
  //show snackbar 
   void showSnackBarSuccessful(BuildContext context, String content, Color color) {
