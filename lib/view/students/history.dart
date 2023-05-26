@@ -274,7 +274,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                               ),
                                             ),
                                           ),
-                                     SizedBox(width: 20.w,) ,
+                                     SizedBox(width: 17.w,) ,
                                    SizedBox(
                                      child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(

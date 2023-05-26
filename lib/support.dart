@@ -26,7 +26,7 @@ class Support extends StatelessWidget {
       ),
       body: Padding(
         padding: Device.screenType == ScreenType.tablet? 
-                  const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                     EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001, vertical: deviceHeight(context) * 0.001):
                        EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.01,),
              child: Container(
                       decoration:  const BoxDecoration(
@@ -37,8 +37,8 @@ class Support extends StatelessWidget {
                         topRight: Radius.circular(30)
                        )
                       ),
-                     height: Device.screenType == ScreenType.tablet?  849: deviceHeight(context) * 3,
-                     width: Device.screenType == ScreenType.tablet?  1000: deviceWidth(context) * 3, 
+                     height: Device.screenType == ScreenType.tablet?  deviceHeight(context) * 3: deviceHeight(context) * 3,
+                     width: Device.screenType == ScreenType.tablet?  deviceWidth(context) * 3: deviceWidth(context) * 3, 
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: Container(
@@ -47,7 +47,9 @@ class Support extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                             children:  [
                           SizedBox(height: deviceHeight(context) * 0.03,),
-                          Image.asset('assets/UTHM2.png'),
+                          Center(
+                            child: Image.asset('assets/UTHM2.png'),
+                          ),
                           SizedBox(height: deviceHeight(context) * 0.02,),
                            Container(
                             padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.08),

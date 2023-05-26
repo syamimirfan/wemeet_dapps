@@ -92,6 +92,16 @@ class _ManageBookingState extends State<ManageBooking> {
         setState(() {
           noData = responseBooking['message'];
         });
+       if(_sharedPreferences.getInt("appointmentCancel") == 1 && _sharedPreferences.getString("appointmentCancelStaffNo") != ""){
+            viewLecturer(_sharedPreferences.getString("appointmentCancelStaffNo")).then((value) => {
+              NotificationService()
+            .showNotification(title: "Appointment Cancelled!" ,body: lectName + " has cancel your appointment").then((value) => {
+              _sharedPreferences.remove("appointmentCancel"),
+              _sharedPreferences.remove("appointmentCancelStaffNo")
+             })
+            });
+            
+          }
        print("Error fetching data: ${responseBooking['message']}");
       }
     }

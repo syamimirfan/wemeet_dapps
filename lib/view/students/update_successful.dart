@@ -42,142 +42,145 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
           padding:Device.screenType == ScreenType.tablet? 
                   const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
-          child: Container(
-              padding:Device.screenType == ScreenType.tablet? 
-                  const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
-                  EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.09, horizontal: deviceWidth(context) * 0.06),
-            decoration:  const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius:
-                       BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30)
-                    )
-              ),
-              child: Column(
-        
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                    Gif(
-                      image: AssetImage("assets/success.gif"),
-                      autostart: Autostart.once,
-                      height: 150,
-                    
-                     duration: const Duration(seconds: 3),
-                    ),
-                   const Text(
-                    "Update Successful",
-                    style: TextStyle(
-                      fontFamily: "Poppins",
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                    ),
-                   ),
-                   SizedBox(height: 5,),
-                       const Text(
-                    "You have successfully update your appointment",
-                    style: TextStyle(
-                      fontFamily: "Poppins",
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                   ),
-                      SizedBox(height: 20,),
-                   Container(
-                  padding:Device.screenType == ScreenType.tablet? 
-                  const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
-                  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02,vertical: deviceHeight(context) * 0.02),
-                  height: deviceHeight(context) * 0.35,
-                  width: deviceWidth(context) * 0.9,
-                    decoration:   BoxDecoration(
-                      color: Color(0xffC0C0C0),
-                      borderRadius: BorderRadius.circular(10)
-                       ),  
-                      child: Column(
-    
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        
-                        children: [
-                          SizedBox(width: 20,),
-                          const Text(
-                          "Your Appointment Details:",
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                            SizedBox(height: 10,),
-                               
-                         Text(
-                         lecturerName,
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                                 SizedBox(height: 5,),
-                           Text(
-                          numberOfStudents.toString() + " students",
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                                  SizedBox(height: 5,),
-                           Text(
-                          date,
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                           SizedBox(height: 5,),
-                           Text(
-                          time,
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            color: Constants().secondaryColor,
-                          ),
-                        ),
-                          SizedBox(height: 20),       
-                 SizedBox(
-                   width: double.infinity,
-                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Constants().secondaryColor,
-                        elevation: 0,
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Container(
+                padding:Device.screenType == ScreenType.tablet? 
+                    const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                    EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.09, horizontal: deviceWidth(context) * 0.06),
+              decoration:  const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                         BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30)
+                      )
+                ),
+                child: Column(
+                  
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                      Gif(
+                        image: AssetImage("assets/success.gif"),
+                        autostart: Autostart.once,
+                        height: 150,
+                      
+                       duration: const Duration(seconds: 3),
                       ),
-                
-                    onPressed: () async{
-                      nextScreen(context, ManageBooking());
-                    },
-                     child:  const Text(
-                       "Go to Appointment",
-                       style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                          fontFamily: 'Poppins',
-                       ),
+                     const Text(
+                      "Update Successful",
+                      style: TextStyle(
+                        fontFamily: "Poppins",
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
                      ),
-                    ),
-                 ),
-                        ],
+                     SizedBox(height: 5,),
+                         const Text(
+                      "You have successfully update your appointment",
+                      style: TextStyle(
+                        fontFamily: "Poppins",
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                     ),
+                        SizedBox(height: 20,),
+                     Container(
+                    padding:Device.screenType == ScreenType.tablet? 
+                    const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                    EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.09,vertical: deviceHeight(context) * 0.07),
+                    height: deviceHeight(context) * 0.45,
+                    width: deviceWidth(context) * 0.9,
+                      decoration:   BoxDecoration(
+                        color: Color(0xffC0C0C0),
+                        borderRadius: BorderRadius.circular(10)
+                         ),  
+                        child: Column(
+              
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          
+                          children: [
+                            SizedBox(width: 20,),
+                            const Text(
+                            "Your Appointment Details:",
+                            style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                              SizedBox(height: 10,),
+                                 
+                           Text(
+                           lecturerName,
+                            style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                                   SizedBox(height: 5,),
+                             Text(
+                            numberOfStudents.toString() + " students",
+                            style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                              SizedBox(height: 5,),
+                             Text(
+                            date,
+                            style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                             SizedBox(height: 5,),
+                             Text(
+                            time,
+                            style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Constants().secondaryColor,
+                            ),
+                          ),
+                            SizedBox(height: 5.h),       
+                   SizedBox(
+                     width: double.infinity,
+                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Constants().secondaryColor,
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+          
+                        ),
+                  
+                      onPressed: () async{
+                        nextScreen(context, ManageBooking());
+                      },
+                       child:  const Text(
+                         "Go to Appointment",
+                         style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                            fontFamily: 'Poppins',
+                         ),
+                       ),
                       ),
                    ),
-                ],
-              ),
+                          ],
+                        ),
+                     ),
+                  ],
+                ),
+            ),
           ),
         ),
     );
