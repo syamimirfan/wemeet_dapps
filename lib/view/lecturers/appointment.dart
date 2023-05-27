@@ -70,8 +70,8 @@ class _AppointmentState extends State<Appointment> {
     drawer: MainDrawerLecturer(home: false, profile: false, slot: false, appointment: true, attendance: false, chat: false),
       body: Padding(
         padding: Device.screenType == ScreenType.tablet? 
-                  const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
-                  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
+                 EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
+                 EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
         child: Container(
             height: 100.h,
             width: 100.w,
@@ -118,7 +118,7 @@ class _AppointmentState extends State<Appointment> {
                                   //for lecturer images
                                     Container(
                                       child: CircleAvatar(
-                                        radius: 40,
+                                        radius: Device.screenType == ScreenType.tablet? 100 : 40,
                                         backgroundImage: NetworkImage(booking['studImage']),
                                       ),
                                     ),
@@ -126,7 +126,7 @@ class _AppointmentState extends State<Appointment> {
                                     Flexible(
                                       child: Container(
                                          margin:  Device.screenType == ScreenType.tablet? 
-                                        const EdgeInsets.only(left: 20):
+                                         EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02):
                                         EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02),
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
@@ -134,7 +134,7 @@ class _AppointmentState extends State<Appointment> {
                                             children: [
                                               Container(
                                               margin: Device.screenType == ScreenType.tablet? 
-                                                const EdgeInsets.only(bottom: 20):
+                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                               child: Text(
                                                 booking['studName'],
@@ -149,7 +149,7 @@ class _AppointmentState extends State<Appointment> {
                                             ),
                                              Container(
                                               margin: Device.screenType == ScreenType.tablet? 
-                                                const EdgeInsets.only(bottom: 20):
+                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                               child: Text(
                                                 booking['numberOfStudents'].toString() + " student",
@@ -164,7 +164,7 @@ class _AppointmentState extends State<Appointment> {
                                             ),
                                              Container(
                                               margin: Device.screenType == ScreenType.tablet? 
-                                                const EdgeInsets.only(bottom: 20):
+                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                               child: Text(
                                                 booking['date'],
@@ -179,7 +179,7 @@ class _AppointmentState extends State<Appointment> {
                                             ),
                                              Container(
                                               margin: Device.screenType == ScreenType.tablet? 
-                                                const EdgeInsets.only(bottom: 20):
+                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                               child: Text(
                                                 booking['time'],
@@ -204,12 +204,14 @@ class _AppointmentState extends State<Appointment> {
                                color: Constants().dividerColor,
                                thickness: 1.5,
                               ),
-                
+                       SizedBox(
+                        height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.01 : deviceHeight(context) * 0.01,),
                               //for button contact lecturer and update
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
                                   SizedBox(
+                                      height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.04 : deviceHeight(context) * 0.04,
                                      child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Constants().primaryColor,
@@ -221,18 +223,19 @@ class _AppointmentState extends State<Appointment> {
                                         onPressed: () {
                                           nextScreen(context, LecturerMessage(matricNo: booking['matricNo']));
                                         },
-                                        child: const Text(
+                                        child: Text(
                                           "Contact Student",
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 15,
+                                              fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
                                               fontFamily: 'Poppins',
                                           ),
                                         ),
                                     ),
                                   ),
                                      SizedBox(
+                                        height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.04 : deviceHeight(context) * 0.04,
                                     child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Constants().secondaryColor,
@@ -244,12 +247,12 @@ class _AppointmentState extends State<Appointment> {
                                         onPressed: () {
                                         showConfirmationDeleteBox(context, "Confirm?", "Delete Appointment. Please let your student know that you cannot proceed with the appointment.",booking['bookingId']);
                                         },
-                                        child: const Text(
+                                        child:  Text(
                                           "Cancel",
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 15,
+                                             fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
                                               fontFamily: 'Poppins',
                                           ),
                                         ),
@@ -257,7 +260,7 @@ class _AppointmentState extends State<Appointment> {
                                   ),
                                 ],
                               ), 
-                            
+                             SizedBox(height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.01 : deviceHeight(context) * 0.01,),
                             ],
                           ),
                        ),
@@ -274,7 +277,7 @@ class _AppointmentState extends State<Appointment> {
                               "Sorry, No Appointment",
                                style: TextStyle(
                                fontFamily: 'Poppins',
-                               fontSize: 20,
+                               fontSize:    20,
                                fontWeight: FontWeight.w600,
                                color: Constants().secondaryColor
                                  ),

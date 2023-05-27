@@ -58,14 +58,14 @@ class _SplashScreenState extends State<SplashScreen> {
                     child:  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      
+                    children: [          
                       Text("We", 
                         style: TextStyle(
                         color: Constants().secondaryColor,
                         fontWeight: FontWeight.bold, 
                          fontFamily: 'Poppins',
-                         fontSize: 40 
+                         fontSize: Device.screenType == ScreenType.tablet? 
+                              0.25.dp:0.40.dp 
                         ),
                       ),
                       Text("Meet", 
@@ -73,7 +73,8 @@ class _SplashScreenState extends State<SplashScreen> {
                         color: Constants().tertiaryColor,
                         fontWeight: FontWeight.bold, 
                         fontFamily: 'Poppins',
-                        fontSize: 40,
+                        fontSize: Device.screenType == ScreenType.tablet? 
+                              0.25.dp:0.40.dp,
                         ),
                       ),
                     ],
@@ -81,11 +82,13 @@ class _SplashScreenState extends State<SplashScreen> {
                  ),
                 
                   Text("Make an appointment with your lecturer",
+                     textAlign: TextAlign.center ,
                           style: TextStyle(
                             color: Constants().tertiaryColor,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Poppins',
-                            fontSize: 16,
+                            fontSize: Device.screenType == ScreenType.tablet? 
+                              0.17.dp:0.30.dp,
                       ),
                   ),
                   const SizedBox(height: 30,),
@@ -100,7 +103,8 @@ class _SplashScreenState extends State<SplashScreen> {
                     color: Constants().tertiaryColor,
                     fontWeight: FontWeight.w500,
                     fontFamily: 'Poppins', 
-                    fontSize: 16,
+                    fontSize: Device.screenType == ScreenType.tablet? 
+                              0.17.dp:0.30.dp,
                    ),
                   ),
                   Text("@ Universiti Tun Hussein Onn Malaysia",
@@ -109,7 +113,8 @@ class _SplashScreenState extends State<SplashScreen> {
                     color: Constants().tertiaryColor,
                     fontWeight: FontWeight.w500,
       
-                    fontSize: 16,
+                    fontSize: Device.screenType == ScreenType.tablet? 
+                              0.17.dp:0.30.dp,
                     fontFamily: 'Poppins',
                    ),
                   ),
@@ -117,7 +122,8 @@ class _SplashScreenState extends State<SplashScreen> {
                    style: TextStyle(
                     color: Constants().tertiaryColor,
                     fontWeight: FontWeight.w500,
-                    fontSize: 16,
+                    fontSize: Device.screenType == ScreenType.tablet? 
+                              0.17.dp:0.30.dp,
                     fontFamily: 'Poppins',
                    ),
                   ),
@@ -128,7 +134,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                       Text("Loading ", style: TextStyle(fontFamily: 'Poppins',fontSize: 20, color: Constants().secondaryColor, fontWeight: FontWeight.w600 ),),
+                       Text("Loading ", style: TextStyle(fontFamily: 'Poppins',fontSize: Device.screenType == ScreenType.tablet? 
+                              0.17.dp:0.30.dp, color: Constants().secondaryColor, fontWeight: FontWeight.w600 ),),
                       SpinKitThreeBounce(color: Constants().secondaryColor, size: 25)
                   ],
                 ),

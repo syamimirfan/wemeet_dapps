@@ -155,7 +155,7 @@ class _LecturerMessageState extends State<LecturerMessage> {
           children: [
             Container(
                child: CircleAvatar(
-               radius: 20,
+                radius: Device.screenType == ScreenType.tablet?  25 : 20,
               backgroundImage: NetworkImage(studentImage),
           ),
             ),
@@ -177,7 +177,7 @@ class _LecturerMessageState extends State<LecturerMessage> {
 
       body: Padding(
       padding: Device.screenType == ScreenType.tablet? 
-               const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+               EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
                EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
           child: Container(
             height: 100.h,
@@ -193,7 +193,7 @@ class _LecturerMessageState extends State<LecturerMessage> {
                 scrollDirection: Axis.vertical,
                 child: Column(
                     children: [
-                      SizedBox(height: deviceHeight(context) * 0.78, child:  message(),),
+                      SizedBox(height:Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.85 : deviceHeight(context) * 0.78, child:  message(),),
                   sendingMessage()
                     ],
                 ),

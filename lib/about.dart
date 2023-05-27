@@ -122,8 +122,8 @@ class About extends StatelessWidget {
                                   fontFamily: 'Poppins',
                                  ),
                                     ),
-                                    Text(
-                                  "Please email to ai200104@siswa.uthm.edu",
+                                    SelectableText(
+                                  "Please email to syamimirfan59@gmail.com",
                           
                                   style: TextStyle(
                                   fontWeight: FontWeight.w500,

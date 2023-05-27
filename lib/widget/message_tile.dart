@@ -50,7 +50,7 @@ final String dateFormat = DateFormat.yMd().add_jm().format(DateTime.parse(widget
               ],
             ),
             width: 50.w,
-            padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.12,vertical: deviceHeight(context) * 0.02),
+            padding: Device.screenType == ScreenType.tablet?  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05,vertical: deviceHeight(context) * 0.02) : EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.12,vertical: deviceHeight(context) * 0.02),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

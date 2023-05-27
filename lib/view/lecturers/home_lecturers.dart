@@ -74,7 +74,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
               children:  [
                 Padding(
                   padding: Device.screenType == ScreenType.tablet?  
-                    const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                       EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05,):
                        EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.09,),
                   child:  Container(
                     child: Row(
@@ -86,7 +86,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                    style: TextStyle(
                     color: Colors.white,
                     fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.32.dp,
+                              0.18.dp:0.32.dp,
                     fontFamily: 'Poppins',
                    ),
                 ),
@@ -109,7 +109,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                        style: TextStyle(
                        color: Colors.white,
                        fontSize:  Device.screenType == ScreenType.tablet?  
-                                  0.18.dp: 0.26.dp,  
+                                  0.17.dp: 0.26.dp,  
                        fontWeight: FontWeight.bold,
                        fontFamily: 'Poppins',
                          ),
@@ -136,7 +136,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                    style: TextStyle(
                     color: Colors.white,
                     fontSize:  Device.screenType == ScreenType.tablet?  
-                               0.30.dp:0.40.dp,
+                               0.28.dp:0.40.dp,
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.bold,
                    ),
@@ -158,8 +158,8 @@ class _HomeLecturerState extends State<HomeLecturer> {
                         topRight: Radius.circular(30)
                        )
                       ),
-                     height: Device.screenType == ScreenType.tablet?  849: deviceHeight(context) * 3,
-                     width: Device.screenType == ScreenType.tablet?  1000: deviceWidth(context) * 3, 
+                     height: Device.screenType == ScreenType.tablet ?  deviceHeight(context) * 3: deviceHeight(context) * 3,
+                     width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 3: deviceWidth(context) * 3, 
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: Container(
@@ -206,14 +206,14 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                       children: [
                                         Container(
                                           child: CircleAvatar(
-                                              radius: 60,
+                                              radius: Device.screenType == ScreenType.tablet? 70 : 60,
                                               backgroundImage: NetworkImage(booking['studImage']),
                                           ),
                                         ),
                                         Flexible(
                                           child: Container(
                                             margin:  Device.screenType == ScreenType.tablet? 
-                                            const EdgeInsets.only(left: 20):
+                                            EdgeInsets.only(left: deviceWidth(context) * 0.05, top: deviceHeight(context) * 0.02):
                                             EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02),
                                             child: Column(
                                               mainAxisAlignment: MainAxisAlignment.center,
@@ -221,7 +221,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                               children: [
                                                        Container(
                                             margin: Device.screenType == ScreenType.tablet? 
-                                              const EdgeInsets.only(bottom: 20):
+                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
                                               booking['matricNo'],
@@ -236,7 +236,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                           ),
                                            Container(
                                             margin: Device.screenType == ScreenType.tablet? 
-                                              const EdgeInsets.only(bottom: 20):
+                                             EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
                                               booking['studName'],
@@ -251,7 +251,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                           ),
                                            Container(
                                             margin: Device.screenType == ScreenType.tablet? 
-                                              const EdgeInsets.only(bottom: 20):
+                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
                                               booking['studTelephoneNo'],
@@ -266,7 +266,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                           ),
                                            Container(
                                             margin: Device.screenType == ScreenType.tablet? 
-                                              const EdgeInsets.only(bottom: 20):
+                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
                                               booking['numberOfStudents'].toString() + " students",
@@ -281,7 +281,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                                ),
                                           Container(
                                             margin: Device.screenType == ScreenType.tablet? 
-                                              const EdgeInsets.only(bottom: 20):
+                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
                                               booking['date'],
@@ -296,7 +296,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                                ),
                                           Container(
                                             margin: Device.screenType == ScreenType.tablet? 
-                                              const EdgeInsets.only(bottom: 20):
+                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
                                               booking['time'],
@@ -320,12 +320,13 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                     color: Constants().dividerColor,
                                     thickness: 1.5,
                                     ),
-                                const SizedBox(width: 50,),
+                             SizedBox(height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.01 : deviceHeight(context) * 0.01,),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
                                         SizedBox(
+                                           height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.04 : deviceHeight(context) * 0.04,
                                     width: deviceWidth(context) * 0.30,
                                    child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
@@ -338,18 +339,19 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                       onPressed: () {
                                         showConfirmationRejectBox(context, "Confirm?", "Are you sure to reject this session?",booking['bookingId']);
                                       },
-                                      child: const Text(
+                                      child:  Text(
                                         "Reject",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w500,
-                                            fontSize: 15,
+                                            fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
                                             fontFamily: 'Poppins',
                                         ),
                                       ),
                                   ),
                                 ),
                                   SizedBox(
+                                     height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.04 : deviceHeight(context) * 0.04,
                                     width: deviceWidth(context) * 0.30,
                                    child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
@@ -362,12 +364,12 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                       onPressed: () {
                                         showConfirmationAcceptBox(context, "Confirm?", "Are you sure to accept this session?", booking['bookingId']);
                                       },
-                                      child: const Text(
+                                      child: Text(
                                         "Accept",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w500,
-                                            fontSize: 15,
+                                            fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
                                             fontFamily: 'Poppins',
                                         ),
                                       ),
@@ -375,11 +377,12 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                       ),
                                       ],
                                     ),
-
+                               SizedBox(height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.01 : deviceHeight(context) * 0.01,),
                                       ],
                                     ),
                                   ),
                                  ).toList(),
+                                 
                               ),
 
                               //if no appointment request

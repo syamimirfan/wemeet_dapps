@@ -98,7 +98,7 @@ class _StudentProfileState extends State<StudentProfile> {
                       decoration:  BoxDecoration(
                       shape: BoxShape.circle,
                      border: Border.all(
-                  width:  Device.screenType == ScreenType.tablet? 5 : 5,
+                  width:  5,
                   color: Constants().secondaryColor,
                  ),
                      image:   DecorationImage(

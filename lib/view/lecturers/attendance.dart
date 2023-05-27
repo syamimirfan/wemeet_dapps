@@ -64,7 +64,7 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
     drawer: MainDrawerLecturer(home: false, profile: false, slot: false, appointment: false, attendance: true, chat: false),
       body: Padding(
         padding: Device.screenType == ScreenType.tablet? 
-                  const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
         child: Container(
             height: 100.h,
@@ -114,7 +114,7 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                   //for lecturer images
                                     Container(
                                       child: CircleAvatar(
-                                        radius: 40,
+                                        radius: Device.screenType == ScreenType.tablet? 100 : 40,
                                         backgroundImage: NetworkImage(booking['studImage']),
                                       ),
                                     ),
@@ -122,7 +122,7 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                     Flexible(
                                       child: Container(
                                          margin:  Device.screenType == ScreenType.tablet? 
-                                        const EdgeInsets.only(left: 20):
+                                        EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02):
                                         EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02),
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
@@ -130,7 +130,7 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                             children: [
                                               Container(
                                               margin: Device.screenType == ScreenType.tablet? 
-                                                const EdgeInsets.only(bottom: 20):
+                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                               child: Text(
                                                booking['studName'],
@@ -145,7 +145,7 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                             ),
                                              Container(
                                               margin: Device.screenType == ScreenType.tablet? 
-                                                const EdgeInsets.only(bottom: 20):
+                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                               child: Text(
                                                booking['numberOfStudents'].toString() + " student",
@@ -160,7 +160,7 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                             ),
                                              Container(
                                               margin: Device.screenType == ScreenType.tablet? 
-                                                const EdgeInsets.only(bottom: 20):
+                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                               child: Text(
                                                 booking['date'],
@@ -175,7 +175,7 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                             ),
                                              Container(
                                               margin: Device.screenType == ScreenType.tablet? 
-                                                const EdgeInsets.only(bottom: 20):
+                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                               child: Text(
                                                booking['time'],
@@ -200,13 +200,14 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                color: Constants().dividerColor,
                                thickness: 1.5,
                               ),
-                
+                            SizedBox(
+                              height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.01 : deviceHeight(context) * 0.01,),
                               //for button contact lecturer and update
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
                                   SizedBox(
-                  
+                           height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.04 : deviceHeight(context) * 0.04,
                                      child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Constants().secondaryColor,
@@ -220,19 +221,20 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                   var staffNo = _sharedPreferences.getString('staffNo');
                                         showConfirmationAbsentBox(context, "Confirm?", "Are you sure to sign absent for this session?",booking['matricNo'],staffNo!,booking['numberOfStudents'],booking['date'], booking['time'], booking['bookingId']);
                                         },
-                                        child: const Text(
+                                        child: Text(
                                           "Absent",
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 15,
+                                              fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
                                               fontFamily: 'Poppins',
                                           ),
                                         ),
                                     ),
                                   ),
                                      SizedBox(
-                                    child: ElevatedButton(
+                                       height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.04 : deviceHeight(context) * 0.04,
+                                     child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Constants().primaryColor,
                                           elevation: 0,
@@ -245,12 +247,12 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                          var staffNo = _sharedPreferences.getString('staffNo');
                                         showConfirmationAttendBox(context, "Confirm?", "Are you sure to sign attend for this session?",booking['matricNo'],staffNo!,booking['numberOfStudents'],booking['date'], booking['time'], booking['bookingId']);
                                         },
-                                        child: const Text(
+                                        child: Text(
                                           "Attend",
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 15,
+                                              fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
                                               fontFamily: 'Poppins',
                                           ),
                                         ),
@@ -258,7 +260,7 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                   ),
                                 ],
                               ), 
-                      
+                        SizedBox(height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.01 : deviceHeight(context) * 0.01,),
                             ],
                           ),
                        ),

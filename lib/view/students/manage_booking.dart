@@ -167,7 +167,7 @@ class _ManageBookingState extends State<ManageBooking> {
 
       body: Padding(
         padding: Device.screenType == ScreenType.tablet? 
-                  const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
         child: Container(
             height: 100.h,
@@ -190,7 +190,7 @@ class _ManageBookingState extends State<ManageBooking> {
                       children: appointment.map((appointment) =>          
                       Container(
                           margin: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.03, vertical: deviceHeight(context) * 0.04),
-                            padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02,vertical: deviceHeight(context) * 0.009),
+                          padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02,vertical: deviceHeight(context) * 0.009),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: Colors.white,
@@ -220,7 +220,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontFamily: "Poppins",
-                                      fontSize: 15,
+                                      fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -229,7 +229,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                     style: TextStyle(
                                      color:  appointment['statusBooking'] == "Accepted" ? Constants().acceptedColor :  appointment['statusBooking'] == "Appending" ? Constants().primaryColor : appointment['statusBooking'] == "Rejected" ? Constants().secondaryColor : Colors.black,
                                       fontFamily: "Poppins",
-                                      fontSize: 15,
+                                       fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   )
@@ -245,7 +245,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                 //for lecturer images
                                   Container(
                                     child: CircleAvatar(
-                                      radius: 40,
+                                      radius: Device.screenType == ScreenType.tablet? 100 : 40,
                                       backgroundImage: NetworkImage(appointment['lecturerImage']),
                                     ),
                                   ),
@@ -253,7 +253,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                   Flexible(
                                     child: Container(
                                        margin:  Device.screenType == ScreenType.tablet? 
-                                      const EdgeInsets.only(left: 20):
+                                       EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02):
                                       EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
@@ -261,7 +261,8 @@ class _ManageBookingState extends State<ManageBooking> {
                                           children: [
                                             Container(
                                             margin: Device.screenType == ScreenType.tablet? 
-                                              const EdgeInsets.only(bottom: 20):
+                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.01,
+                                                right: deviceWidth(context) * 0.01,):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01,
                                                 right: deviceWidth(context) * 0.01,
                                               ) ,
@@ -333,12 +334,13 @@ class _ManageBookingState extends State<ManageBooking> {
                              color: Constants().dividerColor,
                              thickness: 1.5,
                             ),
-                       
+                       SizedBox(height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.01 : deviceHeight(context) * 0.01,),
                             //for button contact lecturer and update
                       appointment['statusBooking'] != "Rejected" ?  Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 SizedBox(
+                                  height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.04 : deviceHeight(context) * 0.04,
                                    child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Constants().primaryColor,
@@ -350,19 +352,19 @@ class _ManageBookingState extends State<ManageBooking> {
                                       onPressed: () {
                                         nextScreen(context, Message(staffNo: appointment['staffNo']));
                                       },
-                                      child: const Text(
+                                      child:  Text(
                                         "Contact Lecturer",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w500,
-                                            fontSize: 15,
+                                            fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
                                             fontFamily: 'Poppins',
                                         ),
                                       ),
                                   ),
                                 ),
                                    SizedBox(
-                               
+                               height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.04 : deviceHeight(context) * 0.04,
                                   child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Constants().quaternaryColor,
@@ -374,12 +376,12 @@ class _ManageBookingState extends State<ManageBooking> {
                                       onPressed: () {
                                          nextScreen(context, UpdateBook(staffNo: appointment['staffNo'],bookingId: appointment['bookingId'],));
                                       },
-                                      child: const Text(
+                                      child:  Text(
                                         "Update",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w500,
-                                            fontSize: 15,
+                                            fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
                                             fontFamily: 'Poppins',
                                         ),
                                       ),
@@ -387,10 +389,11 @@ class _ManageBookingState extends State<ManageBooking> {
                                 ),
                               ],
                             ) : Container(
-                              margin: EdgeInsets.only(left: deviceWidth(context) * 0.6),
+                              margin: Device.screenType == ScreenType.tablet? EdgeInsets.only(left: deviceWidth(context) * 0.65) : EdgeInsets.only(left: deviceWidth(context) * 0.62),
                               child: Row(
                                 children: [
                                    SizedBox(
+                                     height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.04 : deviceHeight(context) * 0.04,
                                      child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Constants().secondaryColor,
@@ -402,12 +405,12 @@ class _ManageBookingState extends State<ManageBooking> {
                                         onPressed: () {
                                           deleteRejectedAppointment(appointment['bookingId']);
                                         },
-                                        child: const Text(
+                                        child:  Text(
                                           "Delete",
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 15,
+                                              fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
                                               fontFamily: 'Poppins',
                                           ),
                                         ),
@@ -416,6 +419,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                 ],
                               ),
                             ),
+                             SizedBox(height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.01 : deviceHeight(context) * 0.01,),
                           ],
                          ) ,
                      ),

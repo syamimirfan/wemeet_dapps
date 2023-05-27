@@ -51,9 +51,9 @@ class _StudentChatState extends State<StudentChat> {
                     ),
                      title:  Text(
                         _searchController.text.isNotEmpty ? filterLecturers[index]['lecturerName']:lecturers[index]['lecturerName'],
-                        style: const TextStyle(
+                        style:  TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 18,
+                          fontSize: Device.screenType == ScreenType.tablet?  0.15.dp : 0.32.dp,
                           fontFamily: "Poppins"
                         ),
                       ),
@@ -98,8 +98,8 @@ class _StudentChatState extends State<StudentChat> {
 
         body: Padding(
           padding: Device.screenType == ScreenType.tablet? 
-                  const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
-                  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
+                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
+                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
           child: Container(
             height: 100.h,
             width: 100.w,
@@ -119,8 +119,8 @@ class _StudentChatState extends State<StudentChat> {
                   //for search and filter the chat
                     Container(
                       padding: Device.screenType == ScreenType.tablet ? 
-                           const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
-                     EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.04),
+                               EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.04):
+                               EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.04),
                      child: Form(
                         child: TextFormField(
                         decoration: inputTextDecorationSearch.copyWith(
@@ -131,7 +131,7 @@ class _StudentChatState extends State<StudentChat> {
                         controller: _searchController,
                         onChanged: (value) {
                           setState(() {
-                                filterLecturers = lecturers.where((list) => list['lecturerName'].toLowerCase().contains(value)).toList();
+                                filterLecturers = lecturers.where((list) => list['lecturerName'].toLowerCase().contains(value.toLowerCase())).toList();
                           });
                         },
                       ),

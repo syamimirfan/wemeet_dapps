@@ -53,9 +53,9 @@ List<dynamic> students = [];
                     ),
                      title:  Text(
                       _searchController.text.isNotEmpty ? filterStudents[index]['studName']: students[index]['studName'],
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 18,
+                          fontSize: Device.screenType == ScreenType.tablet?  0.15.dp : 0.32.dp,
                           fontFamily: "Poppins"
                         ),
                       ),
@@ -100,8 +100,8 @@ List<dynamic> students = [];
 
         body: Padding(
           padding: Device.screenType == ScreenType.tablet? 
-                  const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
-                  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
+                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
+                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
           child: Container(
             height: 100.h,
             width: 100.w,
@@ -121,8 +121,8 @@ List<dynamic> students = [];
                   //for search and filter the chat
                     Container(
                       padding: Device.screenType == ScreenType.tablet ? 
-                           const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
-                     EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.04),
+                               EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.04):
+                               EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.04),
                      child: Form(
                         child: TextFormField(
                         decoration: inputTextDecorationSearch.copyWith(
@@ -133,7 +133,7 @@ List<dynamic> students = [];
                            controller: _searchController,
                         onChanged: (value) {
                           setState(() {
-                                filterStudents = students.where((list) => list['studName'].toLowerCase().contains(value)).toList();
+                                filterStudents = students.where((list) => list['studName'].toLowerCase().contains(value.toLowerCase())).toList();
                           });
                         },
                       ),

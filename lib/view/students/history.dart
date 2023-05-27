@@ -68,7 +68,7 @@ class _ManageHistoryState extends State<ManageHistory> {
 
       body: Padding(
         padding: Device.screenType == ScreenType.tablet? 
-                 const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                 EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
                  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
         child: Container(
             height: 100.h,
@@ -123,7 +123,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontFamily: "Poppins",
-                                      fontSize: 20,
+                                      fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -132,7 +132,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                     style: TextStyle(
                                      color:  attendance['status'] == "Attend" ? Constants().acceptedColor :  attendance['status'] == "Absent" ? Constants().secondaryColor : Colors.black,
                                       fontFamily: "Poppins",
-                                      fontSize: 20,
+                                      fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -148,7 +148,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                 //for lecturer images
                                   Container(
                                     child: CircleAvatar(
-                                      radius: 40,
+                                      radius: Device.screenType == ScreenType.tablet? 100 : 40,
                                       backgroundImage: NetworkImage(attendance['lecturerImage']),
                                     ),
                                   ),
@@ -156,7 +156,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                   Flexible(
                                     child: Container(
                                        margin:  Device.screenType == ScreenType.tablet? 
-                                      const EdgeInsets.only(left: 20):
+                                       EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02):
                                       EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
@@ -164,7 +164,8 @@ class _ManageHistoryState extends State<ManageHistory> {
                                           children: [
                                             Container(
                                             margin: Device.screenType == ScreenType.tablet? 
-                                              const EdgeInsets.only(bottom: 20):
+                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01,
+                                                right: deviceWidth(context) * 0.01,):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01,
                                                 right: deviceWidth(context) * 0.01,
                                               ) ,
@@ -236,21 +237,20 @@ class _ManageHistoryState extends State<ManageHistory> {
                              color: Constants().dividerColor,
                              thickness: 1.5,
                             ),
-
-                            Container(
-            
+                  SizedBox(height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.01 : deviceHeight(context) * 0.01,),
+                            Container(         
                               child: Row(
-                        
+                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
                                     Container(
                                             margin: Device.screenType == ScreenType.tablet? 
-                                              const EdgeInsets.only(bottom: 20):
+                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
                                               "Token Gained: ",
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
-                                                               0.16.dp: 0.26.dp,
+                                                               0.16.dp: 0.28.dp,
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.black,
@@ -259,7 +259,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                           ),
                                      Container(
                                             margin: Device.screenType == ScreenType.tablet? 
-                                              const EdgeInsets.only(bottom: 20):
+                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
                                              attendance['statusReward'] == "Not Send" ? "0 UTHM":
@@ -276,6 +276,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                           ),
                                      SizedBox(width: 17.w,) ,
                                    SizedBox(
+                                     height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.04 : deviceHeight(context) * 0.04,
                                      child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Constants().secondaryColor,
@@ -287,12 +288,12 @@ class _ManageHistoryState extends State<ManageHistory> {
                                         onPressed: () {
                                           nextScreen(context, Book2(staffNo: attendance['staffNo']));
                                         },
-                                        child: const Text(
+                                        child:  Text(
                                           "Meet Again",
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 15,
+                                              fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.26.dp,
                                               fontFamily: 'Poppins',
                                           ),
                                         ),
@@ -301,6 +302,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                 ],
                               ),
                             ),
+                               SizedBox(height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.01 : deviceHeight(context) * 0.01,),
                               ],
                             ),
                         ),
