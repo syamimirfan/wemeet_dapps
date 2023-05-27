@@ -24,7 +24,7 @@ class About extends StatelessWidget {
       ),
       body: Padding(
         padding: Device.screenType == ScreenType.tablet? 
-                  const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001):
                        EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.01,),
              child: Container(
                       decoration:  const BoxDecoration(
@@ -43,8 +43,8 @@ class About extends StatelessWidget {
                         topRight: Radius.circular(30)
                        )
                       ),
-                     height: Device.screenType == ScreenType.tablet?  849: deviceHeight(context) * 3,
-                     width: Device.screenType == ScreenType.tablet?  1000: deviceWidth(context) * 3, 
+                     height: Device.screenType == ScreenType.tablet?  deviceHeight(context) * 3: deviceHeight(context) * 3,
+                     width: Device.screenType == ScreenType.tablet?  deviceWidth(context) * 3: deviceWidth(context) * 3, 
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: Container(
@@ -53,18 +53,21 @@ class About extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                             children:  [
                           SizedBox(height: deviceHeight(context) * 0.03,),
-                          Image.asset('assets/UTHM2.png'),
+                          Center(
+                            child:  Image.asset('assets/UTHM2.png'),
+                          ),
                           SizedBox(height: deviceHeight(context) * 0.02,),
                            Container(
                             padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.08),
                                child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
+                                  children:  [
                                    Text(
                                   "WeMeet Version 0",
                                   style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 20,
+                                  fontSize: Device.screenType == ScreenType.tablet? 
+                                    0.15.dp: 0.28.dp,
                                   fontFamily: 'Poppins',
                                  ),
                                     ),
@@ -73,7 +76,8 @@ class About extends StatelessWidget {
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 14,
+                                  fontSize:  Device.screenType == ScreenType.tablet? 
+                                    0.15.dp: 0.28.dp,
                                   fontFamily: 'Poppins',
                                  ),
                                     ),
@@ -82,7 +86,8 @@ class About extends StatelessWidget {
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 14,
+                                  fontSize:  Device.screenType == ScreenType.tablet? 
+                                    0.15.dp: 0.28.dp,
                                   fontFamily: 'Poppins',
                                  ),
                                     ),
@@ -91,7 +96,8 @@ class About extends StatelessWidget {
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 14,
+                                  fontSize:  Device.screenType == ScreenType.tablet? 
+                                    0.15.dp: 0.28.dp,
                                   fontFamily: 'Poppins',
                                     ),
                                     ),
@@ -101,7 +107,8 @@ class About extends StatelessWidget {
                             
                                   style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 14,
+                                  fontSize:  Device.screenType == ScreenType.tablet? 
+                                    0.15.dp: 0.28.dp,
                                   fontFamily: 'Poppins',
                                  ),
                                     ),
@@ -110,7 +117,8 @@ class About extends StatelessWidget {
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 14,
+                                  fontSize:  Device.screenType == ScreenType.tablet? 
+                                    0.15.dp: 0.28.dp,
                                   fontFamily: 'Poppins',
                                  ),
                                     ),
@@ -119,7 +127,8 @@ class About extends StatelessWidget {
                           
                                   style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 14,
+                                  fontSize:  Device.screenType == ScreenType.tablet? 
+                                    0.15.dp: 0.28.dp,
                                   fontFamily: 'Poppins',
                                  ),
                                     ),

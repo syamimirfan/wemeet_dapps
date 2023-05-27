@@ -40,13 +40,13 @@ class _BookSuccessfulState extends State<BookSuccessful> {
 
         body: Padding(
           padding:Device.screenType == ScreenType.tablet? 
-                  const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Container(
                 padding:Device.screenType == ScreenType.tablet? 
-                    const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                    EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.17, horizontal: deviceWidth(context) * 0.06):
                     EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.09, horizontal: deviceWidth(context) * 0.06),
               decoration:  const BoxDecoration(
                         color: Colors.white,
@@ -67,28 +67,28 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                       
                        duration: const Duration(seconds: 3),
                       ),
-                     const Text(
+                      Text(
                       "Booking Successful",
                       style: TextStyle(
                         fontFamily: "Poppins",
-                        fontSize: 32,
+                        fontSize: Device.screenType == ScreenType.tablet? 0.20.dp : 0.36.dp,
                         fontWeight: FontWeight.bold,
                       ),
                      ),
                      SizedBox(height: 5,),
-                         const Text(
+                          Text(
                       "You have successfully book your appointment",
                       style: TextStyle(
                         fontFamily: "Poppins",
-                        fontSize: 14,
+                        fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
                         fontWeight: FontWeight.w500,
                       ),
                      ),
                         SizedBox(height: 20,),
                      Container(
                     padding:Device.screenType == ScreenType.tablet? 
-                    const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
-                    EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.09,vertical: deviceHeight(context) * 0.07),
+                     EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.15,vertical: deviceHeight(context) * 0.1):
+                    EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.09,vertical: deviceHeight(context) * 0.09),
                     height: deviceHeight(context) * 0.45,
                     width: deviceWidth(context) * 0.9,
                       decoration:   BoxDecoration(
@@ -101,11 +101,11 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                           
                           children: [
                             SizedBox(width: 20,),
-                            const Text(
+                             Text(
                             "Your Appointment Details:",
                             style: TextStyle(
                               fontFamily: "Poppins",
-                              fontSize: 20,
+                              fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.29.dp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -115,7 +115,7 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                             lecturerName,
                             style: TextStyle(
                               fontFamily: "Poppins",
-                              fontSize: 16,
+                              fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.27.dp,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -124,7 +124,7 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                             numberOfStudents.toString() + " students",
                             style: TextStyle(
                               fontFamily: "Poppins",
-                              fontSize: 16,
+                              fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.27.dp,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -133,7 +133,7 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                             date ,
                             style: TextStyle(
                               fontFamily: "Poppins",
-                              fontSize: 16,
+                              fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.27.dp,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -142,7 +142,7 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                              time,
                             style: TextStyle(
                               fontFamily: "Poppins",
-                              fontSize: 16,
+                              fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.27.dp,
                               fontWeight: FontWeight.bold,
                               color: Constants().secondaryColor,
                             ),
@@ -164,12 +164,12 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                       onPressed: () async{
                         nextScreen(context, HomeStudents());
                       },
-                       child:  const Text(
+                       child:   Text(
                          "Confirm",
                          style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 22,
+                            fontSize: Device.screenType == ScreenType.tablet? 0.17.dp : 0.32.dp,
                             fontFamily: 'Poppins',
                          ),
                        ),

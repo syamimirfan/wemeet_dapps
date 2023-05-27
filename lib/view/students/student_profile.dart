@@ -70,7 +70,7 @@ class _StudentProfileState extends State<StudentProfile> {
 
         body: Padding(
           padding: Device.screenType == ScreenType.tablet? 
-                  const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
           child: Container(
                height: 100.h,
@@ -98,7 +98,7 @@ class _StudentProfileState extends State<StudentProfile> {
                       decoration:  BoxDecoration(
                       shape: BoxShape.circle,
                      border: Border.all(
-                  width: 5,
+                  width:  Device.screenType == ScreenType.tablet? 5 : 5,
                   color: Constants().secondaryColor,
                  ),
                      image:   DecorationImage(
@@ -121,7 +121,7 @@ class _StudentProfileState extends State<StudentProfile> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: Device.screenType == ScreenType.tablet? 
-                                        0.20.dp:0.32.dp,
+                                        0.19.dp:0.32.dp,
                                         fontWeight: FontWeight.bold,
                                       fontFamily: 'Poppins',
                                     ),
@@ -138,6 +138,7 @@ class _StudentProfileState extends State<StudentProfile> {
                                 Icon(
                                   Icons.card_membership,
                                   color: Constants().messageGreyColor,
+                                  size:  Device.screenType == ScreenType.tablet? 0.20.dp : 0.32.dp,
                                 ),
 
                           SizedBox(width: 10.w ,),
@@ -148,7 +149,7 @@ class _StudentProfileState extends State<StudentProfile> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.28.dp,
+                              0.17.dp:0.28.dp,
                               fontWeight: FontWeight.w500,
                             fontFamily: 'Poppins',
                           ),
@@ -156,7 +157,7 @@ class _StudentProfileState extends State<StudentProfile> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.28.dp,
+                              0.17.dp:0.28.dp,
                               fontWeight: FontWeight.w500,
                             fontFamily: 'Poppins',
                           ),
@@ -181,13 +182,14 @@ class _StudentProfileState extends State<StudentProfile> {
                                 Icon(
                                   Icons.phone,
                                   color: Constants().messageGreyColor,
+                                  size: Device.screenType == ScreenType.tablet? 0.20.dp : 0.32.dp,
                                 ),
                                   SizedBox(width: 10.w ,),
                                 Text(studentTelephoneNumber,
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: Device.screenType == ScreenType.tablet? 
-                                      0.20.dp:0.28.dp,
+                                      0.17.dp:0.28.dp,
                                       fontWeight: FontWeight.w500,
                                     fontFamily: 'Poppins',
                                   ),
@@ -208,14 +210,15 @@ class _StudentProfileState extends State<StudentProfile> {
                               children: [
                          Icon(
                           Icons.email,
-                          color: Constants().messageGreyColor
+                          color: Constants().messageGreyColor,
+                          size: Device.screenType == ScreenType.tablet? 0.20.dp : 0.32.dp,
                          ),
                           SizedBox(width: 10.w ,),
                          Text(studentEmail,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.28.dp,
+                              0.17.dp:0.28.dp,
                               fontWeight: FontWeight.w500,
                             fontFamily: 'Poppins',
                           ),
@@ -237,6 +240,7 @@ class _StudentProfileState extends State<StudentProfile> {
                           Icon(
                             Icons.school,
                             color: Constants().messageGreyColor,
+                            size: Device.screenType == ScreenType.tablet? 0.20.dp : 0.32.dp,
                           ),
                             SizedBox(width: 10.w ,),
                             Flexible(
@@ -247,7 +251,7 @@ class _StudentProfileState extends State<StudentProfile> {
                                style: TextStyle(
                               color: Colors.black,
                               fontSize: Device.screenType == ScreenType.tablet? 
-                                0.20.dp:0.28.dp,
+                                0.17.dp:0.28.dp,
                                 fontWeight: FontWeight.w500,
                               fontFamily: 'Poppins',
                                ),
@@ -257,7 +261,7 @@ class _StudentProfileState extends State<StudentProfile> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: Device.screenType == ScreenType.tablet? 
-                                        0.20.dp:0.28.dp,
+                                        0.17.dp:0.28.dp,
                                         fontWeight: FontWeight.w500,
                                       fontFamily: 'Poppins',
                                     ),
@@ -283,6 +287,7 @@ class _StudentProfileState extends State<StudentProfile> {
                           Icon(
                             Icons.token,
                             color: Constants().messageGreyColor,
+                            size: Device.screenType == ScreenType.tablet? 0.20.dp : 0.32.dp,
                           ),
                         SizedBox(width: 10.w,),
                          Flexible(
@@ -290,7 +295,7 @@ class _StudentProfileState extends State<StudentProfile> {
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: Device.screenType == ScreenType.tablet? 
-                                0.20.dp:0.26.dp,
+                                0.17.dp:0.26.dp,
                                 fontWeight: FontWeight.w500,
                               fontFamily: 'Poppins',
                             ),

@@ -53,7 +53,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
 
       body: Padding(
         padding: Device.screenType == ScreenType.tablet? 
-                const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.001):
                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.001),
         child: Container(
             height: 100.h,
@@ -81,7 +81,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
                           padding:  EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.03, horizontal: deviceWidth(context) *0.01),
                            //for lecturer images
                             child: CircleAvatar(
-                            radius: 50,
+                            radius: Device.screenType == ScreenType.tablet? 120 : 50,
                             backgroundImage: NetworkImage(lectImage),
                           ),
                         ),
@@ -153,7 +153,8 @@ class _LecturerInformationState extends State<LecturerInformation> {
                         lectName,
                         style: TextStyle(
                           fontFamily: "Poppins",
-                          fontSize: 26,
+                          fontSize: Device.screenType == ScreenType.tablet? 
+                                     0.16.dp: 0.32.dp,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ), 
@@ -177,7 +178,8 @@ class _LecturerInformationState extends State<LecturerInformation> {
                       department,
                        style: TextStyle(
                           fontFamily: "Poppins",
-                          fontSize: 20,
+                          fontSize: Device.screenType == ScreenType.tablet? 
+                                    0.16.dp: 0.32.dp,
                           fontWeight: FontWeight.w500,
                           color: Colors.black,
                         ), 
@@ -195,7 +197,8 @@ class _LecturerInformationState extends State<LecturerInformation> {
                       "Academic Qualification",
                        style: TextStyle(
                           fontFamily: "Poppins",
-                          fontSize: 20,
+                          fontSize: Device.screenType == ScreenType.tablet? 
+                                    0.15.dp: 0.32.dp,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ), 
@@ -213,7 +216,8 @@ class _LecturerInformationState extends State<LecturerInformation> {
                         academicQualification1,
                        style: TextStyle(
                           fontFamily: "Poppins",
-                          fontSize: 15,
+                          fontSize: Device.screenType == ScreenType.tablet? 
+                                    0.15.dp: 0.28.dp,
                           fontWeight: FontWeight.w500,
                           color: Colors.black,
                         ), 
@@ -226,7 +230,8 @@ class _LecturerInformationState extends State<LecturerInformation> {
                      academicQualification2,
                        style: TextStyle(
                           fontFamily: "Poppins",
-                          fontSize: 15,
+                          fontSize: Device.screenType == ScreenType.tablet? 
+                                    0.15.dp: 0.28.dp,
                           fontWeight: FontWeight.w500,
                           color: Colors.black,
                         ), 
@@ -239,7 +244,8 @@ class _LecturerInformationState extends State<LecturerInformation> {
                       academicQualification3,
                        style: TextStyle(
                           fontFamily: "Poppins",
-                          fontSize: 15,
+                          fontSize: Device.screenType == ScreenType.tablet? 
+                                    0.15.dp: 0.28.dp,
                           fontWeight: FontWeight.w500,
                           color: Colors.black,
                         ), 
@@ -252,7 +258,8 @@ class _LecturerInformationState extends State<LecturerInformation> {
                      academicQualification4,
                        style: TextStyle(
                           fontFamily: "Poppins",
-                          fontSize: 15,
+                          fontSize: Device.screenType == ScreenType.tablet? 
+                                    0.15.dp: 0.28.dp,
                           fontWeight: FontWeight.w500,
                           color: Colors.black,
                         ), 

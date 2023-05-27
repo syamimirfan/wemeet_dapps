@@ -76,7 +76,7 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
               children:  [
                 Padding(
                   padding: Device.screenType == ScreenType.tablet?  
-                    const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                     EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05,):
                        EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.09,),
                   child:  Container(
                     child: Row(
@@ -88,7 +88,7 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                    style: TextStyle(
                     color: Colors.white,
                     fontSize: Device.screenType == ScreenType.tablet? 
-                              0.20.dp:0.32.dp,
+                              0.18.dp:0.32.dp,
                     fontFamily: 'Poppins',
                    ),
                 ),
@@ -98,7 +98,7 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                      
                  Padding(
                   padding:  Device.screenType == ScreenType.tablet? 
-                  const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05,):
                        EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.09,),
                    child: Row(
                    mainAxisAlignment: MainAxisAlignment.start,
@@ -111,7 +111,7 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                        style: TextStyle(
                        color: Colors.white,
                        fontSize:  Device.screenType == ScreenType.tablet?  
-                                  0.18.dp: 0.26.dp,  
+                                  0.17.dp: 0.26.dp,  
                        fontWeight: FontWeight.bold,
                        fontFamily: 'Poppins',
                          ),
@@ -138,7 +138,7 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                    style: TextStyle(
                     color: Colors.white,
                     fontSize:  Device.screenType == ScreenType.tablet?  
-                               0.30.dp:0.40.dp,
+                               0.28.dp:0.40.dp,
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.bold,
                    ),
@@ -159,8 +159,8 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                         topRight: Radius.circular(30)
                        )
                       ),
-                     height: Device.screenType == ScreenType.tablet?  849: deviceHeight(context) * 100,
-                     width: Device.screenType == ScreenType.tablet?  1000: deviceWidth(context) * 3, 
+                     height: Device.screenType == ScreenType.tablet?  deviceHeight(context) * 100: deviceHeight(context) * 100,
+                     width: Device.screenType == ScreenType.tablet?  deviceWidth(context) * 3: deviceWidth(context) * 3, 
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: Container(
@@ -204,14 +204,14 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                                     Container(
                                       margin:  const EdgeInsets.only(left: 5),
                                       child: CircleAvatar(
-                                        radius: 40,
+                                        radius: Device.screenType == ScreenType.tablet? 70 : 40,
                                         backgroundImage: NetworkImage(lecturer['lecturerImage']),
                                       ),
                                     ),
                                     Flexible(
                                       child: Container(
                                         margin:  Device.screenType == ScreenType.tablet? 
-                                                const EdgeInsets.only(left: 20):
+                                                 EdgeInsets.only(left: deviceWidth(context) * 0.03, top: deviceHeight(context) * 0.02):
                                                 EdgeInsets.only(left: deviceWidth(context) * 0.03, top: deviceHeight(context) * 0.02),
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
@@ -232,7 +232,7 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                                             ),
                                             Container(
                                               margin: Device.screenType == ScreenType.tablet? 
-                                                const EdgeInsets.only(bottom: 20):
+                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                               child: Text(
                                                 lecturer['lecturerName'],
@@ -260,7 +260,7 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                                               
                                               Container(
                                                 margin:  Device.screenType == ScreenType.tablet? 
-                                                const  EdgeInsets.only(top: 10, left:520):
+                                                  EdgeInsets.only(top: 10, left: deviceWidth(context) * 0.55):
                                                   EdgeInsets.only(top: 20, left: deviceWidth(context) * 0.35),
                                                 child: Text.rich(
                                                   TextSpan(
@@ -270,7 +270,7 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                                                             fontWeight: FontWeight.bold,
                                                             fontFamily: 'Poppins',
                                                             decoration: TextDecoration.underline,
-                                                            fontSize: 13,
+                                                            fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.26.dp,
                                                         ),
                                                         recognizer: TapGestureRecognizer()..onTap = () {
                                                            nextScreen(context, LecturerInformation(staffNo: lecturer['staffNo'],));

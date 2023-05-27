@@ -44,7 +44,7 @@ class _BookState extends State<Book> {
   Widget facultyCategory() {
     return Container(
        padding: Device.screenType == ScreenType.tablet? 
-                const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.0001):
                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01),
         child: ListView.builder(
           shrinkWrap: true,
@@ -52,8 +52,8 @@ class _BookState extends State<Book> {
           itemCount: 11,
           itemBuilder:  (context, index) {
             return Container(
-            width: deviceHeight(context) * 0.14,
-            padding: const EdgeInsets.all(10),
+            width: Device.screenType == ScreenType.tablet? deviceWidth(context) * 0.21 : deviceWidth(context) * 0.32,
+            padding: Device.screenType == ScreenType.tablet? EdgeInsets.all(10) : const EdgeInsets.all(10),
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
                gradient: LinearGradient(
@@ -66,7 +66,7 @@ class _BookState extends State<Book> {
                ),
                borderRadius: BorderRadius.circular(20),
                border: Border.all(
-                 width: 3,
+                 width: Device.screenType == ScreenType.tablet? 5: 3,
                color: tappedIndex == index ? Colors.white : Color(0xffC0C0C0),
                ), 
             ),  
@@ -81,7 +81,7 @@ class _BookState extends State<Book> {
                       faculty[index],
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 0.25.dp,
+                        fontSize:Device.screenType == ScreenType.tablet? 0.18.dp: 0.28.dp,
                         fontFamily: 'Poppins',
                         color: tappedIndex == index ? Colors.white : Colors.black,
                       ),
@@ -109,7 +109,7 @@ class _BookState extends State<Book> {
     return Container(
       
        padding: Device.screenType == ScreenType.tablet? 
-                const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.03):
                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.02),
         child: ListView.builder(
           shrinkWrap: true,
@@ -119,10 +119,10 @@ class _BookState extends State<Book> {
           itemBuilder:  (BuildContext context, int index) {
             return Container(
               padding: Device.screenType == ScreenType.tablet? 
-                const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01):
                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.02),
               margin: Device.screenType == ScreenType.tablet? 
-                const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01):
                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01),
                width: deviceHeight(context) * 0.14,
               decoration:  BoxDecoration(
@@ -148,7 +148,7 @@ class _BookState extends State<Book> {
              _searchController.text.isNotEmpty ? filterLecturerList[index]['lecturerName'] :  lecturerList[index]['lecturerName'],
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15,
+                fontSize: Device.screenType == ScreenType.tablet? 0.13.dp : 0.30.dp,
                 fontFamily: "Poppins",
                 color: Colors.black,
                   ),
@@ -162,7 +162,7 @@ class _BookState extends State<Book> {
                _searchController.text.isNotEmpty ? filterLecturerList[index]['lecturerTelephoneNo'] :  lecturerList[index]['lecturerTelephoneNo'],
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
-                    fontSize: 12,
+                    fontSize: Device.screenType == ScreenType.tablet? 0.12.dp : 0.28.dp,
                     fontFamily: "Poppins",
                     color: Colors.black,
                   ),
@@ -174,7 +174,7 @@ class _BookState extends State<Book> {
                           _searchController.text.isNotEmpty ? filterLecturerList[index]['faculty'] : lecturerList[index]['faculty'],
                             style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            fontSize: 12,
+                            fontSize: Device.screenType == ScreenType.tablet? 0.12.dp : 0.25.dp,
                             fontFamily: "Poppins",
                             color: Colors.black,
                           ),
@@ -182,7 +182,7 @@ class _BookState extends State<Book> {
                            Text(",\tFLOOR "+ ( selectedFaculty != "" ?  filterListViewLecturerList[index]['floorLvl'].toString() : _searchController.text.isNotEmpty ? filterLecturerList[index]['floorLvl'].toString() : lecturerList[index]['floorLvl'].toString()),
                             style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            fontSize: 12,
+                            fontSize: Device.screenType == ScreenType.tablet? 0.12.dp : 0.25.dp,
                             fontFamily: "Poppins",
                             color: Colors.black,
                           ),
@@ -190,7 +190,7 @@ class _BookState extends State<Book> {
                           Text( ",\tNO "+ ( selectedFaculty != "" ?  filterListViewLecturerList[index]['roomNo'].toString() : _searchController.text.isNotEmpty ? filterLecturerList[index]['roomNo'].toString() : lecturerList[index]['roomNo'].toString()),
                             style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            fontSize: 12,
+                             fontSize: Device.screenType == ScreenType.tablet? 0.12.dp : 0.25.dp,
                             fontFamily: "Poppins",
                             color: Colors.black,
                           ),
@@ -239,7 +239,7 @@ class _BookState extends State<Book> {
 
         body: Padding(
           padding: Device.screenType == ScreenType.tablet? 
-                  const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
           child: Container(
               height: 100.h,
@@ -260,22 +260,22 @@ class _BookState extends State<Book> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                       Text(
                         "Choose Meet With",
                         style: TextStyle(
                             color: Colors.black,
                           fontWeight: FontWeight.w400,
-                          fontSize: 24,
+                          fontSize: Device.screenType == ScreenType.tablet? 0.20.dp : 0.32.dp,
                           fontFamily: 'Poppins',
                         ),
                       ),
                       const SizedBox(height: 10,),
-                      const Text(
+                       Text(
                         "Your Hands",
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 28,
+                          fontSize:  Device.screenType == ScreenType.tablet? 0.18.dp : 0.32.dp,
                           fontFamily: 'Poppins',
                         ),
                       ),
@@ -298,12 +298,12 @@ class _BookState extends State<Book> {
                        ),
                       ),
                       const SizedBox(height: 20,),
-                      const Text(
+                       Text(
                         "Category",
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                          fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.28.dp,
                           fontFamily: 'Poppins',
                         ),
                       ),

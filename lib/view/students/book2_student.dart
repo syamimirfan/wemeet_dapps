@@ -66,10 +66,10 @@ class _Book2State extends State<Book2> {
   Widget selectedLecturer() {
      return Container(
         padding: Device.screenType == ScreenType.tablet? 
-                const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01):
                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.02),
       margin: Device.screenType == ScreenType.tablet? 
-                const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01):
                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01),
         decoration:  BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
@@ -96,7 +96,7 @@ class _Book2State extends State<Book2> {
                 lectName,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 15,
+                  fontSize: Device.screenType == ScreenType.tablet? 0.13.dp : 0.28.dp,
                   fontFamily: "Poppins",
                   color: Colors.black,
                     ),
@@ -107,7 +107,7 @@ class _Book2State extends State<Book2> {
                    phoneNo + "\n" + faculty + ",\t" + floorLvl.toString() + ",\t" + roomNo.toString() ,
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      fontSize: 12,
+                      fontSize: Device.screenType == ScreenType.tablet? 0.12.dp : 0.26.dp,
                       fontFamily: "Poppins",
                       color: Colors.black,
                     ),
@@ -130,19 +130,19 @@ class _Book2State extends State<Book2> {
         selectedTextColor: Colors.white,
         dayTextStyle: TextStyle(
           fontFamily: 'Poppins',
-          fontSize: 16,
+          fontSize: Device.screenType == ScreenType.tablet? 0.14.dp : 0.30.dp,
           fontWeight: FontWeight.w600,
           color: Colors.black,
         ),
         dateTextStyle: TextStyle(
           fontFamily: 'Poppins',
-          fontSize: 20,
+          fontSize: Device.screenType == ScreenType.tablet? 0.14.dp : 0.30.dp,
           fontWeight: FontWeight.w600,
           color: Colors.black,
         ),
         monthTextStyle: TextStyle(
           fontFamily: 'Poppins',
-          fontSize: 16,
+          fontSize: Device.screenType == ScreenType.tablet? 0.14.dp : 0.30.dp,
           fontWeight: FontWeight.w600,
           color: Colors.black,
         ),
@@ -167,7 +167,7 @@ class _Book2State extends State<Book2> {
     
      return Container(
        padding: Device.screenType == ScreenType.tablet? 
-                const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+               EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.00001):
                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.006),
         child:ListView.builder(
           shrinkWrap: true,
@@ -182,7 +182,7 @@ class _Book2State extends State<Book2> {
                         child: Container(
                           margin: const EdgeInsets.only(right: 10),
                           padding:  Device.screenType == ScreenType.tablet? 
-                                        const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                                       EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.06, vertical: deviceHeight(context) * 0.007):
                                         EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.007),
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -199,7 +199,7 @@ class _Book2State extends State<Book2> {
                             color:  bookTime.contains(slot[index]['slot1']) && bookDate.contains(date)? Colors.white: tappedIndex == 1 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot1'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) ? Colors.white: tappedIndex == 1 ? Colors.white : Colors.black ),),
+                          child: Text(slot[index]['slot1'], style: TextStyle(fontFamily: 'Poppins',  fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.28.dp, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) ? Colors.white: tappedIndex == 1 ? Colors.white : Colors.black ),),
                         ),
                         onTap: bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) ? null : () {
                             setState(() {
@@ -230,7 +230,7 @@ class _Book2State extends State<Book2> {
                             color: bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) ? Colors.white: tappedIndex == 2 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot2'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) ? Colors.white:tappedIndex == 2 ? Colors.white : Colors.black,),),
+                          child: Text(slot[index]['slot2'], style: TextStyle(fontFamily: 'Poppins',  fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.28.dp, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) ? Colors.white:tappedIndex == 2 ? Colors.white : Colors.black,),),
                         ),
                           onTap:  bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) ? null : () {
                              setState(() {
@@ -262,7 +262,7 @@ class _Book2State extends State<Book2> {
                             color: bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) ? Colors.white: tappedIndex == 3 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot3'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color:bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) ? Colors.white: tappedIndex == 3 ? Colors.white : Colors.black ,),),
+                          child: Text(slot[index]['slot3'], style: TextStyle(fontFamily: 'Poppins',  fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.28.dp,fontWeight: FontWeight.bold, color:bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) ? Colors.white: tappedIndex == 3 ? Colors.white : Colors.black ,),),
                         ),
                           onTap:  bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) ? null :() {
                              setState(() {
@@ -298,7 +298,7 @@ class _Book2State extends State<Book2> {
                             color: bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) ? Colors.white: tappedIndex == 4 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot4'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color:bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) ? Colors.white:tappedIndex == 4 ? Colors.white : Colors.black ,),),
+                          child: Text(slot[index]['slot4'], style: TextStyle(fontFamily: 'Poppins',  fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.28.dp, fontWeight: FontWeight.bold, color:bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) ? Colors.white:tappedIndex == 4 ? Colors.white : Colors.black ,),),
                         ),
                           onTap:   bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) ? null : () {
                             setState(() {
@@ -329,7 +329,7 @@ class _Book2State extends State<Book2> {
                             color:bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) ? Colors.white: tappedIndex == 5 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot5'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) ? Colors.white: tappedIndex == 5 ? Colors.white : Colors.black ,),),
+                          child: Text(slot[index]['slot5'], style: TextStyle(fontFamily: 'Poppins',  fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.28.dp, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) ? Colors.white: tappedIndex == 5 ? Colors.white : Colors.black ,),),
                         ),
                           onTap:  bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) ? null : () {
                               setState(() {
@@ -375,7 +375,7 @@ class _Book2State extends State<Book2> {
 
         body: Padding(
           padding: Device.screenType == ScreenType.tablet? 
-                  const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
           child: Container(
                height: 100.h,
@@ -398,23 +398,23 @@ class _Book2State extends State<Book2> {
                        mainAxisAlignment: MainAxisAlignment.start,
                        crossAxisAlignment: CrossAxisAlignment.start,
                        children: [
-                        const Text(
+                         Text(
                           "Your Lecturer: ",
                           style: TextStyle(
                               color: Colors.black,
                             fontWeight: FontWeight.w400,
-                            fontSize: 16,
+                             fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.32.dp,
                             fontFamily: 'Poppins',
                           ),
                         ),
                         selectedLecturer(),
                         const SizedBox(height: 30,),
-                           const Text(
+                            Text(
                           "Number of Students",
                             style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.32.dp,
                             fontFamily: 'Poppins',
                           ),
                         ),
@@ -433,29 +433,29 @@ class _Book2State extends State<Book2> {
                             },
                           ),
                           const SizedBox(height: 20,),
-                           const Text(
+                            Text(
                           "Date",
                             style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                             fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.32.dp,
                             fontFamily: 'Poppins',
                           ),
                         ),
                         buildDate(),
                          const SizedBox(height: 20,),
-                           const Text(
+                           Text(
                           "Slot",
                             style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                             fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.32.dp,
                             fontFamily: 'Poppins',
                           ),
                         ),
-                          SizedBox(height: 20),   
-                         SizedBox(height: 100,child: buildSlot()),
-                               SizedBox(height: 40),       
+                          
+                         SizedBox(height: Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.40: deviceHeight(context) * 0.17,child: buildSlot()),
+    
                                    SizedBox(
                      width: double.infinity,
                      child: ElevatedButton(
@@ -477,12 +477,12 @@ class _Book2State extends State<Book2> {
                    
                         }
                       },
-                       child:  const Text(
+                       child:   Text(
                          "Confirm Appointment",
                          style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 22,
+                            fontSize: Device.screenType == ScreenType.tablet? 0.17.dp : 0.32.dp,
                             fontFamily: 'Poppins',
                          ),
                        ),
@@ -542,7 +542,7 @@ class _Book2State extends State<Book2> {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     var responseBooking = await new Booking().addBooking(matricNo, staffNo, numberOfStudents, date, time);
 
-    if(responseBooking['success'] && responseBooking['message'] == "Slot Booked") {
+    if(responseBooking['success'] && responseBooking['message'] == "Slot Booked" ) {
       showMessage(context, "Slot Booked!", "The slot has been booked by student name ${responseBooking['student'][0]['studName']} with matric number ${responseBooking['student'][0]['matricNo']}", "OK");
       
     }else if(responseBooking['success']) {

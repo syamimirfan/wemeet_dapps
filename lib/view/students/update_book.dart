@@ -70,10 +70,10 @@ class _UpdateBookState extends State<UpdateBook> {
   Widget selectedLecturer() {
      return Container(
         padding: Device.screenType == ScreenType.tablet? 
-                const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01):
                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.02),
       margin: Device.screenType == ScreenType.tablet? 
-                const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01):
                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01),
         decoration:  BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
@@ -100,7 +100,7 @@ class _UpdateBookState extends State<UpdateBook> {
                 lectName,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 15,
+                  fontSize: Device.screenType == ScreenType.tablet? 0.13.dp : 0.28.dp,
                   fontFamily: "Poppins",
                   color: Colors.black,
                     ),
@@ -111,7 +111,7 @@ class _UpdateBookState extends State<UpdateBook> {
                    phoneNo + "\n" + faculty + ",\t" + floorLvl.toString() + ",\t" + roomNo.toString() ,
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      fontSize: 12,
+                      fontSize: Device.screenType == ScreenType.tablet? 0.12.dp : 0.26.dp,
                       fontFamily: "Poppins",
                       color: Colors.black,
                     ),
@@ -134,21 +134,21 @@ class _UpdateBookState extends State<UpdateBook> {
         selectedTextColor: Colors.white,
         dayTextStyle: TextStyle(
           fontFamily: 'Poppins',
-          fontSize: 16,
+          fontSize: Device.screenType == ScreenType.tablet? 0.14.dp : 0.30.dp,
           fontWeight: FontWeight.w600,
-          color: Constants().BoxShadowColor,
+          color: Colors.black,
         ),
         dateTextStyle: TextStyle(
           fontFamily: 'Poppins',
-          fontSize: 20,
+          fontSize: Device.screenType == ScreenType.tablet? 0.14.dp : 0.30.dp,
           fontWeight: FontWeight.w600,
-          color: Constants().BoxShadowColor,
+          color: Colors.black,
         ),
         monthTextStyle: TextStyle(
           fontFamily: 'Poppins',
-          fontSize: 16,
+          fontSize: Device.screenType == ScreenType.tablet? 0.14.dp : 0.30.dp,
           fontWeight: FontWeight.w600,
-          color: Constants().BoxShadowColor,
+          color: Colors.black,
         ),
         onDateChange: (date){
           setState(() {
@@ -167,7 +167,7 @@ class _UpdateBookState extends State<UpdateBook> {
   Widget buildSlot() {
      return Container(
        padding: Device.screenType == ScreenType.tablet? 
-                const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.006):
                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.006),
         child: ListView.builder(
           shrinkWrap: true,
@@ -183,7 +183,7 @@ class _UpdateBookState extends State<UpdateBook> {
                         child: Container(
                           margin: const EdgeInsets.only(right: 10),
                           padding:  Device.screenType == ScreenType.tablet? 
-                                        const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                                         EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.06, vertical: deviceHeight(context) * 0.007):
                                         EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.007),
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -200,7 +200,7 @@ class _UpdateBookState extends State<UpdateBook> {
                             color:  bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) ? Colors.white: tappedIndex == 1 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot1'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) ? Colors.white: tappedIndex == 1 ? Colors.white : Colors.black ),),
+                          child: Text(slot[index]['slot1'], style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.28.dp, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) ? Colors.white: tappedIndex == 1 ? Colors.white : Colors.black ),),
                         ),
                         onTap: bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) ? null : () {
                             setState(() {
@@ -231,7 +231,7 @@ class _UpdateBookState extends State<UpdateBook> {
                             color: bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) ? Colors.white: tappedIndex == 2 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot2'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) ? Colors.white:tappedIndex == 2 ? Colors.white : Colors.black,),),
+                          child: Text(slot[index]['slot2'], style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.28.dp, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) ? Colors.white:tappedIndex == 2 ? Colors.white : Colors.black,),),
                         ),
                           onTap:  bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) ? null : () {
                              setState(() {
@@ -263,7 +263,7 @@ class _UpdateBookState extends State<UpdateBook> {
                             color: bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) ? Colors.white: tappedIndex == 3 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot3'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color:bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) ? Colors.white: tappedIndex == 3 ? Colors.white : Colors.black ,),),
+                          child: Text(slot[index]['slot3'], style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.28.dp, fontWeight: FontWeight.bold, color:bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) ? Colors.white: tappedIndex == 3 ? Colors.white : Colors.black ,),),
                         ),
                           onTap:  bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) ? null :() {
                              setState(() {
@@ -299,7 +299,7 @@ class _UpdateBookState extends State<UpdateBook> {
                             color: bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) ? Colors.white: tappedIndex == 4 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot4'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color:bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) ? Colors.white:tappedIndex == 4 ? Colors.white : Colors.black ,),),
+                          child: Text(slot[index]['slot4'], style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.28.dp, fontWeight: FontWeight.bold, color:bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) ? Colors.white:tappedIndex == 4 ? Colors.white : Colors.black ,),),
                         ),
                           onTap:   bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) ? null : () {
                             setState(() {
@@ -330,7 +330,7 @@ class _UpdateBookState extends State<UpdateBook> {
                             color:bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) ? Colors.white: tappedIndex == 5 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot5'], style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) ? Colors.white: tappedIndex == 5 ? Colors.white : Colors.black ,),),
+                          child: Text(slot[index]['slot5'], style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.28.dp, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) ? Colors.white: tappedIndex == 5 ? Colors.white : Colors.black ,),),
                         ),
                           onTap:  bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) ? null : () {
                               setState(() {
@@ -416,9 +416,11 @@ class _UpdateBookState extends State<UpdateBook> {
 
         body: Padding(
           padding: Device.screenType == ScreenType.tablet? 
-                  const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
+                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
           child: Container(
+            height: 100.h,
+              width: 100.w,
               decoration:  const BoxDecoration(
                       color: Colors.white,
                       borderRadius:
@@ -437,23 +439,23 @@ class _UpdateBookState extends State<UpdateBook> {
                        mainAxisAlignment: MainAxisAlignment.start,
                        crossAxisAlignment: CrossAxisAlignment.start,
                        children: [
-                        const Text(
+                         Text(
                           "Your Lecturer: ",
                           style: TextStyle(
                               color: Colors.black,
                             fontWeight: FontWeight.w400,
-                            fontSize: 16,
+                             fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.32.dp,
                             fontFamily: 'Poppins',
                           ),
                         ),
                         selectedLecturer(),
                         const SizedBox(height: 30,),
-                           const Text(
+                            Text(
                           "Number of Students",
                             style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.32.dp,
                             fontFamily: 'Poppins',
                           ),
                         ),
@@ -472,30 +474,30 @@ class _UpdateBookState extends State<UpdateBook> {
                               },
                             ),
                           const SizedBox(height: 20,),
-                           const Text(
+                            Text(
                           "Date",
                             style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                              fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.32.dp,
                             fontFamily: 'Poppins',
                           ),
                         ),
                         buildDate(),
                          const SizedBox(height: 20,),
-                           const Text(
+                            Text(
                           "Slot",
                             style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.32.dp,
                             fontFamily: 'Poppins',
                           ),
                         ),
-                          SizedBox(height: 20),   
-                         SizedBox(height: 100,child: buildSlot()),
-                               SizedBox(height: 40),       
-                                   SizedBox(
+                    
+                 SizedBox(height: Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.40: deviceHeight(context) * 0.17,child: buildSlot()),
+                             
+                          SizedBox(
                      width: double.infinity,
                      child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -516,12 +518,12 @@ class _UpdateBookState extends State<UpdateBook> {
                          }            
                      
                       },
-                       child:  const Text(
+                       child:  Text(
                          "Update Appointment",
                          style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 22,
+                            fontSize: Device.screenType == ScreenType.tablet? 0.17.dp : 0.32.dp,
                             fontFamily: 'Poppins',
                          ),
                        ),
