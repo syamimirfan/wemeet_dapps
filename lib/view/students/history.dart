@@ -319,7 +319,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                               "Sorry, No Appointment",
                                style: TextStyle(
                                fontFamily: 'Poppins',
-                               fontSize: 20,
+                               fontSize: Device.screenType == ScreenType.tablet? 0.17.dp : 0.32.dp,
                                fontWeight: FontWeight.w600,
                                color: Constants().secondaryColor
                                  ),
@@ -403,7 +403,7 @@ class _ManageHistoryState extends State<ManageHistory> {
           setState(() {
             noData = responseAttendance["message"];
           });
-          throw Exception(responseAttendance['message']);
+             print("Error fetching data: ${responseAttendance['message']}");
         }
      }
   }  

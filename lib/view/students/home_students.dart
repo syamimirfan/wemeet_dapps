@@ -299,12 +299,12 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                                 children: [
                                   noData == "Empty Data" ?
                                   Container(
-                                    margin: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.2),
+                                    margin: Device.screenType == ScreenType.tablet? EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.3) : EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.2),
                                     child: Text(
                                       "Sorry, No Lecturer",
                                       style: TextStyle(
                                         fontFamily: 'Poppins',
-                                        fontSize: 20,
+                                         fontSize: Device.screenType == ScreenType.tablet? 0.17.dp : 0.32.dp,
                                         fontWeight: FontWeight.w600,
                                         color: Constants().secondaryColor
                                       ),

@@ -277,7 +277,7 @@ class _AppointmentState extends State<Appointment> {
                               "Sorry, No Appointment",
                                style: TextStyle(
                                fontFamily: 'Poppins',
-                               fontSize:    20,
+                                fontSize: Device.screenType == ScreenType.tablet? 0.17.dp : 0.32.dp,
                                fontWeight: FontWeight.w600,
                                color: Constants().secondaryColor
                                  ),
