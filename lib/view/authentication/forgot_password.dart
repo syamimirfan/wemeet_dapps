@@ -27,6 +27,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   bool isHiddenPassword1 = true;
   bool isHiddenPassword2 = true;
+  String? emailSet;
   
   void _togglePasswordView1() {
      setState(() {
@@ -135,6 +136,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           );
                           if(await myauth.sendOTP() == true) {
                               EasyLoading.dismiss();
+                              setState(() {
+                                emailSet = _controllerEmail.text;
+                              });
                               showMessage(context, "OTP Send Successfully", "OTP Email Verification has been sent to the ${_controllerEmail.text.toString().trim()}", "OK");
                           }else {
                               EasyLoading.dismiss();
@@ -263,10 +267,18 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       ),
                       onPressed: () async{
                         if(_globalKey.currentState!.validate()) {
+                          print(emailSet);
                            if(await myauth.verifyOTP(otp: _controllerVerifyOtp.text) == true) {
-                              resetPassword(_controllerEmail.text.toString().trim(), _controllerConfirmNewPassword.text.toString().trim()); 
-                           }else {
-                            showMessage(context, "OTP are not Verified", "Wrong OTP entered, Please enter correct OTP", "OK");
+                              if(_controllerEmail.text == emailSet) {
+                                  setState(() {
+                                    emailSet = "";
+                                  });
+                                  resetPassword(_controllerEmail.text.toString().trim(), _controllerConfirmNewPassword.text.toString().trim()); 
+                              } else {
+                                showMessage(context, "Wrong OTP or Email", "Wrong OTP or Email entered, Please request new OTP and enter correct OTP or Email", "OK");
+                              }
+                           } else {
+                            showMessage(context, "Wrong OTP or Email", "Wrong OTP or Email entered, Please request new OTP and enter correct OTP or Email", "OK");
                            }
                         }
                       }, 

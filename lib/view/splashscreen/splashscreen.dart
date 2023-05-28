@@ -135,7 +135,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                        Text("Loading ", style: TextStyle(fontFamily: 'Poppins',fontSize: Device.screenType == ScreenType.tablet? 
-                              0.17.dp:0.30.dp, color: Constants().secondaryColor, fontWeight: FontWeight.w600 ),),
+                              0.17.dp:0.32.dp, color: Constants().secondaryColor, fontWeight: FontWeight.w600 ),),
                       SpinKitThreeBounce(color: Constants().secondaryColor, size: 25)
                   ],
                 ),
