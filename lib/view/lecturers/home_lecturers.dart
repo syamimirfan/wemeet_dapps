@@ -24,6 +24,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
   String lectName = "";
   String noData = "";
   String studentName = "";
+  String studentNameBookingUpdate = "";
 
   @override
   void initState() { 
@@ -39,6 +40,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
     getLecturer(staffNo);
     getAppointment(staffNo);
     getMessage(staffNo);
+    getAppointmentUpdated(staffNo);
   }
 
   @override
@@ -516,6 +518,43 @@ class _HomeLecturerState extends State<HomeLecturer> {
         setState(() {
           noData = responseBooking['message'];
         });
+        print(responseBooking['message']);
+      }
+    }
+  }
+
+  
+  //to view some of student data
+    viewStudentBookingUpdate(String? matricNo) async {
+      var responseStudent = await new Student().getStudentDetail(matricNo!);
+      if(responseStudent['success']) {
+         setState(()  {
+           studentNameBookingUpdate = responseStudent['student'][0]['studName'];
+         });
+      } else {
+         throw Exception("Failed to get the data");
+      }
+   }
+
+   //get all accepted appointment for manage appointment in lecturer
+  getAppointmentUpdated(String? staffNo) async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    final responseBooking = await new Booking().getAcceptedAppointment(staffNo!);
+    if(responseBooking['success']){
+      final responseData = responseBooking['booking'];
+      if(responseData is List){
+        setState(() {
+          if(_sharedPreferences.getInt("bookingUpdate") == 1 && _sharedPreferences.getString("bookingUpdateMatricNumber") != ""){
+            viewStudentBookingUpdate(_sharedPreferences.getString("bookingUpdateMatricNumber")).then((value) => {
+             NotificationService()
+            .showNotification(title: "Appointment Updated!" ,body: studentNameBookingUpdate + " has update an appointment session with you").then((value) => {
+              _sharedPreferences.remove("bookingUpdate"),
+              _sharedPreferences.remove("bookingUpdateMatricNumber")
+            })
+           });
+          }
+        });
+      }else {
         print(responseBooking['message']);
       }
     }

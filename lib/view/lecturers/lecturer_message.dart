@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wemeet_dapps/api_services/api_booking.dart';
 import 'package:wemeet_dapps/api_services/api_chat.dart';
 import 'package:wemeet_dapps/api_services/api_notify_services.dart';
+import 'package:wemeet_dapps/api_services/api_students.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/widget/message_tile.dart';
 
@@ -26,10 +28,15 @@ class _LecturerMessageState extends State<LecturerMessage> {
   late String studentName = "";
   late String lecturerName = "";
 
+  String studentNameBookingUpdate = "";
+
   List<dynamic> chat = [];
+
+  String studentNameBookingAdd = "";
 
   final TextEditingController _controllerMessage = TextEditingController();
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  final ScrollController _scrollController = ScrollController();
 
   double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.height;
@@ -48,11 +55,14 @@ class _LecturerMessageState extends State<LecturerMessage> {
     var staffNo = _sharedPreferences.getString('staffNo');
     getMessage(matricNo, staffNo);
     getLecturer(staffNo);
+    getAppointment(staffNo);
+    getAppointmentUpdated(staffNo);
   }
  
   //message
    message() {
     return ListView.builder(
+      controller: _scrollController,
       itemCount: chat.length,
       itemBuilder: (context,index) {
          return MessageTile(message: chat[index]['messageText'], isSentByMe: chat[index]['statusMessage'] == 2 ? true : false, date: chat[index]['sendTextTime'],chatId: chat[index]['chatId']);
@@ -126,7 +136,7 @@ class _LecturerMessageState extends State<LecturerMessage> {
                 final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
                 String? staffNo = _sharedPreferences.getString('staffNo');
                 if(_globalKey.currentState!.validate() && _controllerMessage.text.trim().isNotEmpty){
-                     addLecturerMessage(matricNo, staffNo!, _controllerMessage.text);
+                     addLecturerMessage(matricNo, staffNo!, _controllerMessage.text, _scrollController);
                      _controllerMessage.clear(); 
                 }
                },
@@ -194,16 +204,13 @@ class _LecturerMessageState extends State<LecturerMessage> {
                 topRight: Radius.circular(30)
               )
             ),
-            child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
+            child: Column(
                     children: [
-                      SizedBox(height:Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.85 : deviceHeight(context) * 0.78, child:  message(),),
-                  sendingMessage()
+                      Expanded(child: SizedBox(height:Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.85 : deviceHeight(context) * 0.78, child:  message(),)),
+                      sendingMessage()
                     ],
                 ),
-            ),
-            
+ 
           ),
       ),
     );
@@ -234,14 +241,27 @@ class _LecturerMessageState extends State<LecturerMessage> {
 
 
   //add lecturer message
-  addLecturerMessage(String matricNo, String staffNo, String messageText) async {
+  addLecturerMessage(String matricNo, String staffNo, String messageText, ScrollController scrollController) async {
       final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
      var responseChat = await new Chat().lecturerMessage(matricNo, staffNo, messageText);
      if(responseChat['success']) {
       //MAKE IT REFRESH SO WE CAN SEE THE MESSAGE
        await getMessage(matricNo, staffNo);
         _sharedPreferences.setString("lecturerName", lecturerName);
-      _sharedPreferences.setString("staffNumber", staffNo);
+       _sharedPreferences.setString("staffNumber", staffNo);
+        
+            // Scroll to the bottom of the chat after a short delay
+       Future.delayed(Duration(milliseconds: 100), () {
+          try {
+            _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent,
+              duration: Duration(milliseconds: 100),
+              curve: Curves.easeInOut,
+            );
+          } catch (error) {
+            print('Error scrolling to bottom: $error');
+          }
+      });
      }
   }
 
@@ -256,8 +276,7 @@ class _LecturerMessageState extends State<LecturerMessage> {
          setState(() {
            chat = responseData;
            bool lastMessageSentByStudent = chat.isNotEmpty && chat.last['statusMessage'] == 1;
-        if (lastMessageSentByStudent && _sharedPreferences.getString("studentName") != null && _sharedPreferences.getString("matricNumber") != null) {
-        
+        if (lastMessageSentByStudent && _sharedPreferences.getString("studentName") != null && _sharedPreferences.getString("matricNumber") != null) {        
           NotificationService().showNotification(
               title: 'New message from $studentName',
               body: chat.last['messageText']).then((value) => {
@@ -265,10 +284,86 @@ class _LecturerMessageState extends State<LecturerMessage> {
                  _sharedPreferences.remove("matricNumber")
               });
         }
+  
          });
        }else {
          print("Error fetching data: ${responseChat['message']}");
        }
      }
+  }
+
+      //to view some of student data
+    viewStudent(String? matricNo) async {
+      var responseStudent = await new Student().getStudentDetail(matricNo!);
+      if(responseStudent['success']) {
+         setState(()  {
+           studentNameBookingAdd = responseStudent['student'][0]['studName'];
+         });
+      } else {
+         throw Exception("Failed to get the data");
+      }
+ 
+  }
+
+   //get all appointment in lecturer
+  getAppointment(String? staffNo) async {
+      final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    final responseBooking = await new Booking().getAppointmentRequest(staffNo!);
+    if(responseBooking['success']){
+      final responseData = responseBooking['booking'];
+      if(responseData is List){
+        setState(() {
+          bool currentAppointmentRequested = responseData.isNotEmpty && responseData.last['statusBooking'] == "Appending";
+          if(currentAppointmentRequested && _sharedPreferences.getInt("bookingAdd") == 1 && _sharedPreferences.getString("bookingAddMatricNumber") != ""){
+           viewStudent(_sharedPreferences.getString("bookingAddMatricNumber")).then((value) => {
+             NotificationService()
+            .showNotification(title: "New Appointment" ,body: studentNameBookingAdd + " has book an appointment session with you").then((value) => {
+              _sharedPreferences.remove("bookingAdd"),
+              _sharedPreferences.remove("bookingAddMatricNumber")
+            })
+           });
+          }
+        });
+      }else {
+  
+        print(responseBooking['message']);
+      }
+    }
+  }
+
+    //to view some of student data
+    viewStudentBookingUpdate(String? matricNo) async {
+      var responseStudent = await new Student().getStudentDetail(matricNo!);
+      if(responseStudent['success']) {
+         setState(()  {
+           studentNameBookingUpdate = responseStudent['student'][0]['studName'];
+         });
+      } else {
+         throw Exception("Failed to get the data");
+      }
+   }
+
+   //get all accepted appointment for manage appointment in lecturer
+  getAppointmentUpdated(String? staffNo) async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    final responseBooking = await new Booking().getAcceptedAppointment(staffNo!);
+    if(responseBooking['success']){
+      final responseData = responseBooking['booking'];
+      if(responseData is List){
+        setState(() {
+          if(_sharedPreferences.getInt("bookingUpdate") == 1 && _sharedPreferences.getString("bookingUpdateMatricNumber") != ""){
+            viewStudentBookingUpdate(_sharedPreferences.getString("bookingUpdateMatricNumber")).then((value) => {
+             NotificationService()
+            .showNotification(title: "Appointment Updated!" ,body: studentNameBookingUpdate + " has update an appointment session with you").then((value) => {
+              _sharedPreferences.remove("bookingUpdate"),
+              _sharedPreferences.remove("bookingUpdateMatricNumber")
+            })
+           });
+          }
+        });
+      }else {
+        print(responseBooking['message']);
+      }
+    }
   }
 }

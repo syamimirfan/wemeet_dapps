@@ -3,6 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
 import 'package:wemeet_dapps/api_services/api_attendance.dart';
+import 'package:wemeet_dapps/api_services/api_booking.dart';
 import 'package:wemeet_dapps/api_services/api_chat.dart';
 import 'package:wemeet_dapps/api_services/api_lecturers.dart';
 import 'package:wemeet_dapps/api_services/api_notify_services.dart';
@@ -27,6 +28,8 @@ class _ManageHistoryState extends State<ManageHistory> {
   String noData = "";
   String lectName = "";
 
+  String lectNameBookingUpdate = "";
+
   @override
   void initState() {
     super.initState();  
@@ -40,6 +43,7 @@ class _ManageHistoryState extends State<ManageHistory> {
 
     getAllAttendance(matricNo);
     getMessage(matricNo);
+    getManageAppointment(matricNo);
   }
 
   @override
@@ -444,6 +448,67 @@ class _ManageHistoryState extends State<ManageHistory> {
          print("Error fetching data: ${responseChat['message']}");
        }
      }
+  }
+
+     //to view some of lecturer data  
+   viewLecturerBookingUpdate(String? staffNo) async {
+      var responseLecturer = await new Lecturer().getLecturerDetail(staffNo!);
+      if(responseLecturer['success']) {
+         setState(()  {
+           lectName = responseLecturer['lecturer'][0]['lecturerName'];
+           
+         });
+      } else {
+         throw Exception("Failed to get the data");
+      }
+  }
+
+  //function to get appointment
+  getManageAppointment(String? matricNo) async {
+     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    final responseBooking = await Booking().manageAppointmentStudent(matricNo!);
+    if(responseBooking['success']) {
+      final responseData = responseBooking['booking'];
+      if(responseData is List) {
+        setState(() {
+          bool currentAcceptedAppointment = responseData.isNotEmpty && responseData.last['statusBooking'] == "Accepted";
+          bool currentRejectedAppointment = responseData.isNotEmpty && responseData.last['statusBooking'] == "Rejected";
+          if(currentAcceptedAppointment && _sharedPreferences.getInt("acceptAppointment") == 1 && _sharedPreferences.getString("acceptAppointmentLectName") != ""){
+             NotificationService()
+            .showNotification(title: "Congratulations! You're set" ,body:  _sharedPreferences.getString("acceptAppointmentLectName")! + " has accept your appointment").then((value) => {
+                _sharedPreferences.remove("acceptAppointment"),
+                _sharedPreferences.remove("acceptAppointmentLectName"),
+            });
+          }else if (currentRejectedAppointment && _sharedPreferences.getInt("rejectAppointment") == 2 && _sharedPreferences.getString("rejectAppointmentLectName") != "") {
+            NotificationService()
+            .showNotification(title: "Sorry, You're not set" ,body: _sharedPreferences.getString("rejectAppointmentLectName")! + " has reject your appointment").then((value) => {
+               _sharedPreferences.remove("rejectAppointment"),
+               _sharedPreferences.remove("rejectAppointmentLectName"),
+            });
+          }else if(_sharedPreferences.getInt("appointmentCancel") == 1 && _sharedPreferences.getString("appointmentCancelStaffNo") != ""){
+            viewLecturerBookingUpdate(_sharedPreferences.getString("appointmentCancelStaffNo")).then((value) => {
+              NotificationService()
+            .showNotification(title: "Appointment Cancelled!" ,body: lectName + " has cancel your appointment").then((value) => {
+              _sharedPreferences.remove("appointmentCancel"),
+              _sharedPreferences.remove("appointmentCancelStaffNo")
+             })
+            });         
+          }
+        });
+      }else {
+       if(_sharedPreferences.getInt("appointmentCancel") == 1 && _sharedPreferences.getString("appointmentCancelStaffNo") != ""){
+            viewLecturerBookingUpdate(_sharedPreferences.getString("appointmentCancelStaffNo")).then((value) => {
+              NotificationService()
+            .showNotification(title: "Appointment Cancelled!" ,body: lectName + " has cancel your appointment").then((value) => {
+              _sharedPreferences.remove("appointmentCancel"),
+              _sharedPreferences.remove("appointmentCancelStaffNo")
+             })
+            });
+            
+          }
+       print("Error fetching data: ${responseBooking['message']}");
+      }
+    }
   }
 
 }

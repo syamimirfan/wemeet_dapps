@@ -43,6 +43,7 @@ class _AppointmentState extends State<Appointment> {
     setState(() {
       appointmentCancelStaffNo = staffNo!;
     });
+    getAppointmentReq(staffNo);
   }
 
   @override
@@ -398,6 +399,32 @@ class _AppointmentState extends State<Appointment> {
       deletedAppointment.setString("appointmentCancelStaffNo", appointmentCancelStaffNo);
     }else{
       throw Exception(responseBooking['message']);
+    }
+  }
+
+   //get all appointment in lecturer
+  getAppointmentReq(String? staffNo) async {
+      final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    final responseBooking = await new Booking().getAppointmentRequest(staffNo!);
+    if(responseBooking['success']){
+      final responseData = responseBooking['booking'];
+      if(responseData is List){
+        setState(() {
+          bool currentAppointmentRequested = responseData.isNotEmpty && responseData.last['statusBooking'] == "Appending";
+          if(currentAppointmentRequested && _sharedPreferences.getInt("bookingAdd") == 1 && _sharedPreferences.getString("bookingAddMatricNumber") != ""){
+           viewStudent(_sharedPreferences.getString("bookingAddMatricNumber")).then((value) => {
+             NotificationService()
+            .showNotification(title: "New Appointment" ,body: studentName + " has book an appointment session with you").then((value) => {
+              _sharedPreferences.remove("bookingAdd"),
+              _sharedPreferences.remove("bookingAddMatricNumber")
+            })
+           });
+          }
+        });
+      }else {
+  
+        print(responseBooking['message']);
+      }
     }
   }
 

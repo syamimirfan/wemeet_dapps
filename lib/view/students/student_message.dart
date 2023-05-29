@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wemeet_dapps/api_services/api_booking.dart';
 import 'package:wemeet_dapps/api_services/api_chat.dart';
+import 'package:wemeet_dapps/api_services/api_lecturers.dart';
 import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/widget/message_tile.dart';
@@ -25,10 +27,13 @@ class _MessageState extends State<Message> {
   late String lecturerName = "";
   late String studentName = "";
 
+  String lectName = "";
+
   List<dynamic> chat = [];
 
   final TextEditingController _controllerMessage = TextEditingController();
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  final ScrollController _scrollController = ScrollController();
 
   double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.height;
@@ -45,12 +50,14 @@ class _MessageState extends State<Message> {
     var matricNo = _sharedPreferences.getString("matricNo");
     getMessage(matricNo, staffNo);
     getStudent(matricNo);
+    getManageAppointment(matricNo);
   }
  
 
   //message
    message() {
     return ListView.builder(
+       controller: _scrollController,
       itemCount: chat.length,
       itemBuilder: (context,index) {
         //LETAK TERNARY OPERATOR KT isSentByMe, klau statusMessage 1 (student) dia true.. else false
@@ -126,7 +133,7 @@ class _MessageState extends State<Message> {
                 final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
                 String? matricNo = _sharedPreferences.getString('matricNo');
                 if(_globalKey.currentState!.validate() && _controllerMessage.text.trim().isNotEmpty){
-                     addStudentMessage(matricNo!, staffNo, _controllerMessage.text);
+                     addStudentMessage(matricNo!, staffNo, _controllerMessage.text, _scrollController);
                      _controllerMessage.clear(); 
                 }
                },
@@ -194,15 +201,13 @@ class _MessageState extends State<Message> {
                 topRight: Radius.circular(30)
               )
             ),
-            child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
+            child:  Column(
                     children: [
-                      SizedBox(height:Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.85 : deviceHeight(context) * 0.78, child:  message(),),
+                      Expanded(child: SizedBox(height:Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.85 : deviceHeight(context) * 0.78, child:  message(),)),
                       sendingMessage()
                     ],
                 ),
-            ),
+            
           ),
       ),
     );
@@ -232,7 +237,7 @@ class _MessageState extends State<Message> {
   }
 
   //add student message
-  addStudentMessage(String matricNo, String staffNo, String messageText) async {
+  addStudentMessage(String matricNo, String staffNo, String messageText, ScrollController scrollController) async {
      final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
      var responseChat = await new Chat().studentMessage(matricNo, staffNo, messageText);
      if(responseChat['success']) {
@@ -240,7 +245,27 @@ class _MessageState extends State<Message> {
       await getMessage(matricNo, staffNo);
        _sharedPreferences.setString("studentName", studentName);
       _sharedPreferences.setString("matricNumber", matricNo);
+        
+        // Scroll to the bottom of the chat after a short delay
+       Future.delayed(Duration(milliseconds: 100), () {
+          try {
+            _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent,
+              duration: Duration(milliseconds: 100),
+              curve: Curves.easeInOut,
+            );
+          } catch (error) {
+            print('Error scrolling to bottom: $error');
+          }
+      });
+
      }
+  }
+
+   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   //get all message
@@ -260,11 +285,74 @@ class _MessageState extends State<Message> {
                   _sharedPreferences.remove("lecturerName"),
                  _sharedPreferences.remove("staffNumber")
               });
-        }
+         }
+  
          });
        }else {
          print("Error fetching data: ${responseChat['message']}");
        }
      }
   }
+
+     //to view some of lecturer data  
+   viewLecturer(String? staffNo) async {
+      var responseLecturer = await new Lecturer().getLecturerDetail(staffNo!);
+      if(responseLecturer['success']) {
+         setState(()  {
+           lectName = responseLecturer['lecturer'][0]['lecturerName'];
+           
+         });
+      } else {
+         throw Exception("Failed to get the data");
+      }
+  }
+
+  //function to get appointment
+  getManageAppointment(String? matricNo) async {
+     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    final responseBooking = await Booking().manageAppointmentStudent(matricNo!);
+    if(responseBooking['success']) {
+      final responseData = responseBooking['booking'];
+      if(responseData is List) {
+        setState(() {
+          bool currentAcceptedAppointment = responseData.isNotEmpty && responseData.last['statusBooking'] == "Accepted";
+          bool currentRejectedAppointment = responseData.isNotEmpty && responseData.last['statusBooking'] == "Rejected";
+          if(currentAcceptedAppointment && _sharedPreferences.getInt("acceptAppointment") == 1 && _sharedPreferences.getString("acceptAppointmentLectName") != ""){
+             NotificationService()
+            .showNotification(title: "Congratulations! You're set" ,body:  _sharedPreferences.getString("acceptAppointmentLectName")! + " has accept your appointment").then((value) => {
+                _sharedPreferences.remove("acceptAppointment"),
+                _sharedPreferences.remove("acceptAppointmentLectName"),
+            });
+          }else if (currentRejectedAppointment && _sharedPreferences.getInt("rejectAppointment") == 2 && _sharedPreferences.getString("rejectAppointmentLectName") != "") {
+            NotificationService()
+            .showNotification(title: "Sorry, You're not set" ,body: _sharedPreferences.getString("rejectAppointmentLectName")! + " has reject your appointment").then((value) => {
+               _sharedPreferences.remove("rejectAppointment"),
+               _sharedPreferences.remove("rejectAppointmentLectName"),
+            });
+          }else if(_sharedPreferences.getInt("appointmentCancel") == 1 && _sharedPreferences.getString("appointmentCancelStaffNo") != ""){
+            viewLecturer(_sharedPreferences.getString("appointmentCancelStaffNo")).then((value) => {
+              NotificationService()
+            .showNotification(title: "Appointment Cancelled!" ,body: lectName + " has cancel your appointment").then((value) => {
+              _sharedPreferences.remove("appointmentCancel"),
+              _sharedPreferences.remove("appointmentCancelStaffNo")
+             })
+            });         
+          }
+        });
+      }else {
+       if(_sharedPreferences.getInt("appointmentCancel") == 1 && _sharedPreferences.getString("appointmentCancelStaffNo") != ""){
+            viewLecturer(_sharedPreferences.getString("appointmentCancelStaffNo")).then((value) => {
+              NotificationService()
+            .showNotification(title: "Appointment Cancelled!" ,body: lectName + " has cancel your appointment").then((value) => {
+              _sharedPreferences.remove("appointmentCancel"),
+              _sharedPreferences.remove("appointmentCancelStaffNo")
+             })
+            });
+            
+          }
+       print("Error fetching data: ${responseBooking['message']}");
+      }
+    }
+  }
+
 }

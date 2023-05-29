@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wemeet_dapps/api_services/api_booking.dart';
 import 'package:wemeet_dapps/api_services/api_chat.dart';
+import 'package:wemeet_dapps/api_services/api_lecturers.dart';
 import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/api_services/api_students.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
@@ -34,6 +36,8 @@ class _LecturerInformationState extends State<LecturerInformation> {
   String academicQualification3 = "";
   String academicQualification4 = ""; 
 
+  String lectNameBookingUpdate = "";
+
  
   double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
@@ -50,6 +54,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     var matricNo = _sharedPreferences.getString('matricNo');
     getMessage(matricNo);
+    getManageAppointment(matricNo);
   }
 
 
@@ -334,4 +339,65 @@ class _LecturerInformationState extends State<LecturerInformation> {
        }
      }
   }
+
+     //to view some of lecturer data  
+   viewLecturer(String? staffNo) async {
+      var responseLecturer = await new Lecturer().getLecturerDetail(staffNo!);
+      if(responseLecturer['success']) {
+         setState(()  {
+           lectNameBookingUpdate = responseLecturer['lecturer'][0]['lecturerName'];
+           
+         });
+      } else {
+         throw Exception("Failed to get the data");
+      }
+  }
+
+  //function to get appointment
+  getManageAppointment(String? matricNo) async {
+     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    final responseBooking = await Booking().manageAppointmentStudent(matricNo!);
+    if(responseBooking['success']) {
+      final responseData = responseBooking['booking'];
+      if(responseData is List) {
+        setState(() {
+          bool currentAcceptedAppointment = responseData.isNotEmpty && responseData.last['statusBooking'] == "Accepted";
+          bool currentRejectedAppointment = responseData.isNotEmpty && responseData.last['statusBooking'] == "Rejected";
+          if(currentAcceptedAppointment && _sharedPreferences.getInt("acceptAppointment") == 1 && _sharedPreferences.getString("acceptAppointmentLectName") != ""){
+             NotificationService()
+            .showNotification(title: "Congratulations! You're set" ,body:  _sharedPreferences.getString("acceptAppointmentLectName")! + " has accept your appointment").then((value) => {
+                _sharedPreferences.remove("acceptAppointment"),
+                _sharedPreferences.remove("acceptAppointmentLectName"),
+            });
+          }else if (currentRejectedAppointment && _sharedPreferences.getInt("rejectAppointment") == 2 && _sharedPreferences.getString("rejectAppointmentLectName") != "") {
+            NotificationService()
+            .showNotification(title: "Sorry, You're not set" ,body: _sharedPreferences.getString("rejectAppointmentLectName")! + " has reject your appointment").then((value) => {
+               _sharedPreferences.remove("rejectAppointment"),
+               _sharedPreferences.remove("rejectAppointmentLectName"),
+            });
+          }else if(_sharedPreferences.getInt("appointmentCancel") == 1 && _sharedPreferences.getString("appointmentCancelStaffNo") != ""){
+            viewLecturer(_sharedPreferences.getString("appointmentCancelStaffNo")).then((value) => {
+              NotificationService()
+            .showNotification(title: "Appointment Cancelled!" ,body: lectNameBookingUpdate + " has cancel your appointment").then((value) => {
+              _sharedPreferences.remove("appointmentCancel"),
+              _sharedPreferences.remove("appointmentCancelStaffNo")
+             })
+            });         
+          }
+        });
+      }else {
+       if(_sharedPreferences.getInt("appointmentCancel") == 1 && _sharedPreferences.getString("appointmentCancelStaffNo") != ""){
+            viewLecturer(_sharedPreferences.getString("appointmentCancelStaffNo")).then((value) => {
+              NotificationService()
+            .showNotification(title: "Appointment Cancelled!" ,body: lectNameBookingUpdate + " has cancel your appointment").then((value) => {
+              _sharedPreferences.remove("appointmentCancel"),
+              _sharedPreferences.remove("appointmentCancelStaffNo")
+             })
+            });
+          }
+       print("Error fetching data: ${responseBooking['message']}");
+      }
+    }
+  }
+
 }

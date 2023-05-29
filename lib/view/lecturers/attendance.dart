@@ -6,6 +6,7 @@ import 'package:wemeet_dapps/api_services/api_attendance.dart';
 import 'package:wemeet_dapps/api_services/api_booking.dart';
 import 'package:wemeet_dapps/api_services/api_chat.dart';
 import 'package:wemeet_dapps/api_services/api_notify_services.dart';
+import 'package:wemeet_dapps/api_services/api_students.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/widget/main_drawer_lecturer.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
@@ -25,6 +26,10 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
   List<dynamic> acceptedAppointments = [];
   String noData = "";
 
+  String studentName = "";
+
+  String studentNameBookingUpdate = "";
+
   @override
   void initState() {
     super.initState();
@@ -37,6 +42,8 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
     var staffNo = _sharedPreferences.getString('staffNo');
     getAttendance(staffNo);
     getMessage(staffNo);
+    getAppointment(staffNo);
+    getAppointmentUpdated(staffNo);
   }
 
 
@@ -415,4 +422,79 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
        }
      }
    }
+
+       //to view some of student data
+    viewStudent(String? matricNo) async {
+      var responseStudent = await new Student().getStudentDetail(matricNo!);
+      if(responseStudent['success']) {
+         setState(()  {
+           studentName = responseStudent['student'][0]['studName'];
+         });
+      } else {
+         throw Exception("Failed to get the data");
+      }
+ 
+  }
+
+   //get all appointment in lecturer
+  getAppointment(String? staffNo) async {
+      final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    final responseBooking = await new Booking().getAppointmentRequest(staffNo!);
+    if(responseBooking['success']){
+      final responseData = responseBooking['booking'];
+      if(responseData is List){
+        setState(() {
+          bool currentAppointmentRequested = responseData.isNotEmpty && responseData.last['statusBooking'] == "Appending";
+          if(currentAppointmentRequested && _sharedPreferences.getInt("bookingAdd") == 1 && _sharedPreferences.getString("bookingAddMatricNumber") != ""){
+           viewStudent(_sharedPreferences.getString("bookingAddMatricNumber")).then((value) => {
+             NotificationService()
+            .showNotification(title: "New Appointment" ,body: studentName + " has book an appointment session with you").then((value) => {
+              _sharedPreferences.remove("bookingAdd"),
+              _sharedPreferences.remove("bookingAddMatricNumber")
+            })
+           });
+          }
+        });
+      }else {
+  
+        print(responseBooking['message']);
+      }
+    }
+  }
+
+    //to view some of student data
+    viewStudentBookingUpdate(String? matricNo) async {
+      var responseStudent = await new Student().getStudentDetail(matricNo!);
+      if(responseStudent['success']) {
+         setState(()  {
+           studentNameBookingUpdate = responseStudent['student'][0]['studName'];
+         });
+      } else {
+         throw Exception("Failed to get the data");
+      }
+   }
+
+   //get all accepted appointment for manage appointment in lecturer
+  getAppointmentUpdated(String? staffNo) async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    final responseBooking = await new Booking().getAcceptedAppointment(staffNo!);
+    if(responseBooking['success']){
+      final responseData = responseBooking['booking'];
+      if(responseData is List){
+        setState(() {
+          if(_sharedPreferences.getInt("bookingUpdate") == 1 && _sharedPreferences.getString("bookingUpdateMatricNumber") != ""){
+            viewStudentBookingUpdate(_sharedPreferences.getString("bookingUpdateMatricNumber")).then((value) => {
+             NotificationService()
+            .showNotification(title: "Appointment Updated!" ,body: studentNameBookingUpdate + " has update an appointment session with you").then((value) => {
+              _sharedPreferences.remove("bookingUpdate"),
+              _sharedPreferences.remove("bookingUpdateMatricNumber")
+            })
+           });
+          }
+        });
+      }else {
+        print(responseBooking['message']);
+      }
+    }
+  }
 }

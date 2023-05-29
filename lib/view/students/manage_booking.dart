@@ -86,8 +86,7 @@ class _ManageBookingState extends State<ManageBooking> {
               _sharedPreferences.remove("appointmentCancel"),
               _sharedPreferences.remove("appointmentCancelStaffNo")
              })
-            });
-            
+            });         
           }
         });
       }else {
