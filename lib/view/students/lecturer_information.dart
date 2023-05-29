@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wemeet_dapps/api_services/api_chat.dart';
+import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/api_services/api_students.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 
@@ -40,8 +43,15 @@ class _LecturerInformationState extends State<LecturerInformation> {
     super.initState();
 
     getLecturerInformation(staffNo);
+    getMatricNo();
   }
   
+   getMatricNo() async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    var matricNo = _sharedPreferences.getString('matricNo');
+    getMessage(matricNo);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -296,6 +306,32 @@ class _LecturerInformationState extends State<LecturerInformation> {
         });
      }else{
       throw Exception("Error fetching data");
+     }
+  }
+
+   //to get notification message from lecturer
+   getMessage(String? matricNo) async {
+     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+     String? staffNo = _sharedPreferences.getString("staffNumber");
+     var responseChat = await new Chat().getUserMessage(matricNo!, staffNo!);
+     if(responseChat['success']){
+       final responseData = responseChat['chat'];
+       if(responseData is List) {
+         setState(() {
+        bool lastMessageSentByLecturer = responseData.isNotEmpty && responseData.last['statusMessage'] == 2;
+        if (lastMessageSentByLecturer && _sharedPreferences.getString("lecturerName") != "" && _sharedPreferences.getString("staffNumber") != "") {
+             var lecturerName = _sharedPreferences.getString("lecturerName");
+              NotificationService().showNotification(
+              title: 'New message from Dr $lecturerName',
+              body: responseData.last['messageText']).then((value) => {
+                 _sharedPreferences.remove("lecturerName"),
+                 _sharedPreferences.remove("staffNumber")
+              });
+           }
+         });
+       }else {
+         print("Error fetching data: ${responseChat['message']}");
+       }
      }
   }
 }

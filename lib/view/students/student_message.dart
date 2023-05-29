@@ -9,15 +9,17 @@ import 'package:wemeet_dapps/widget/message_tile.dart';
 class Message extends StatefulWidget {
   Message({super.key, required this.staffNo});
   String staffNo;
+  
 
   @override
   State<Message> createState() => _MessageState(this.staffNo);
 }
 
 class _MessageState extends State<Message> {
-
+  
   _MessageState(this.staffNo);
   String staffNo;
+
 
   late String lecturerImage = "";
   late String lecturerName = "";
@@ -37,11 +39,12 @@ class _MessageState extends State<Message> {
     getLecturer(staffNo);
     getMatricNo();
   }
- 
+  
   getMatricNo() async {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     var matricNo = _sharedPreferences.getString("matricNo");
     getMessage(matricNo, staffNo);
+    getStudent(matricNo);
   }
  
 
@@ -217,29 +220,46 @@ class _MessageState extends State<Message> {
      }
   }
 
+  //get specific student name 
+   getStudent(String? matricNo) async{
+     var responseChat = await new Chat().getContactStudent(matricNo!);
+
+     if(responseChat['success']) {
+       setState(() {
+         studentName = responseChat['chat'][0]['studName'];
+       });
+     }
+  }
+
   //add student message
   addStudentMessage(String matricNo, String staffNo, String messageText) async {
+     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
      var responseChat = await new Chat().studentMessage(matricNo, staffNo, messageText);
      if(responseChat['success']) {
       //MAKE IT REFRESH SO WE CAN SEE THE MESSAGE
       await getMessage(matricNo, staffNo);
-      
+       _sharedPreferences.setString("studentName", studentName);
+      _sharedPreferences.setString("matricNumber", matricNo);
      }
   }
 
   //get all message
   getMessage(String? matricNo, String staffNo) async {
+     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
      var responseChat = await new Chat().getUserMessage(matricNo!, staffNo);
      if(responseChat['success']){
        final responseData = responseChat['chat'];
        if(responseData is List) {
          setState(() {
            chat = responseData;
-           bool lastMessageSentByLecturer = chat.isNotEmpty && chat.last['statusMessage'] == 2;
-        if (lastMessageSentByLecturer) {
+        bool lastMessageSentByLecturer = chat.isNotEmpty && chat.last['statusMessage'] == 2;
+        if (lastMessageSentByLecturer && _sharedPreferences.getString("lecturerName") != null && _sharedPreferences.getString("staffNumber") != null) {
           NotificationService().showNotification(
               title: 'New message from DR $lecturerName',
-              body: chat.last['messageText']);
+              body: chat.last['messageText']).then((value) => {
+                  _sharedPreferences.remove("lecturerName"),
+                 _sharedPreferences.remove("staffNumber")
+              });
         }
          });
        }else {

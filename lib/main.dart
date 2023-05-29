@@ -7,6 +7,7 @@ import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/view/splashscreen/splashscreen.dart';
 import 'package:flutter/services.dart';
 
+
 Future<void> main() async{
 
   //to off the auto rotate (disable landscape mode)
@@ -54,6 +55,7 @@ void configLoading() {
  }
   
  class _MyAppState extends State<MyApp> {
+
 
    @override
    void initState() {

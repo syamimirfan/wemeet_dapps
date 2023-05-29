@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wemeet_dapps/about.dart';
+import 'package:wemeet_dapps/api_services/api_chat.dart';
+import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 
@@ -17,6 +20,17 @@ class _QrCodeState extends State<QrCode> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+
+  @override
+  void initState() {
+    super.initState();
+    getMatricNo();
+  }
+  getMatricNo() async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    var matricNo = _sharedPreferences.getString('matricNo');
+    getMessage(matricNo);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +110,32 @@ void _onQRViewCreated(QRViewController controller) {
   void dispose() {
     controller?.dispose();
     super.dispose();
+  }
+
+    //to get notification message from lecturer
+   getMessage(String? matricNo) async {
+     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+     String? staffNo = _sharedPreferences.getString("staffNumber");
+     var responseChat = await new Chat().getUserMessage(matricNo!, staffNo!);
+     if(responseChat['success']){
+       final responseData = responseChat['chat'];
+       if(responseData is List) {
+         setState(() {
+        bool lastMessageSentByLecturer = responseData.isNotEmpty && responseData.last['statusMessage'] == 2;
+        if (lastMessageSentByLecturer && _sharedPreferences.getString("lecturerName") != "" && _sharedPreferences.getString("staffNumber") != "") {
+             var lecturerName = _sharedPreferences.getString("lecturerName");
+              NotificationService().showNotification(
+              title: 'New message from Dr $lecturerName',
+              body: responseData.last['messageText']).then((value) => {
+                 _sharedPreferences.remove("lecturerName"),
+                 _sharedPreferences.remove("staffNumber")
+              });
+           }
+         });
+       }else {
+         print("Error fetching data: ${responseChat['message']}");
+       }
+     }
   }
 
 }

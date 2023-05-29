@@ -6,6 +6,7 @@ import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/widget/message_tile.dart';
 
+
 class LecturerMessage extends StatefulWidget {
 
    LecturerMessage({super.key, required this.matricNo});
@@ -20,8 +21,10 @@ class _LecturerMessageState extends State<LecturerMessage> {
   _LecturerMessageState(this.matricNo);
   String matricNo;
 
+
   late String studentImage = "";
   late String studentName = "";
+  late String lecturerName = "";
 
   List<dynamic> chat = [];
 
@@ -35,16 +38,18 @@ class _LecturerMessageState extends State<LecturerMessage> {
   @override
   void initState() {
     super.initState();
-     getStudent(matricNo);
-     getStaffNo();
+    getStudent(matricNo);
+    getStaffNo();
   }
+
 
    getStaffNo() async {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     var staffNo = _sharedPreferences.getString('staffNo');
     getMessage(matricNo, staffNo);
+    getLecturer(staffNo);
   }
-
+ 
   //message
    message() {
     return ListView.builder(
@@ -216,18 +221,34 @@ class _LecturerMessageState extends State<LecturerMessage> {
      }
   }
 
+  //get specific lecturer name
+  getLecturer(String? staffNo) async{
+     var responseChat = await new Chat().getContactLecturer(staffNo!);
+
+     if(responseChat['success']) {
+       setState(() {
+         lecturerName = responseChat['chat'][0]['lecturerName'];
+       });
+     }
+  }
+
+
   //add lecturer message
   addLecturerMessage(String matricNo, String staffNo, String messageText) async {
+      final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
      var responseChat = await new Chat().lecturerMessage(matricNo, staffNo, messageText);
      if(responseChat['success']) {
       //MAKE IT REFRESH SO WE CAN SEE THE MESSAGE
        await getMessage(matricNo, staffNo);
+        _sharedPreferences.setString("lecturerName", lecturerName);
+      _sharedPreferences.setString("staffNumber", staffNo);
      }
   }
 
   
   //get all message
   getMessage(String matricNo, String? staffNo) async {
+     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
      var responseChat = await new Chat().getUserMessage(matricNo, staffNo!);
      if(responseChat['success']){
         final responseData = responseChat['chat'];
@@ -235,10 +256,14 @@ class _LecturerMessageState extends State<LecturerMessage> {
          setState(() {
            chat = responseData;
            bool lastMessageSentByStudent = chat.isNotEmpty && chat.last['statusMessage'] == 1;
-        if (lastMessageSentByStudent) {
+        if (lastMessageSentByStudent && _sharedPreferences.getString("studentName") != null && _sharedPreferences.getString("matricNumber") != null) {
+        
           NotificationService().showNotification(
               title: 'New message from $studentName',
-              body: chat.last['messageText']);
+              body: chat.last['messageText']).then((value) => {
+                  _sharedPreferences.remove("studentName"),
+                 _sharedPreferences.remove("matricNumber")
+              });
         }
          });
        }else {

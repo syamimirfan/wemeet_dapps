@@ -3,6 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
 import 'package:wemeet_dapps/api_services/api_booking.dart';
+import 'package:wemeet_dapps/api_services/api_chat.dart';
 import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/api_services/api_students.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
@@ -38,6 +39,7 @@ class _AppointmentState extends State<Appointment> {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     var staffNo = _sharedPreferences.getString('staffNo');
     getAppointment(staffNo);
+     getMessage(staffNo);
     setState(() {
       appointmentCancelStaffNo = staffNo!;
     });
@@ -328,8 +330,34 @@ class _AppointmentState extends State<Appointment> {
       } else {
          throw Exception("Failed to get the data");
       }
- 
-  }
+   }
+
+    //to get notification message from student
+  getMessage(String? staffNo) async {
+    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    String? matricNo = _sharedPreferences.getString("matricNumber");
+     var responseChat = await new Chat().getUserMessage(matricNo!, staffNo!);
+     if(responseChat['success']){
+        final responseData = responseChat['chat'];
+       if(responseData is List) {
+         setState(() {
+        bool lastMessageSentByStudent = responseData.isNotEmpty && responseData.last['statusMessage'] == 1;
+        if (lastMessageSentByStudent && _sharedPreferences.getString("studentName") != "" && _sharedPreferences.getString("matricNumber") != "") {
+          var studentName = _sharedPreferences.getString("studentName");
+          NotificationService().showNotification(
+              title: 'New message from $studentName',
+              body: responseData.last['messageText']).then((value) => {
+                 _sharedPreferences.remove("studentName"),
+                 _sharedPreferences.remove("matricNumber")
+              });
+          }
+         });
+       }else {
+         print("Error fetching data: ${responseChat['message']}");
+       }
+     }
+   }
+
 
   //get all accepted appointment for manage appointment in lecturer
   getAppointment(String? staffNo) async {
