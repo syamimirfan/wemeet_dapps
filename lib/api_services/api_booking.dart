@@ -287,6 +287,51 @@ class Booking {
       }
    }
 
+   //API to update number of students appointment in manage appointment for student 
+    Future updateNoStudentsAppointment(int bookingId, int numberOfStudents) async {
+        EasyLoading.show(
+              status: "Loading...",
+              maskType: EasyLoadingMaskType.black,
+            );
+      final response = await http.patch(Uri.parse('${Utils.baseURL}/booking/updatenostudents/${bookingId}'),
+      headers:  {
+        "Accept": "application/json;charset=UTF-8",
+        'Charset': 'utf-8'
+      },
+      body: {
+        'numberOfStudents' : numberOfStudents.toString(),
+      } 
+    );
+      if(response.statusCode == 200) {
+        EasyLoading.dismiss();
+        return jsonDecode(response.body);
+      }else {
+        EasyLoading.showError("ERROR!");
+        throw Exception(response.statusCode);
+      }
+    }
+
+    //API to get booking appointment for student update number of students only
+       Future getBookingAppointment(int bookingId) async {
+     EasyLoading.show(
+        status: "Loading...",
+        maskType: EasyLoadingMaskType.black,
+      );
+     final response = await http.get(Uri.parse('${Utils.baseURL}/booking/getbookingappointment/${bookingId}'),
+          headers: {
+          "Accept": "Application/json"
+        }
+     );
+       if (response.statusCode == 200) {
+         EasyLoading.dismiss();
+         return jsonDecode(response.body);
+     
+      } else {
+        EasyLoading.showError("ERROR!");
+        throw Exception('API request failed with status code: ${response.statusCode}');
+      }
+   }
+
    //API to delete appointment in manage appointment for student and lecturer
    Future deleteAppointment(int bookingId) async {
      EasyLoading.show(

@@ -1,4 +1,5 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -9,6 +10,7 @@ import 'package:wemeet_dapps/api_services/api_chat.dart';
 import 'package:wemeet_dapps/api_services/api_lecturers.dart';
 import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
+import 'package:wemeet_dapps/view/students/update_numberofstudent.dart';
 import 'package:wemeet_dapps/view/students/update_successful.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 
@@ -461,15 +463,15 @@ class _UpdateBookState extends State<UpdateBook> {
                         ),
                         selectedLecturer(),
                         const SizedBox(height: 30,),
-                            Text(
-                          "Number of Students",
-                            style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: Device.screenType == ScreenType.tablet? 18:20,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
+                                Text(
+                                "Number of Students",
+                                  style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: Device.screenType == ScreenType.tablet? 18:20,
+                                  fontFamily: 'Poppins',
+                                 ),
+                               ),         
                               TextFormField(    
                               controller: _numberOfStudents,
                               keyboardType: TextInputType.number,
@@ -483,6 +485,29 @@ class _UpdateBookState extends State<UpdateBook> {
                                 }
                                  return null;
                               },
+                            ),
+                            SizedBox(height: 5,),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                SizedBox(width: 50.0.w,),
+                                Expanded(
+                                  child: Text.rich(
+                                    TextSpan(
+                                      text: "Same Date&Slot?",
+                                      style: TextStyle(
+                                          color: Constants().secondaryColor,
+                                          decoration: TextDecoration.underline,
+                                          fontSize: 17,
+                                          fontFamily: 'Poppins', 
+                                      ),
+                                      recognizer: TapGestureRecognizer()..onTap = () {
+                                        nextScreen(context, UpdateBookNumberStudent(staffNo: staffNo, bookingId: bookingId));
+                                      }
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           const SizedBox(height: 20,),
                             Text(
@@ -595,7 +620,7 @@ class _UpdateBookState extends State<UpdateBook> {
 
     if(responseBooking['success'] && responseBooking['message'] == "Slot Booked") {
       showMessage(context, "Slot Booked!", "The slot has been booked by student name ${responseBooking['student'][0]['studName']} with matric number ${responseBooking['student'][0]['matricNo']}", "OK");
-      
+
     }else if(responseBooking['success']) {
      _sharedPreferences.setInt("bookingUpdate", 1);
      var matricNo = _sharedPreferences.getString("matricNo");
