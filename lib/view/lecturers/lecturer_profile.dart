@@ -106,7 +106,7 @@ class _LecturerProfileState extends State<LecturerProfile> {
                     children: [
                       Container(
                         margin:  EdgeInsets.only(bottom: 2.0.h),
-                        height: Device.screenType == ScreenType.tablet ? 12.0.h : 14.0.h,
+                        height: Device.screenType == ScreenType.tablet ? 14.0.h : 14.0.h,
               
                       decoration:  BoxDecoration(
                       shape: BoxShape.circle,
@@ -131,7 +131,7 @@ class _LecturerProfileState extends State<LecturerProfile> {
                           style: TextStyle(
                             color: Color.fromARGB(255, 72, 71, 71),
                             fontSize: Device.screenType == ScreenType.tablet? 
-                              0.17.dp:0.30.dp,
+                              20:15,
                             fontFamily: 'Poppins',
                           ),
                           ),
@@ -159,7 +159,7 @@ class _LecturerProfileState extends State<LecturerProfile> {
                           style: TextStyle(
                             color: Color.fromARGB(255, 72, 71, 71),
                             fontSize: Device.screenType == ScreenType.tablet? 
-                              0.17.dp:0.30.dp,
+                            20:15,
                             fontFamily: 'Poppins',
                           ),
                           ),
@@ -187,7 +187,7 @@ class _LecturerProfileState extends State<LecturerProfile> {
                           style: TextStyle(
                             color: Color.fromARGB(255, 72, 71, 71),
                             fontSize: Device.screenType == ScreenType.tablet? 
-                              0.17.dp:0.30.dp,
+                            20:15,
                             fontFamily: 'Poppins',
                           ),
                           ),
@@ -214,7 +214,7 @@ class _LecturerProfileState extends State<LecturerProfile> {
                           style: TextStyle(
                             color: Color.fromARGB(255, 72, 71, 71),
                             fontSize: Device.screenType == ScreenType.tablet? 
-                              0.17.dp:0.30.dp,
+                           20:15,
                             fontFamily: 'Poppins',
                           ),
                           ),
@@ -241,7 +241,7 @@ class _LecturerProfileState extends State<LecturerProfile> {
                           style: TextStyle(
                             color: Color.fromARGB(255, 72, 71, 71),
                             fontSize: Device.screenType == ScreenType.tablet? 
-                              0.17.dp:0.30.dp,
+                            20:15,
                             fontFamily: 'Poppins',
                           ),
                           ),
@@ -268,7 +268,7 @@ class _LecturerProfileState extends State<LecturerProfile> {
                           style: TextStyle(
                             color: Color.fromARGB(255, 72, 71, 71),
                             fontSize: Device.screenType == ScreenType.tablet? 
-                              0.17.dp:0.30.dp,
+                             20:15,
                             fontFamily: 'Poppins',
                           ),
                           ),

@@ -120,59 +120,66 @@ class _StudentProfileState extends State<StudentProfile> {
                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           //name 
-                          Container(
-                            padding: EdgeInsets.symmetric( horizontal: deviceWidth(context) * 0.01),
-                            margin: EdgeInsets.only(bottom: deviceHeight(context) * 0.03),
-                            child:  Flexible(
-                                    child: Text(studentName,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: Device.screenType == ScreenType.tablet? 
-                                        0.19.dp:0.32.dp,
-                                        fontWeight: FontWeight.bold,
-                                      fontFamily: 'Poppins',
-                                    ),
-                                    ),
-                                  ),       
+                          Center(
+                            child: Container(
+                              padding: EdgeInsets.symmetric( horizontal: deviceWidth(context) * 0.03),
+                              margin: EdgeInsets.only(bottom: deviceHeight(context) * 0.03),
+                              child:  Flexible(
+                                      child: Text(
+                                      studentName,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: Device.screenType == ScreenType.tablet? 
+                                          25:14,
+                                          fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins',
+                                      ),
+                                      ),
+                                    ),       
+                            ),
                           ),
                           //matric number 
                            Padding(
                             padding: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01, horizontal: deviceWidth(context) * 0.01),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                            child: Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.card_membership,
+                                    color: Constants().messageGreyColor,
+                                    size:  Device.screenType == ScreenType.tablet? 20:20,
+                                  ),
+                            
+                                                      SizedBox(width: 10.w ,),
+                                                      Column(
+                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Icon(
-                                  Icons.card_membership,
-                                  color: Constants().messageGreyColor,
-                                  size:  Device.screenType == ScreenType.tablet? 0.20.dp : 0.32.dp,
-                                ),
-
-                          SizedBox(width: 10.w ,),
-                          Column(
-                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                          Text(matricNumber,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.17.dp:0.28.dp,
-                              fontWeight: FontWeight.w500,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),      Text(icNumber,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              0.17.dp:0.28.dp,
-                              fontWeight: FontWeight.w500,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),
-                            ],
-                          ),         
-                                ],
+                                                      Text(matricNumber,
+                                                      style: TextStyle(
+                              color: Colors.black,
+                              fontSize: Device.screenType == ScreenType.tablet? 
+                                20:15,
+                                fontWeight: FontWeight.w400,
+                              fontFamily: 'Poppins',
+                                          ),
+                                          ),   
+                                       Text(
+                                      icNumber,
+                                style: TextStyle(
+                              color: Colors.black,
+                              fontSize: Device.screenType == ScreenType.tablet? 
+                               20:15,
+                                fontWeight: FontWeight.w400,
+                              fontFamily: 'Poppins',
+                                                      ),
+                                                      ),
+                              ],
+                                                      ),         
+                                  ],
+                              ),
                             ),
                           ),
                          Divider(
@@ -190,15 +197,15 @@ class _StudentProfileState extends State<StudentProfile> {
                                 Icon(
                                   Icons.phone,
                                   color: Constants().messageGreyColor,
-                                  size: Device.screenType == ScreenType.tablet? 0.20.dp : 0.32.dp,
+                                  size: Device.screenType == ScreenType.tablet? 20:20,
                                 ),
                                   SizedBox(width: 10.w ,),
                                 Text(studentTelephoneNumber,
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: Device.screenType == ScreenType.tablet? 
-                                      0.17.dp:0.28.dp,
-                                      fontWeight: FontWeight.w500,
+                                      20:15,
+                                      fontWeight: FontWeight.w400,
                                     fontFamily: 'Poppins',
                                   ),
                                   ),  
@@ -219,15 +226,15 @@ class _StudentProfileState extends State<StudentProfile> {
                          Icon(
                           Icons.email,
                           color: Constants().messageGreyColor,
-                          size: Device.screenType == ScreenType.tablet? 0.20.dp : 0.32.dp,
+                          size: Device.screenType == ScreenType.tablet? 20:20,
                          ),
                           SizedBox(width: 10.w ,),
                          Text(studentEmail,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: Device.screenType == ScreenType.tablet? 
-                              0.17.dp:0.28.dp,
-                              fontWeight: FontWeight.w500,
+                              20:15,
+                              fontWeight: FontWeight.w400,
                             fontFamily: 'Poppins',
                           ),
                           ),      
@@ -248,7 +255,7 @@ class _StudentProfileState extends State<StudentProfile> {
                           Icon(
                             Icons.school,
                             color: Constants().messageGreyColor,
-                            size: Device.screenType == ScreenType.tablet? 0.20.dp : 0.32.dp,
+                            size: Device.screenType == ScreenType.tablet? 20:20,
                           ),
                             SizedBox(width: 10.w ,),
                             Flexible(
@@ -259,8 +266,8 @@ class _StudentProfileState extends State<StudentProfile> {
                                style: TextStyle(
                               color: Colors.black,
                               fontSize: Device.screenType == ScreenType.tablet? 
-                                0.17.dp:0.28.dp,
-                                fontWeight: FontWeight.w500,
+                                20:15,
+                                fontWeight: FontWeight.w400,
                               fontFamily: 'Poppins',
                                ),
                               ),    
@@ -269,8 +276,8 @@ class _StudentProfileState extends State<StudentProfile> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: Device.screenType == ScreenType.tablet? 
-                                        0.17.dp:0.28.dp,
-                                        fontWeight: FontWeight.w500,
+                                       20:15,
+                                        fontWeight: FontWeight.w400,
                                       fontFamily: 'Poppins',
                                     ),
                                     ),
@@ -295,7 +302,7 @@ class _StudentProfileState extends State<StudentProfile> {
                           Icon(
                             Icons.token,
                             color: Constants().messageGreyColor,
-                            size: Device.screenType == ScreenType.tablet? 0.20.dp : 0.32.dp,
+                            size: Device.screenType == ScreenType.tablet? 20:20,
                           ),
                         SizedBox(width: 10.w,),
                          Flexible(
@@ -303,8 +310,8 @@ class _StudentProfileState extends State<StudentProfile> {
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: Device.screenType == ScreenType.tablet? 
-                                0.17.dp:0.26.dp,
-                                fontWeight: FontWeight.w500,
+                                20:15,
+                                fontWeight: FontWeight.w400,
                               fontFamily: 'Poppins',
                             ),
                             ),

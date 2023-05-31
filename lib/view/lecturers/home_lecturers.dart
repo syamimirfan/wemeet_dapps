@@ -90,7 +90,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                    style: TextStyle(
                     color: Colors.white,
                     fontSize: Device.screenType == ScreenType.tablet? 
-                              0.18.dp:0.32.dp,
+                              18:18,
                     fontFamily: 'Poppins',
                    ),
                 ),
@@ -113,14 +113,14 @@ class _HomeLecturerState extends State<HomeLecturer> {
                        style: TextStyle(
                        color: Colors.white,
                        fontSize:  Device.screenType == ScreenType.tablet?  
-                                  0.17.dp: 0.26.dp,  
+                                  15:12,  
                        fontWeight: FontWeight.bold,
                        fontFamily: 'Poppins',
                          ),
                        ),
                      ),
                       SizedBox(width: deviceWidth(context) * 0.07,),
-                        Icon(Icons.waving_hand, color: const Color(0xFFFFDD67), size:Device.screenType == ScreenType.tablet?  0.2.dp: 0.4.dp,),
+                        Icon(Icons.waving_hand, color: const Color(0xFFFFDD67),),
                     ],
                    ),
                  ),
@@ -140,7 +140,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                    style: TextStyle(
                     color: Colors.white,
                     fontSize:  Device.screenType == ScreenType.tablet?  
-                               0.28.dp:0.40.dp,
+                               30:23,
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.bold,
                    ),
@@ -231,7 +231,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                               booking['matricNo'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
-                                                              0.18.dp: 0.28.dp,
+                                                              20:14,
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.black,
@@ -246,9 +246,9 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                               booking['studName'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
-                                                              0.16.dp: 0.26.dp,
+                                                              19:14,
                                                   fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w500,
+                                                  fontWeight: FontWeight.w400,
                                                   color: Colors.black,
                                               ),
                                             ),
@@ -261,9 +261,9 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                               booking['studTelephoneNo'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
-                                                               0.16.dp: 0.26.dp,
+                                                               19:14,
                                                   fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w500,
+                                                  fontWeight: FontWeight.w400,
                                                   color: Colors.black,
                                               ),
                                             ),
@@ -276,9 +276,9 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                               booking['numberOfStudents'].toString() + " students",
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
-                                                               0.16.dp: 0.26.dp,
+                                                            19:14,
                                                   fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w500,
+                                                  fontWeight: FontWeight.w400,
                                                   color: Colors.black,
                                                 ),
                                                ),
@@ -291,9 +291,9 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                               booking['date'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
-                                                               0.16.dp: 0.26.dp,
+                                                            19:14,
                                                   fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w500,
+                                                    fontWeight: FontWeight.w400,
                                                   color: Colors.black,
                                                 ),
                                                ),
@@ -306,7 +306,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                               booking['time'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
-                                                               0.16.dp: 0.26.dp,
+                                                            19:14,
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.bold,
                                                   color: Constants().secondaryColor,
@@ -348,7 +348,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w500,
-                                            fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
+                                            fontSize: Device.screenType == ScreenType.tablet? 18:15,
                                             fontFamily: 'Poppins',
                                         ),
                                       ),
@@ -373,7 +373,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w500,
-                                            fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
+                                            fontSize: Device.screenType == ScreenType.tablet? 18:15,
                                             fontFamily: 'Poppins',
                                         ),
                                       ),

@@ -94,8 +94,9 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                    style: TextStyle(
                     color: Colors.white,
                     fontSize: Device.screenType == ScreenType.tablet? 
-                              0.18.dp:0.32.dp,
+                              18:18,
                     fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w400
                    ),
                 ),
                   ]),
@@ -117,14 +118,14 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                        style: TextStyle(
                        color: Colors.white,
                        fontSize:  Device.screenType == ScreenType.tablet?  
-                                  0.17.dp: 0.26.dp,  
+                                  15:12,  
                        fontWeight: FontWeight.bold,
                        fontFamily: 'Poppins',
                          ),
                        ),
                      ),
                       SizedBox(width: deviceWidth(context) * 0.07,),
-                        Icon(Icons.waving_hand, color: const Color(0xFFFFDD67), size:Device.screenType == ScreenType.tablet?  0.2.dp: 0.4.dp,),
+                        Icon(Icons.waving_hand, color: const Color(0xFFFFDD67)),
                     ],
                    ),
                  ),
@@ -144,7 +145,7 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                    style: TextStyle(
                     color: Colors.white,
                     fontSize:  Device.screenType == ScreenType.tablet?  
-                               0.28.dp:0.40.dp,
+                               30:23,
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.bold,
                    ),
@@ -229,7 +230,7 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                                               lecturer['staffNo'] ,
                                                 style: TextStyle(
                                                     fontSize:  Device.screenType == ScreenType.tablet? 
-                                                                0.18.dp: 0.30.dp,
+                                                                20:14,
                                                     fontFamily: 'Poppins',
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black,
@@ -244,7 +245,7 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                                                 lecturer['lecturerName'],
                                                 style:TextStyle(
                                                     fontSize: Device.screenType == ScreenType.tablet? 
-                                                                0.18.dp: 0.28.dp,
+                                                                19:14,
                                                     fontFamily: 'Poppins',
                                                     fontWeight: FontWeight.w600,
                                                     color: Colors.black,
@@ -257,7 +258,7 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                                                lecturer['lecturerTelephoneNo'],
                                                 style: TextStyle(
                                                     fontSize: Device.screenType == ScreenType.tablet? 
-                                                                0.18.dp: 0.26.dp,
+                                                              19:14,
                                                     fontFamily: 'Poppins',
                                                     color: Colors.black,
                                                 ),
@@ -276,7 +277,7 @@ drawer: MainDrawerStudent(home: true, profile: false, book: false, appointment: 
                                                             fontWeight: FontWeight.bold,
                                                             fontFamily: 'Poppins',
                                                             decoration: TextDecoration.underline,
-                                                            fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.26.dp,
+                                                            fontSize: Device.screenType == ScreenType.tablet? 19:14,
                                                         ),
                                                         recognizer: TapGestureRecognizer()..onTap = () {
                                                            nextScreen(context, LecturerInformation(staffNo: lecturer['staffNo'],));

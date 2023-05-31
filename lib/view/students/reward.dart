@@ -124,7 +124,7 @@ class _RewardTokenState extends State<RewardToken> {
                     token.toString() + "\tUTHM",
                     style: TextStyle(
                       fontFamily: "Poppins",
-                      fontSize:  Device.screenType == ScreenType.tablet? 0.20.dp : 0.38.dp,
+                      fontSize:  Device.screenType == ScreenType.tablet? 30:25,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -151,13 +151,13 @@ class _RewardTokenState extends State<RewardToken> {
                        child: Row(
                          children: [
                           Icon(Icons.qr_code_scanner,color: Colors.white,),
-                          SizedBox(width: 2.h,),
+                          SizedBox(width: 1.h,),
                             Text(
                             "Scan QR",
                              style: TextStyle(
                              color: Colors.white,
                              fontFamily: "Poppins",
-                             fontSize:  Device.screenType == ScreenType.tablet? 0.15.dp : 0.32.dp,
+                             fontSize:  22,
                              fontWeight: FontWeight.w500
                                ),
                              ),
@@ -181,7 +181,7 @@ class _RewardTokenState extends State<RewardToken> {
                     "Not Enough SepoliaETH?",
                     style: TextStyle(
                       fontFamily: "Poppins",
-                      fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.32.dp,
+                      fontSize: Device.screenType == ScreenType.tablet?18:16,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -192,7 +192,7 @@ class _RewardTokenState extends State<RewardToken> {
                              textAlign: TextAlign.justify,
                               style: TextStyle(
                               fontWeight: FontWeight.w500,
-                              fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.32.dp,
+                              fontSize: Device.screenType == ScreenType.tablet? 18:15,
                               fontFamily: 'Poppins',   
                               color: Colors.white                            
                                 ),
@@ -205,7 +205,7 @@ class _RewardTokenState extends State<RewardToken> {
                               child: Text(
                               'https://sepolia-faucet.pk910.de/',
                                style: TextStyle(
-                                fontSize: Device.screenType == ScreenType.tablet? 0.14.dp : 0.28.dp,
+                                fontSize: Device.screenType == ScreenType.tablet? 18:15,
                                 color: Colors.white,
                                 decoration: TextDecoration.underline,
                                ),
@@ -216,7 +216,7 @@ class _RewardTokenState extends State<RewardToken> {
                              textAlign: TextAlign.justify,
                               style: TextStyle(
                               fontWeight: FontWeight.w500,
-                              fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.32.dp,
+                              fontSize: Device.screenType == ScreenType.tablet? 18:15,
                               fontFamily: 'Poppins',        
                               color: Colors.white                       
                                 ),
@@ -229,7 +229,7 @@ class _RewardTokenState extends State<RewardToken> {
                               child: Text(
                               'https://sepoliafaucet.com/',
                                style: TextStyle(
-                                    fontSize: Device.screenType == ScreenType.tablet? 0.14.dp : 0.28.dp,
+                                    fontSize: Device.screenType == ScreenType.tablet? 18:15,
                                 color: Colors.white,
                                 decoration: TextDecoration.underline,
                                ),
@@ -240,7 +240,7 @@ class _RewardTokenState extends State<RewardToken> {
                               "Not Imported UTHM Token?",
                               style: TextStyle(
                                 fontFamily: "Poppins",
-                               fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.32.dp,
+                               fontSize: Device.screenType == ScreenType.tablet? 18:16,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
@@ -262,7 +262,7 @@ class _RewardTokenState extends State<RewardToken> {
                             text: "0xac60...b413",
                             style: TextStyle(              
                               fontWeight: FontWeight.bold,
-                              fontSize: Device.screenType == ScreenType.tablet? 0.13.dp : 0.28.dp,
+                              fontSize: Device.screenType == ScreenType.tablet? 18:16,
                               fontFamily: 'Poppins',
                               color: Colors.black                
                             ),

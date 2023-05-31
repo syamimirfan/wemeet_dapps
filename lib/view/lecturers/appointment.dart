@@ -88,207 +88,210 @@ class _AppointmentState extends State<Appointment> {
             ),
             child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [ Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                     children:acceptedAppointments.where((booking) => booking['statusBooking'] == "Accepted").map((booking) =>
-                        Container(
-                            margin: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.03, vertical: deviceHeight(context) * 0.04),
-                              padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02,vertical: deviceHeight(context) * 0.009),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
-                              border: Border.all(
-                                color: Constants().BoxShadowColor,
+                child: Expanded(
+                  child: Column(
+                    children: [ 
+                      Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                       children:acceptedAppointments.where((booking) => booking['statusBooking'] == "Accepted").map((booking) =>
+                          Container(
+                              margin: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.03, vertical: deviceHeight(context) * 0.04),
+                                padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02,vertical: deviceHeight(context) * 0.009),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: Constants().BoxShadowColor,
+                                ),
+                                boxShadow:  [
+                                        BoxShadow(
+                                          color: Constants().BoxShadowColor,
+                                          offset: const Offset(0, 10),
+                                          blurRadius: 15,
+                                          spreadRadius: 0,
+                                        ),
+                                      ],
                               ),
-                              boxShadow:  [
-                                      BoxShadow(
-                                        color: Constants().BoxShadowColor,
-                                        offset: const Offset(0, 10),
-                                        blurRadius: 15,
-                                        spreadRadius: 0,
-                                      ),
-                                    ],
-                            ),
-                            child: Column(
-                              children:[
-                              //for booking information
-                              Row(
-                                 mainAxisAlignment: MainAxisAlignment.start,
-                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                 children: [
-                                  //for lecturer images
-                                    Container(
-                                      child: CircleAvatar(
-                                        radius: Device.screenType == ScreenType.tablet? 100 : 40,
-                                        backgroundImage: NetworkImage(booking['studImage']),
-                                      ),
-                                    ),
-                                    //for booking information
-                                    Flexible(
-                                      child: Container(
-                                         margin:  Device.screenType == ScreenType.tablet? 
-                                         EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02):
-                                        EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                              margin: Device.screenType == ScreenType.tablet? 
-                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
-                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Text(
-                                                booking['studName'],
-                                                style:TextStyle(
-                                                    fontSize: Device.screenType == ScreenType.tablet? 
-                                                                0.18.dp: 0.28.dp,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
-                                             Container(
-                                              margin: Device.screenType == ScreenType.tablet? 
-                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
-                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Text(
-                                                booking['numberOfStudents'].toString() + " student",
-                                                style:TextStyle(
-                                                    fontSize: Device.screenType == ScreenType.tablet? 
-                                                                0.16.dp: 0.26.dp,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
-                                             Container(
-                                              margin: Device.screenType == ScreenType.tablet? 
-                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
-                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Text(
-                                                booking['date'],
-                                                style:TextStyle(
-                                                    fontSize: Device.screenType == ScreenType.tablet? 
-                                                                0.16.dp: 0.26.dp,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
-                                             Container(
-                                              margin: Device.screenType == ScreenType.tablet? 
-                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
-                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Text(
-                                                booking['time'],
-                                                style:TextStyle(
-                                                    fontSize: Device.screenType == ScreenType.tablet? 
-                                                                 0.16.dp: 0.26.dp,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Constants().secondaryColor,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                              child: Column(
+                                children:[
+                                //for booking information
+                                Row(
+                                   mainAxisAlignment: MainAxisAlignment.start,
+                                   crossAxisAlignment: CrossAxisAlignment.center,
+                                   children: [
+                                    //for lecturer images
+                                      Container(
+                                        child: CircleAvatar(
+                                          radius: Device.screenType == ScreenType.tablet? 70 : 40,
+                                          backgroundImage: NetworkImage(booking['studImage']),
                                         ),
                                       ),
-                                    ),
-                                 ],
-                              ),
-                
-                            //for divider between booking information and button
-                            Divider(
-                               color: Constants().dividerColor,
-                               thickness: 1.5,
-                              ),
-                       SizedBox(
-                        height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.01 : deviceHeight(context) * 0.01,),
-                              //for button contact lecturer and update
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  SizedBox(
-                                      height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.04 : deviceHeight(context) * 0.04,
-                                     child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Constants().primaryColor,
-                                          elevation: 0,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(10),
+                                      //for booking information
+                                      Flexible(
+                                        child: Container(
+                                           margin:  Device.screenType == ScreenType.tablet? 
+                                           EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02):
+                                          EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                margin: Device.screenType == ScreenType.tablet? 
+                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
+                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                                child: Text(
+                                                  booking['studName'],
+                                                  style:TextStyle(
+                                                      fontSize: Device.screenType == ScreenType.tablet? 
+                                                                18:14,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                               Container(
+                                                margin: Device.screenType == ScreenType.tablet? 
+                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
+                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                                child: Text(
+                                                  booking['numberOfStudents'].toString() + " student",
+                                                  style:TextStyle(
+                                                      fontSize: Device.screenType == ScreenType.tablet? 
+                                                                18:14,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight: FontWeight.w400,
+                                                      color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                               Container(
+                                                margin: Device.screenType == ScreenType.tablet? 
+                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
+                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                                child: Text(
+                                                  booking['date'],
+                                                  style:TextStyle(
+                                                      fontSize: Device.screenType == ScreenType.tablet? 
+                                                                18:14,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight: FontWeight.w400,
+                                                      color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                               Container(
+                                                margin: Device.screenType == ScreenType.tablet? 
+                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
+                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                                child: Text(
+                                                  booking['time'],
+                                                  style:TextStyle(
+                                                      fontSize: Device.screenType == ScreenType.tablet? 
+                                                                 18:14,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Constants().secondaryColor,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        onPressed: () {
-                                          nextScreen(context, LecturerMessage(matricNo: booking['matricNo']));
-                                        },
-                                        child: Text(
-                                          "Contact Student",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
-                                              fontFamily: 'Poppins',
-                                          ),
-                                        ),
-                                    ),
-                                  ),
-                                     SizedBox(
+                                      ),
+                                   ],
+                                ),
+                  
+                              //for divider between booking information and button
+                              Divider(
+                                 color: Constants().dividerColor,
+                                 thickness: 1.5,
+                                ),
+                         SizedBox(
+                          height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.01 : deviceHeight(context) * 0.01,),
+                                //for button contact lecturer and update
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    SizedBox(
                                         height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.04 : deviceHeight(context) * 0.04,
-                                    child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Constants().secondaryColor,
-                                          elevation: 0,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(10),
+                                       child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Constants().primaryColor,
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
                                           ),
-                                        ),
-                                        onPressed: () {
-                                        showConfirmationDeleteBox(context, "Confirm?", "Delete Appointment. Please let your student know that you cannot proceed with the appointment.",booking['bookingId']);
-                                        },
-                                        child:  Text(
-                                          "Cancel",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500,
-                                             fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
-                                              fontFamily: 'Poppins',
+                                          onPressed: () {
+                                            nextScreen(context, LecturerMessage(matricNo: booking['matricNo']));
+                                          },
+                                          child: Text(
+                                            "Contact Student",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: Device.screenType == ScreenType.tablet? 18:14,
+                                                fontFamily: 'Poppins',
+                                            ),
                                           ),
-                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ), 
-                             SizedBox(height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.01 : deviceHeight(context) * 0.01,),
-                            ],
-                          ),
-                       ),
-                     ).toList(),
-                   ),
-                     Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                           noData == "Empty Data" ?
-                            Container(
-                             margin: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.4),
-                              child: Text(
-                              "Sorry, No Appointment",
-                               style: TextStyle(
-                               fontFamily: 'Poppins',
-                                fontSize: Device.screenType == ScreenType.tablet? 0.17.dp : 0.32.dp,
-                               fontWeight: FontWeight.w600,
-                               color: Constants().secondaryColor
-                                 ),
-                              ),
-                            ):Center(),
-                          ]
+                                       SizedBox(
+                                          height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.04 : deviceHeight(context) * 0.04,
+                                      child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Constants().secondaryColor,
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                          showConfirmationDeleteBox(context, "Confirm?", "Delete Appointment. Please let your student know that you cannot proceed with the appointment.",booking['bookingId']);
+                                          },
+                                          child:  Text(
+                                            "Cancel",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                               fontSize: Device.screenType == ScreenType.tablet? 18:14,
+                                                fontFamily: 'Poppins',
+                                            ),
+                                          ),
+                                      ),
+                                    ),
+                                  ],
+                                ), 
+                               SizedBox(height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.01 : deviceHeight(context) * 0.01,),
+                              ],
+                            ),
+                         ),
+                       ).toList(),
                      ),
-                  ]
+                       Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                             noData == "Empty Data" ?
+                              Container(
+                               margin: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.4),
+                                child: Text(
+                                "Sorry, No Appointment",
+                                 style: TextStyle(
+                                 fontFamily: 'Poppins',
+                                  fontSize: Device.screenType == ScreenType.tablet? 0.17.dp : 0.32.dp,
+                                 fontWeight: FontWeight.w600,
+                                 color: Constants().secondaryColor
+                                   ),
+                                ),
+                              ):Center(),
+                            ]
+                       ),
+                    ]
+                  ),
                 ),
             ),
         ),

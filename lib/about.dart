@@ -59,81 +59,83 @@ class About extends StatelessWidget {
                           SizedBox(height: deviceHeight(context) * 0.02,),
                            Container(
                             padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.08),
-                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                  children:  [
-                                   Text(
-                                  "WeMeet Version 0",
-                                  style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: Device.screenType == ScreenType.tablet? 
-                                    0.15.dp: 0.28.dp,
-                                  fontFamily: 'Poppins',
-                                 ),
-                                    ),
-                                    Text(
-                                  "UTHM Official Student-Lecturer Appointment App",
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize:  Device.screenType == ScreenType.tablet? 
-                                    0.15.dp: 0.28.dp,
-                                  fontFamily: 'Poppins',
-                                 ),
-                                    ),
-                                    Text(
-                                  "Copyright © 2022-2023 Universiti Tun Hussein Onn Malaysia(UTHM). All rights reserved ",
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize:  Device.screenType == ScreenType.tablet? 
-                                    0.15.dp: 0.28.dp,
-                                  fontFamily: 'Poppins',
-                                 ),
-                                    ),
-                                    Text(
-                                  "http://www.uthm.edu.my",
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize:  Device.screenType == ScreenType.tablet? 
-                                    0.15.dp: 0.28.dp,
-                                  fontFamily: 'Poppins',
-                                    ),
-                                    ),
-                                    
-                                    Text(
-                                  "Developed by Syamim Irfan(AI200104)",
-                            
-                                  style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize:  Device.screenType == ScreenType.tablet? 
-                                    0.15.dp: 0.28.dp,
-                                  fontFamily: 'Poppins',
-                                 ),
-                                    ),
-                                    Text(
-                                  "Suggestions?",
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize:  Device.screenType == ScreenType.tablet? 
-                                    0.15.dp: 0.28.dp,
-                                  fontFamily: 'Poppins',
-                                 ),
-                                    ),
-                                    SelectableText(
-                                  "Please email to syamimirfan59@gmail.com",
-                          
-                                  style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize:  Device.screenType == ScreenType.tablet? 
-                                    0.15.dp: 0.28.dp,
-                                  fontFamily: 'Poppins',
-                                 ),
-                                    ),
-                                  ],
-                                ),
+                               child: Expanded(
+                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                    children:  [
+                                     Text(
+                                    "WeMeet Version 0",
+                                    style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: Device.screenType == ScreenType.tablet? 
+                                      18:18,
+                                    fontFamily: 'Poppins',
+                                   ),
+                                      ),
+                                      Text(
+                                    "UTHM Official Student-Lecturer Appointment App",
+                                    textAlign: TextAlign.justify,
+                                    style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize:  Device.screenType == ScreenType.tablet? 
+                                      15:15,
+                                    fontFamily: 'Poppins',
+                                   ),
+                                      ),
+                                      Text(
+                                    "Copyright © 2022-2023 Universiti Tun Hussein Onn Malaysia(UTHM). All rights reserved ",
+                                    textAlign: TextAlign.justify,
+                                    style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize:  Device.screenType == ScreenType.tablet? 
+                                     15:15,
+                                    fontFamily: 'Poppins',
+                                   ),
+                                      ),
+                                      Text(
+                                    "http://www.uthm.edu.my",
+                                    textAlign: TextAlign.justify,
+                                    style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize:  Device.screenType == ScreenType.tablet? 
+                                      15:15,
+                                    fontFamily: 'Poppins',
+                                      ),
+                                      ),
+                                      
+                                      Text(
+                                    "Developed by Syamim Irfan(AI200104)",
+                                                           
+                                    style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize:  Device.screenType == ScreenType.tablet? 
+                                      15:15,
+                                    fontFamily: 'Poppins',
+                                   ),
+                                      ),
+                                      Text(
+                                    "Suggestions?",
+                                    textAlign: TextAlign.justify,
+                                    style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize:  Device.screenType == ScreenType.tablet? 
+                                       15:15,
+                                    fontFamily: 'Poppins',
+                                   ),
+                                      ),
+                                      SelectableText(
+                                    "Please email to syamimirfan59@gmail.com",
+                                                         
+                                    style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize:  Device.screenType == ScreenType.tablet? 
+                                      15:15,
+                                    fontFamily: 'Poppins',
+                                   ),
+                                      ),
+                                    ],
+                                  ),
+                               ),
                              ),
                            
                             ],

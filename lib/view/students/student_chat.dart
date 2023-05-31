@@ -67,8 +67,8 @@ class _StudentChatState extends State<StudentChat> {
                      title:  Text(
                         _searchController.text.isNotEmpty ? filterLecturers[index]['lecturerName']:lecturers[index]['lecturerName'],
                         style:  TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: Device.screenType == ScreenType.tablet?  0.15.dp : 0.32.dp,
+                          fontWeight: FontWeight.w400,
+                          fontSize: Device.screenType == ScreenType.tablet?  18:18,
                           fontFamily: "Poppins"
                         ),
                       ),

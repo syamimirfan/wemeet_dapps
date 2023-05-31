@@ -81,181 +81,183 @@ class _LoginState extends State<Login> {
           padding:  const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
           child: Form(
             key: _globalKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children:  [
-                  const SizedBox(height: 20,),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,  
-                      children: [
-                      IconButton(
-                       onPressed: () {
-                       nextScreen(context, Support());
-                         }, 
-                       icon: const Icon(color: Colors.white,Icons.contact_support_rounded)
-                     ),
-                      Text.rich(
-                      TextSpan(
-                     text: "Help",
-                     style:  const TextStyle(
-                       color: Colors.white,
-                       fontSize: 20,
-                       fontFamily: 'Poppins',
-                     ),
-                     recognizer: TapGestureRecognizer()..onTap = () {
-                        nextScreen(context, const Support());
-                     }
-                   ),
-                   ),
-                      ],
-                    )
-                  ),
-                  const Text(
-                  "Login",
-                  style: TextStyle(
-                     color:Colors.white,
-                     fontWeight: FontWeight.bold,
-                     fontFamily: 'Poppins',
-                     fontSize: 40,
-                  ),
-                ),
-                   const SizedBox(height: 30,),
-                   const Text(
-                  "Login now to book your appointment! ",
-                  style: TextStyle(
-                     color:Colors.white,
-                     fontWeight: FontWeight.w500,
-                     fontSize: 16,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-                     const SizedBox(height: 20,),
-                    Device.screenType == ScreenType.tablet ?
-                    Padding(
-                  padding:   EdgeInsets.symmetric(vertical: 10.0.h,horizontal: 20.0.h),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset("assets/UTHM.png"),
-                    ],
-                  ),
-                ) 
-                 : 
-                  Padding(
-                  padding:   EdgeInsets.symmetric(vertical: 4.0.h, horizontal: 10.0.h),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset("assets/UTHM.png"),
-                    ],
-                  ),
-                ),
-                
-                 TextFormField(
-                    decoration: textInputDecoration.copyWith(
-                        hintText: "Email",
-                        fillColor: Colors.white,
-                        prefixIcon: Icon(
-                          Icons.email,
-                          color: Constants().secondaryColor,
-                        ),
-                    ),
-                    controller: _controllerEmail,
-                    validator: (value) {
-                      if(value!.isEmpty) {
-                            return "Email cannot be empty";
-                      } else if(!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}').hasMatch(value)) {
-                        return "Enter correct email";
-                      }else {
-                        return null;
-                      }
-                    },
-                 ),
-                  const SizedBox(height: 20,),
-                  TextFormField(
-                    obscureText: isHiddenPassword,
-                    validator: (value) {
-                       if(value!.isEmpty) {
-                        return "Password cannot be empty";
-                       }else if(value.isEmpty || value.length < 8 ){
-                        return "Password must be at least 8 characters";
+            child: Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children:  [
+                    const SizedBox(height: 20,),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,  
+                        children: [
+                        IconButton(
+                         onPressed: () {
+                         nextScreen(context, Support());
+                           }, 
+                         icon: const Icon(color: Colors.white,Icons.contact_support_rounded)
+                       ),
+                        Text.rich(
+                        TextSpan(
+                       text: "Help",
+                       style:  const TextStyle(
+                         color: Colors.white,
+                         fontSize: 20,
+                         fontFamily: 'Poppins',
+                       ),
+                       recognizer: TapGestureRecognizer()..onTap = () {
+                          nextScreen(context, const Support());
                        }
-                       return null;
-                    },
-                    controller: _controllerPassword,
-                    decoration: textInputDecoration.copyWith(
-                        hintText: "Password",
-                        fillColor: Colors.white,
-                        suffixIcon: InkWell(
-                          onTap: _togglePasswordView,
-                          child: isHiddenPassword == true ? const Icon(
-                            Icons.visibility, 
-                            color: Colors.black,
-                          ) : const Icon(
-                            Icons.visibility_off,
-                            color: Colors.black,
+                     ),
+                     ),
+                        ],
+                      )
+                    ),
+                    const Text(
+                    "Login",
+                    style: TextStyle(
+                       color:Colors.white,
+                       fontWeight: FontWeight.bold,
+                       fontFamily: 'Poppins',
+                       fontSize: 40,
+                    ),
+                  ),
+                     const SizedBox(height: 30,),
+                     const Text(
+                    "Login now to book your appointment! ",
+                    style: TextStyle(
+                       color:Colors.white,
+                       fontWeight: FontWeight.w400,
+                       fontSize: 16,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                       const SizedBox(height: 20,),
+                      Device.screenType == ScreenType.tablet ?
+                      Padding(
+                    padding:   EdgeInsets.symmetric(vertical: 10.0.h,horizontal: 20.0.h),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset("assets/UTHM.png"),
+                      ],
+                    ),
+                  ) 
+                   : 
+                    Padding(
+                    padding:   EdgeInsets.symmetric(vertical: 4.0.h, horizontal: 10.0.h),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset("assets/UTHM.png"),
+                      ],
+                    ),
+                  ),
+                  
+                   TextFormField(
+                      decoration: textInputDecoration.copyWith(
+                          hintText: "Email",
+                          fillColor: Colors.white,
+                          prefixIcon: Icon(
+                            Icons.email,
+                            color: Constants().secondaryColor,
+                          ),
+                      ),
+                      controller: _controllerEmail,
+                      validator: (value) {
+                        if(value!.isEmpty) {
+                              return "Email cannot be empty";
+                        } else if(!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}').hasMatch(value)) {
+                          return "Enter correct email";
+                        }else {
+                          return null;
+                        }
+                      },
+                   ),
+                    const SizedBox(height: 20,),
+                    TextFormField(
+                      obscureText: isHiddenPassword,
+                      validator: (value) {
+                         if(value!.isEmpty) {
+                          return "Password cannot be empty";
+                         }else if(value.isEmpty || value.length < 8 ){
+                          return "Password must be at least 8 characters";
+                         }
+                         return null;
+                      },
+                      controller: _controllerPassword,
+                      decoration: textInputDecoration.copyWith(
+                          hintText: "Password",
+                          fillColor: Colors.white,
+                          suffixIcon: InkWell(
+                            onTap: _togglePasswordView,
+                            child: isHiddenPassword == true ? const Icon(
+                              Icons.visibility, 
+                              color: Colors.black,
+                            ) : const Icon(
+                              Icons.visibility_off,
+                              color: Colors.black,
+                            ),
+                          ),
+                          prefixIcon: Icon(
+                            Icons.lock,
+                            color: Constants().secondaryColor,
+                          ),
+                      ),
+                   ),
+                    const SizedBox(height: 20,),
+                   Text.rich(
+                     TextSpan(
+                       text: "Forgot password?",
+                       style:  const TextStyle(
+                         color: Colors.white,
+                         decoration: TextDecoration.underline,
+                         fontSize: 18,
+                         fontFamily: 'Poppins',
+                       ),
+                       recognizer: TapGestureRecognizer()..onTap = () {
+                          nextScreen(context, ForgotPassword());
+                       }
+                     ),
+                   ),
+                      
+                     const SizedBox(height: 35,),
+                      
+                   SizedBox(
+                     width: double.infinity,
+                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Constants().secondaryColor,
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
                           ),
                         ),
-                        prefixIcon: Icon(
-                          Icons.lock,
-                          color: Constants().secondaryColor,
-                        ),
-                    ),
-                 ),
-                  const SizedBox(height: 20,),
-                 Text.rich(
-                   TextSpan(
-                     text: "Forgot password?",
-                     style:  const TextStyle(
-                       color: Colors.white,
-                       decoration: TextDecoration.underline,
-                       fontSize: 18,
-                       fontFamily: 'Poppins',
-                     ),
-                     recognizer: TapGestureRecognizer()..onTap = () {
-                        nextScreen(context, ForgotPassword());
-                     }
-                   ),
-                 ),
-          
-                   const SizedBox(height: 35,),
-          
-                 SizedBox(
-                   width: double.infinity,
-                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Constants().secondaryColor,
-                        elevation: 0,
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
+                  
+                      onPressed: () async{
+                        if(_globalKey.currentState!.validate()) {
+                          SpinKitFadingCircle(color:Colors.white ,size: 25,);
+                          login(_controllerEmail.text.toString(), _controllerPassword.text.toString());
+                        }
                 
-                    onPressed: () async{
-                      if(_globalKey.currentState!.validate()) {
-                        SpinKitFadingCircle(color:Colors.white ,size: 25,);
-                        login(_controllerEmail.text.toString(), _controllerPassword.text.toString());
-                      }
-              
-                     },
-                     child:  const Text(
-                       "Sign In",
-                       style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                          fontFamily: 'Poppins',
+                       },
+                       child:  const Text(
+                         "Sign In",
+                         style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                            fontFamily: 'Poppins',
+                         ),
                        ),
-                     ),
-                    ),
-                 ),
-              ],
-             ),
+                      ),
+                   ),
+                ],
+               ),
+            ),
           ),
           ),
         ),

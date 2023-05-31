@@ -88,13 +88,13 @@ class _BookState extends State<Book> {
                child: Column(
                  mainAxisAlignment: MainAxisAlignment.center,
                  children: [
-                      Icon(icons[index], color: tappedIndex == index ? Colors.white : Colors.black, size: 40,),
+                      Icon(icons[index], color: tappedIndex == index ? Colors.white : Colors.black, size: 30,),
                        SizedBox(height: 5,),
                      Text(
                       faculty[index],
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize:Device.screenType == ScreenType.tablet? 0.18.dp: 0.28.dp,
+                        fontSize:Device.screenType == ScreenType.tablet? 15:15,
                         fontFamily: 'Poppins',
                         color: tappedIndex == index ? Colors.white : Colors.black,
                       ),
@@ -161,7 +161,7 @@ class _BookState extends State<Book> {
              _searchController.text.isNotEmpty ? filterLecturerList[index]['lecturerName'] :  lecturerList[index]['lecturerName'],
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: Device.screenType == ScreenType.tablet? 0.13.dp : 0.30.dp,
+                fontSize: Device.screenType == ScreenType.tablet? 15:15,
                 fontFamily: "Poppins",
                 color: Colors.black,
                   ),
@@ -174,8 +174,8 @@ class _BookState extends State<Book> {
                       Text( selectedFaculty != "" ?  filterListViewLecturerList[index]['lecturerTelephoneNo'] :
                _searchController.text.isNotEmpty ? filterLecturerList[index]['lecturerTelephoneNo'] :  lecturerList[index]['lecturerTelephoneNo'],
                   style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: Device.screenType == ScreenType.tablet? 0.12.dp : 0.28.dp,
+                    fontWeight: FontWeight.w400,
+                    fontSize: Device.screenType == ScreenType.tablet? 15:15,
                     fontFamily: "Poppins",
                     color: Colors.black,
                   ),
@@ -186,24 +186,24 @@ class _BookState extends State<Book> {
                         Text( selectedFaculty != "" ?  filterListViewLecturerList[index]['faculty'] :
                           _searchController.text.isNotEmpty ? filterLecturerList[index]['faculty'] : lecturerList[index]['faculty'],
                             style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: Device.screenType == ScreenType.tablet? 0.12.dp : 0.25.dp,
+                            fontWeight: FontWeight.w400,
+                            fontSize: Device.screenType == ScreenType.tablet? 12:12,
                             fontFamily: "Poppins",
                             color: Colors.black,
                           ),
                          ),
                            Text(",\tFLOOR "+ ( selectedFaculty != "" ?  filterListViewLecturerList[index]['floorLvl'].toString() : _searchController.text.isNotEmpty ? filterLecturerList[index]['floorLvl'].toString() : lecturerList[index]['floorLvl'].toString()),
                             style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: Device.screenType == ScreenType.tablet? 0.12.dp : 0.25.dp,
+                            fontWeight: FontWeight.w400,
+                            fontSize: Device.screenType == ScreenType.tablet? 12:12,
                             fontFamily: "Poppins",
                             color: Colors.black,
                           ),
                          ),
                           Text( ",\tNO "+ ( selectedFaculty != "" ?  filterListViewLecturerList[index]['roomNo'].toString() : _searchController.text.isNotEmpty ? filterLecturerList[index]['roomNo'].toString() : lecturerList[index]['roomNo'].toString()),
                             style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                             fontSize: Device.screenType == ScreenType.tablet? 0.12.dp : 0.25.dp,
+                            fontWeight: FontWeight.w400,
+                             fontSize: Device.screenType == ScreenType.tablet? 12:12,
                             fontFamily: "Poppins",
                             color: Colors.black,
                           ),
@@ -278,7 +278,7 @@ class _BookState extends State<Book> {
                         style: TextStyle(
                             color: Colors.black,
                           fontWeight: FontWeight.w400,
-                          fontSize: Device.screenType == ScreenType.tablet? 0.20.dp : 0.32.dp,
+                          fontSize: Device.screenType == ScreenType.tablet? 20:20,
                           fontFamily: 'Poppins',
                         ),
                       ),
@@ -288,7 +288,7 @@ class _BookState extends State<Book> {
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize:  Device.screenType == ScreenType.tablet? 0.18.dp : 0.32.dp,
+                          fontSize:  Device.screenType == ScreenType.tablet? 20:20,
                           fontFamily: 'Poppins',
                         ),
                       ),
@@ -316,7 +316,7 @@ class _BookState extends State<Book> {
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.28.dp,
+                          fontSize: Device.screenType == ScreenType.tablet? 15:15,
                           fontFamily: 'Poppins',
                         ),
                       ),

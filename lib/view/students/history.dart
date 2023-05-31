@@ -129,7 +129,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontFamily: "Poppins",
-                                      fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
+                                      fontSize: Device.screenType == ScreenType.tablet? 18:15,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -138,7 +138,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                     style: TextStyle(
                                      color:  attendance['status'] == "Attend" ? Constants().acceptedColor :  attendance['status'] == "Absent" ? Constants().secondaryColor : Colors.black,
                                       fontFamily: "Poppins",
-                                      fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
+                                      fontSize: Device.screenType == ScreenType.tablet? 18:15,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -154,7 +154,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                 //for lecturer images
                                   Container(
                                     child: CircleAvatar(
-                                      radius: Device.screenType == ScreenType.tablet? 100 : 40,
+                                      radius: Device.screenType == ScreenType.tablet? 70 : 40,
                                       backgroundImage: NetworkImage(attendance['lecturerImage']),
                                     ),
                                   ),
@@ -179,7 +179,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                               attendance['lecturerName'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
-                                                              0.18.dp: 0.28.dp,
+                                                              18:15,
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.black,
@@ -188,13 +188,13 @@ class _ManageHistoryState extends State<ManageHistory> {
                                           ),
                                            Container(
                                             margin: Device.screenType == ScreenType.tablet? 
-                                              const EdgeInsets.only(bottom: 20):
+                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.008):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
                                               attendance['numberOfStudents'].toString() + " Student",
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
-                                                              0.16.dp: 0.26.dp,
+                                                            18:14,
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.black,
@@ -203,13 +203,13 @@ class _ManageHistoryState extends State<ManageHistory> {
                                           ),
                                            Container(
                                             margin: Device.screenType == ScreenType.tablet? 
-                                              const EdgeInsets.only(bottom: 20):
+                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.008):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.008) ,
                                             child: Text(
                                               attendance['date'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
-                                                               0.16.dp: 0.26.dp,
+                                                             18:14,
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.black,
@@ -218,13 +218,13 @@ class _ManageHistoryState extends State<ManageHistory> {
                                           ),
                                            Container(
                                             margin: Device.screenType == ScreenType.tablet? 
-                                              const EdgeInsets.only(bottom: 20):
+                                              EdgeInsets.only(bottom: deviceWidth(context) * 0.008):
                                               EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
                                             child: Text(
                                               attendance['time'],
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
-                                                               0.16.dp: 0.26.dp,
+                                                            18:14,
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.bold,
                                                   color: Constants().secondaryColor,
@@ -256,7 +256,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                               "Token Gained: ",
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
-                                                               0.16.dp: 0.28.dp,
+                                                             18:14,
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.black,
@@ -273,7 +273,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                             "NO Token Send",
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
-                                                               0.16.dp: 0.26.dp,
+                                                             18:14,
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.bold,
                                                   color: attendance['statusReward'] == "Not Send" ? Constants().secondaryColor: attendance['statusReward'] == "Send" ? Constants().primaryColor: Colors.black,
@@ -299,7 +299,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
-                                              fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.26.dp,
+                                              fontSize: Device.screenType == ScreenType.tablet? 18:14,
                                               fontFamily: 'Poppins',
                                           ),
                                         ),

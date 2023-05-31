@@ -122,7 +122,7 @@ class _MainDrawerLecturerState extends State<MainDrawerLecturer> {
             lectName,
              style: TextStyle(
                color: Colors.white,
-               fontSize: 13,
+               fontSize: 12,
                fontFamily: 'Poppins',
              ),
             ),

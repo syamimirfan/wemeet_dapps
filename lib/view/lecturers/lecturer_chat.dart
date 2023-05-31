@@ -73,8 +73,8 @@ List<dynamic> students = [];
                      title:  Text(
                       _searchController.text.isNotEmpty ? filterStudents[index]['studName']: students[index]['studName'],
                         style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: Device.screenType == ScreenType.tablet?  0.15.dp : 0.32.dp,
+                          fontWeight: FontWeight.w400,
+                          fontSize: Device.screenType == ScreenType.tablet?  18:18,
                           fontFamily: "Poppins"
                         ),
                       ),

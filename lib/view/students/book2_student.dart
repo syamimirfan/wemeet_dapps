@@ -108,7 +108,7 @@ class _Book2State extends State<Book2> {
                 lectName,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: Device.screenType == ScreenType.tablet? 0.13.dp : 0.28.dp,
+                  fontSize: Device.screenType == ScreenType.tablet? 15:15,
                   fontFamily: "Poppins",
                   color: Colors.black,
                     ),
@@ -118,8 +118,8 @@ class _Book2State extends State<Book2> {
                       Text(
                    phoneNo + "\n" + faculty + ",\t" + floorLvl.toString() + ",\t" + roomNo.toString() ,
                     style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: Device.screenType == ScreenType.tablet? 0.12.dp : 0.26.dp,
+                      fontWeight: FontWeight.w400,
+                      fontSize: Device.screenType == ScreenType.tablet? 12:12,
                       fontFamily: "Poppins",
                       color: Colors.black,
                     ),
@@ -142,19 +142,19 @@ class _Book2State extends State<Book2> {
         selectedTextColor: Colors.white,
         dayTextStyle: TextStyle(
           fontFamily: 'Poppins',
-          fontSize: Device.screenType == ScreenType.tablet? 0.14.dp : 0.30.dp,
+          fontSize: Device.screenType == ScreenType.tablet? 15:15,
           fontWeight: FontWeight.w600,
           color: Colors.black,
         ),
         dateTextStyle: TextStyle(
           fontFamily: 'Poppins',
-          fontSize: Device.screenType == ScreenType.tablet? 0.14.dp : 0.30.dp,
+          fontSize: Device.screenType == ScreenType.tablet? 15:15,
           fontWeight: FontWeight.w600,
           color: Colors.black,
         ),
         monthTextStyle: TextStyle(
           fontFamily: 'Poppins',
-          fontSize: Device.screenType == ScreenType.tablet? 0.14.dp : 0.30.dp,
+          fontSize: Device.screenType == ScreenType.tablet? 15:15,
           fontWeight: FontWeight.w600,
           color: Colors.black,
         ),
@@ -211,7 +211,7 @@ class _Book2State extends State<Book2> {
                             color:  bookTime.contains(slot[index]['slot1']) && bookDate.contains(date)? Colors.white: tappedIndex == 1 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot1'], style: TextStyle(fontFamily: 'Poppins',  fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.28.dp, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) ? Colors.white: tappedIndex == 1 ? Colors.white : Colors.black ),),
+                          child: Text(slot[index]['slot1'], style: TextStyle(fontFamily: 'Poppins',  fontSize: Device.screenType == ScreenType.tablet? 15:15, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) ? Colors.white: tappedIndex == 1 ? Colors.white : Colors.black ),),
                         ),
                         onTap: bookTime.contains(slot[index]['slot1']) && bookDate.contains(date) ? null : () {
                             setState(() {
@@ -242,7 +242,7 @@ class _Book2State extends State<Book2> {
                             color: bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) ? Colors.white: tappedIndex == 2 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot2'], style: TextStyle(fontFamily: 'Poppins',  fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.28.dp, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) ? Colors.white:tappedIndex == 2 ? Colors.white : Colors.black,),),
+                          child: Text(slot[index]['slot2'], style: TextStyle(fontFamily: 'Poppins',  fontSize: Device.screenType == ScreenType.tablet? 15:15, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) ? Colors.white:tappedIndex == 2 ? Colors.white : Colors.black,),),
                         ),
                           onTap:  bookTime.contains(slot[index]['slot2']) && bookDate.contains(date) ? null : () {
                              setState(() {
@@ -274,7 +274,7 @@ class _Book2State extends State<Book2> {
                             color: bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) ? Colors.white: tappedIndex == 3 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot3'], style: TextStyle(fontFamily: 'Poppins',  fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.28.dp,fontWeight: FontWeight.bold, color:bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) ? Colors.white: tappedIndex == 3 ? Colors.white : Colors.black ,),),
+                          child: Text(slot[index]['slot3'], style: TextStyle(fontFamily: 'Poppins',  fontSize: Device.screenType == ScreenType.tablet? 15:15,fontWeight: FontWeight.bold, color:bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) ? Colors.white: tappedIndex == 3 ? Colors.white : Colors.black ,),),
                         ),
                           onTap:  bookTime.contains(slot[index]['slot3']) && bookDate.contains(date) ? null :() {
                              setState(() {
@@ -310,7 +310,7 @@ class _Book2State extends State<Book2> {
                             color: bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) ? Colors.white: tappedIndex == 4 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot4'], style: TextStyle(fontFamily: 'Poppins',  fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.28.dp, fontWeight: FontWeight.bold, color:bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) ? Colors.white:tappedIndex == 4 ? Colors.white : Colors.black ,),),
+                          child: Text(slot[index]['slot4'], style: TextStyle(fontFamily: 'Poppins',  fontSize: Device.screenType == ScreenType.tablet? 15:15, fontWeight: FontWeight.bold, color:bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) ? Colors.white:tappedIndex == 4 ? Colors.white : Colors.black ,),),
                         ),
                           onTap:   bookTime.contains(slot[index]['slot4']) && bookDate.contains(date) ? null : () {
                             setState(() {
@@ -341,7 +341,7 @@ class _Book2State extends State<Book2> {
                             color:bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) ? Colors.white: tappedIndex == 5 ? Colors.white : Colors.black ,
                             ), 
                           ),  
-                          child: Text(slot[index]['slot5'], style: TextStyle(fontFamily: 'Poppins',  fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.28.dp, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) ? Colors.white: tappedIndex == 5 ? Colors.white : Colors.black ,),),
+                          child: Text(slot[index]['slot5'], style: TextStyle(fontFamily: 'Poppins',  fontSize: Device.screenType == ScreenType.tablet? 15:15, fontWeight: FontWeight.bold, color: bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) ? Colors.white: tappedIndex == 5 ? Colors.white : Colors.black ,),),
                         ),
                           onTap:  bookTime.contains(slot[index]['slot5']) && bookDate.contains(date) ? null : () {
                               setState(() {
@@ -415,7 +415,7 @@ class _Book2State extends State<Book2> {
                           style: TextStyle(
                               color: Colors.black,
                             fontWeight: FontWeight.w400,
-                             fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.32.dp,
+                             fontSize: Device.screenType == ScreenType.tablet? 18:18,
                             fontFamily: 'Poppins',
                           ),
                         ),
@@ -426,7 +426,7 @@ class _Book2State extends State<Book2> {
                             style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.32.dp,
+                            fontSize: Device.screenType == ScreenType.tablet? 18:20,
                             fontFamily: 'Poppins',
                           ),
                         ),
@@ -450,7 +450,7 @@ class _Book2State extends State<Book2> {
                             style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                             fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.32.dp,
+                             fontSize: Device.screenType == ScreenType.tablet? 18:20,
                             fontFamily: 'Poppins',
                           ),
                         ),
@@ -461,7 +461,7 @@ class _Book2State extends State<Book2> {
                             style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                             fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.32.dp,
+                             fontSize: Device.screenType == ScreenType.tablet? 18:20,
                             fontFamily: 'Poppins',
                           ),
                         ),
@@ -494,7 +494,7 @@ class _Book2State extends State<Book2> {
                          style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: Device.screenType == ScreenType.tablet? 0.17.dp : 0.32.dp,
+                            fontSize: 22,
                             fontFamily: 'Poppins',
                          ),
                        ),

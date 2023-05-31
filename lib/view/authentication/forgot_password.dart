@@ -54,246 +54,249 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
             child: Form(
               key: _globalKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children:  [
-                  const Text(
-                    "Reset",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 40,
-                        fontFamily: 'Poppins',
-                    ),
-                  ),
-                  Text.rich(
-                    TextSpan(
-                      text: "Password ",
-                      style: const TextStyle(
-                         color: Colors.white,
-                         fontWeight: FontWeight.bold,
-                         fontSize: 40,
-                         fontFamily: 'Poppins',
+              child: Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children:  [
+                    const Text(
+                      "Reset",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 40,
+                          fontFamily: 'Poppins',
                       ),
-                    
-                      children: [
-                        TextSpan(
-                          text: "?",
-                          style:  TextStyle(
-                             color: Constants().secondaryColor,
-                             fontWeight: FontWeight.bold,
-                             fontSize: 40,
-                             fontFamily: 'Poppins',
-                          ),
+                    ),
+                    Text.rich(
+                      TextSpan(
+                        text: "Password ",
+                        style: const TextStyle(
+                           color: Colors.white,
+                           fontWeight: FontWeight.bold,
+                           fontSize: 40,
+                           fontFamily: 'Poppins',
                         ),
-                      ],
-                    ),
-                  ),   
-                Device.screenType == ScreenType.tablet ?
-                 Padding(
-                    padding:  EdgeInsets.symmetric(vertical: 10.0.h, horizontal: 20.0.h),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset("assets/UTHM.png"),
-                      ],
-                    ),
-                  ):     Padding(
-                    padding:  EdgeInsets.symmetric(vertical: 4.0.h, horizontal:9.0.h),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset("assets/UTHM.png"),
-                      ],
-                    ),
-                  ),
-                  TextFormField(
-                    decoration: textInputDecoration.copyWith(
-                      hintText: "Email",
-                      fillColor: Colors.white,
-                      prefixIcon: Icon(
-                        Icons.email,
-                        color: Constants().secondaryColor,
-                      ),
-                       suffixIcon: TextButton(
-                        onPressed: () async {                  
-                          //loading for send request   
-                           EasyLoading.show(
-                            status: "Loading...",
-                            maskType: EasyLoadingMaskType.black,
-                            dismissOnTap: false
-                          );
-                          // to send a OTP to user email
-                          myauth.setConfig(
-                              appEmail: "wemeetdeveloper@gmail.com",
-                              appName: "WEMEET DAPPS: A REWARD-BASED STUDENT LECTURER APPOINTMENT USING BLOCKCHAIN AND SMART CONTRACTS",
-                              userEmail: _controllerEmail.text,
-                              otpLength: 6,
-                              otpType: OTPType.digitsOnly
-                          );
-                          if(await myauth.sendOTP() == true) {
-                              EasyLoading.dismiss();
-                              setState(() {
-                                emailSet = _controllerEmail.text;
-                              });
-                              showMessage(context, "OTP Send Successfully", "OTP Email Verification has been sent to the ${_controllerEmail.text.toString().trim()}", "OK");
-                          }else {
-                              EasyLoading.dismiss();
-                              showMessage(context, "Ooops!", "OTP Email Verification cannot be sent", "OK");
-                           }                       
-                        },
-                       child: Text(
-                        "Send OTP",
-                         style: TextStyle(
-                            color: Constants().primaryColor,
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600
-                           ),
-                          ) 
-                        ),
-                    ),  
-                     validator: (value) {
-                      if(value!.isEmpty) {
-                        return "Email cannot be empty";
-                      } else if(!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}').hasMatch(value)) {
-                   
-                        return "Enter correct email";
-                      }else {
-                        return null;
-                      }
-                    },
-                    controller: _controllerEmail,
-                  ),
-                   const SizedBox(height: 20,),
-                  TextFormField(
-                    obscureText: isHiddenPassword1,
-                    decoration: textInputDecoration.copyWith(
-                      hintText: "New Password",
-                      fillColor: Colors.white,
-                      prefixIcon: Icon(
-                        Icons.lock,
-                        color: Constants().secondaryColor,
-                      ),
-                      suffixIcon: InkWell(
-                          onTap: _togglePasswordView1,
-                          child: isHiddenPassword1 == true ? const Icon(
-                            Icons.visibility, 
-                            color: Colors.black,
-                          ) : const Icon(
-                            Icons.visibility_off,
-                            color: Colors.black,
+                      
+                        children: [
+                          TextSpan(
+                            text: "?",
+                            style:  TextStyle(
+                               color: Constants().secondaryColor,
+                               fontWeight: FontWeight.bold,
+                               fontSize: 40,
+                               fontFamily: 'Poppins',
+                            ),
                           ),
-                      )
+                        ],
+                      ),
+                    ),   
+                  Device.screenType == ScreenType.tablet ?
+                   Padding(
+                      padding:  EdgeInsets.symmetric(vertical: 10.0.h, horizontal: 20.0.h),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset("assets/UTHM.png"),
+                        ],
+                      ),
+                    ):     Padding(
+                      padding:  EdgeInsets.symmetric(vertical: 4.0.h, horizontal:9.0.h),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset("assets/UTHM.png"),
+                        ],
+                      ),
                     ),
-                     validator: (value) {
-                       if(value!.isEmpty) {
-                        return "New password cannot be empty";
-                       }else if(value.isEmpty || value.length < 8 ){
-                        return "New password must be at least 8 characters";
-                       }
-                       return null;
-                    },
-                       controller: _controllerNewPassword,
-                  ),
-                   const SizedBox(height: 20,),
-                  TextFormField(
-                      obscureText: isHiddenPassword2,
+                    TextFormField(
                       decoration: textInputDecoration.copyWith(
-                        hintText: "Confirm New Password",
+                        hintText: "Email",
+                        fillColor: Colors.white,
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: Constants().secondaryColor,
+                        ),
+                         suffixIcon: TextButton(
+                          onPressed: () async {                  
+                            //loading for send request   
+                             EasyLoading.show(
+                              status: "Loading...",
+                              maskType: EasyLoadingMaskType.black,
+                              dismissOnTap: false
+                            );
+                            // to send a OTP to user email
+                            myauth.setConfig(
+                                appEmail: "wemeetdeveloper@gmail.com",
+                                appName: "WEMEET DAPPS: A REWARD-BASED STUDENT LECTURER APPOINTMENT USING BLOCKCHAIN AND SMART CONTRACTS",
+                                userEmail: _controllerEmail.text,
+                                otpLength: 6,
+                                otpType: OTPType.digitsOnly
+                            );
+                            if(await myauth.sendOTP() == true) {
+                                EasyLoading.dismiss();
+                                setState(() {
+                                  emailSet = _controllerEmail.text;
+                                });
+                                showMessage(context, "OTP Send Successfully", "OTP Email Verification has been sent to the ${_controllerEmail.text.toString().trim()}", "OK");
+                            }else {
+                                EasyLoading.dismiss();
+                                showMessage(context, "Ooops!", "OTP Email Verification cannot be sent", "OK");
+                             }                       
+                          },
+                         child: Text(
+                          "Send OTP",
+                           style: TextStyle(
+                              color: Constants().primaryColor,
+                              fontSize: 15,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600
+                             ),
+                            ) 
+                          ),
+                      ),  
+                       validator: (value) {
+                        if(value!.isEmpty) {
+                          return "Email cannot be empty";
+                        } else if(!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}').hasMatch(value)) {
+                     
+                          return "Enter correct email";
+                        }else {
+                          return null;
+                        }
+                      },
+                      controller: _controllerEmail,
+                    ),
+                     const SizedBox(height: 20,),
+                    TextFormField(
+                      obscureText: isHiddenPassword1,
+                      decoration: textInputDecoration.copyWith(
+                        hintText: "New Password",
                         fillColor: Colors.white,
                         prefixIcon: Icon(
                           Icons.lock,
                           color: Constants().secondaryColor,
                         ),
                         suffixIcon: InkWell(
-                          onTap: _togglePasswordView2,
-                          child: isHiddenPassword2 == true ? const Icon(
-                            Icons.visibility, 
-                            color: Colors.black,
-                          ) : const Icon(
-                            Icons.visibility_off,
-                            color: Colors.black,
+                            onTap: _togglePasswordView1,
+                            child: isHiddenPassword1 == true ? const Icon(
+                              Icons.visibility, 
+                              color: Colors.black,
+                            ) : const Icon(
+                              Icons.visibility_off,
+                              color: Colors.black,
+                            ),
+                        )
+                      ),
+                       validator: (value) {
+                         if(value!.isEmpty) {
+                          return "New password cannot be empty";
+                         }else if(value.isEmpty || value.length < 8 ){
+                          return "New password must be at least 8 characters";
+                         }
+                         return null;
+                      },
+                         controller: _controllerNewPassword,
+                    ),
+                     const SizedBox(height: 20,),
+                    TextFormField(
+                        obscureText: isHiddenPassword2,
+                        decoration: textInputDecoration.copyWith(
+                          hintText: "Confirm New Password",
+                          fillColor: Colors.white,
+                          prefixIcon: Icon(
+                            Icons.lock,
+                            color: Constants().secondaryColor,
                           ),
-                      )
-                      ),
-                      controller: _controllerConfirmNewPassword,
+                          suffixIcon: InkWell(
+                            onTap: _togglePasswordView2,
+                            child: isHiddenPassword2 == true ? const Icon(
+                              Icons.visibility, 
+                              color: Colors.black,
+                            ) : const Icon(
+                              Icons.visibility_off,
+                              color: Colors.black,
+                            ),
+                        )
+                        ),
+                        controller: _controllerConfirmNewPassword,
+                        validator: (value) {
+                         if(value!.isEmpty) {
+                          return "Confirm new password cannot be empty";
+                         }else if(value.isEmpty || value.length < 8 ){
+                          return "Confirm new password must be at least 8 characters";
+                         } else if(_controllerNewPassword.text != _controllerConfirmNewPassword.text) {
+                            return "Password do not match";
+                         } 
+                            return null;
+                         
+                      },
+                    ),
+                    const SizedBox(height: 20,),
+                    TextFormField(
+                        decoration: textInputDecoration.copyWith(
+                          hintText: "Verify OTP",
+                          fillColor: Colors.white,
+                          prefixIcon: Icon(
+                            Icons.verified_user_sharp,
+                            color: Constants().secondaryColor,
+                          ),
+                        ),
+                        controller: _controllerVerifyOtp,
                       validator: (value) {
-                       if(value!.isEmpty) {
-                        return "Confirm new password cannot be empty";
-                       }else if(value.isEmpty || value.length < 8 ){
-                        return "Confirm new password must be at least 8 characters";
-                       } else if(_controllerNewPassword.text != _controllerConfirmNewPassword.text) {
-                          return "Password do not match";
-                       } 
-                          return null;
-                       
-                    },
-                  ),
-                  const SizedBox(height: 20,),
-                  TextFormField(
-                      decoration: textInputDecoration.copyWith(
-                        hintText: "Verify OTP",
-                        fillColor: Colors.white,
-                        prefixIcon: Icon(
-                          Icons.verified_user_sharp,
-                          color: Constants().secondaryColor,
+                         if(value!.isEmpty) {
+                          return "OTP cannot be empty";
+                         }else if(value.isEmpty || value.length < 6 ){
+                          return "OTP must be at least 6 characters";
+                         }
+                         return null;
+                      },
+                    ),
+                    const SizedBox(height: 35,),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          backgroundColor: Constants().secondaryColor,
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
                         ),
-                      ),
-                      controller: _controllerVerifyOtp,
-                    validator: (value) {
-                       if(value!.isEmpty) {
-                        return "OTP cannot be empty";
-                       }else if(value.isEmpty || value.length < 6 ){
-                        return "OTP must be at least 6 characters";
-                       }
-                       return null;
-                    },
-                  ),
-                  const SizedBox(height: 35,),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        backgroundColor: Constants().secondaryColor,
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+                        onPressed: () async{
+                          if(_globalKey.currentState!.validate()) {
+                            print(emailSet);
+                             if(await myauth.verifyOTP(otp: _controllerVerifyOtp.text) == true) {
+                                if(_controllerEmail.text == emailSet) {
+                                    setState(() {
+                                      emailSet = "";
+                                    });
+                                    resetPassword(_controllerEmail.text.toString().trim(), _controllerConfirmNewPassword.text.toString().trim()); 
+                                } else {
+                                  showMessage(context, "Wrong OTP or Email", "Wrong OTP or Email entered, Please request new OTP and enter correct OTP or Email", "OK");
+                                }
+                             } else {
+                              showMessage(context, "Wrong OTP or Email", "Wrong OTP or Email entered, Please request new OTP and enter correct OTP or Email", "OK");
+                             }
+                          }
+                        }, 
+                        child: const Text(
+                           "Reset Password",
+                           style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                            fontFamily: 'Poppins',
+                           ),
+                          ),
                         ),
-                      ),
-                      onPressed: () async{
-                        if(_globalKey.currentState!.validate()) {
-                          print(emailSet);
-                           if(await myauth.verifyOTP(otp: _controllerVerifyOtp.text) == true) {
-                              if(_controllerEmail.text == emailSet) {
-                                  setState(() {
-                                    emailSet = "";
-                                  });
-                                  resetPassword(_controllerEmail.text.toString().trim(), _controllerConfirmNewPassword.text.toString().trim()); 
-                              } else {
-                                showMessage(context, "Wrong OTP or Email", "Wrong OTP or Email entered, Please request new OTP and enter correct OTP or Email", "OK");
-                              }
-                           } else {
-                            showMessage(context, "Wrong OTP or Email", "Wrong OTP or Email entered, Please request new OTP and enter correct OTP or Email", "OK");
-                           }
-                        }
-                      }, 
-                      child: const Text(
-                         "Reset Password",
-                         style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                          fontFamily: 'Poppins',
-                         ),
-                        ),
-                      ),
-                  ),
-                ],
+                    ),
+                    SizedBox(height: 20,),
+                  ],
+                ),
               ),
             ),
           ),

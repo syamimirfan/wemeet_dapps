@@ -55,40 +55,42 @@ class _SplashScreenState extends State<SplashScreen> {
               children: [
                Padding(
                     padding:  const EdgeInsets.symmetric(vertical: 20, horizontal: 70), 
-                    child:  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [          
-                      Text("We", 
-                        style: TextStyle(
-                        color: Constants().secondaryColor,
-                        fontWeight: FontWeight.bold, 
-                         fontFamily: 'Poppins',
-                         fontSize: Device.screenType == ScreenType.tablet? 
-                              0.25.dp:0.40.dp 
+                    child:  Expanded(
+                      child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [          
+                        Text("We", 
+                          style: TextStyle(
+                          color: Constants().secondaryColor,
+                          fontWeight: FontWeight.bold, 
+                           fontFamily: 'Poppins',
+                           fontSize: Device.screenType == ScreenType.tablet? 
+                                30:30,
+                          ),
                         ),
-                      ),
-                      Text("Meet", 
-                        style: TextStyle(
-                        color: Constants().tertiaryColor,
-                        fontWeight: FontWeight.bold, 
-                        fontFamily: 'Poppins',
-                        fontSize: Device.screenType == ScreenType.tablet? 
-                              0.25.dp:0.40.dp,
+                        Text("Meet", 
+                          style: TextStyle(
+                          color: Constants().tertiaryColor,
+                          fontWeight: FontWeight.bold, 
+                          fontFamily: 'Poppins',
+                          fontSize: Device.screenType == ScreenType.tablet? 
+                                30:30,
+                          ),
                         ),
-                      ),
-                    ],
-                   ),
+                      ],
+                                       ),
+                    ),
                  ),
                 
                   Text("Make an appointment with your lecturer",
                      textAlign: TextAlign.center ,
                           style: TextStyle(
                             color: Constants().tertiaryColor,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w400,
                             fontFamily: 'Poppins',
                             fontSize: Device.screenType == ScreenType.tablet? 
-                              0.17.dp:0.30.dp,
+                             15:15,
                       ),
                   ),
                   const SizedBox(height: 30,),
@@ -101,29 +103,30 @@ class _SplashScreenState extends State<SplashScreen> {
                   textAlign: TextAlign.center ,
                    style: TextStyle(
                     color: Constants().tertiaryColor,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w400,
                     fontFamily: 'Poppins', 
                     fontSize: Device.screenType == ScreenType.tablet? 
-                              0.17.dp:0.30.dp,
+                              15 : 15,
                    ),
                   ),
                   Text("@ Universiti Tun Hussein Onn Malaysia",
-         
+                    textAlign: TextAlign.center ,
                    style: TextStyle(
                     color: Constants().tertiaryColor,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w400,
       
                     fontSize: Device.screenType == ScreenType.tablet? 
-                              0.17.dp:0.30.dp,
+                              15 : 15,
                     fontFamily: 'Poppins',
                    ),
                   ),
                   Text("(UTHM)",
+                   textAlign: TextAlign.center ,
                    style: TextStyle(
                     color: Constants().tertiaryColor,
                     fontWeight: FontWeight.w500,
                     fontSize: Device.screenType == ScreenType.tablet? 
-                              0.17.dp:0.30.dp,
+                            15:15,
                     fontFamily: 'Poppins',
                    ),
                   ),
@@ -135,8 +138,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                        Text("Loading ", style: TextStyle(fontFamily: 'Poppins',fontSize: Device.screenType == ScreenType.tablet? 
-                              0.17.dp:0.32.dp, color: Constants().secondaryColor, fontWeight: FontWeight.w600 ),),
-                      SpinKitThreeBounce(color: Constants().secondaryColor, size: 25)
+                              15:15, color: Constants().secondaryColor, fontWeight: FontWeight.w600 ),),
+                      SpinKitThreeBounce(color: Constants().secondaryColor, size: 15)
                   ],
                 ),
  

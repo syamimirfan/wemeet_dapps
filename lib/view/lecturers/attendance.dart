@@ -124,7 +124,7 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                   //for lecturer images
                                     Container(
                                       child: CircleAvatar(
-                                        radius: Device.screenType == ScreenType.tablet? 100 : 40,
+                                        radius: Device.screenType == ScreenType.tablet? 70 : 40,
                                         backgroundImage: NetworkImage(booking['studImage']),
                                       ),
                                     ),
@@ -146,7 +146,7 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                                booking['studName'],
                                                 style:TextStyle(
                                                     fontSize: Device.screenType == ScreenType.tablet? 
-                                                                0.18.dp: 0.28.dp,
+                                                              18:14,
                                                     fontFamily: 'Poppins',
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black,
@@ -161,9 +161,9 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                                booking['numberOfStudents'].toString() + " student",
                                                 style:TextStyle(
                                                     fontSize: Device.screenType == ScreenType.tablet? 
-                                                                0.16.dp: 0.26.dp,
+                                                              18:14,
                                                     fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w500,
+                                                    fontWeight: FontWeight.w400,
                                                     color: Colors.black,
                                                 ),
                                               ),
@@ -176,9 +176,9 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                                 booking['date'],
                                                 style:TextStyle(
                                                     fontSize: Device.screenType == ScreenType.tablet? 
-                                                                0.16.dp: 0.26.dp,
+                                                              18:14,
                                                     fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w500,
+                                                    fontWeight: FontWeight.w400,
                                                     color: Colors.black,
                                                 ),
                                               ),
@@ -191,7 +191,7 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                                booking['time'],
                                                 style:TextStyle(
                                                     fontSize: Device.screenType == ScreenType.tablet? 
-                                                                 0.16.dp: 0.26.dp,
+                                                              18:14,
                                                     fontFamily: 'Poppins',
                                                     fontWeight: FontWeight.bold,
                                                     color: Constants().secondaryColor,
@@ -236,7 +236,7 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
-                                              fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
+                                              fontSize: Device.screenType == ScreenType.tablet? 18:14,
                                               fontFamily: 'Poppins',
                                           ),
                                         ),
@@ -262,7 +262,7 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
-                                              fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.28.dp,
+                                              fontSize: Device.screenType == ScreenType.tablet? 18:14,
                                               fontFamily: 'Poppins',
                                           ),
                                         ),

@@ -71,7 +71,7 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                       "Update Successful",
                       style: TextStyle(
                         fontFamily: "Poppins",
-                        fontSize: Device.screenType == ScreenType.tablet? 0.20.dp : 0.36.dp,
+                        fontSize: Device.screenType == ScreenType.tablet? 20:23,
                         fontWeight: FontWeight.bold,
                       ),
                      ),
@@ -80,7 +80,7 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                       "You have successfully update your appointment",
                       style: TextStyle(
                         fontFamily: "Poppins",
-                        fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.27.dp,
+                        fontSize: Device.screenType == ScreenType.tablet?  18:14,
                         fontWeight: FontWeight.w500,
                       ),
                      ),
@@ -88,7 +88,7 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                      Container(
                     padding:Device.screenType == ScreenType.tablet? 
                      EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.15,vertical: deviceHeight(context) * 0.1):
-                    EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.09,vertical: deviceHeight(context) * 0.09),
+                    EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.09,vertical: deviceHeight(context) * 0.08),
                     height: deviceHeight(context) * 0.45,
                     width: deviceWidth(context) * 0.9,
                       decoration:   BoxDecoration(
@@ -105,7 +105,7 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                             "Your Appointment Details:",
                             style: TextStyle(
                               fontFamily: "Poppins",
-                               fontSize: Device.screenType == ScreenType.tablet? 0.15.dp : 0.29.dp,
+                               fontSize: Device.screenType == ScreenType.tablet? 18:16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -115,7 +115,7 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                            lecturerName,
                             style: TextStyle(
                               fontFamily: "Poppins",
-                              fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.27.dp,
+                              fontSize: Device.screenType == ScreenType.tablet? 18:15,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -124,8 +124,8 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                             numberOfStudents.toString() + " students",
                             style: TextStyle(
                               fontFamily: "Poppins",
-                              fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.27.dp,
-                              fontWeight: FontWeight.w500,
+                              fontSize: Device.screenType == ScreenType.tablet? 18:15,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
                               SizedBox(height: 5,),
@@ -133,8 +133,8 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                             date,
                             style: TextStyle(
                               fontFamily: "Poppins",
-                             fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.27.dp,
-                              fontWeight: FontWeight.w500,
+                             fontSize: Device.screenType == ScreenType.tablet? 18:15,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
                              SizedBox(height: 5,),
@@ -142,7 +142,7 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                             time,
                             style: TextStyle(
                               fontFamily: "Poppins",
-                             fontSize: Device.screenType == ScreenType.tablet? 0.16.dp : 0.27.dp,
+                             fontSize: Device.screenType == ScreenType.tablet? 18:15,
                               fontWeight: FontWeight.bold,
                               color: Constants().secondaryColor,
                             ),
@@ -169,7 +169,7 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                          style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: Device.screenType == ScreenType.tablet? 0.17.dp : 0.32.dp,
+                            fontSize: 22,
                             fontFamily: 'Poppins',
                          ),
                        ),

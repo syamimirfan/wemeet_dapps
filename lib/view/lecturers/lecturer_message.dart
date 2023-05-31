@@ -182,7 +182,7 @@ class _LecturerMessageState extends State<LecturerMessage> {
             style: const TextStyle(
               fontFamily: 'Poppins',
               fontSize:20,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
              ),
             ),
            ),
