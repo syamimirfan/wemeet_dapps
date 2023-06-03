@@ -328,7 +328,6 @@ class _LecturerMessageState extends State<LecturerMessage> {
   
   //get all message
   getMessage(String matricNo, String? staffNo) async {
-     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
      var responseChat = await new Chat().getUserMessage(matricNo, staffNo!);
      if(responseChat['success']){
         final responseData = responseChat['chat'];

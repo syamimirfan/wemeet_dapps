@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wemeet_dapps/about.dart';
-import 'package:wemeet_dapps/api_services/api_booking.dart';
-import 'package:wemeet_dapps/api_services/api_chat.dart';
 import 'package:wemeet_dapps/api_services/api_lecturers.dart';
-import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 

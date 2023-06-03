@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,10 +6,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wemeet_dapps/about.dart';
-import 'package:wemeet_dapps/api_services/api_booking.dart';
-import 'package:wemeet_dapps/api_services/api_chat.dart';
 import 'package:wemeet_dapps/api_services/api_lecturers.dart';
-import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/api_services/api_reward.dart';
 import 'package:wemeet_dapps/constants/connection.dart';
 import 'package:wemeet_dapps/shared/constants.dart';

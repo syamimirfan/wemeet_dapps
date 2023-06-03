@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
-import 'package:wemeet_dapps/api_services/api_booking.dart';
-import 'package:wemeet_dapps/api_services/api_chat.dart';
 import 'package:wemeet_dapps/api_services/api_lecturers.dart';
-import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/view/students/book2_student.dart';
 import 'package:wemeet_dapps/widget/main_drawer_student.dart';
