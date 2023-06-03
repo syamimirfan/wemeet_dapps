@@ -11,9 +11,9 @@ class MessageTile extends StatefulWidget {
   final bool isSentByMe;
   final String message;
   final String date;
-  final int chatId;
 
-  const MessageTile({super.key, required this.isSentByMe, required this.message, required this.date, required this.chatId});
+  
+  const MessageTile({super.key, required this.isSentByMe, required this.message, required this.date,});
 
   @override
   State<MessageTile> createState() => _MessageTileState();
@@ -114,7 +114,7 @@ final String dateFormat = DateFormat.yMd().add_jm().format(DateTime.parse(widget
         showSnackBarSuccessful(context, "Message Copied");
       } else if (value == 'delete') {
         if(widget.isSentByMe == true) {
-           deleteChat(widget.chatId);
+           deleteChat(widget.message);
         }else {
           showSnackCannotDelete(context, "Cannot Delete Chat");
         }
@@ -180,11 +180,12 @@ final String dateFormat = DateFormat.yMd().add_jm().format(DateTime.parse(widget
   }
 
    //delete chat 
-  deleteChat(int chatId) async {
-    var responseChat = await new Chat().deleteMessage(chatId);
+  deleteChat(String messageText) async {
+    var responseChat = await new Chat().deleteMessage(messageText);
 
      if(responseChat['success']) {
-      nextScreenPop(context);
+       nextScreenPop(context);
+    
     }else{
       throw Exception(responseChat['message']);
     }

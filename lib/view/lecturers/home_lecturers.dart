@@ -3,9 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
 import 'package:wemeet_dapps/api_services/api_booking.dart';
-import 'package:wemeet_dapps/api_services/api_chat.dart';
 import 'package:wemeet_dapps/api_services/api_lecturers.dart';
-import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/api_services/api_students.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/widget/main_drawer_lecturer.dart';
@@ -36,11 +34,8 @@ class _HomeLecturerState extends State<HomeLecturer> {
   getStaffNo() async {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     var staffNo = _sharedPreferences.getString('staffNo');
-
     getLecturer(staffNo);
     getAppointment(staffNo);
-    getMessage(staffNo);
-    getAppointmentUpdated(staffNo);
   }
 
   @override
@@ -496,23 +491,12 @@ class _HomeLecturerState extends State<HomeLecturer> {
 
    //get all appointment in lecturer
   getAppointment(String? staffNo) async {
-      final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     final responseBooking = await new Booking().getAppointmentRequest(staffNo!);
     if(responseBooking['success']){
       final responseData = responseBooking['booking'];
       if(responseData is List){
         setState(() {
           appointment = responseData;
-          bool currentAppointmentRequested = appointment.isNotEmpty && appointment.last['statusBooking'] == "Appending";
-          if(currentAppointmentRequested && _sharedPreferences.getInt("bookingAdd") == 1 && _sharedPreferences.getString("bookingAddMatricNumber") != ""){
-           viewStudent(_sharedPreferences.getString("bookingAddMatricNumber")).then((value) => {
-             NotificationService()
-            .showNotification(title: "New Appointment" ,body: studentName + " has book an appointment session with you").then((value) => {
-              _sharedPreferences.remove("bookingAdd"),
-              _sharedPreferences.remove("bookingAddMatricNumber")
-            })
-           });
-          }
         });
       }else {
         setState(() {
@@ -536,39 +520,12 @@ class _HomeLecturerState extends State<HomeLecturer> {
       }
    }
 
-   //get all accepted appointment for manage appointment in lecturer
-  getAppointmentUpdated(String? staffNo) async {
-    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-    final responseBooking = await new Booking().getAcceptedAppointment(staffNo!);
-    if(responseBooking['success']){
-      final responseData = responseBooking['booking'];
-      if(responseData is List){
-        setState(() {
-          if(_sharedPreferences.getInt("bookingUpdate") == 1 && _sharedPreferences.getString("bookingUpdateMatricNumber") != ""){
-            viewStudentBookingUpdate(_sharedPreferences.getString("bookingUpdateMatricNumber")).then((value) => {
-             NotificationService()
-            .showNotification(title: "Appointment Updated!" ,body: studentNameBookingUpdate + " has update an appointment session with you").then((value) => {
-              _sharedPreferences.remove("bookingUpdate"),
-              _sharedPreferences.remove("bookingUpdateMatricNumber")
-            })
-           });
-          }
-        });
-      }else {
-        print(responseBooking['message']);
-      }
-    }
-  }
-  
   
   //reject the appointment request
   reject(int bookingId) async {
     final responseBooking = await new Booking().rejectAppointmentRequests(bookingId);
     if(responseBooking['success']){
       nextScreenReplacement(context, HomeLecturer());
-     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-      _sharedPreferences.setInt("rejectAppointment", 2);
-      _sharedPreferences.setString("rejectAppointmentLectName", lectName);
     }else {
       throw Exception(responseBooking['message']);
     }
@@ -580,38 +537,9 @@ class _HomeLecturerState extends State<HomeLecturer> {
     if(responseBooking['success']){
       print(lectName);
       nextScreenReplacement(context, HomeLecturer());
-       final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-      _sharedPreferences.setInt("acceptAppointment", 1);
-       _sharedPreferences.setString("acceptAppointmentLectName", lectName);
     }else {
       throw Exception(responseBooking['message']);
     }
   }
 
-    //to get notification message from student
-   getMessage(String? staffNo) async {
-    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-
-    String? matricNo = _sharedPreferences.getString("matricNumber");
-     var responseChat = await new Chat().getUserMessage(matricNo!, staffNo!);
-     if(responseChat['success']){
-        final responseData = responseChat['chat'];
-       if(responseData is List) {
-         setState(() {
-        bool lastMessageSentByStudent = responseData.isNotEmpty && responseData.last['statusMessage'] == 1;
-        if (lastMessageSentByStudent && _sharedPreferences.getString("studentName") != "" && _sharedPreferences.getString("matricNumber") != "") {
-          var studentName = _sharedPreferences.getString("studentName");
-          NotificationService().showNotification(
-              title: 'New message from $studentName',
-              body: responseData.last['messageText']).then((value) => {
-                 _sharedPreferences.remove("studentName"),
-                 _sharedPreferences.remove("matricNumber")
-              });
-          }
-         });
-       }else {
-         print("Error fetching data: ${responseChat['message']}");
-       }
-     }
-   }
 }

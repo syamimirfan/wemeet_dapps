@@ -111,6 +111,7 @@ class _MainDrawerLecturerState extends State<MainDrawerLecturer> {
   
 
            Text(
+      
             staffNumber,
             style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontSize: 22,fontFamily: 'Poppins',),
           ),
@@ -119,6 +120,7 @@ class _MainDrawerLecturerState extends State<MainDrawerLecturer> {
           Flexible(
             child: Container(
              child:  Text(
+             textAlign: TextAlign.center,
             lectName,
              style: TextStyle(
                color: Colors.white,

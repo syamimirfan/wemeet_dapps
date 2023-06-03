@@ -39,19 +39,8 @@ List<dynamic> students = [];
     super.initState();
 
     getStudentChat();
-    getStaffNo();
+
   }
-
-
-  Future<void> getStaffNo() async {
-    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-    
-    var staffNo = _sharedPreferences.getString('staffNo');
-    getMessage(staffNo);
-    getAppointment(staffNo);
-    getAppointmentUpdated(staffNo);
-  }
-
 
   Widget buildChat() {
     return Container(
@@ -185,32 +174,6 @@ List<dynamic> students = [];
     }
   }
 
-    //to get notification message from student
-   getMessage(String? staffNo) async {
-    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-    String? matricNo = _sharedPreferences.getString("matricNumber");
-     var responseChat = await new Chat().getUserMessage(matricNo!, staffNo!);
-     if(responseChat['success']){
-        final responseData = responseChat['chat'];
-       if(responseData is List) {
-         setState(() {
-        bool lastMessageSentByStudent = responseData.isNotEmpty && responseData.last['statusMessage'] == 1;
-        if (lastMessageSentByStudent && _sharedPreferences.getString("studentName") != "" && _sharedPreferences.getString("matricNumber") != "") {
-        var studentName = _sharedPreferences.getString("studentName");
-          NotificationService().showNotification(
-              title: 'New message from $studentName',
-              body: responseData.last['messageText']).then((value) => {
-                 _sharedPreferences.remove("studentName"),
-                 _sharedPreferences.remove("matricNumber")
-              });
-          }
-         });
-       }else {
-         print("Error fetching data: ${responseChat['message']}");
-       }
-     }
-   }
-
        //to view some of student data
     viewStudent(String? matricNo) async {
       var responseStudent = await new Student().getStudentDetail(matricNo!);
@@ -222,32 +185,6 @@ List<dynamic> students = [];
          throw Exception("Failed to get the data");
       }
  
-  }
-
-   //get all appointment in lecturer
-  getAppointment(String? staffNo) async {
-      final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-    final responseBooking = await new Booking().getAppointmentRequest(staffNo!);
-    if(responseBooking['success']){
-      final responseData = responseBooking['booking'];
-      if(responseData is List){
-        setState(() {
-          bool currentAppointmentRequested = responseData.isNotEmpty && responseData.last['statusBooking'] == "Appending";
-          if(currentAppointmentRequested && _sharedPreferences.getInt("bookingAdd") == 1 && _sharedPreferences.getString("bookingAddMatricNumber") != ""){
-           viewStudent(_sharedPreferences.getString("bookingAddMatricNumber")).then((value) => {
-             NotificationService()
-            .showNotification(title: "New Appointment" ,body: studentName + " has book an appointment session with you").then((value) => {
-              _sharedPreferences.remove("bookingAdd"),
-              _sharedPreferences.remove("bookingAddMatricNumber")
-            })
-           });
-          }
-        });
-      }else {
-  
-        print(responseBooking['message']);
-      }
-    }
   }
     //to view some of student data
     viewStudentBookingUpdate(String? matricNo) async {
@@ -261,27 +198,5 @@ List<dynamic> students = [];
       }
    }
 
-   //get all accepted appointment for manage appointment in lecturer
-  getAppointmentUpdated(String? staffNo) async {
-    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-    final responseBooking = await new Booking().getAcceptedAppointment(staffNo!);
-    if(responseBooking['success']){
-      final responseData = responseBooking['booking'];
-      if(responseData is List){
-        setState(() {
-          if(_sharedPreferences.getInt("bookingUpdate") == 1 && _sharedPreferences.getString("bookingUpdateMatricNumber") != ""){
-            viewStudentBookingUpdate(_sharedPreferences.getString("bookingUpdateMatricNumber")).then((value) => {
-             NotificationService()
-            .showNotification(title: "Appointment Updated!" ,body: studentNameBookingUpdate + " has update an appointment session with you").then((value) => {
-              _sharedPreferences.remove("bookingUpdate"),
-              _sharedPreferences.remove("bookingUpdateMatricNumber")
-            })
-           });
-          }
-        });
-      }else {
-        print(responseBooking['message']);
-      }
-    }
-  }
+
 }

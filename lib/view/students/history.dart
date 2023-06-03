@@ -40,10 +40,8 @@ class _ManageHistoryState extends State<ManageHistory> {
   getMatricNo() async {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     var matricNo = _sharedPreferences.getString("matricNo");
-
     getAllAttendance(matricNo);
-    getMessage(matricNo);
-    getManageAppointment(matricNo);
+   
   }
 
   @override
@@ -256,7 +254,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                               "Token Gained: ",
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
-                                                             18:14,
+                                                             18:12,
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.black,
@@ -273,14 +271,14 @@ class _ManageHistoryState extends State<ManageHistory> {
                                             "NO Token Send",
                                               style:TextStyle(
                                                   fontSize: Device.screenType == ScreenType.tablet? 
-                                                             18:14,
+                                                             18:12,
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.bold,
                                                   color: attendance['statusReward'] == "Not Send" ? Constants().secondaryColor: attendance['statusReward'] == "Send" ? Constants().primaryColor: Colors.black,
                                               ),
                                             ),
                                           ),
-                                     SizedBox(width: 17.w,) ,
+                                     SizedBox(width: 15.w,) ,
                                    SizedBox(
                                      height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.04 : deviceHeight(context) * 0.04,
                                      child: ElevatedButton(
@@ -299,7 +297,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
-                                              fontSize: Device.screenType == ScreenType.tablet? 18:14,
+                                              fontSize: Device.screenType == ScreenType.tablet? 18:12,
                                               fontFamily: 'Poppins',
                                           ),
                                         ),
@@ -387,23 +385,6 @@ class _ManageHistoryState extends State<ManageHistory> {
         if(responseData is List) {
           setState(() {
             attendance = responseData;
-            if(_sharedPreferences.getInt("studentAbsent") == 1 && _sharedPreferences.getString("lecturerAbsentStaffNo") != "") {
-              viewLecturer(_sharedPreferences.getString("lecturerAbsentStaffNo")).then((value) => {
-              NotificationService()
-            .showNotification(title: "You're ABSENT!" ,body: lectName + " has sign you absent for the appointment").then((value) => {
-              _sharedPreferences.remove("studentAbsent"),
-              _sharedPreferences.remove("lecturerAbsentStaffNo")
-             })
-            });
-            }else if(_sharedPreferences.getInt("studentAttend") == 1 && _sharedPreferences.getString("lecturerAttendStaffNo") != ""){
-              viewLecturer(_sharedPreferences.getString("lecturerAttendStaffNo")).then((value) => {
-              NotificationService()
-            .showNotification(title: "You're ATTEND!" ,body: lectName + " has sign you attend for the appointment").then((value) => {
-              _sharedPreferences.remove("studentAttend"),
-              _sharedPreferences.remove("lecturerAttendStaffNo")
-             })
-            });
-            }
           });
         }else{
           setState(() {
@@ -424,31 +405,6 @@ class _ManageHistoryState extends State<ManageHistory> {
      }
   }
 
-  //to get notification message from lecturer
-    getMessage(String? matricNo) async {
-     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-     String? staffNo = _sharedPreferences.getString("staffNumber");
-     var responseChat = await new Chat().getUserMessage(matricNo!, staffNo!);
-     if(responseChat['success']){
-       final responseData = responseChat['chat'];
-       if(responseData is List) {
-         setState(() {
-        bool lastMessageSentByLecturer = responseData.isNotEmpty && responseData.last['statusMessage'] == 2;
-        if (lastMessageSentByLecturer && _sharedPreferences.getString("lecturerName") != "" && _sharedPreferences.getString("staffNumber") != "") {
-             var lecturerName = _sharedPreferences.getString("lecturerName");
-              NotificationService().showNotification(
-              title: 'New message from Dr $lecturerName',
-              body: responseData.last['messageText']).then((value) => {
-                 _sharedPreferences.remove("lecturerName"),
-                 _sharedPreferences.remove("staffNumber")
-              });
-           }
-         });
-       }else {
-         print("Error fetching data: ${responseChat['message']}");
-       }
-     }
-  }
 
      //to view some of lecturer data  
    viewLecturerBookingUpdate(String? staffNo) async {
@@ -461,54 +417,6 @@ class _ManageHistoryState extends State<ManageHistory> {
       } else {
          throw Exception("Failed to get the data");
       }
-  }
-
-  //function to get appointment
-  getManageAppointment(String? matricNo) async {
-     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-    final responseBooking = await Booking().manageAppointmentStudent(matricNo!);
-    if(responseBooking['success']) {
-      final responseData = responseBooking['booking'];
-      if(responseData is List) {
-        setState(() {
-          bool currentAcceptedAppointment = responseData.isNotEmpty && responseData.last['statusBooking'] == "Accepted";
-          bool currentRejectedAppointment = responseData.isNotEmpty && responseData.last['statusBooking'] == "Rejected";
-          if(currentAcceptedAppointment && _sharedPreferences.getInt("acceptAppointment") == 1 && _sharedPreferences.getString("acceptAppointmentLectName") != ""){
-             NotificationService()
-            .showNotification(title: "Congratulations! You're set" ,body:  _sharedPreferences.getString("acceptAppointmentLectName")! + " has accept your appointment").then((value) => {
-                _sharedPreferences.remove("acceptAppointment"),
-                _sharedPreferences.remove("acceptAppointmentLectName"),
-            });
-          }else if (currentRejectedAppointment && _sharedPreferences.getInt("rejectAppointment") == 2 && _sharedPreferences.getString("rejectAppointmentLectName") != "") {
-            NotificationService()
-            .showNotification(title: "Sorry, You're not set" ,body: _sharedPreferences.getString("rejectAppointmentLectName")! + " has reject your appointment").then((value) => {
-               _sharedPreferences.remove("rejectAppointment"),
-               _sharedPreferences.remove("rejectAppointmentLectName"),
-            });
-          }else if(_sharedPreferences.getInt("appointmentCancel") == 1 && _sharedPreferences.getString("appointmentCancelStaffNo") != ""){
-            viewLecturerBookingUpdate(_sharedPreferences.getString("appointmentCancelStaffNo")).then((value) => {
-              NotificationService()
-            .showNotification(title: "Appointment Cancelled!" ,body: lectName + " has cancel your appointment").then((value) => {
-              _sharedPreferences.remove("appointmentCancel"),
-              _sharedPreferences.remove("appointmentCancelStaffNo")
-             })
-            });         
-          }
-        });
-      }else {
-       if(_sharedPreferences.getInt("appointmentCancel") == 1 && _sharedPreferences.getString("appointmentCancelStaffNo") != ""){
-            viewLecturerBookingUpdate(_sharedPreferences.getString("appointmentCancelStaffNo")).then((value) => {
-              NotificationService()
-            .showNotification(title: "Appointment Cancelled!" ,body: lectName + " has cancel your appointment").then((value) => {
-              _sharedPreferences.remove("appointmentCancel"),
-              _sharedPreferences.remove("appointmentCancelStaffNo")
-             })
-            });
-            
-          }
-       print("Error fetching data: ${responseBooking['message']}");
-      }
-    }
   }
 
 }

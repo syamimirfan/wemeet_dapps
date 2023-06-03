@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/api_services/api_booking.dart';
 import 'package:wemeet_dapps/api_services/api_chat.dart';
 import 'package:wemeet_dapps/api_services/api_lecturers.dart';
 import 'package:wemeet_dapps/api_services/api_notify_services.dart';
+import 'package:wemeet_dapps/constants/utils.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/widget/message_tile.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class Message extends StatefulWidget {
   Message({super.key, required this.staffNo});
@@ -34,6 +37,7 @@ class _MessageState extends State<Message> {
   final TextEditingController _controllerMessage = TextEditingController();
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   final ScrollController _scrollController = ScrollController();
+  late IO.Socket socket;
 
   double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.height;
@@ -43,29 +47,68 @@ class _MessageState extends State<Message> {
     super.initState();
     getLecturer(staffNo);
     getMatricNo();
+    socket = IO.io('${Utils.baseURL}',
+       IO.OptionBuilder()
+      .setTransports(['websocket']) // for Flutter or Dart VM
+      .disableAutoConnect()  // disable auto-connection
+      .build()
+    );
+    socket.connect();  
+    setUpSocketListener();
   }
   
   getMatricNo() async {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     var matricNo = _sharedPreferences.getString("matricNo");
-    getMessage(matricNo, staffNo);
+     getMessage(matricNo, staffNo);
     getStudent(matricNo);
-    getManageAppointment(matricNo);
   }
- 
+  
+    
+  void sendMessageRealTime(String matricNo, String staffNo, String messageText) {
+    DateTime now = DateTime.now();
+    DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+    String formattedDate = formatter.format(now);
+    var messageJson = {"matricNo":matricNo, "staffNo": staffNo, "messageText": messageText, "sendTextTime": formattedDate, "statusMessage": 1};
+    socket.emit('message', messageJson);
+  }
+
+  void setUpSocketListener() {
+    socket.on('message-receive', (data)  {
+      print(data);  
+        setState(() {
+        chat.add(data);
+      });
+       NotificationService().showNotification(
+              title: 'New message from DR $lecturerName',
+              body: chat.last['messageText']);
+
+       // Scroll to the bottom of the chat
+      Future.delayed(Duration(milliseconds: 100), () {
+          try {
+            _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent,
+              duration: Duration(milliseconds: 100),
+              curve: Curves.easeInOut,
+            );
+          } catch (error) {
+            print('Error scrolling to bottom: $error');
+          }
+      });
+    });
+  }
 
   //message
    message() {
     return ListView.builder(
-       controller: _scrollController,
-      itemCount: chat.length,
-      itemBuilder: (context,index) {
-        //LETAK TERNARY OPERATOR KT isSentByMe, klau statusMessage 1 (student) dia true.. else false
-        //LETAK TERNARY OPERATOR KT isSentBtMe, klau statusMessage 2 (lecturer) dia true.. else false 
-        return MessageTile(message: chat[index]['messageText'], isSentByMe: chat[index]['statusMessage'] == 1 ? true : false, date: chat[index]['sendTextTime'], chatId: chat[index]['chatId'],);
-      }
-    
-    );
+         controller: _scrollController,
+        itemCount: chat.length,
+        itemBuilder: (context,index) {
+          //LETAK TERNARY OPERATOR KT isSentByMe, klau statusMessage 1 (student) dia true.. else false
+          //LETAK TERNARY OPERATOR KT isSentBtMe, klau statusMessage 2 (lecturer) dia true.. else false 
+          return MessageTile(message: chat[index]['messageText'], isSentByMe: chat[index]['statusMessage'] == 1 ? true : false , date: chat[index]['sendTextTime']);
+        }     
+      );
   }
 
   //to input message
@@ -133,6 +176,7 @@ class _MessageState extends State<Message> {
                 final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
                 String? matricNo = _sharedPreferences.getString('matricNo');
                 if(_globalKey.currentState!.validate() && _controllerMessage.text.trim().isNotEmpty){
+               
                      addStudentMessage(matricNo!, staffNo, _controllerMessage.text, _scrollController);
                      _controllerMessage.clear(); 
                 }
@@ -239,10 +283,17 @@ class _MessageState extends State<Message> {
   //add student message
   addStudentMessage(String matricNo, String staffNo, String messageText, ScrollController scrollController) async {
      final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-     var responseChat = await new Chat().studentMessage(matricNo, staffNo, messageText);
+       DateTime now = DateTime.now();
+    DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+    String formattedDate = formatter.format(now);
+     var responseChat = await new Chat().studentMessage(matricNo, staffNo, messageText, formattedDate);
+    
      if(responseChat['success']) {
-      //MAKE IT REFRESH SO WE CAN SEE THE MESSAGE
-      await getMessage(matricNo, staffNo);
+       sendMessageRealTime(matricNo, staffNo, messageText);
+       
+       //MAKE IT REFRESH SO WE CAN SEE THE MESSAGE
+        await getMessage(matricNo, staffNo);
+
        _sharedPreferences.setString("studentName", studentName);
       _sharedPreferences.setString("matricNumber", matricNo);
         
@@ -264,29 +315,20 @@ class _MessageState extends State<Message> {
 
    @override
   void dispose() {
+    socket.dispose();
     _scrollController.dispose();
     super.dispose();
   }
 
   //get all message
   getMessage(String? matricNo, String staffNo) async {
-     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
      var responseChat = await new Chat().getUserMessage(matricNo!, staffNo);
      if(responseChat['success']){
        final responseData = responseChat['chat'];
        if(responseData is List) {
+  
          setState(() {
            chat = responseData;
-        bool lastMessageSentByLecturer = chat.isNotEmpty && chat.last['statusMessage'] == 2;
-        if (lastMessageSentByLecturer && _sharedPreferences.getString("lecturerName") != null && _sharedPreferences.getString("staffNumber") != null) {
-          NotificationService().showNotification(
-              title: 'New message from DR $lecturerName',
-              body: chat.last['messageText']).then((value) => {
-                  _sharedPreferences.remove("lecturerName"),
-                 _sharedPreferences.remove("staffNumber")
-              });
-         }
-  
          });
        }else {
          print("Error fetching data: ${responseChat['message']}");
@@ -307,52 +349,5 @@ class _MessageState extends State<Message> {
       }
   }
 
-  //function to get appointment
-  getManageAppointment(String? matricNo) async {
-     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-    final responseBooking = await Booking().manageAppointmentStudent(matricNo!);
-    if(responseBooking['success']) {
-      final responseData = responseBooking['booking'];
-      if(responseData is List) {
-        setState(() {
-          bool currentAcceptedAppointment = responseData.isNotEmpty && responseData.last['statusBooking'] == "Accepted";
-          bool currentRejectedAppointment = responseData.isNotEmpty && responseData.last['statusBooking'] == "Rejected";
-          if(currentAcceptedAppointment && _sharedPreferences.getInt("acceptAppointment") == 1 && _sharedPreferences.getString("acceptAppointmentLectName") != ""){
-             NotificationService()
-            .showNotification(title: "Congratulations! You're set" ,body:  _sharedPreferences.getString("acceptAppointmentLectName")! + " has accept your appointment").then((value) => {
-                _sharedPreferences.remove("acceptAppointment"),
-                _sharedPreferences.remove("acceptAppointmentLectName"),
-            });
-          }else if (currentRejectedAppointment && _sharedPreferences.getInt("rejectAppointment") == 2 && _sharedPreferences.getString("rejectAppointmentLectName") != "") {
-            NotificationService()
-            .showNotification(title: "Sorry, You're not set" ,body: _sharedPreferences.getString("rejectAppointmentLectName")! + " has reject your appointment").then((value) => {
-               _sharedPreferences.remove("rejectAppointment"),
-               _sharedPreferences.remove("rejectAppointmentLectName"),
-            });
-          }else if(_sharedPreferences.getInt("appointmentCancel") == 1 && _sharedPreferences.getString("appointmentCancelStaffNo") != ""){
-            viewLecturer(_sharedPreferences.getString("appointmentCancelStaffNo")).then((value) => {
-              NotificationService()
-            .showNotification(title: "Appointment Cancelled!" ,body: lectName + " has cancel your appointment").then((value) => {
-              _sharedPreferences.remove("appointmentCancel"),
-              _sharedPreferences.remove("appointmentCancelStaffNo")
-             })
-            });         
-          }
-        });
-      }else {
-       if(_sharedPreferences.getInt("appointmentCancel") == 1 && _sharedPreferences.getString("appointmentCancelStaffNo") != ""){
-            viewLecturer(_sharedPreferences.getString("appointmentCancelStaffNo")).then((value) => {
-              NotificationService()
-            .showNotification(title: "Appointment Cancelled!" ,body: lectName + " has cancel your appointment").then((value) => {
-              _sharedPreferences.remove("appointmentCancel"),
-              _sharedPreferences.remove("appointmentCancelStaffNo")
-             })
-            });
-            
-          }
-       print("Error fetching data: ${responseBooking['message']}");
-      }
-    }
-  }
-
+  
 }

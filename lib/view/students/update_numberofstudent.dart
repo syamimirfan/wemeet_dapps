@@ -51,20 +51,14 @@ class _UpdateBookNumberStudentState extends State<UpdateBookNumberStudent> {
 
     @override
   void initState() {
-
     super.initState();
-   
+
    getSelectedLecturer(staffNo);
-   getMatricNo();
+
    UpdateBookInformation(bookingId);
   }
 
-  getMatricNo() async {
-    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-    var matricNo = _sharedPreferences.getString('matricNo');
-    getMessage(matricNo);
-    getManageAppointment(matricNo);
-  }
+
 
 
 //function for chosen lecturer
@@ -307,13 +301,9 @@ class _UpdateBookNumberStudentState extends State<UpdateBookNumberStudent> {
 
   //function to update book
   updateBook(int bookingId, int numberOfStudents) async {
-    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     var responseBooking = await new Booking().updateNoStudentsAppointment(bookingId, numberOfStudents);
 
    if(responseBooking['success']) {
-     _sharedPreferences.setInt("bookingUpdate", 1);
-     var matricNo = _sharedPreferences.getString("matricNo");
-      _sharedPreferences.setString("bookingUpdateMatricNumber", matricNo!);
       nextScreenReplacement(context, UpdateSuccessful(lecturerName: lectName, numberOfStudents: numberOfStudents, date: date, time: time));
     }else {
     showMessage(context, "Ooops!", "Cannot update the book slot", "OK");
@@ -331,7 +321,6 @@ class _UpdateBookNumberStudentState extends State<UpdateBookNumberStudent> {
      }
   }
   
-
 
   //show message box function
   void showMessage(BuildContext context, String title, String message, String buttonText) {
@@ -354,31 +343,6 @@ class _UpdateBookNumberStudentState extends State<UpdateBookNumberStudent> {
       }
     );
   }
-  //to get notification message from lecturer
-   getMessage(String? matricNo) async {
-     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-     String? staffNo = _sharedPreferences.getString("staffNumber");
-     var responseChat = await new Chat().getUserMessage(matricNo!, staffNo!);
-     if(responseChat['success']){
-       final responseData = responseChat['chat'];
-       if(responseData is List) {
-         setState(() {
-        bool lastMessageSentByLecturer = responseData.isNotEmpty && responseData.last['statusMessage'] == 2;
-        if (lastMessageSentByLecturer && _sharedPreferences.getString("lecturerName") != "" && _sharedPreferences.getString("staffNumber") != "") {
-             var lecturerName = _sharedPreferences.getString("lecturerName");
-              NotificationService().showNotification(
-              title: 'New message from Dr $lecturerName',
-              body: responseData.last['messageText']).then((value) => {
-                 _sharedPreferences.remove("lecturerName"),
-                 _sharedPreferences.remove("staffNumber")
-              });
-           }
-         });
-       }else {
-         print("Error fetching data: ${responseChat['message']}");
-       }
-     }
-  }
      //to view some of lecturer data  
    viewLecturer(String? staffNo) async {
       var responseLecturer = await new Lecturer().getLecturerDetail(staffNo!);
@@ -392,52 +356,5 @@ class _UpdateBookNumberStudentState extends State<UpdateBookNumberStudent> {
       }
   }
 
-  //function to get appointment
-  getManageAppointment(String? matricNo) async {
-     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-    final responseBooking = await Booking().manageAppointmentStudent(matricNo!);
-    if(responseBooking['success']) {
-      final responseData = responseBooking['booking'];
-      if(responseData is List) {
-        setState(() {
-          bool currentAcceptedAppointment = responseData.isNotEmpty && responseData.last['statusBooking'] == "Accepted";
-          bool currentRejectedAppointment = responseData.isNotEmpty && responseData.last['statusBooking'] == "Rejected";
-          if(currentAcceptedAppointment && _sharedPreferences.getInt("acceptAppointment") == 1 && _sharedPreferences.getString("acceptAppointmentLectName") != ""){
-             NotificationService()
-            .showNotification(title: "Congratulations! You're set" ,body:  _sharedPreferences.getString("acceptAppointmentLectName")! + " has accept your appointment").then((value) => {
-                _sharedPreferences.remove("acceptAppointment"),
-                _sharedPreferences.remove("acceptAppointmentLectName"),
-            });
-          }else if (currentRejectedAppointment && _sharedPreferences.getInt("rejectAppointment") == 2 && _sharedPreferences.getString("rejectAppointmentLectName") != "") {
-            NotificationService()
-            .showNotification(title: "Sorry, You're not set" ,body: _sharedPreferences.getString("rejectAppointmentLectName")! + " has reject your appointment").then((value) => {
-               _sharedPreferences.remove("rejectAppointment"),
-               _sharedPreferences.remove("rejectAppointmentLectName"),
-            });
-          }else if(_sharedPreferences.getInt("appointmentCancel") == 1 && _sharedPreferences.getString("appointmentCancelStaffNo") != ""){
-            viewLecturer(_sharedPreferences.getString("appointmentCancelStaffNo")).then((value) => {
-              NotificationService()
-            .showNotification(title: "Appointment Cancelled!" ,body: lectNameBookingUpdate + " has cancel your appointment").then((value) => {
-              _sharedPreferences.remove("appointmentCancel"),
-              _sharedPreferences.remove("appointmentCancelStaffNo")
-             })
-            });         
-          }
-        });
-      }else {
-       if(_sharedPreferences.getInt("appointmentCancel") == 1 && _sharedPreferences.getString("appointmentCancelStaffNo") != ""){
-            viewLecturer(_sharedPreferences.getString("appointmentCancelStaffNo")).then((value) => {
-              NotificationService()
-            .showNotification(title: "Appointment Cancelled!" ,body: lectNameBookingUpdate + " has cancel your appointment").then((value) => {
-              _sharedPreferences.remove("appointmentCancel"),
-              _sharedPreferences.remove("appointmentCancelStaffNo")
-             })
-            });
-            
-          }
-       print("Error fetching data: ${responseBooking['message']}");
-      }
-    }
-  }
 
 }

@@ -47,7 +47,7 @@ class Chat {
    }
 
    //API for student sending message
-   Future studentMessage(String matricNo, String stafNo, String messageText) async {
+   Future studentMessage(String matricNo, String stafNo, String messageText,String sendTextTime) async {
       final response = await http.post(Uri.parse('${Utils.baseURL}/chat/studentmessage'), 
         headers: {
           'Accept': 'Application/json'
@@ -55,7 +55,8 @@ class Chat {
         body: {
           'matricNo': matricNo,
           'staffNo': stafNo,
-          'messageText': messageText
+          'messageText': messageText,
+          'sendTextTime': sendTextTime,
         }
       );
      if(response.statusCode == 200) {
@@ -66,7 +67,7 @@ class Chat {
    }
 
   //API for lecturer sending message
-   Future lecturerMessage(String matricNo, String stafNo, String messageText) async {
+   Future lecturerMessage(String matricNo, String stafNo, String messageText, String sendTextTime) async {
       final response = await http.post(Uri.parse('${Utils.baseURL}/chat/lecturermessage'), 
         headers: {
           'Accept': 'Application/json'
@@ -74,7 +75,8 @@ class Chat {
         body: {
           'matricNo': matricNo,
           'staffNo': stafNo,
-          'messageText': messageText
+          'messageText': messageText,
+          'sendTextTime': sendTextTime,
         }
       );
         if(response.statusCode == 200) {
@@ -99,12 +101,12 @@ class Chat {
    }
 
    //API for delete message in student
-   Future deleteMessage(int chatId) async {
+   Future deleteMessage(String messageText) async {
      EasyLoading.show(
         status: "Loading...",
         maskType: EasyLoadingMaskType.black,
       ); 
-      final response = await http.delete(Uri.parse('${Utils.baseURL}/chat/deletechat/${chatId}'),
+      final response = await http.delete(Uri.parse('${Utils.baseURL}/chat/deletechat/${messageText}'),
         headers: {
           "Accept" : "Application/json"
         }

@@ -127,6 +127,7 @@ late String studentImage = "";
           Flexible(
             child: Container(
              child:  Text(
+              textAlign: TextAlign.center,
             studentName,
              style: TextStyle(
                color: Colors.white,

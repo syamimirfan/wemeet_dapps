@@ -38,7 +38,7 @@ class _ManageBookingState extends State<ManageBooking> {
      final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
      var matricNo = _sharedPreferences.getString('matricNo');
      getManageAppointment(matricNo);
-     getMessage(matricNo);
+
   }
 
   //to view some of lecturer data  
@@ -65,44 +65,12 @@ class _ManageBookingState extends State<ManageBooking> {
       if(responseData is List) {
         setState(() {
           appointment = responseData;
-          bool currentAcceptedAppointment = appointment.isNotEmpty && appointment.last['statusBooking'] == "Accepted";
-          bool currentRejectedAppointment = appointment.isNotEmpty && appointment.last['statusBooking'] == "Rejected";
-          if(currentAcceptedAppointment && _sharedPreferences.getInt("acceptAppointment") == 1 && _sharedPreferences.getString("acceptAppointmentLectName") != ""){
-             NotificationService()
-            .showNotification(title: "Congratulations! You're set" ,body:  _sharedPreferences.getString("acceptAppointmentLectName")! + " has accept your appointment").then((value) => {
-                _sharedPreferences.remove("acceptAppointment"),
-                _sharedPreferences.remove("acceptAppointmentLectName"),
-            });
-          }else if (currentRejectedAppointment && _sharedPreferences.getInt("rejectAppointment") == 2 && _sharedPreferences.getString("rejectAppointmentLectName") != "") {
-            NotificationService()
-            .showNotification(title: "Sorry, You're not set" ,body: _sharedPreferences.getString("rejectAppointmentLectName")! + " has reject your appointment").then((value) => {
-               _sharedPreferences.remove("rejectAppointment"),
-               _sharedPreferences.remove("rejectAppointmentLectName"),
-            });
-          }else if(_sharedPreferences.getInt("appointmentCancel") == 1 && _sharedPreferences.getString("appointmentCancelStaffNo") != ""){
-            viewLecturer(_sharedPreferences.getString("appointmentCancelStaffNo")).then((value) => {
-              NotificationService()
-            .showNotification(title: "Appointment Cancelled!" ,body: lectName + " has cancel your appointment").then((value) => {
-              _sharedPreferences.remove("appointmentCancel"),
-              _sharedPreferences.remove("appointmentCancelStaffNo")
-             })
-            });         
-          }
+  
         });
       }else {
         setState(() {
           noData = responseBooking['message'];
         });
-       if(_sharedPreferences.getInt("appointmentCancel") == 1 && _sharedPreferences.getString("appointmentCancelStaffNo") != ""){
-            viewLecturer(_sharedPreferences.getString("appointmentCancelStaffNo")).then((value) => {
-              NotificationService()
-            .showNotification(title: "Appointment Cancelled!" ,body: lectName + " has cancel your appointment").then((value) => {
-              _sharedPreferences.remove("appointmentCancel"),
-              _sharedPreferences.remove("appointmentCancelStaffNo")
-             })
-            });
-            
-          }
        print("Error fetching data: ${responseBooking['message']}");
       }
     }
@@ -458,29 +426,4 @@ class _ManageBookingState extends State<ManageBooking> {
     );
   }
 
-   //to get notification message from lecturer
-   getMessage(String? matricNo) async {
-     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-     String? staffNo = _sharedPreferences.getString("staffNumber");
-     var responseChat = await new Chat().getUserMessage(matricNo!, staffNo!);
-     if(responseChat['success']){
-       final responseData = responseChat['chat'];
-       if(responseData is List) {
-         setState(() {
-        bool lastMessageSentByLecturer = responseData.isNotEmpty && responseData.last['statusMessage'] == 2;
-        if (lastMessageSentByLecturer && _sharedPreferences.getString("lecturerName") != "" && _sharedPreferences.getString("staffNumber") != "") {
-             var lecturerName = _sharedPreferences.getString("lecturerName");
-              NotificationService().showNotification(
-              title: 'New message from Dr $lecturerName',
-              body: responseData.last['messageText']).then((value) => {
-                 _sharedPreferences.remove("lecturerName"),
-                 _sharedPreferences.remove("staffNumber")
-              });
-           }
-         });
-       }else {
-         print("Error fetching data: ${responseChat['message']}");
-       }
-     }
-  }
 }

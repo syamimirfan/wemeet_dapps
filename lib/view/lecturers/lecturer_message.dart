@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/api_services/api_booking.dart';
 import 'package:wemeet_dapps/api_services/api_chat.dart';
 import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/api_services/api_students.dart';
+import 'package:wemeet_dapps/constants/utils.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/widget/message_tile.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 
 class LecturerMessage extends StatefulWidget {
@@ -28,6 +31,7 @@ class _LecturerMessageState extends State<LecturerMessage> {
   late String studentName = "";
   late String lecturerName = "";
 
+
   String studentNameBookingUpdate = "";
 
   List<dynamic> chat = [];
@@ -37,6 +41,7 @@ class _LecturerMessageState extends State<LecturerMessage> {
   final TextEditingController _controllerMessage = TextEditingController();
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   final ScrollController _scrollController = ScrollController();
+  late IO.Socket socket;
 
   double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.height;
@@ -47,6 +52,14 @@ class _LecturerMessageState extends State<LecturerMessage> {
     super.initState();
     getStudent(matricNo);
     getStaffNo();
+    socket = IO.io('${Utils.baseURL}',
+       IO.OptionBuilder()
+      .setTransports(['websocket']) // for Flutter or Dart VM
+      .disableAutoConnect()  // disable auto-connection
+      .build()
+    );
+    socket.connect(); 
+    setUpSocketListener();
   }
 
 
@@ -58,16 +71,48 @@ class _LecturerMessageState extends State<LecturerMessage> {
     getAppointment(staffNo);
     getAppointmentUpdated(staffNo);
   }
+
+  void sendMessageRealTime(String messageText, String matricNo, String staffNo) {
+    DateTime now = DateTime.now();
+    DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+    String formattedDate = formatter.format(now);
+    var messageJson = {"matricNo":matricNo, "staffNo": staffNo, "messageText": messageText, "sendTextTime": formattedDate, "statusMessage": 2};
+    socket.emit('message', messageJson);
+  }
+  
+  
+  void setUpSocketListener() {
+      socket.on('message-receive', (data) {
+       print(data);  
+      setState(() {
+        chat.add(data);
+      });   
+           NotificationService().showNotification(
+              title: 'New message from $studentName',
+              body: chat.last['messageText']);
+       // Scroll to the bottom of the chat
+       Future.delayed(Duration(milliseconds: 100), () {
+          try {
+            _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent,
+              duration: Duration(milliseconds: 100),
+              curve: Curves.easeInOut,
+            );
+          } catch (error) {
+            print('Error scrolling to bottom: $error');
+          }
+      });
+    });
+  }
  
   //message
    message() {
     return ListView.builder(
-      controller: _scrollController,
-      itemCount: chat.length,
-      itemBuilder: (context,index) {
-         return MessageTile(message: chat[index]['messageText'], isSentByMe: chat[index]['statusMessage'] == 2 ? true : false, date: chat[index]['sendTextTime'],chatId: chat[index]['chatId']);
-      }
-    
+        controller: _scrollController,
+        itemCount: chat.length,
+        itemBuilder: (context,index) {
+           return MessageTile(message: chat[index]['messageText'], isSentByMe:chat[index]['statusMessage'] == 2 ? true : false, date: chat[index]['sendTextTime']);
+        }
     );
   }
 
@@ -239,14 +284,21 @@ class _LecturerMessageState extends State<LecturerMessage> {
      }
   }
 
-
   //add lecturer message
   addLecturerMessage(String matricNo, String staffNo, String messageText, ScrollController scrollController) async {
       final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-     var responseChat = await new Chat().lecturerMessage(matricNo, staffNo, messageText);
+        DateTime now = DateTime.now();
+    DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+    String formattedDate = formatter.format(now);
+     var responseChat = await new Chat().lecturerMessage(matricNo, staffNo, messageText, formattedDate);
+     
      if(responseChat['success']) {
+      sendMessageRealTime(messageText,matricNo,staffNo);
+      
       //MAKE IT REFRESH SO WE CAN SEE THE MESSAGE
-       await getMessage(matricNo, staffNo);
+      await getMessage(matricNo, staffNo);
+
+      
         _sharedPreferences.setString("lecturerName", lecturerName);
        _sharedPreferences.setString("staffNumber", staffNo);
         
@@ -265,6 +317,14 @@ class _LecturerMessageState extends State<LecturerMessage> {
      }
   }
 
+  @override
+  void dispose() {
+    socket.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+
   
   //get all message
   getMessage(String matricNo, String? staffNo) async {
@@ -273,18 +333,9 @@ class _LecturerMessageState extends State<LecturerMessage> {
      if(responseChat['success']){
         final responseData = responseChat['chat'];
        if(responseData is List) {
+
          setState(() {
            chat = responseData;
-           bool lastMessageSentByStudent = chat.isNotEmpty && chat.last['statusMessage'] == 1;
-        if (lastMessageSentByStudent && _sharedPreferences.getString("studentName") != null && _sharedPreferences.getString("matricNumber") != null) {        
-          NotificationService().showNotification(
-              title: 'New message from $studentName',
-              body: chat.last['messageText']).then((value) => {
-                  _sharedPreferences.remove("studentName"),
-                 _sharedPreferences.remove("matricNumber")
-              });
-        }
-  
          });
        }else {
          print("Error fetching data: ${responseChat['message']}");

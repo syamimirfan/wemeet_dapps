@@ -3,8 +3,6 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
 import 'package:wemeet_dapps/api_services/api_booking.dart';
-import 'package:wemeet_dapps/api_services/api_chat.dart';
-import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/api_services/api_students.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/view/lecturers/lecturer_message.dart';
@@ -39,11 +37,9 @@ class _AppointmentState extends State<Appointment> {
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     var staffNo = _sharedPreferences.getString('staffNo');
     getAppointment(staffNo);
-     getMessage(staffNo);
     setState(() {
       appointmentCancelStaffNo = staffNo!;
     });
-    getAppointmentReq(staffNo);
   }
 
   @override
@@ -336,51 +332,16 @@ class _AppointmentState extends State<Appointment> {
       }
    }
 
-    //to get notification message from student
-  getMessage(String? staffNo) async {
-    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-    String? matricNo = _sharedPreferences.getString("matricNumber");
-     var responseChat = await new Chat().getUserMessage(matricNo!, staffNo!);
-     if(responseChat['success']){
-        final responseData = responseChat['chat'];
-       if(responseData is List) {
-         setState(() {
-        bool lastMessageSentByStudent = responseData.isNotEmpty && responseData.last['statusMessage'] == 1;
-        if (lastMessageSentByStudent && _sharedPreferences.getString("studentName") != "" && _sharedPreferences.getString("matricNumber") != "") {
-          var studentName = _sharedPreferences.getString("studentName");
-          NotificationService().showNotification(
-              title: 'New message from $studentName',
-              body: responseData.last['messageText']).then((value) => {
-                 _sharedPreferences.remove("studentName"),
-                 _sharedPreferences.remove("matricNumber")
-              });
-          }
-         });
-       }else {
-         print("Error fetching data: ${responseChat['message']}");
-       }
-     }
-   }
 
 
   //get all accepted appointment for manage appointment in lecturer
   getAppointment(String? staffNo) async {
-    final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     final responseBooking = await new Booking().getAcceptedAppointment(staffNo!);
     if(responseBooking['success']){
       final responseData = responseBooking['booking'];
       if(responseData is List){
         setState(() {
           acceptedAppointments = responseData;
-          if(_sharedPreferences.getInt("bookingUpdate") == 1 && _sharedPreferences.getString("bookingUpdateMatricNumber") != ""){
-            viewStudent(_sharedPreferences.getString("bookingUpdateMatricNumber")).then((value) => {
-             NotificationService()
-            .showNotification(title: "Appointment Updated!" ,body: studentName + " has update an appointment session with you").then((value) => {
-              _sharedPreferences.remove("bookingUpdate"),
-              _sharedPreferences.remove("bookingUpdateMatricNumber")
-            })
-           });
-          }
         });
       }else {
         setState(() {
@@ -397,38 +358,10 @@ class _AppointmentState extends State<Appointment> {
     
     if(responseBooking['success']) {
       nextScreenReplacement(context, Appointment());
-      final SharedPreferences deletedAppointment = await SharedPreferences.getInstance();
-      deletedAppointment.setInt("appointmentCancel", 1);
-      deletedAppointment.setString("appointmentCancelStaffNo", appointmentCancelStaffNo);
     }else{
       throw Exception(responseBooking['message']);
     }
   }
 
-   //get all appointment in lecturer
-  getAppointmentReq(String? staffNo) async {
-      final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-    final responseBooking = await new Booking().getAppointmentRequest(staffNo!);
-    if(responseBooking['success']){
-      final responseData = responseBooking['booking'];
-      if(responseData is List){
-        setState(() {
-          bool currentAppointmentRequested = responseData.isNotEmpty && responseData.last['statusBooking'] == "Appending";
-          if(currentAppointmentRequested && _sharedPreferences.getInt("bookingAdd") == 1 && _sharedPreferences.getString("bookingAddMatricNumber") != ""){
-           viewStudent(_sharedPreferences.getString("bookingAddMatricNumber")).then((value) => {
-             NotificationService()
-            .showNotification(title: "New Appointment" ,body: studentName + " has book an appointment session with you").then((value) => {
-              _sharedPreferences.remove("bookingAdd"),
-              _sharedPreferences.remove("bookingAddMatricNumber")
-            })
-           });
-          }
-        });
-      }else {
-  
-        print(responseBooking['message']);
-      }
-    }
-  }
 
 }
