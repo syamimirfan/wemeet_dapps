@@ -1,6 +1,6 @@
-# wemeet_dapps
+# WEMEET DAPPS: A REWARD-BASED STUDENT LECTURER APPOITMENT USING BLOCKCHAIN AND SMART CONTRACTS
 
-A new Flutter project.
+A project for booking an appointment between student and lecturer in UTHM with earning reward in a token by using Blockchain & Smart Contracts
 
 ## Getting Started
 
