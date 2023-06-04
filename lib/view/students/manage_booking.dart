@@ -76,7 +76,7 @@ class _ManageBookingState extends State<ManageBooking> {
 
   //funtion to delete rejected appointment
   deleteRejectedAppointment(int bookingId) async {
-     var responseBooking = await new Booking().deleteAppointment(bookingId);
+     var responseBooking = await new Booking().deleteAppointmentRejected(bookingId);
      if(responseBooking['success']){
         showMessage(context, "Appointment Deleted", "The rejected appointment has been deleted. Please book your appointment again to continue meet with your lecturer", "Ok");
      }else {

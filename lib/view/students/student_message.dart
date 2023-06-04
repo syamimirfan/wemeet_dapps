@@ -4,7 +4,6 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/api_services/api_chat.dart';
 import 'package:wemeet_dapps/api_services/api_lecturers.dart';
-import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/constants/utils.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/widget/message_tile.dart';
@@ -78,10 +77,6 @@ class _MessageState extends State<Message> {
         setState(() {
         chat.add(data);
       });
-       NotificationService().showNotification(
-              title: 'New message from DR $lecturerName',
-              body: chat.last['messageText']);
-
        // Scroll to the bottom of the chat
       Future.delayed(Duration(milliseconds: 100), () {
           try {
@@ -340,13 +335,11 @@ class _MessageState extends State<Message> {
       var responseLecturer = await new Lecturer().getLecturerDetail(staffNo!);
       if(responseLecturer['success']) {
          setState(()  {
-           lectName = responseLecturer['lecturer'][0]['lecturerName'];
-           
+           lectName = responseLecturer['lecturer'][0]['lecturerName'];          
          });
       } else {
          throw Exception("Failed to get the data");
       }
   }
-
   
 }

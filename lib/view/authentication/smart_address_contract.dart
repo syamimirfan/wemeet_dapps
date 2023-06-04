@@ -302,11 +302,13 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
       ),
     );
   }
-   //function to update token address when first time login
-  updateTokenAddressMetamask(String? matricNo, String tokenAddress, int statusStudent) async {
+   //function to update token address and firebase token when first time login
+  updateToken(String? matricNo, String tokenAddress, int statusStudent) async {
      final SharedPreferences _sharePreferences = await SharedPreferences.getInstance();
+     String? firebaseToken =  _sharePreferences.getString("tokenNotification");
      var responseStudent = await new Student().updateTokenAddress(matricNo!, tokenAddress);
-     if(responseStudent['success']){
+     var responseNotification = await new Student().updateFirebaseToken(matricNo, firebaseToken!);
+     if(responseStudent['success'] && responseNotification['success']){
         _sharePreferences.setString('matricNo', matricNo);
         _sharePreferences.setInt('statusStudent', statusStudent);
         _sharePreferences.setString('tokenAddress', tokenAddress);
@@ -337,7 +339,7 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
           icon: const Icon(Icons.cancel,color: Colors.red,size: 30,),
            ),
           IconButton(onPressed: () async{
-            updateTokenAddressMetamask(matricNo,tokenAddress, statusStudent);
+            updateToken(matricNo,tokenAddress, statusStudent);
           }, 
          icon: const Icon(Icons.done, color: Colors.green,size: 30,)),            
       ],

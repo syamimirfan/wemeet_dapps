@@ -140,4 +140,28 @@ Future studentLogin(String studEmail, String studPassword) async {
        throw Exception(response.statusCode);
     }
   }
+
+  //API to update firebase token
+   Future updateFirebaseToken(String matricNo, String firebaseToken) async {
+     EasyLoading.show(
+          status: "Loading...",
+          maskType: EasyLoadingMaskType.black,
+      );
+    final response = await http.patch(Uri.parse('${Utils.baseURL}/student/updatefirebasetoken/${matricNo}'),
+      headers: {
+         "Accept": "application/json;charset=UTF-8",
+        'Charset': 'utf-8'
+      },
+      body: {
+        'firebaseToken' : firebaseToken
+      }
+    );
+    if(response.statusCode == 200) {
+       EasyLoading.dismiss();
+       return jsonDecode(response.body);
+    }else{
+       EasyLoading.showError("ERROR!");
+       throw Exception(response.statusCode);
+    }
+  }
 }

@@ -351,4 +351,24 @@ class Booking {
        throw Exception(response.statusCode);
      }
    }
+
+    //API to delete appointment in manage appointment for student and lecturer
+   Future deleteAppointmentRejected(int bookingId) async {
+     EasyLoading.show(
+        status: "Loading...",
+        maskType: EasyLoadingMaskType.black,
+      );
+     final response = await http.delete(Uri.parse('${Utils.baseURL}/booking/deleterejectedappointment/${bookingId}'),
+        headers: {
+          "Accept" : "Application/json"
+        }
+     );
+     if(response.statusCode == 200) {
+       EasyLoading.dismiss();
+       return jsonDecode(response.body);
+     }else{
+       EasyLoading.showError("ERROR!");
+       throw Exception(response.statusCode);
+     }
+   }
 }

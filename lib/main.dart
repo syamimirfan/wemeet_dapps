@@ -1,15 +1,19 @@
 import 'dart:async';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/api_services/api_notify_services.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/view/splashscreen/splashscreen.dart';
 import 'package:flutter/services.dart';
 
 
-Future<void> main() async{
+final  GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
+Future<void> main() async{
   //to off the auto rotate (disable landscape mode)
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
@@ -17,12 +21,38 @@ Future<void> main() async{
     DeviceOrientation.portraitDown
   ]);
 
+  await Firebase.initializeApp();
+   final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+  FirebaseMessaging.instance.getToken().then((value) => {
+      print("getToken : $value"),
+      //set the for the notification
+      _sharedPreferences.setString("tokenNotification", value!),
+      print(value)
+  });
+
+  //if Application is in Background, then it will work
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+      print("onMessageOpenedApp: $message");
+      Navigator.pushNamed(navigatorKey.currentState!.context, '/splashscreen');
+  });
+
+  //if App is closed/terminated, then it will work
+  FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) async {
+      Navigator.pushNamed(navigatorKey.currentState!.context, '/splashscreen');
+  });
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   //local notifications
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
 
   runApp(const MyApp());
   configLoading();
+}
+
+Future<void> _firebaseMessagingBackgroundHandler (RemoteMessage message) async{
+  await Firebase.initializeApp();
 }
 
 void configLoading() {
@@ -76,6 +106,10 @@ void configLoading() {
       home: SplashScreen(),
       locale: Locale('en', 'US'),  
       builder: EasyLoading.init(),
+      navigatorKey: navigatorKey,
+      routes: {
+        '/splashscreen': ((context) => SplashScreen())
+      },
      );
     }
   );

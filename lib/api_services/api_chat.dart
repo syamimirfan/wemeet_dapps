@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/constants/utils.dart';
 
 class Chat {
@@ -48,15 +49,18 @@ class Chat {
 
    //API for student sending message
    Future studentMessage(String matricNo, String stafNo, String messageText,String sendTextTime) async {
+      final encodedMessageText = Uri.encodeComponent(messageText);
       final response = await http.post(Uri.parse('${Utils.baseURL}/chat/studentmessage'), 
         headers: {
-          'Accept': 'Application/json'
+          'Accept': 'Application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: {
           'matricNo': matricNo,
           'staffNo': stafNo,
-          'messageText': messageText,
+          'messageText': encodedMessageText,
           'sendTextTime': sendTextTime,
+
         }
       );
      if(response.statusCode == 200) {
@@ -68,14 +72,16 @@ class Chat {
 
   //API for lecturer sending message
    Future lecturerMessage(String matricNo, String stafNo, String messageText, String sendTextTime) async {
+     final encodedMessageText = Uri.encodeComponent(messageText);
       final response = await http.post(Uri.parse('${Utils.baseURL}/chat/lecturermessage'), 
         headers: {
-          'Accept': 'Application/json'
+          'Accept': 'Application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: {
           'matricNo': matricNo,
           'staffNo': stafNo,
-          'messageText': messageText,
+          'messageText': encodedMessageText,
           'sendTextTime': sendTextTime,
         }
       );

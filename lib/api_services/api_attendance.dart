@@ -102,5 +102,23 @@ class Attendance{
      }
   }
   
-  
+    //API to delete appointment in booking 
+   Future deleteAppointmentAttendance(int bookingId) async {
+     EasyLoading.show(
+        status: "Loading...",
+        maskType: EasyLoadingMaskType.black,
+      );
+     final response = await http.delete(Uri.parse('${Utils.baseURL}/attendance/deletebookingattendance/${bookingId}'),
+        headers: {
+          "Accept" : "Application/json"
+        }
+     );
+     if(response.statusCode == 200) {
+       EasyLoading.dismiss();
+       return jsonDecode(response.body);
+     }else{
+       EasyLoading.showError("ERROR!");
+       throw Exception(response.statusCode);
+     }
+   }
 }

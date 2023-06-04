@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +46,8 @@ class _LoginState extends State<Login> {
   bool isHiddenPassword = true;
   bool isApiCallProcess = false;
   bool studentLogin = false;
-  
+
+
     loginUsingMetamask(BuildContext context, String matricNo, int statusStudent) async {
     if (!connector.connected) {
       try {
@@ -288,22 +291,25 @@ class _LoginState extends State<Login> {
             }));
    final SharedPreferences  _sharedPreferences = await SharedPreferences.getInstance();
 
+   String? firebaseToken = _sharedPreferences.getString("tokenNotification");
+
     var responseStudent = await new Student().studentLogin(email.trim(), password.trim());
     var responseLecturer = await new Lecturer().lecturerLogin(email.trim(), password.trim());
+   
     
     //check if the metamask account has been installed to the device or not
      bool isInstalled = await DeviceApps.isAppInstalled('io.metamask'); 
     if(responseStudent['success'] && responseStudent['status']== 1  && !isInstalled){
        showNotInstalledMessage(context, "Login Restricted", "Please install Metamask in Google Play Store and register the account to use the apps. Thank you.\nNote! You need to run the Metamask after successfully installed", "Open PlayStore");
     } else if(responseStudent['success'] && responseStudent['status'] == 1 && responseStudent["tokenAddress"] == "") {
-    //   //to set the sesssion and keep log 
+      //to set the sesssion and keep log 
       String matricNumber = responseStudent['student'][0]['matricNo'];
       int statusStudent = responseStudent['student'][0]['status'];
       
       loginUsingMetamask(context, matricNumber, statusStudent);
 
     } else if(responseStudent['success'] && responseStudent['status'] == 1 && responseStudent["tokenAddress"] != "") {
-           //   //to set the sesssion and keep logged 
+      //to set the sesssion and keep logged 
       String matricNumber = responseStudent['student'][0]['matricNo'];
       int statusStudent = responseStudent['student'][0]['status'];
       String tokenAddress = responseStudent['student'][0]['tokenAddress'];
@@ -312,7 +318,7 @@ class _LoginState extends State<Login> {
       _sharedPreferences.setInt('statusStudent', statusStudent);
      _sharedPreferences.setString('tokenAddress', tokenAddress);
 
-       nextScreenRemoveUntil(context, HomeStudents());
+      updateFirebaseTokenStudent(matricNumber);
 
     }else if(responseLecturer['success'] && responseLecturer['status'] == 2) {
 
@@ -323,12 +329,32 @@ class _LoginState extends State<Login> {
       _sharedPreferences.setString('staffNo',staffNo);
       _sharedPreferences.setInt('statusLecturer', statusLecturer);
        
-      nextScreenRemoveUntil(context, HomeLecturer());
+     updateFirebaseTokenLecturer(staffNo);
   
     } else {
      showErrorMessage(context, "Invalid User", "Email or Password are not valid", "OK");
     }
 
+  }
+
+  //to update firebase token for student
+  updateFirebaseTokenStudent(String matricNo) async{
+      final SharedPreferences  _sharedPreferences = await SharedPreferences.getInstance();
+      String? firebaseToken =  _sharedPreferences.getString("tokenNotification");
+      var responseNotification = await new Student().updateFirebaseToken(matricNo, firebaseToken!);
+      if(responseNotification['success']){
+          nextScreenRemoveUntil(context, HomeStudents());
+      }
+  }
+
+    //to update firebase token for lecturer
+  updateFirebaseTokenLecturer(String staffNo) async{
+      final SharedPreferences  _sharedPreferences = await SharedPreferences.getInstance();
+      String? firebaseToken =  _sharedPreferences.getString("tokenNotification");
+      var responseNotification = await new Lecturer().updateFirebaseToken(staffNo, firebaseToken!);
+      if(responseNotification['success']){
+          nextScreenRemoveUntil(context, HomeLecturer());
+      }
   }
 
   //error message if user enter wrong email or password
