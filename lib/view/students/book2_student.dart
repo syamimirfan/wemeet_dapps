@@ -354,152 +354,153 @@ class _Book2State extends State<Book2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-     appBar: AppBar(
-          title: const Text(
-            "Book",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-              fontFamily: 'Poppins',
-            ),
-          ),
-          backgroundColor: Theme.of(context).primaryColor,
-          actions: [
-            IconButton(
-              onPressed: () { 
-                nextScreen(context, About());
-              },
-              icon: Icon(Icons.info_outline_rounded)
-             ),
-          ],
-        ),
-
-        body: Padding(
-          padding: Device.screenType == ScreenType.tablet? 
-                  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
-                  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
-          child: Container(
-               height: 100.h,
-              width: 100.w,
-              decoration:  const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius:
-                       BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30)
-                    )
+        backgroundColor: Theme.of(context).primaryColor,
+       appBar: AppBar(
+            title: const Text(
+              "Book",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                fontFamily: 'Poppins',
               ),
-              child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Form(
-                    key: _globalKey,
-                    child: Container(
-                      padding:EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05,vertical:deviceWidth(context) * 0.05),
-                      child: Column(
-                       mainAxisAlignment: MainAxisAlignment.start,
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       children: [
-                         Text(
-                          "Your Lecturer: ",
-                          style: TextStyle(
-                              color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                             fontSize: Device.screenType == ScreenType.tablet? 18:18,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
-                        selectedLecturer(),
-                        const SizedBox(height: 30,),
-                            Text(
-                          "Number of Students",
-                            style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: Device.screenType == ScreenType.tablet? 18:20,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
-                          TextFormField(    
-                            controller: _numberOfStudents,
-                            keyboardType: TextInputType.number,
-                            decoration: textInputDecorationNumberStudent.copyWith(
-                                  hintText: "e.g, 2",
-                                  fillColor: Color(0xffC0C0C0),
-                              ),
-                            validator: (value) {
-                               if(value!.isEmpty) {
-                                return "Please enter number of students for meeting";
-                              }
-                               return null;
-                            },
-                          ),
-                          const SizedBox(height: 20,),
-                            Text(
-                          "Date",
-                            style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                             fontSize: Device.screenType == ScreenType.tablet? 18:20,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
-                        buildDate(),
-                         const SizedBox(height: 20,),
-                           Text(
-                          "Slot",
-                            style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                             fontSize: Device.screenType == ScreenType.tablet? 18:20,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
-                          
-                         SizedBox(height: Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.40: deviceHeight(context) * 0.17,child: buildSlot()),
+            ),
+            backgroundColor: Theme.of(context).primaryColor,
+            actions: [
+              IconButton(
+                onPressed: () { 
+                  nextScreen(context, About());
+                },
+                icon: Icon(Icons.info_outline_rounded)
+               ),
+            ],
+          ),
     
-                                   SizedBox(
-                     width: double.infinity,
-                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Constants().secondaryColor,
-                          elevation: 0,
-                          padding: const EdgeInsets.symmetric(vertical: 15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+          body: Padding(
+            padding: Device.screenType == ScreenType.tablet? 
+                    EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
+                    EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
+            child: Container(
+                 height: 100.h,
+                width: 100.w,
+                decoration:  const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                         BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30)
+                      )
+                ),
+                child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Form(
+                      key: _globalKey,
+                      child: Container(
+                        padding:EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05,vertical:deviceWidth(context) * 0.05),
+                        child: Column(
+                         mainAxisAlignment: MainAxisAlignment.start,
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+                           Text(
+                            "Your Lecturer: ",
+                            style: TextStyle(
+                                color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                               fontSize: Device.screenType == ScreenType.tablet? 18:18,
+                              fontFamily: 'Poppins',
+                            ),
                           ),
-                        ),  
-                      onPressed: () async{
-                        if(_globalKey.currentState!.validate() && date != "" && time != ""){
-                           final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-                           String? matricNo = _sharedPreferences.getString('matricNo');
-                           addBooking(matricNo!, staffNo,int.parse( _numberOfStudents.text), date, time);
-                        }else {
-                          showMessage(context, "Booking Not Added", "Please enter the requirement for booking", "Ok");
-                   
-                        }
-                      },
-                       child:   Text(
-                         "Confirm Appointment",
-                         style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22,
-                            fontFamily: 'Poppins',
+                          selectedLecturer(),
+                          const SizedBox(height: 30,),
+                              Text(
+                            "Number of Students",
+                              style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: Device.screenType == ScreenType.tablet? 18:20,
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                            TextFormField(    
+                              controller: _numberOfStudents,
+                              keyboardType: TextInputType.number,
+                              decoration: textInputDecorationNumberStudent.copyWith(
+                                    hintText: "e.g, 2",
+                                    fillColor: Color(0xffC0C0C0),
+                                ),
+                              validator: (value) {
+                                 if(value!.isEmpty) {
+                                  return "Please enter number of students for meeting";
+                                }
+                                 return null;
+                              },
+                            ),
+                            const SizedBox(height: 20,),
+                              Text(
+                            "Date",
+                              style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                               fontSize: Device.screenType == ScreenType.tablet? 18:20,
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                          buildDate(),
+                           const SizedBox(height: 20,),
+                             Text(
+                            "Slot",
+                              style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                               fontSize: Device.screenType == ScreenType.tablet? 18:20,
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                            
+                           SizedBox(height: Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.40: deviceHeight(context) * 0.17,child: buildSlot()),
+      
+                                     SizedBox(
+                       width: double.infinity,
+                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Constants().secondaryColor,
+                            elevation: 0,
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),  
+                        onPressed: () async{
+                          if(_globalKey.currentState!.validate() && date != "" && time != ""){
+                             final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+                             String? matricNo = _sharedPreferences.getString('matricNo');
+                             addBooking(matricNo!, staffNo,int.parse( _numberOfStudents.text), date, time);
+                          }else {
+                            showMessage(context, "Booking Not Added", "Please enter the requirement for booking", "Ok");
+                     
+                          }
+                        },
+                         child:   Text(
+                           "Confirm Appointment",
+                           style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                              fontFamily: 'Poppins',
+                           ),
                          ),
-                       ),
-                      ),
-                                   ),
-                                   SizedBox(height: deviceHeight(context) * 0.04,)
-                       ],
+                        ),
+                                     ),
+                                     SizedBox(height: deviceHeight(context) * 0.04,)
+                         ],
+                        ),
                       ),
                     ),
-                  ),
-              ),
+                ),
+            ),
           ),
-        ),
-    );
+      );
+    
   }
 
   //function to get selected lecturer

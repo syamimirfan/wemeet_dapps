@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wemeet_dapps/about.dart';
 import 'package:wemeet_dapps/api_services/api_chat.dart';
@@ -78,78 +79,81 @@ List<dynamic> students = [];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      appBar: AppBar(
+    return WillPopScope(
+        onWillPop: _onWillPop,
+      child: Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
-        title:  const Text(
-            "Chat",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-              fontFamily: 'Poppins',
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          title:  const Text(
+              "Chat",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                fontFamily: 'Poppins',
+              ),
             ),
+          actions: [
+                IconButton(
+                onPressed: () { 
+                  nextScreen(context, About());
+                },
+                icon: Icon(Icons.info_outline_rounded)
+               ),
+            ],
           ),
-        actions: [
-              IconButton(
-              onPressed: () { 
-                nextScreen(context, About());
-              },
-              icon: Icon(Icons.info_outline_rounded)
-             ),
-          ],
-        ),
-
-        drawer: MainDrawerLecturer(home: false, profile: false, slot: false, appointment: false, attendance: false, chat: true),
-
-        body: Padding(
-          padding: Device.screenType == ScreenType.tablet? 
-                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
-                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
-          child: Container(
-            height: 100.h,
-            width: 100.w,
-            decoration: const BoxDecoration(
-              color: Colors.white, 
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30)
-              )
-            ),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  //for search and filter the chat
-                    Container(
-                      padding: Device.screenType == ScreenType.tablet ? 
-                               EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.04):
-                               EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.04),
-                     child: Form(
-                        child: TextFormField(
-                        decoration: inputTextDecorationSearch.copyWith(
-                          hintText: "Search",
-                          fillColor: Colors.white,
-                          prefixIcon:Icon(Icons.search,color: Colors.grey,),
+    
+          drawer: MainDrawerLecturer(home: false, profile: false, slot: false, appointment: false, attendance: false, chat: true),
+    
+          body: Padding(
+            padding: Device.screenType == ScreenType.tablet? 
+                     EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
+                     EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
+            child: Container(
+              height: 100.h,
+              width: 100.w,
+              decoration: const BoxDecoration(
+                color: Colors.white, 
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30)
+                )
+              ),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //for search and filter the chat
+                      Container(
+                        padding: Device.screenType == ScreenType.tablet ? 
+                                 EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.04):
+                                 EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.04, vertical: deviceHeight(context) * 0.04),
+                       child: Form(
+                          child: TextFormField(
+                          decoration: inputTextDecorationSearch.copyWith(
+                            hintText: "Search",
+                            fillColor: Colors.white,
+                            prefixIcon:Icon(Icons.search,color: Colors.grey,),
+                          ),
+                             controller: _searchController,
+                          onChanged: (value) {
+                            setState(() {
+                                  filterStudents = students.where((list) => list['studName'].toLowerCase().contains(value.toLowerCase())).toList();
+                            });
+                          },
                         ),
-                           controller: _searchController,
-                        onChanged: (value) {
-                          setState(() {
-                                filterStudents = students.where((list) => list['studName'].toLowerCase().contains(value.toLowerCase())).toList();
-                          });
-                        },
                       ),
                     ),
-                  ),
-                    SizedBox(height:deviceHeight(context) * 1, child: buildChat(),),
-                ],
-              ),
-             ),
+                      SizedBox(height:deviceHeight(context) * 1, child: buildChat(),),
+                  ],
+                ),
+               ),
+            ),
           ),
-        ),
+      ),
     );
   }
 
@@ -195,5 +199,47 @@ List<dynamic> students = [];
       }
    }
 
+   //to make user exit the app if the press back button in the phone
+ //use WillPopScope and wrap in Scaffold widget
+  Future<bool> _onWillPop() async {
+    return  (
+      await showDialog(
+                  barrierDismissible: false,
+                  context: context, 
+                  builder: (context) {
+                    return  AlertDialog(
+                      title:  const Text("Exit App",  
+                      style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      fontFamily: 'Poppins',
+                        ),
+                       ),
+                      content: const Text("Do you want exit WeMeet?",
+                            style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            fontFamily: 'Poppins',
+                            ),
+                       ),
+                      actions: [
+                        IconButton(
+                          onPressed: () {
+                         nextScreenPop(context);
+                        },
+                         icon: const Icon(Icons.cancel,color: Colors.red,size: 30,),
+                         ),
+                        IconButton(onPressed: () async{
+                              Navigator.of(context).pop(true);
+                              SystemNavigator.pop();
+                        }, 
+                        icon: const Icon(Icons.done, color: Colors.green,size: 30,)),
+                      ],
+                    );
+                  }
+          ));
+      }
 
 }

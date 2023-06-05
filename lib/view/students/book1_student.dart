@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wemeet_dapps/about.dart';
 import 'package:wemeet_dapps/api_services/api_lecturers.dart';
@@ -215,108 +216,111 @@ class _BookState extends State<Book> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
-        appBar: AppBar(
-          title: const Text(
-            "Book",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-              fontFamily: 'Poppins',
+    return WillPopScope(
+        onWillPop: _onWillPop,
+      child: Scaffold(
+          backgroundColor: Theme.of(context).primaryColor,
+          appBar: AppBar(
+            title: const Text(
+              "Book",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                fontFamily: 'Poppins',
+              ),
+            ),
+            backgroundColor: Theme.of(context).primaryColor,
+            actions: [
+              IconButton(
+                onPressed: () { 
+                  nextScreen(context, About());
+                },
+                icon: Icon(Icons.info_outline_rounded)
+               ),
+            ],
+          ),
+          drawer: MainDrawerStudent(home: false, profile: false, book: true, appointment: false,  reward: false,chat: false, yourHistory: false,),
+    
+          body: Padding(
+            padding: Device.screenType == ScreenType.tablet? 
+                     EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
+                    EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
+            child: Container(
+                height: 100.h,
+                width: 100.w,
+                decoration:  const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                         BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30)
+                      )
+                ),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Container(
+                     padding:EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05,vertical:deviceWidth(context) * 0.03 ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                         Text(
+                          "Choose Meet With",
+                          style: TextStyle(
+                              color: Colors.black,
+                            fontWeight: FontWeight.w400,
+                            fontSize: Device.screenType == ScreenType.tablet? 20:20,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                        const SizedBox(height: 10,),
+                         Text(
+                          "Your Hands",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize:  Device.screenType == ScreenType.tablet? 20:20,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                          const SizedBox(height: 15,),
+                         Form(
+                          child: TextField(
+                          controller: _searchController,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedFaculty = "";
+                              filterLecturerList = lecturerList.where((list) => list['lecturerName'].toLowerCase().contains(value.toLowerCase())).toList();
+                            });
+                          },
+                          
+                          decoration: inputTextDecorationSearch.copyWith(
+                            hintText: "Search...",
+                            fillColor: Colors.white,
+                            prefixIcon:Icon(Icons.search,color: Colors.grey,),
+                          ),
+                         ),
+                        ),
+                        const SizedBox(height: 20,),
+                         Text(
+                          "Category",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: Device.screenType == ScreenType.tablet? 15:15,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                        SizedBox(height: 150, child: facultyCategory(),),
+                        lecturers(),
+                      ],
+                    ),
+                  ),
+                ),  
             ),
           ),
-          backgroundColor: Theme.of(context).primaryColor,
-          actions: [
-            IconButton(
-              onPressed: () { 
-                nextScreen(context, About());
-              },
-              icon: Icon(Icons.info_outline_rounded)
-             ),
-          ],
-        ),
-        drawer: MainDrawerStudent(home: false, profile: false, book: true, appointment: false,  reward: false,chat: false, yourHistory: false,),
-
-        body: Padding(
-          padding: Device.screenType == ScreenType.tablet? 
-                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
-                  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
-          child: Container(
-              height: 100.h,
-              width: 100.w,
-              decoration:  const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius:
-                       BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30)
-                    )
-              ),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Container(
-                   padding:EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05,vertical:deviceWidth(context) * 0.03 ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                       Text(
-                        "Choose Meet With",
-                        style: TextStyle(
-                            color: Colors.black,
-                          fontWeight: FontWeight.w400,
-                          fontSize: Device.screenType == ScreenType.tablet? 20:20,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                      const SizedBox(height: 10,),
-                       Text(
-                        "Your Hands",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize:  Device.screenType == ScreenType.tablet? 20:20,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                        const SizedBox(height: 15,),
-                       Form(
-                        child: TextField(
-                        controller: _searchController,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedFaculty = "";
-                            filterLecturerList = lecturerList.where((list) => list['lecturerName'].toLowerCase().contains(value.toLowerCase())).toList();
-                          });
-                        },
-                        
-                        decoration: inputTextDecorationSearch.copyWith(
-                          hintText: "Search...",
-                          fillColor: Colors.white,
-                          prefixIcon:Icon(Icons.search,color: Colors.grey,),
-                        ),
-                       ),
-                      ),
-                      const SizedBox(height: 20,),
-                       Text(
-                        "Category",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: Device.screenType == ScreenType.tablet? 15:15,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                      SizedBox(height: 150, child: facultyCategory(),),
-                      lecturers(),
-                    ],
-                  ),
-                ),
-              ),  
-          ),
-        ),
+      ),
     );
   }
 
@@ -348,5 +352,48 @@ class _BookState extends State<Book> {
          throw Exception("Failed to get the data");
       }
   }
+
+  //to make user exit the app if the press back button in the phone
+ //use WillPopScope and wrap in Scaffold widget
+  Future<bool> _onWillPop() async {
+    return  (
+      await showDialog(
+                  barrierDismissible: false,
+                  context: context, 
+                  builder: (context) {
+                    return  AlertDialog(
+                      title:  const Text("Exit App",  
+                      style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      fontFamily: 'Poppins',
+                        ),
+                       ),
+                      content: const Text("Do you want exit WeMeet?",
+                            style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            fontFamily: 'Poppins',
+                            ),
+                       ),
+                      actions: [
+                        IconButton(
+                          onPressed: () {
+                         nextScreenPop(context);
+                        },
+                         icon: const Icon(Icons.cancel,color: Colors.red,size: 30,),
+                         ),
+                        IconButton(onPressed: () async{
+                              Navigator.of(context).pop(true);
+                              SystemNavigator.pop();
+                        }, 
+                        icon: const Icon(Icons.done, color: Colors.green,size: 30,)),
+                      ],
+                    );
+                  }
+          ));
+      }
   
 }

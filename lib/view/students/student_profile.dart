@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
@@ -47,261 +48,186 @@ class _StudentProfileState extends State<StudentProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
-        appBar: AppBar(
-          title: const Text(
-            "Profile",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-              fontFamily: 'Poppins',
-            ),
-          ),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
           backgroundColor: Theme.of(context).primaryColor,
-          actions: [
-            IconButton(
-              onPressed: () => {
-                nextScreen(context, About())
-              },
-               icon:const Icon(Icons.info_outline_rounded),
+          appBar: AppBar(
+            title: const Text(
+              "Profile",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                fontFamily: 'Poppins',
               ),
-          ],
-        ),
-    drawer: MainDrawerStudent(home: false, profile: true, book: false, appointment: false, reward: false, chat: false, yourHistory: false),
-
-        body: Padding(
-          padding: Device.screenType == ScreenType.tablet? 
-                   EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
-                  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
-          child: Container(
-               height: 100.h,
-            width: 100.w,
-            decoration:  const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius:
-                       BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30)
-                    )
-              ),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Container(
-                padding: const EdgeInsets.only(top: 50.0),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin:  EdgeInsets.only(bottom: 2.0.h),
-                        height: 14.0.h,
-              
-                      decoration:  BoxDecoration(
-                      shape: BoxShape.circle,
-                     border: Border.all(
-                  width:  5,
-                  color: Constants().secondaryColor,
-                 ),
-                     image:   DecorationImage(
-                       image: NetworkImage(studentImage),
-                        ),
-                       ),
-                      ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal:deviceWidth(context) * 0.06),
-                      child: Column(
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          //name 
-                          Center(
-                            child: Container(
-                              padding: EdgeInsets.symmetric( horizontal: deviceWidth(context) * 0.03),
-                              margin: EdgeInsets.only(bottom: deviceHeight(context) * 0.03),
-                              child:  Flexible(
-                                      child: Text(
-                                      studentName,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: Device.screenType == ScreenType.tablet? 
-                                          25:14,
-                                          fontWeight: FontWeight.bold,
-                                        fontFamily: 'Poppins',
-                                      ),
-                                      ),
-                                    ),       
-                            ),
+            ),
+            backgroundColor: Theme.of(context).primaryColor,
+            actions: [
+              IconButton(
+                onPressed: () => {
+                  nextScreen(context, About())
+                },
+                 icon:const Icon(Icons.info_outline_rounded),
+                ),
+            ],
+          ),
+      drawer: MainDrawerStudent(home: false, profile: true, book: false, appointment: false, reward: false, chat: false, yourHistory: false),
+    
+          body: Padding(
+            padding: Device.screenType == ScreenType.tablet? 
+                     EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
+                    EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
+            child: Container(
+                 height: 100.h,
+              width: 100.w,
+              decoration:  const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                         BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30)
+                      )
+                ),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Container(
+                  padding: const EdgeInsets.only(top: 50.0),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin:  EdgeInsets.only(bottom: 2.0.h),
+                          height: 14.0.h,
+                
+                        decoration:  BoxDecoration(
+                        shape: BoxShape.circle,
+                       border: Border.all(
+                    width:  5,
+                    color: Constants().secondaryColor,
+                   ),
+                       image:   DecorationImage(
+                         image: NetworkImage(studentImage),
                           ),
-                          //matric number 
-                           Padding(
-                            padding: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01, horizontal: deviceWidth(context) * 0.01),
-                            child: Expanded(
+                         ),
+                        ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal:deviceWidth(context) * 0.06),
+                        child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            //name 
+                            Center(
+                              child: Container(
+                                padding: EdgeInsets.symmetric( horizontal: deviceWidth(context) * 0.03),
+                                margin: EdgeInsets.only(bottom: deviceHeight(context) * 0.03),
+                                child:  Flexible(
+                                        child: Text(
+                                        studentName,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: Device.screenType == ScreenType.tablet? 
+                                            25:14,
+                                            fontWeight: FontWeight.bold,
+                                          fontFamily: 'Poppins',
+                                        ),
+                                        ),
+                                      ),       
+                              ),
+                            ),
+                            //matric number 
+                             Padding(
+                              padding: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01, horizontal: deviceWidth(context) * 0.01),
+                              child: Expanded(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.card_membership,
+                                      color: Constants().messageGreyColor,
+                                      size:  Device.screenType == ScreenType.tablet? 20:20,
+                                    ),
+                              
+                                                        SizedBox(width: 10.w ,),
+                                                        Column(
+                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                                        Text(matricNumber,
+                                                        style: TextStyle(
+                                color: Colors.black,
+                                fontSize: Device.screenType == ScreenType.tablet? 
+                                  20:15,
+                                  fontWeight: FontWeight.w400,
+                                fontFamily: 'Poppins',
+                                            ),
+                                            ),   
+                                         Text(
+                                        icNumber,
+                                  style: TextStyle(
+                                color: Colors.black,
+                                fontSize: Device.screenType == ScreenType.tablet? 
+                                 20:15,
+                                  fontWeight: FontWeight.w400,
+                                fontFamily: 'Poppins',
+                                                        ),
+                                                        ),
+                                ],
+                                                        ),         
+                                    ],
+                                ),
+                              ),
+                            ),
+                           Divider(
+                             color: Constants().dividerColor,
+                               thickness: 1,
+                           ),
+                           
+                             //telephone number 
+                                Padding(
+                              padding: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01, horizontal: deviceWidth(context) * 0.01),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Icon(
-                                    Icons.card_membership,
+                                    Icons.phone,
                                     color: Constants().messageGreyColor,
-                                    size:  Device.screenType == ScreenType.tablet? 20:20,
+                                    size: Device.screenType == ScreenType.tablet? 20:20,
                                   ),
-                            
-                                                      SizedBox(width: 10.w ,),
-                                                      Column(
-                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                                      Text(matricNumber,
-                                                      style: TextStyle(
-                              color: Colors.black,
-                              fontSize: Device.screenType == ScreenType.tablet? 
-                                20:15,
-                                fontWeight: FontWeight.w400,
-                              fontFamily: 'Poppins',
-                                          ),
-                                          ),   
-                                       Text(
-                                      icNumber,
-                                style: TextStyle(
-                              color: Colors.black,
-                              fontSize: Device.screenType == ScreenType.tablet? 
-                               20:15,
-                                fontWeight: FontWeight.w400,
-                              fontFamily: 'Poppins',
-                                                      ),
-                                                      ),
-                              ],
-                                                      ),         
-                                  ],
-                              ),
-                            ),
-                          ),
-                         Divider(
-                           color: Constants().dividerColor,
-                             thickness: 1,
-                         ),
-                         
-                           //telephone number 
-                              Padding(
-                            padding: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01, horizontal: deviceWidth(context) * 0.01),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.phone,
-                                  color: Constants().messageGreyColor,
-                                  size: Device.screenType == ScreenType.tablet? 20:20,
-                                ),
-                                  SizedBox(width: 10.w ,),
-                                Text(studentTelephoneNumber,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: Device.screenType == ScreenType.tablet? 
-                                      20:15,
-                                      fontWeight: FontWeight.w400,
-                                    fontFamily: 'Poppins',
-                                  ),
-                                  ),  
-                                ],
-                            ),
-                          ),
-                           Divider(
-                           color: Constants().dividerColor,
-                             thickness: 1,
-                         ),
-                           //email 
-                              Padding(
-                            padding: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01, horizontal: deviceWidth(context) * 0.01),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                         Icon(
-                          Icons.email,
-                          color: Constants().messageGreyColor,
-                          size: Device.screenType == ScreenType.tablet? 20:20,
-                         ),
-                          SizedBox(width: 10.w ,),
-                         Text(studentEmail,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                              20:15,
-                              fontWeight: FontWeight.w400,
-                            fontFamily: 'Poppins',
-                          ),
-                          ),      
-                                ],
-                            ),
-                          ),
-                         Divider(
-                           color: Constants().dividerColor,
-                             thickness: 1,
-                         ),
-                          //faculty 
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01, horizontal: deviceWidth(context) * 0.01),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                          Icon(
-                            Icons.school,
-                            color: Constants().messageGreyColor,
-                            size: Device.screenType == ScreenType.tablet? 20:20,
-                          ),
-                            SizedBox(width: 10.w ,),
-                            Flexible(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                              Text(faculty,
-                               style: TextStyle(
-                              color: Colors.black,
-                              fontSize: Device.screenType == ScreenType.tablet? 
-                                20:15,
-                                fontWeight: FontWeight.w400,
-                              fontFamily: 'Poppins',
-                               ),
-                              ),    
-                                  
-                              Text(program,
+                                    SizedBox(width: 10.w ,),
+                                  Text(studentTelephoneNumber,
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: Device.screenType == ScreenType.tablet? 
-                                       20:15,
+                                        20:15,
                                         fontWeight: FontWeight.w400,
                                       fontFamily: 'Poppins',
                                     ),
-                                    ),
-                                 
-                                ],
+                                    ),  
+                                  ],
                               ),
-                            )  
-                                ],
                             ),
-                          ),
-                           Divider(
-                           color: Constants().dividerColor,
-                             thickness: 1,
-                         ),
-                           //metamask account address
-                           Padding(
-                            padding: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01, horizontal: deviceWidth(context) * 0.01),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                          Icon(
-                            Icons.token,
+                             Divider(
+                             color: Constants().dividerColor,
+                               thickness: 1,
+                           ),
+                             //email 
+                                Padding(
+                              padding: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01, horizontal: deviceWidth(context) * 0.01),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                           Icon(
+                            Icons.email,
                             color: Constants().messageGreyColor,
                             size: Device.screenType == ScreenType.tablet? 20:20,
-                          ),
-                        SizedBox(width: 10.w,),
-                         Flexible(
-                           child: Text(tokenAddress,
+                           ),
+                            SizedBox(width: 10.w ,),
+                           Text(studentEmail,
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: Device.screenType == ScreenType.tablet? 
@@ -309,23 +235,101 @@ class _StudentProfileState extends State<StudentProfile> {
                                 fontWeight: FontWeight.w400,
                               fontFamily: 'Poppins',
                             ),
+                            ),      
+                                  ],
+                              ),
                             ),
-                         ),     
-                                ],
+                           Divider(
+                             color: Constants().dividerColor,
+                               thickness: 1,
+                           ),
+                            //faculty 
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01, horizontal: deviceWidth(context) * 0.01),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                            Icon(
+                              Icons.school,
+                              color: Constants().messageGreyColor,
+                              size: Device.screenType == ScreenType.tablet? 20:20,
                             ),
-                          ),
+                              SizedBox(width: 10.w ,),
+                              Flexible(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                Text(faculty,
+                                 style: TextStyle(
+                                color: Colors.black,
+                                fontSize: Device.screenType == ScreenType.tablet? 
+                                  20:15,
+                                  fontWeight: FontWeight.w400,
+                                fontFamily: 'Poppins',
+                                 ),
+                                ),    
+                                    
+                                Text(program,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: Device.screenType == ScreenType.tablet? 
+                                         20:15,
+                                          fontWeight: FontWeight.w400,
+                                        fontFamily: 'Poppins',
+                                      ),
+                                      ),
+                                   
+                                  ],
+                                ),
+                              )  
+                                  ],
+                              ),
+                            ),
+                             Divider(
+                             color: Constants().dividerColor,
+                               thickness: 1,
+                           ),
+                             //metamask account address
+                             Padding(
+                              padding: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.01, horizontal: deviceWidth(context) * 0.01),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                            Icon(
+                              Icons.token,
+                              color: Constants().messageGreyColor,
+                              size: Device.screenType == ScreenType.tablet? 20:20,
+                            ),
+                          SizedBox(width: 10.w,),
+                           Flexible(
+                             child: Text(tokenAddress,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: Device.screenType == ScreenType.tablet? 
+                                  20:15,
+                                  fontWeight: FontWeight.w400,
+                                fontFamily: 'Poppins',
+                              ),
+                              ),
+                           ),     
+                                  ],
+                              ),
+                            ),
+                        
+        
+                          ],
+                        ),
+                       ),
                       
-      
-                        ],
-                      ),
-                     ),
-                    
-                   ],
+                     ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
+      ),
     );
   }
 
@@ -360,6 +364,50 @@ class _StudentProfileState extends State<StudentProfile> {
       } else {
          throw Exception("Failed to get the data");
       }
+  }
+
+    //to make user exit the app if the press back button in the phone
+ //use WillPopScope and wrap in Scaffold widget
+  Future<bool> _onWillPop() async {
+    return  (
+      await showDialog(
+                  barrierDismissible: false,
+                  context: context, 
+                  builder: (context) {
+                    return  AlertDialog(
+                      title:  const Text("Exit App",  
+                      style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      fontFamily: 'Poppins',
+                        ),
+                       ),
+                      content: const Text("Do you want exit WeMeet?",
+                            style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            fontFamily: 'Poppins',
+                            ),
+                       ),
+                      actions: [
+                        IconButton(
+                          onPressed: () {
+                         nextScreenPop(context);
+                        },
+                         icon: const Icon(Icons.cancel,color: Colors.red,size: 30,),
+                         ),
+                        IconButton(onPressed: () async{
+                              Navigator.of(context).pop(true);
+                              SystemNavigator.pop();
+                        }, 
+                        icon: const Icon(Icons.done, color: Colors.green,size: 30,)),
+                      ],
+                    );
+                  }
+          ));
+          
   }
 
 

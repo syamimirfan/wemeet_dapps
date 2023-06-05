@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/about.dart';
@@ -90,234 +91,237 @@ class _SlotState extends State<Slot> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      appBar: AppBar(
-       title: const Text(
-          "Slot",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-            fontFamily: 'Poppins',
-          ),
-        ),
+    return WillPopScope(
+        onWillPop: _onWillPop,
+      child: Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
-        actions: [
-          IconButton(
-            onPressed: () {
-              nextScreen(context, About());
-            }, 
-            icon: const Icon(Icons.info_outline_rounded),
+        appBar: AppBar(
+         title: const Text(
+            "Slot",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+              fontFamily: 'Poppins',
             ),
-        ],
-      ),
-      drawer: MainDrawerLecturer(home: false, profile: false, slot: true, appointment: false, attendance: false, chat: false),
-
-      body: Padding(
-           padding: Device.screenType == ScreenType.tablet? 
-                    EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
-                    EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
-          child: Container(
-            height: 100.h,
-            width: 100.w,
-            decoration: const BoxDecoration(
-               color: Colors.white,
-                      borderRadius:
-                       BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30)
-               ),
-            ),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column( 
-                mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02,vertical: deviceHeight(context) * 0.012),
-                      child:  Text(
-                        "Your Schedule",
-                        style: TextStyle(
-                            color: Colors.black,
-                          fontWeight: FontWeight.w800,
-                          fontSize:  Device.screenType == ScreenType.tablet? 20:20,
-                          fontFamily: 'Poppins',
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
+          actions: [
+            IconButton(
+              onPressed: () {
+                nextScreen(context, About());
+              }, 
+              icon: const Icon(Icons.info_outline_rounded),
+              ),
+          ],
+        ),
+        drawer: MainDrawerLecturer(home: false, profile: false, slot: true, appointment: false, attendance: false, chat: false),
+    
+        body: Padding(
+             padding: Device.screenType == ScreenType.tablet? 
+                      EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,):
+                      EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
+            child: Container(
+              height: 100.h,
+              width: 100.w,
+              decoration: const BoxDecoration(
+                 color: Colors.white,
+                        borderRadius:
+                         BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30)
+                 ),
+              ),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column( 
+                  mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02,vertical: deviceHeight(context) * 0.012),
+                        child:  Text(
+                          "Your Schedule",
+                          style: TextStyle(
+                              color: Colors.black,
+                            fontWeight: FontWeight.w800,
+                            fontSize:  Device.screenType == ScreenType.tablet? 20:20,
+                            fontFamily: 'Poppins',
+                          ),
                         ),
                       ),
-                    ),
-                    
-                    Container(
-                        margin: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.03, vertical: deviceHeight(context) * 0.01),
-                        padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02,vertical: deviceHeight(context) * 0.009),
-        
-                      child: DataTable(
-                        columnSpacing: Device.screenType == ScreenType.tablet? deviceWidth(context) * 0.06 : deviceWidth(context) * 0.04,
-                        headingTextStyle: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.bold, color: Colors.white),
-                        dataTextStyle: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w500, color: Colors.black),
-                        headingRowColor: MaterialStateProperty.all<Color>(Constants().secondaryColor),
-                        dataRowColor: MaterialStateProperty.all<Color>(Constants().dividerColor),
-                        dividerThickness: 1,
-                        columns: [
-                          DataColumn(label: Text("Day/Slot")),
-                          DataColumn(label: Text("S1",)),
-                          DataColumn(label: Text("S2",),),
-                          DataColumn(label: Text("S3",)),
-                          DataColumn(label: Text("S4",)),
-                          DataColumn(label: Text("S5",)),
-                        ], 
-                        rows: data.isNotEmpty? data.map((slotSet) {
-                          return DataRow(cells: [
-                            DataCell(Text(slotSet['day'] ?? '')),
-                            DataCell(Text(slotSet['slot1'] ?? '')),
-                            DataCell(Text(slotSet['slot2'] ?? '')),
-                            DataCell(Text(slotSet['slot3'] ?? '')),
-                            DataCell(Text(slotSet['slot4'] ?? '')),
-                            DataCell(Text(slotSet['slot5'] ?? '')),
-                          ]);
-                        }).toList() :[
-                            DataRow(
-                              cells: [
-                                DataCell(Container(
-                                  child: Text(""),
-                                )),
-                                 DataCell(Container(
-                                  child: Text(""),
-                                )),
-                                 DataCell(Container(
-                                  child: Text(""),
-                                )),
-                                 DataCell(Container(
-                                  child: Text(""),
-                                )),
-                                 DataCell(Container(
-                                  child: Text(""),
-                                )),
-                                 DataCell(Container(
-                                  child: Text(""),
-                                )),
-                              ]
-                            )
-                          ],
-                      ),
-                    ),
-
+                      
                       Container(
-                       margin: EdgeInsets.only(bottom: deviceHeight(context) * 0.02),
-                       padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05),
-                        child: 
-                        Row(
-                          children: [ 
-                           Text(
-                           "Please be noted that",
-                           style: TextStyle(
-                           fontFamily: 'Poppins', 
-                           fontSize: Device.screenType == ScreenType.tablet? 20:17,
-                           fontWeight: FontWeight.w700,
-                           color: Colors.black
-                           ),
-                          ),  
-                          
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                isInfo = true;
-                                if(isShowOpen) {
-                                  isInfo = false;
-                                  isShowOpen = false;
-                                }
-                              });
-                            }, 
-                            icon: Icon(Icons.info_sharp, color: Constants().secondaryColor, size: Device.screenType == ScreenType.tablet? 20:17,)
-                            ),
-                            Text.rich(
-                      TextSpan(
-                     text: "Help",
-                     style:   TextStyle(
-                       color: Constants().secondaryColor,
-                       fontSize:  Device.screenType == ScreenType.tablet? 20:17,
-                       fontWeight: FontWeight.bold,
-                       fontFamily: 'Poppins',
-                     ),
-                     recognizer: TapGestureRecognizer()..onTap = () {
-                           setState(() {
-                                isInfo = true;
-                                if(isShowOpen) {
-                                  isInfo = false;
-                                  isShowOpen = false;
-                                }
-                              });
-                        }
-                       ),
+                          margin: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.03, vertical: deviceHeight(context) * 0.01),
+                          padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02,vertical: deviceHeight(context) * 0.009),
+          
+                        child: DataTable(
+                          columnSpacing: Device.screenType == ScreenType.tablet? deviceWidth(context) * 0.06 : deviceWidth(context) * 0.04,
+                          headingTextStyle: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.bold, color: Colors.white),
+                          dataTextStyle: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w500, color: Colors.black),
+                          headingRowColor: MaterialStateProperty.all<Color>(Constants().secondaryColor),
+                          dataRowColor: MaterialStateProperty.all<Color>(Constants().dividerColor),
+                          dividerThickness: 1,
+                          columns: [
+                            DataColumn(label: Text("Day/Slot")),
+                            DataColumn(label: Text("S1",)),
+                            DataColumn(label: Text("S2",),),
+                            DataColumn(label: Text("S3",)),
+                            DataColumn(label: Text("S4",)),
+                            DataColumn(label: Text("S5",)),
+                          ], 
+                          rows: data.isNotEmpty? data.map((slotSet) {
+                            return DataRow(cells: [
+                              DataCell(Text(slotSet['day'] ?? '')),
+                              DataCell(Text(slotSet['slot1'] ?? '')),
+                              DataCell(Text(slotSet['slot2'] ?? '')),
+                              DataCell(Text(slotSet['slot3'] ?? '')),
+                              DataCell(Text(slotSet['slot4'] ?? '')),
+                              DataCell(Text(slotSet['slot5'] ?? '')),
+                            ]);
+                          }).toList() :[
+                              DataRow(
+                                cells: [
+                                  DataCell(Container(
+                                    child: Text(""),
+                                  )),
+                                   DataCell(Container(
+                                    child: Text(""),
+                                  )),
+                                   DataCell(Container(
+                                    child: Text(""),
+                                  )),
+                                   DataCell(Container(
+                                    child: Text(""),
+                                  )),
+                                   DataCell(Container(
+                                    child: Text(""),
+                                  )),
+                                   DataCell(Container(
+                                    child: Text(""),
+                                  )),
+                                ]
+                              )
+                            ],
+                        ),
                       ),
-                          
-                         ],
-                        ),            
-                      ),     
-                      if(isInfo) showHelp(),
-                          //for button add slot and update slot
+    
+                        Container(
+                         margin: EdgeInsets.only(bottom: deviceHeight(context) * 0.02),
+                         padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05),
+                          child: 
                           Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                SizedBox(
-                                   child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Constants().secondaryColor,
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                            children: [ 
+                             Text(
+                             "Please be noted that",
+                             style: TextStyle(
+                             fontFamily: 'Poppins', 
+                             fontSize: Device.screenType == ScreenType.tablet? 20:17,
+                             fontWeight: FontWeight.w700,
+                             color: Colors.black
+                             ),
+                            ),  
+                            
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  isInfo = true;
+                                  if(isShowOpen) {
+                                    isInfo = false;
+                                    isShowOpen = false;
+                                  }
+                                });
+                              }, 
+                              icon: Icon(Icons.info_sharp, color: Constants().secondaryColor, size: Device.screenType == ScreenType.tablet? 20:17,)
+                              ),
+                              Text.rich(
+                        TextSpan(
+                       text: "Help",
+                       style:   TextStyle(
+                         color: Constants().secondaryColor,
+                         fontSize:  Device.screenType == ScreenType.tablet? 20:17,
+                         fontWeight: FontWeight.bold,
+                         fontFamily: 'Poppins',
+                       ),
+                       recognizer: TapGestureRecognizer()..onTap = () {
+                             setState(() {
+                                  isInfo = true;
+                                  if(isShowOpen) {
+                                    isInfo = false;
+                                    isShowOpen = false;
+                                  }
+                                });
+                          }
+                         ),
+                        ),
+                            
+                           ],
+                          ),            
+                        ),     
+                        if(isInfo) showHelp(),
+                            //for button add slot and update slot
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  SizedBox(
+                                     child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Constants().secondaryColor,
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
                                         ),
-                                      ),
-                                      onPressed: data.length >= 5 ? null : () {
-                                        setState(() {
-                                          isAdd = true;
-                                        });
-                                      },
-                                      child: Text(
-                                        "Add Slot",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: Device.screenType == ScreenType.tablet? 20:17,
-                                            fontFamily: 'Poppins',
+                                        onPressed: data.length >= 5 ? null : () {
+                                          setState(() {
+                                            isAdd = true;
+                                          });
+                                        },
+                                        child: Text(
+                                          "Add Slot",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: Device.screenType == ScreenType.tablet? 20:17,
+                                              fontFamily: 'Poppins',
+                                          ),
                                         ),
-                                      ),
+                                    ),
                                   ),
-                                ),
-                                   SizedBox(
-                                  child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Constants().primaryColor,
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                     SizedBox(
+                                    child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Constants().primaryColor,
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
                                         ),
-                                      ),
-                                      onPressed: data.length < 5 ? null : () {
-                                        setState(() {
-                                          isUpdate = true;
-                                        });
-                                      },
-                                      child: Text(
-                                        "Update Slot",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: Device.screenType == ScreenType.tablet?20:17,
-                                            fontFamily: 'Poppins',
+                                        onPressed: data.length < 5 ? null : () {
+                                          setState(() {
+                                            isUpdate = true;
+                                          });
+                                        },
+                                        child: Text(
+                                          "Update Slot",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: Device.screenType == ScreenType.tablet?20:17,
+                                              fontFamily: 'Poppins',
+                                          ),
                                         ),
-                                      ),
+                                    ),
                                   ),
-                                ),
-                              ],
-                        ), 
-                     if(isAdd ) addSlot(),
-                     if(isUpdate ) updateSlot()
-                     
-                  ],
+                                ],
+                          ), 
+                       if(isAdd ) addSlot(),
+                       if(isUpdate ) updateSlot()
+                       
+                    ],
+                ),
               ),
             ),
-          ),
+        ),
       ),
     );
   }
@@ -890,4 +894,46 @@ class _SlotState extends State<Slot> {
       }
     );
   }
+   //to make user exit the app if the press back button in the phone
+ //use WillPopScope and wrap in Scaffold widget
+  Future<bool> _onWillPop() async {
+    return  (
+      await showDialog(
+                  barrierDismissible: false,
+                  context: context, 
+                  builder: (context) {
+                    return  AlertDialog(
+                      title:  const Text("Exit App",  
+                      style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      fontFamily: 'Poppins',
+                        ),
+                       ),
+                      content: const Text("Do you want exit WeMeet?",
+                            style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            fontFamily: 'Poppins',
+                            ),
+                       ),
+                      actions: [
+                        IconButton(
+                          onPressed: () {
+                         nextScreenPop(context);
+                        },
+                         icon: const Icon(Icons.cancel,color: Colors.red,size: 30,),
+                         ),
+                        IconButton(onPressed: () async{
+                              Navigator.of(context).pop(true);
+                              SystemNavigator.pop();
+                        }, 
+                        icon: const Icon(Icons.done, color: Colors.green,size: 30,)),
+                      ],
+                    );
+                  }
+          ));
+      }
 }
