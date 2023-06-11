@@ -65,7 +65,8 @@ class _QrCodeState extends State<QrCode> {
   }
 
 goMetamask(var url) async {
-       Uri uri = Uri.parse(url);
+    //create URI object
+    Uri uri = Uri.parse(url);
     await launchUrl(uri); 
 }
 

@@ -55,6 +55,7 @@ dependencies:
   walletconnect_dart: ^0.0.11
   firebase_core: ^2.13.1
   firebase_messaging: ^14.6.2
+  connectivity_plus: ^4.0.1
 
 
 

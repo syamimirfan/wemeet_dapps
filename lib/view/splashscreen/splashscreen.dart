@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,6 +9,7 @@ import 'package:wemeet_dapps/view/authentication/login.dart';
 import 'package:wemeet_dapps/view/lecturers/home_lecturers.dart';
 import 'package:wemeet_dapps/view/students/home_students.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,7 +19,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  
+    
     @override
    void initState() {
     getValidateData();
@@ -27,8 +29,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
     void getValidateData() async{
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    final connectivityResult = await Connectivity().checkConnectivity();
       Timer(const Duration(seconds: 5), () {
-          if(_sharedPreferences.getString('matricNo') == null && _sharedPreferences.getString('staffNo') == null) {
+          if (connectivityResult == ConnectivityResult.none) {
+            showErrorMessage(context, "No Internet Connection", "Please make sure you connect with the internet", "Ok");
+          } else if (connectivityResult == ConnectivityResult.mobile ||
+              connectivityResult == ConnectivityResult.wifi) {
+              //if internet is detected
+            if(_sharedPreferences.getString('matricNo') == null && _sharedPreferences.getString('staffNo') == null) {
            nextScreenReplacement(context, Login());
           }else {
             if(_sharedPreferences.getInt('statusStudent') == 1) {
@@ -36,6 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
             } else if(_sharedPreferences.getInt('statusLecturer') == 2) {
                nextScreenReplacement(context, HomeLecturer());
             }
+          }
           }
       });
    }
@@ -148,5 +157,26 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
         ),
     );
+  }
+
+   //error message if there is no internet connection
+  static void showErrorMessage(BuildContext context, String title, String message, String buttonText) {
+      showDialog(context: context,
+       builder: (BuildContext context) {
+        return AlertDialog( 
+          title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', fontSize: 24),),
+          content: Text(message, style: TextStyle( fontFamily: 'Poppins', fontSize: 16),),
+          actions: [
+             ElevatedButton(
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Constants().primaryColor),textStyle: MaterialStateProperty.all(TextStyle(fontFamily: 'Poppins', fontSize: 14))),
+              child:  Text(buttonText),
+              onPressed: () {
+                 SystemNavigator.pop();
+              },
+            )
+          ],
+         );
+        }
+       );
   }
 }
