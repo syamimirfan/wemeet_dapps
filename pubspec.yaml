@@ -33,7 +33,7 @@ dependencies:
   sizer: ^2.0.15
   responsive_sizer: ^3.1.1
   external_app_launcher: ^3.1.0
-  url_launcher: ^6.1.7
+  url_launcher: ^6.1.11
   http: ^0.13.5
   shared_preferences: ^2.0.16
   date_picker_timeline: ^1.2.3

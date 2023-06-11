@@ -39,7 +39,7 @@ class _LoginState extends State<Login> {
             'https://files.gitbook.com/v0/b/gitbook-legacy-files/o/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media'
           ]));
 
-  var _session, _uri, _signature, session;
+  var _session, session;
   
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
@@ -53,7 +53,6 @@ class _LoginState extends State<Login> {
     if (!connector.connected) {
       try {
             session = await connector.createSession(onDisplayUri: (uri) async {
-            _uri = uri;
             await launchUrlString(uri, mode: LaunchMode.externalApplication);
           });
           print(session.accounts[0]);
@@ -295,12 +294,10 @@ class _LoginState extends State<Login> {
             }));
    final SharedPreferences  _sharedPreferences = await SharedPreferences.getInstance();
 
-   String? firebaseToken = _sharedPreferences.getString("tokenNotification");
-
     var responseStudent = await new Student().studentLogin(email.trim(), password.trim());
     var responseLecturer = await new Lecturer().lecturerLogin(email.trim(), password.trim());
    
-    
+
     //check if the metamask account has been installed to the device or not
      bool isInstalled = await DeviceApps.isAppInstalled('io.metamask'); 
     if(responseStudent['success'] && responseStudent['status']== 1  && !isInstalled){

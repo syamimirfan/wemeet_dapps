@@ -10,9 +10,10 @@ import 'package:wemeet_dapps/widget/message_tile.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class Message extends StatefulWidget {
-  Message({super.key, required this.staffNo});
-  String staffNo;
+
+  final String staffNo;
   
+  Message({super.key, required this.staffNo});
 
   @override
   State<Message> createState() => _MessageState(this.staffNo);

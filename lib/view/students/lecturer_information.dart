@@ -5,9 +5,10 @@ import 'package:wemeet_dapps/api_services/api_students.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 
 class LecturerInformation extends StatefulWidget {
- LecturerInformation({Key? key, required this.staffNo}): super(key: key);
 
- String staffNo;
+  final String staffNo;
+  
+  LecturerInformation({Key? key, required this.staffNo}): super(key: key);
 
   @override
   State<LecturerInformation> createState() => _LecturerInformationState(this.staffNo);

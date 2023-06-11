@@ -13,9 +13,9 @@ import 'package:wemeet_dapps/widget/widgets.dart';
 class SmartContractAddress extends StatefulWidget {
   SmartContractAddress({Key? key, required this.matricNo, required this.statusStudent, required this.tokenAddress}): super(key: key);
 
-  String matricNo;
-  String tokenAddress;
-  int statusStudent;
+  final String matricNo;
+  final String tokenAddress;
+  final int statusStudent;
 
   @override
   State<SmartContractAddress> createState() => _SmartContractAddressState(this.matricNo, this.statusStudent, this.tokenAddress);

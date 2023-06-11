@@ -57,7 +57,6 @@ class _ManageBookingState extends State<ManageBooking> {
 
   //function to get appointment
   getManageAppointment(String? matricNo) async {
-     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     final responseBooking = await Booking().manageAppointmentStudent(matricNo!);
     if(responseBooking['success']) {
       final responseData = responseBooking['booking'];

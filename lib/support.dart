@@ -8,8 +8,12 @@ class Support extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
     double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
+
+     String url = 'https://sepoliafaucet.com/';
+
     return Scaffold(
        backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
@@ -106,7 +110,9 @@ class Support extends StatelessWidget {
                                           SizedBox(width: deviceWidth(context) * 0.02,),
                                       GestureDetector(
                                           onTap: () {
-                                            launch('https://sepoliafaucet.com/');
+                                            //create URL object
+                                            Uri uri = Uri.parse(url);
+                                            launchUrl(uri);
                                           },
                                           child: Text(
                                             '" https://sepoliafaucet.com/ "',

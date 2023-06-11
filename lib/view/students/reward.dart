@@ -28,7 +28,8 @@ class _RewardTokenState extends State<RewardToken> {
 
   BigInt? token;
   int? nullToken;
-
+  String urlMining = 'https://sepolia-faucet.pk910.de/';
+  String url = 'https://sepoliafaucet.com/';
 
   String lectName = "";
 
@@ -192,7 +193,9 @@ class _RewardTokenState extends State<RewardToken> {
                                SizedBox(width: deviceWidth(context) * 0.02,),
                                 GestureDetector(
                                onTap: () {
-                                 launch('https://sepolia-faucet.pk910.de/');
+                                //create URL object
+                                Uri uri = Uri.parse(urlMining);
+                                 launchUrl(uri);
                                  },
                                 child: Text(
                                 'https://sepolia-faucet.pk910.de/',
@@ -216,7 +219,9 @@ class _RewardTokenState extends State<RewardToken> {
                                SizedBox(width: deviceWidth(context) * 0.02,),
                                 GestureDetector(
                                onTap: () {
-                                 launch('https://sepoliafaucet.com/');
+                                // create URL object
+                                 Uri uri = Uri.parse(url);
+                                 launchUrl(uri);
                                  },
                                 child: Text(
                                 'https://sepoliafaucet.com/',
@@ -394,8 +399,5 @@ getToken(String? studentMetamaskAddress) async {
                     );
                   }
           ));
-          
-  }
-
-
+   }
 } 

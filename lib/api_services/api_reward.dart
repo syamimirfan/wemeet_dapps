@@ -21,7 +21,7 @@ Future<BigInt> getTotalToken(String studentMetamaskAddress) async {
   );
 
   final balanceWei = response[0] as BigInt;
-  final balance = EtherAmount.fromUnitAndValue(EtherUnit.wei, balanceWei);
+  final balance = EtherAmount.fromBigInt(EtherUnit.wei, balanceWei);
   final formattedBalance = balance.getValueInUnit(EtherUnit.ether).toString();
 
   return BigInt.parse(formattedBalance.split('.')[0]);

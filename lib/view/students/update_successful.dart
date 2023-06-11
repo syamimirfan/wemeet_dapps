@@ -6,12 +6,13 @@ import 'package:wemeet_dapps/view/students/manage_booking.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 
 class UpdateSuccessful extends StatefulWidget {
-  UpdateSuccessful({Key? key, required this.lecturerName, required this.numberOfStudents, required this.date, required this.time}) : super(key: key);
   
-  String lecturerName;
-  int numberOfStudents;
-  String date;
-  String time;
+  final String lecturerName;
+  final int numberOfStudents;
+  final String date;
+  final String time;
+
+  UpdateSuccessful({Key? key, required this.lecturerName, required this.numberOfStudents, required this.date, required this.time}) : super(key: key);
 
    @override
   State<UpdateSuccessful> createState() => _UpdateSuccessfulState(this.lecturerName,  this.numberOfStudents,  this.date,  this.time);

@@ -65,7 +65,8 @@ class _QrCodeState extends State<QrCode> {
   }
 
 goMetamask(var url) async {
-    await launch(url); 
+       Uri uri = Uri.parse(url);
+    await launchUrl(uri); 
 }
 
 void _onQRViewCreated(QRViewController controller) {
@@ -87,8 +88,8 @@ void _onQRViewCreated(QRViewController controller) {
  Widget _buildQrView(BuildContext context) {
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
-        ? 200.0
-        : 300.0;
+        ? 300.0
+        : 400.0;
     return QRView(
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,

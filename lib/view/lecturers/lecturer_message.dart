@@ -12,8 +12,9 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class LecturerMessage extends StatefulWidget {
 
+   final String matricNo;
+   
    LecturerMessage({super.key, required this.matricNo});
-   String matricNo;
 
   @override
   State<LecturerMessage> createState() => _LecturerMessageState(this.matricNo);

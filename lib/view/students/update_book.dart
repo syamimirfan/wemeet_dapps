@@ -12,10 +12,11 @@ import 'package:wemeet_dapps/view/students/update_successful.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 
 class UpdateBook extends StatefulWidget {
-  UpdateBook({Key? key, required this.staffNo, required this.bookingId }): super(key: key) ;
   
-  String staffNo;
-  int bookingId;
+  final String staffNo;
+  final int bookingId;
+
+  UpdateBook({Key? key, required this.staffNo, required this.bookingId }): super(key: key) ;
   
   @override
   State<UpdateBook> createState() => _UpdateBookState(this.staffNo, this.bookingId);

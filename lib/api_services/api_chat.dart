@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/constants/utils.dart';
 
 class Chat {
+  
    //API for contact lecturer button
    Future getContactLecturer(String staffNo) async {
      EasyLoading.show(

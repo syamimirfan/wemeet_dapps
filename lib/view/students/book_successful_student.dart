@@ -6,12 +6,13 @@ import 'package:wemeet_dapps/widget/widgets.dart';
 import 'package:gif/gif.dart';
 
 class BookSuccessful extends StatefulWidget {
-   BookSuccessful({Key? key, required this.lecturerName, required this.numberOfStudents, required this.date, required this.time}) : super(key: key);
+  
+  final String lecturerName;
+  final int numberOfStudents;
+  final String date;
+  final String time;
 
-  String lecturerName;
-  int numberOfStudents;
-  String date;
-  String time;
+  BookSuccessful({Key? key, required this.lecturerName, required this.numberOfStudents, required this.date, required this.time}) : super(key: key);
 
   @override
   State<BookSuccessful> createState() => _BookSuccessfulState(this.lecturerName,  this.numberOfStudents,  this.date,  this.time);

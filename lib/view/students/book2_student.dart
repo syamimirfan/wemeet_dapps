@@ -11,9 +11,10 @@ import 'package:wemeet_dapps/widget/widgets.dart';
 import 'package:intl/intl.dart';
 
 class Book2 extends StatefulWidget {
-  Book2({Key? key, required this.staffNo}) : super(key: key);
+  
+  final String staffNo;
 
-  String staffNo;
+  Book2({Key? key, required this.staffNo}) : super(key: key);
 
   @override
   State<Book2> createState() => _Book2State(this.staffNo);
