@@ -84,7 +84,7 @@ class _BookState extends State<Book> {
                       faculty[index],
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize:Device.screenType == ScreenType.tablet? 15:15,
+                        fontSize:Device.screenType == ScreenType.tablet? 15:14,
                         fontFamily: 'Poppins',
                         color: tappedIndex == index ? Colors.white : Colors.black,
                       ),

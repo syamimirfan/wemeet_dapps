@@ -154,54 +154,57 @@ class _SlotState extends State<Slot> {
                           margin: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.03, vertical: deviceHeight(context) * 0.01),
                           padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02,vertical: deviceHeight(context) * 0.009),
           
-                        child: DataTable(
-                          columnSpacing: Device.screenType == ScreenType.tablet? deviceWidth(context) * 0.06 : deviceWidth(context) * 0.04,
-                          headingTextStyle: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.bold, color: Colors.white),
-                          dataTextStyle: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w500, color: Colors.black),
-                          headingRowColor: MaterialStateProperty.all<Color>(Constants().secondaryColor),
-                          dataRowColor: MaterialStateProperty.all<Color>(Constants().dividerColor),
-                          dividerThickness: 1,
-                          columns: [
-                            DataColumn(label: Text("Day/Slot")),
-                            DataColumn(label: Text("S1",)),
-                            DataColumn(label: Text("S2",),),
-                            DataColumn(label: Text("S3",)),
-                            DataColumn(label: Text("S4",)),
-                            DataColumn(label: Text("S5",)),
-                          ], 
-                          rows: data.isNotEmpty? data.map((slotSet) {
-                            return DataRow(cells: [
-                              DataCell(Text(slotSet['day'] ?? '')),
-                              DataCell(Text(slotSet['slot1'] ?? '')),
-                              DataCell(Text(slotSet['slot2'] ?? '')),
-                              DataCell(Text(slotSet['slot3'] ?? '')),
-                              DataCell(Text(slotSet['slot4'] ?? '')),
-                              DataCell(Text(slotSet['slot5'] ?? '')),
-                            ]);
-                          }).toList() :[
-                              DataRow(
-                                cells: [
-                                  DataCell(Container(
-                                    child: Text(""),
-                                  )),
-                                   DataCell(Container(
-                                    child: Text(""),
-                                  )),
-                                   DataCell(Container(
-                                    child: Text(""),
-                                  )),
-                                   DataCell(Container(
-                                    child: Text(""),
-                                  )),
-                                   DataCell(Container(
-                                    child: Text(""),
-                                  )),
-                                   DataCell(Container(
-                                    child: Text(""),
-                                  )),
-                                ]
-                              )
-                            ],
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: DataTable(
+                            columnSpacing: Device.screenType == ScreenType.tablet? deviceWidth(context) * 0.06 : deviceWidth(context) * 0.04,
+                            headingTextStyle: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.bold, color: Colors.white),
+                            dataTextStyle: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w500, color: Colors.black),
+                            headingRowColor: MaterialStateProperty.all<Color>(Constants().secondaryColor),
+                            dataRowColor: MaterialStateProperty.all<Color>(Constants().dividerColor),
+                            dividerThickness: 1,
+                            columns: [
+                              DataColumn(label: Text("Day/Slot")),
+                              DataColumn(label: Text("S1",)),
+                              DataColumn(label: Text("S2",),),
+                              DataColumn(label: Text("S3",)),
+                              DataColumn(label: Text("S4",)),
+                              DataColumn(label: Text("S5",)),
+                            ], 
+                            rows: data.isNotEmpty? data.map((slotSet) {
+                              return DataRow(cells: [
+                                DataCell(Text(slotSet['day'] ?? '')),
+                                DataCell(Text(slotSet['slot1'] ?? '')),
+                                DataCell(Text(slotSet['slot2'] ?? '')),
+                                DataCell(Text(slotSet['slot3'] ?? '')),
+                                DataCell(Text(slotSet['slot4'] ?? '')),
+                                DataCell(Text(slotSet['slot5'] ?? '')),
+                              ]);
+                            }).toList() :[
+                                DataRow(
+                                  cells: [
+                                    DataCell(Container(
+                                      child: Text(""),
+                                    )),
+                                     DataCell(Container(
+                                      child: Text(""),
+                                    )),
+                                     DataCell(Container(
+                                      child: Text(""),
+                                    )),
+                                     DataCell(Container(
+                                      child: Text(""),
+                                    )),
+                                     DataCell(Container(
+                                      child: Text(""),
+                                    )),
+                                     DataCell(Container(
+                                      child: Text(""),
+                                    )),
+                                  ]
+                                )
+                              ],
+                          ),
                         ),
                       ),
     
@@ -209,52 +212,54 @@ class _SlotState extends State<Slot> {
                          margin: EdgeInsets.only(bottom: deviceHeight(context) * 0.02),
                          padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05),
                           child: 
-                          Row(
-                            children: [ 
-                             Text(
-                             "Please be noted that",
-                             style: TextStyle(
-                             fontFamily: 'Poppins', 
-                             fontSize: Device.screenType == ScreenType.tablet? 20:17,
-                             fontWeight: FontWeight.w700,
-                             color: Colors.black
-                             ),
-                            ),  
-                            
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  isInfo = true;
-                                  if(isShowOpen) {
-                                    isInfo = false;
-                                    isShowOpen = false;
-                                  }
-                                });
-                              }, 
-                              icon: Icon(Icons.info_sharp, color: Constants().secondaryColor, size: Device.screenType == ScreenType.tablet? 20:17,)
-                              ),
-                              Text.rich(
-                        TextSpan(
-                       text: "Help",
-                       style:   TextStyle(
-                         color: Constants().secondaryColor,
-                         fontSize:  Device.screenType == ScreenType.tablet? 20:17,
-                         fontWeight: FontWeight.bold,
-                         fontFamily: 'Poppins',
-                       ),
-                       recognizer: TapGestureRecognizer()..onTap = () {
-                             setState(() {
-                                  isInfo = true;
-                                  if(isShowOpen) {
-                                    isInfo = false;
-                                    isShowOpen = false;
-                                  }
-                                });
-                          }
-                         ),
-                        ),
-                            
-                           ],
+                          Flexible(
+                            child: Row(
+                              children: [ 
+                               Text(
+                               "Please be noted that",
+                               style: TextStyle(
+                               fontFamily: 'Poppins', 
+                               fontSize: Device.screenType == ScreenType.tablet? 20:17,
+                               fontWeight: FontWeight.w700,
+                               color: Colors.black
+                               ),
+                              ),  
+                              
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    isInfo = true;
+                                    if(isShowOpen) {
+                                      isInfo = false;
+                                      isShowOpen = false;
+                                    }
+                                  });
+                                }, 
+                                icon: Icon(Icons.info_sharp, color: Constants().secondaryColor, size: Device.screenType == ScreenType.tablet? 20:25,)
+                                ),
+                                Text.rich(
+                                                  TextSpan(
+                                                 text: "Help",
+                                                 style:   TextStyle(
+                                                   color: Constants().secondaryColor,
+                                                   fontSize:  Device.screenType == ScreenType.tablet? 20:17,
+                                                   fontWeight: FontWeight.bold,
+                                                   fontFamily: 'Poppins',
+                                                 ),
+                                                 recognizer: TapGestureRecognizer()..onTap = () {
+                               setState(() {
+                                    isInfo = true;
+                                    if(isShowOpen) {
+                                      isInfo = false;
+                                      isShowOpen = false;
+                                    }
+                                  });
+                            }
+                                                   ),
+                                                  ),
+                              
+                             ],
+                            ),
                           ),            
                         ),     
                         if(isInfo) showHelp(),
@@ -349,40 +354,42 @@ class _SlotState extends State<Slot> {
             ),
        ],
     ),
-       child:Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-               children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(Icons.info_sharp, color: Constants().secondaryColor, size: 25,),
-                      SizedBox(width: deviceWidth(context) * 0.02,),
-                      Text("INFORMATION: ADD SLOT", style: TextStyle(fontFamily: 'Poppins', fontSize: 20, fontWeight: FontWeight.bold),),
-                    ],
-                  ),
-                  SizedBox(height: deviceHeight(context) * 0.01,),
-                  Text("1. Please add your slot.", style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),),
-                  Text("2. Please enter your free time to set the appointment with student based on your schedule for this semester.",style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),),
-                   Text("3. No duplicate day allowed.",style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),),
-                  Text("4. Button add slot will be disable if 5 work days has been inserted.", style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),),
-                  SizedBox(height: deviceHeight(context) * 0.03,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(Icons.info_sharp, color: Constants().primaryColor, size: 25,),
-                      SizedBox(width: deviceWidth(context) * 0.01,),
-                      Text("INFORMATION: UPDATE SLOT", style: TextStyle(fontFamily: 'Poppins', fontSize: 20, fontWeight: FontWeight.bold),),
-                    ],
-                  ), 
-                  SizedBox(height: deviceHeight(context) * 0.01,),
-                  Text("1. Update your slot with certain day.", style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),),
-                  Text("2. Please choose the day and new slot you want to update for the appointment.",style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),),
-                  Text("3. Button update slot will be enable after lecturer add 5 work days of appointment.",style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),),
-               ],
-             ),
+       child:Flexible(
+         child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                 children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(Icons.info_sharp, color: Constants().secondaryColor, size: 25,),
+                        SizedBox(width: deviceWidth(context) * 0.02,),
+                        Flexible(child: Text("INFORMATION: ADD SLOT",textAlign: TextAlign.justify, style: TextStyle(fontFamily: 'Poppins', fontSize: 20, fontWeight: FontWeight.bold),)),
+                      ],
+                    ),
+                    SizedBox(height: deviceHeight(context) * 0.01,),
+                    Text("1. Please add your slot.", textAlign: TextAlign.justify, style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),),
+                    Text("2. Please enter your free time to set the appointment with student based on your schedule for this semester.",  textAlign: TextAlign.justify, style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),),
+                     Text("3. No duplicate day allowed.",  textAlign: TextAlign.justify, style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),),
+                    Text("4. Button add slot will be disable if 5 work days has been inserted.", textAlign: TextAlign.justify, style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),),
+                    SizedBox(height: deviceHeight(context) * 0.03,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(Icons.info_sharp, color: Constants().primaryColor, size: 25,),
+                        SizedBox(width: deviceWidth(context) * 0.01,),
+                        Flexible(child: Text("INFORMATION: UPDATE SLOT",textAlign: TextAlign.justify, style: TextStyle(fontFamily: 'Poppins', fontSize: 20, fontWeight: FontWeight.bold),)),
+                      ],
+                    ), 
+                    SizedBox(height: deviceHeight(context) * 0.01,),
+                    Text("1. Update your slot with certain day.",textAlign: TextAlign.justify, style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),),
+                    Text("2. Please choose the day and new slot you want to update for the appointment.",textAlign: TextAlign.justify, style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),),
+                    Text("3. Button update slot will be enable after lecturer add 5 work days of appointment.",textAlign: TextAlign.justify, style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),),
+                 ],
+               ),
+       ),
      );
   }
 
@@ -390,7 +397,8 @@ class _SlotState extends State<Slot> {
   Widget addSlot() {
      return Container(
        margin: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05, vertical: deviceHeight(context) * 0.05), 
-       padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.26, vertical: deviceHeight(context) * 0.02) : EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.2, vertical: deviceHeight(context) * 0.02),
+       padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.15, vertical: deviceHeight(context) * 0.02) :
+        EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.15, vertical: deviceHeight(context) * 0.02),
        decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
           color: Colors.white,
@@ -408,188 +416,217 @@ class _SlotState extends State<Slot> {
           ),
        child: Column(
          children: [
-            Text("Add Slot",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:20, fontWeight: FontWeight.bold, color: Colors.black),),
+            Text("Add Slot",textAlign : TextAlign.center, style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:20, fontWeight: FontWeight.bold, color: Colors.black),),
             SizedBox(height: deviceHeight(context) * 0.03,),
             Form(
               key: _globalKey,
               child: Column(
-                children: [ Row(
-                children: [
-                 Text("Day: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),),
-                 SizedBox(width:  Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.15 : deviceWidth(context) * 0.1,),
-                Expanded(
-                  child: DropdownButton<String>(
-                  focusColor: Colors.black,
-                  style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize:  Device.screenType == ScreenType.tablet? 18:15),
-                  hint:  dayIsChecked ? Expanded(child: Text(daysValue,style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize: Device.screenType == ScreenType.tablet? 0.14.dp : 0.28.dp), )):  Text("Select Day",style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize: 15), ),
-                  items: days.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(value: value, child: Text(value));
-                  }).toList(), 
-                   onChanged: (String? newValue) async {
-                   setState(() {
-                     daysValue = newValue ?? '';
-                     dayIsChecked = true;
-                   });
-                            
-                    }
+                children: [ 
+                Container(
+                   padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
+                  child: Row(
+                  children: [
+                   Flexible(child: Text("Day: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                   SizedBox(width:  Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.15 : deviceWidth(context) * 0.1,),
+                  Container(
+                    width:  Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.20 :  deviceWidth(context) * 0.35,
+                    child: Flexible(
+                      child: DropdownButton<String>(
+                      isDense: true,
+                      elevation: 5,
+                      isExpanded: true,
+                      focusColor: Colors.black,
+                      style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize:  Device.screenType == ScreenType.tablet? 18:15),
+                      hint:  dayIsChecked ? Flexible(child: Text(daysValue,style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize: Device.screenType == ScreenType.tablet? 0.14.dp : 0.28.dp), )):  
+                      Flexible(child: Text("Select Day",style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize: 15), )),
+                      items: days.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(value: value, child: Text(value));
+                      }).toList(), 
+                       onChanged: (String? newValue) async {
+                       setState(() {
+                         daysValue = newValue ?? '';
+                         dayIsChecked = true;
+                       });
+                                
+                        }
+                      ),
+                    ),
                   ),
+                  ],
+                               ),
                 ),
-                ],
-               ),
-               SizedBox(height: deviceHeight(context) * 0.02,),
+               SizedBox(height: deviceHeight(context) * 0.03,),
                
-               Row(
-                  children: [
-                     Expanded(child: Text("Slot 1: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
-                    SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
-                    Checkbox(
-                    value: isChecked1, 
-                    activeColor: Constants().secondaryColor,
-                    onChanged: (bool? newChecked) {
-                        setState(() {
-                          isChecked1 = newChecked!;
-                          slot1 = isChecked1 ? "8.00 AM" : "";
-                        });       
-                    }),
-             
-                     Expanded(child: Text("8.00 AM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),)),
-                  ],
+               Container( 
+                  padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
+                 child: Row(
+                    children: [
+                       Flexible(child: Text("Slot 1: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                      SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
+                      Checkbox(
+                      value: isChecked1, 
+                      activeColor: Constants().secondaryColor,
+                      onChanged: (bool? newChecked) {
+                          setState(() {
+                            isChecked1 = newChecked!;
+                            slot1 = isChecked1 ? "8.00 AM" : "";
+                          });       
+                      }),
+                            
+                       Flexible(child: Text("8.00 AM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),)),
+                    ],
+                 ),
                ),
                     SizedBox(height: deviceHeight(context) * 0.02,),
-               Row(
-                  children: [
-                     Expanded(child: Text("Slot 2: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
-                    SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
-                    Checkbox(
-                    value: isChecked2, 
-                    activeColor: Constants().secondaryColor,
-                    onChanged: (bool? newChecked) {
-                        setState(() {
-                          isChecked2 = newChecked!;
-                          slot2 = isChecked2 ? "10.00 AM" : "";
-                        });       
-                    }),
-             
-                   Expanded(child: Text("10.00 AM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),)),
-                  ],
+               Container(
+                  padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
+                 child: Row(
+                    children: [
+                       Flexible(child: Text("Slot 2: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                      SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
+                      Checkbox(
+                      value: isChecked2, 
+                      activeColor: Constants().secondaryColor,
+                      onChanged: (bool? newChecked) {
+                          setState(() {
+                            isChecked2 = newChecked!;
+                            slot2 = isChecked2 ? "10.00 AM" : "";
+                          });       
+                      }),
+                            
+                     Flexible(child: Text("10.00 AM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),)),
+                    ],
+                 ),
                ),
                     SizedBox(height: deviceHeight(context) * 0.02,),
-               Row(
-                  children: [
-                    Expanded(child: Text("Slot 3: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
-                    SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
-                    Checkbox(
-                    value: isChecked3, 
-                    activeColor: Constants().secondaryColor,
-                    onChanged: (bool? newChecked) {
-                        setState(() {
-                          isChecked3 = newChecked!;
-                          slot3 = isChecked3 ? "12.00 PM" : "";
-                        });       
-                    }),
-             
-                     Expanded(child: Text("12.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),)),
-                  ],
+               Container( 
+                 padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
+                 child: Row(
+                    children: [
+                      Flexible(child: Text("Slot 3: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                      SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
+                      Checkbox(
+                      value: isChecked3, 
+                      activeColor: Constants().secondaryColor,
+                      onChanged: (bool? newChecked) {
+                          setState(() {
+                            isChecked3 = newChecked!;
+                            slot3 = isChecked3 ? "12.00 PM" : "";
+                          });       
+                      }),
+                            
+                       Flexible(child: Text("12.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),)),
+                    ],
+                 ),
                ),
                     SizedBox(height: deviceHeight(context) * 0.02,),
-               Row(
-                  children: [
-                    Expanded(child: Text("Slot 4: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
-                    SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
-                    Checkbox(
-                    value: isChecked4, 
-                    activeColor: Constants().secondaryColor,
-                    onChanged: (bool? newChecked) {
-                        setState(() {
-                          isChecked4 = newChecked!;
-                          slot4 = isChecked4 ? "2.00 PM" : "";
-                        });       
-                    }),
-             
-                     Expanded(child: Text("2.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),)),
-                  ],
+               Container(
+                 padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
+                 child: Row(
+                    children: [
+                      Flexible(child: Text("Slot 4: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                      SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
+                      Checkbox(
+                      value: isChecked4, 
+                      activeColor: Constants().secondaryColor,
+                      onChanged: (bool? newChecked) {
+                          setState(() {
+                            isChecked4 = newChecked!;
+                            slot4 = isChecked4 ? "2.00 PM" : "";
+                          });       
+                      }),
+                            
+                       Flexible(child: Text("2.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),)),
+                    ],
+                 ),
                ),
                      SizedBox(height: deviceHeight(context) * 0.02,),
-               Row(
-                  children: [
-                   Expanded(child: Text("Slot 5: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
-                    SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
-                    Checkbox(
-                    value: isChecked5, 
-                    activeColor: Constants().secondaryColor,
-                    onChanged: (bool ?newChecked) {
-                        setState(() {
-                          isChecked5 = newChecked!;
-                          slot5 = isChecked5 ? "4.00 PM" : "";
-                        });       
-                    }),
-                   Expanded(child: Text("4.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),)),
-                  ],
-                 ),
+               Container(
+                  padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
+                 child: Row(
+                    children: [
+                     Flexible(child: Text("Slot 5: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                      SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
+                      Checkbox(
+                      value: isChecked5, 
+                      activeColor: Constants().secondaryColor,
+                      onChanged: (bool ?newChecked) {
+                          setState(() {
+                            isChecked5 = newChecked!;
+                            slot5 = isChecked5 ? "4.00 PM" : "";
+                          });       
+                      }),
+                     Flexible(child: Text("4.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),)),
+                    ],
+                   ),
+               ),
                  
                   SizedBox(height: deviceHeight(context) * 0.02,),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SizedBox(
-                                   child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white,
-                                        side: BorderSide(color: Colors.black, width: 1),
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                          
+                      Container(
+                          padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.02),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SizedBox(
+                                     child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.white,
+                                          side: BorderSide(color: Colors.black, width: 1),
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                            
+                                          ),
                                         ),
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          isAdd = false;
-                                        });
-                                      },
-                                      child:  Text(
-                                        "Close",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize:  Device.screenType == ScreenType.tablet? 18:15,
-                                            fontFamily: 'Poppins',
+                                        onPressed: () {
+                                          setState(() {
+                                            isAdd = false;
+                                          });
+                                        },
+                                        child:  Text(
+                                          "Close",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize:  Device.screenType == ScreenType.tablet? 18:15,
+                                              fontFamily: 'Poppins',
+                                          ),
                                         ),
-                                      ),
+                                    ),
                                   ),
-                                ),
-
-                                SizedBox(width: 1.h,),
-                                   SizedBox(
-                                  child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:Constants().secondaryColor,
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                      
+                                  SizedBox(width: 1.h,),
+                                     SizedBox(
+                                    child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:Constants().secondaryColor,
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
                                         ),
-                                      ),
-                           
-                                      onPressed: () async{
-                                        final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-                                        var staffNo = _sharedPreferences.getString('staffNo');
-              
-                                        slot(staffNo!, daysValue, slot1, slot2, slot3, slot4, slot5);
-  
-                                      },
-                                      child:  Text(
-                                        "Confirm",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize:  Device.screenType == ScreenType.tablet? 18:15,
-                                            fontFamily: 'Poppins',
+                             
+                                        onPressed: () async{
+                                          final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+                                          var staffNo = _sharedPreferences.getString('staffNo');
+                                    
+                                          slot(staffNo!, daysValue, slot1, slot2, slot3, slot4, slot5);
+                        
+                                        },
+                                        child:  Text(
+                                          "Confirm",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize:  Device.screenType == ScreenType.tablet? 18:15,
+                                              fontFamily: 'Poppins',
+                                          ),
                                         ),
-                                      ),
+                                    ),
                                   ),
-                                ),
-                              ],
-                        ), 
+                                ],
+                          ),
+                      ), 
                  ],
               ),
           ),
@@ -602,7 +639,8 @@ class _SlotState extends State<Slot> {
   Widget updateSlot() {
      return Container(
        margin:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05, vertical: deviceHeight(context) * 0.05), 
-       padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.26, vertical: deviceHeight(context) * 0.02) : EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.2, vertical: deviceHeight(context) * 0.02),
+       padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.15, vertical: deviceHeight(context) * 0.02) :
+        EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.15, vertical: deviceHeight(context) * 0.02),
        decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
           color: Colors.white,
@@ -620,181 +658,214 @@ class _SlotState extends State<Slot> {
           ),
        child: Column(
          children: [
-            Text("Update Slot",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:20, fontWeight: FontWeight.bold, color: Colors.black),),
+            Text("Update Slot", textAlign : TextAlign.center, style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:20, fontWeight: FontWeight.bold, color: Colors.black),),
             SizedBox(height: deviceHeight(context) * 0.03,),
             Form(
               key: _globalKey2,
               child: Column(
-                children: [ Row(
                 children: [
-                Text("Day: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),),
-                SizedBox(width:  Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.15 : deviceWidth(context) * 0.1,),
-                 Expanded(
-                   child: DropdownButton<String>(
-                                 focusColor: Colors.black,
-                                 style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize:  Device.screenType == ScreenType.tablet? 18:15),
-                                 hint:  dayIsChecked ? Expanded(child: Text(daysValue,style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize: Device.screenType == ScreenType.tablet? 18:15,), )):  Text("Select Day",style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize: 15), ),
-                                 items: days.map<DropdownMenuItem<String>>((String value) {
-                                 return DropdownMenuItem<String>(value: value, child: Text(value));
-                                 }).toList(), 
-                   onChanged: (String? newValue) async {
-                   setState(() {
-                     daysValue = newValue ?? '';
-                     dayIsChecked = true;
-                   });                         
-                    }
-                  ),
+                   Container(
+                    padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.02),
+                     child: Row(
+                      children: [
+                      Flexible(child: Text("Day: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                      SizedBox(width:  Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.15 : deviceWidth(context) * 0.1,),
+                      Container(
+                     width:  Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.20 :  deviceWidth(context) * 0.35,
+                     child: Flexible(
+                       child: DropdownButton<String>(
+                        isDense: true,
+                        elevation: 5,
+                        isExpanded: true,
+                         focusColor: Colors.black,
+                         style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize:  Device.screenType == ScreenType.tablet? 18:15),
+                         hint:  dayIsChecked ? Flexible(child: Text(daysValue,style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize: Device.screenType == ScreenType.tablet? 18:15,), )):  
+                         Flexible(child: Text("Select Day",style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize: 15), )),
+                         items: days.map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(value: value, child: Text(value));
+                        }).toList(), 
+                       onChanged: (String? newValue) async {
+                       setState(() {
+                         daysValue = newValue ?? '';
+                         dayIsChecked = true;
+                       });                         
+                        }
+                             ),
+                     ),
+                          ),
+                         ],
+                        ),
+                   ),
+               SizedBox(height: deviceHeight(context) * 0.03,),
+               Container(
+                padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
+                 child: Row(
+                    children: [
+                     Flexible(child: Text("Slot 1: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                      SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
+                      Checkbox(
+                      value: isChecked6, 
+                      activeColor: Constants().secondaryColor,
+                      onChanged: (newChecked) {
+                          setState(() {
+                            isChecked6 = newChecked!;
+                            slot6 = isChecked6 ? "8.00 AM" : "";
+                          });       
+                      }),
+                            
+                       Flexible(child: Text("8.00 AM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),)),
+                    ],
                  ),
-                ],
-               ),
-               SizedBox(height: deviceHeight(context) * 0.02,),
-               Row(
-                  children: [
-                   Expanded(child: Text("Slot 1: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
-                    SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
-                    Checkbox(
-                    value: isChecked6, 
-                    activeColor: Constants().primaryColor,
-                    onChanged: (newChecked) {
-                        setState(() {
-                          isChecked6 = newChecked!;
-                          slot6 = isChecked6 ? "8.00 AM" : "";
-                        });       
-                    }),
-             
-                     Expanded(child: Text("8.00 AM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),)),
-                  ],
                ),
                     SizedBox(height: deviceHeight(context) * 0.02,),
-               Row(
-                  children: [
-                     Expanded(child: Text("Slot 2: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
-                    SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
-                    Checkbox(
-                    value: isChecked7, 
-                    activeColor: Constants().primaryColor,
-                    onChanged: (newChecked) {
-                        setState(() {
-                          isChecked7 = newChecked!;
-                          slot7 = isChecked7 ? "10.00 AM" : "";
-                        });       
-                    }),
-             
-                   Expanded(child: Text("10.00 AM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),)),
-                  ],
-               ),
-                      SizedBox(height: deviceHeight(context) * 0.02,),
-               Row(
-                  children: [
-                     Expanded(child: Text("Slot 3: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
-                    SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
-                    Checkbox(
-                    value: isChecked8, 
-                    activeColor: Constants().primaryColor,
-                    onChanged: (newChecked) {
-                        setState(() {
-                          isChecked8 = newChecked!;
-                          slot8 = isChecked8 ? "12.00 PM" : "";
-                        });       
-                    }),
-             
-                     Expanded(child: Text("12.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),)),
-                  ],
-               ),
-                      SizedBox(height: deviceHeight(context) * 0.02,),
-               Row(
-                  children: [
-                     Expanded(child: Text("Slot 4: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
-                    SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
-                    Checkbox(
-                    value: isChecked9, 
-                    activeColor: Constants().primaryColor,
-                    onChanged: (newChecked) {
-                        setState(() {
-                          isChecked9 = newChecked!;
-                          slot9 = isChecked9 ? "2.00 PM" : "";
-                        });       
-                    }),
-             
-                     Expanded(child: Text("2.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),)),
-                  ],
-               ),
-                             SizedBox(height: deviceHeight(context) * 0.02,),
-               Row(
-                  children: [
-                     Expanded(child: Text("Slot 5: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
-                    SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
-                    Checkbox(
-                    value: isChecked10, 
-                    activeColor: Constants().primaryColor,
-                    onChanged: (newChecked) {
-                        setState(() {
-                          isChecked10 = newChecked!;  
-                          slot10 = isChecked10 ? "4.00 PM" : "";
-                        });       
-                    }),
-                   Expanded(child: Text("4.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),)),
-                  ],
+               Container( 
+                  padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
+                 child: Row(
+                    children: [
+                       Flexible(child: Text("Slot 2: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                      SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
+                      Checkbox(
+                      value: isChecked7, 
+                      activeColor: Constants().secondaryColor,
+                      onChanged: (newChecked) {
+                          setState(() {
+                            isChecked7 = newChecked!;
+                            slot7 = isChecked7 ? "10.00 AM" : "";
+                          });       
+                      }),
+                            
+                     Flexible(child: Text("10.00 AM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),)),
+                    ],
                  ),
+               ),
+               SizedBox(height: deviceHeight(context) * 0.02,),
+               Container(
+                  padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
+                 child: Row(
+                    children: [
+                       Flexible(child: Text("Slot 3: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                      SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
+                      Checkbox(
+                      value: isChecked8, 
+                      activeColor: Constants().secondaryColor,
+                      onChanged: (newChecked) {
+                          setState(() {
+                            isChecked8 = newChecked!;
+                            slot8 = isChecked8 ? "12.00 PM" : "";
+                          });       
+                      }),
+                            
+                       Flexible(child: Text("12.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),)),
+                    ],
+                 ),
+               ),
+                      SizedBox(height: deviceHeight(context) * 0.02,),
+               Container( 
+                 padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
+                 child: Row(
+                    children: [
+                       Flexible(child: Text("Slot 4: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                      SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
+                      Checkbox(
+                      value: isChecked9, 
+                      activeColor: Constants().secondaryColor,
+                      onChanged: (newChecked) {
+                          setState(() {
+                            isChecked9 = newChecked!;
+                            slot9 = isChecked9 ? "2.00 PM" : "";
+                          });       
+                      }),
+                            
+                       Flexible(child: Text("2.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),)),
+                    ],
+                 ),
+               ),
+               SizedBox(height: deviceHeight(context) * 0.02,),
+               Container(
+                  padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
+                 child: Row(
+                    children: [
+                       Flexible(child: Text("Slot 5: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                      SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
+                      Checkbox(
+                      value: isChecked10, 
+                      activeColor: Constants().secondaryColor,
+                      onChanged: (newChecked) {
+                          setState(() {
+                            isChecked10 = newChecked!;  
+                            slot10 = isChecked10 ? "4.00 PM" : "";
+                          });       
+                      }),
+                     Flexible(child: Text("4.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),)),
+                    ],
+                   ),
+               ),
                   SizedBox(height: deviceHeight(context) * 0.02,),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                          SizedBox(
-                             child: ElevatedButton(
-                             style: ElevatedButton.styleFrom(
-                             backgroundColor: Colors.white,
-                             side: BorderSide(color: Colors.black, width: 1),
-                             elevation: 0,
-                            shape: RoundedRectangleBorder(
-                               borderRadius: BorderRadius.circular(10),
-                                   ),
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          isUpdate = false;
-                                        });
-                                      },
-                                      child:  Text(
-                                        "Close",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: Device.screenType == ScreenType.tablet? 18:15,
-                                            fontFamily: 'Poppins',
+                      Container(
+                           padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.02),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                            SizedBox(
+                               child: ElevatedButton(
+                               style: ElevatedButton.styleFrom(
+                               backgroundColor: Colors.white,
+                               side: BorderSide(color: Colors.black, width: 1),
+                               elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                 borderRadius: BorderRadius.circular(10),
+                                     ),
                                         ),
-                                      ),
+                                        onPressed: () {
+                                          setState(() {
+                                            isUpdate = false;
+                                          });
+                                        },
+                                        child:  Flexible(
+                                          child: Text(
+                                            "Close",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: Device.screenType == ScreenType.tablet? 18:15,
+                                                fontFamily: 'Poppins',
+                                            ),
+                                          ),
+                                        ),
+                                    ),
                                   ),
-                                ),
-                                  SizedBox(width: 1.h,),
-                                   SizedBox(
-                                  child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Constants().secondaryColor,
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                    SizedBox(width: 1.h,),
+                                     SizedBox(
+                                    child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Constants().secondaryColor,
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
                                         ),
-                                      ),
-                                      onPressed: () async{
-                                        final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
-                                        var staffNo = _sharedPreferences.getString('staffNo');
-              
-                                        editSlot(staffNo!, daysValue, slot6, slot7, slot8, slot9, slot10);
-                                      },
-                                      child:  Text(
-                                        "Confirm",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: Device.screenType == ScreenType.tablet? 18:15,
-                                            fontFamily: 'Poppins',
+                                        onPressed: () async{
+                                          final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+                                          var staffNo = _sharedPreferences.getString('staffNo');
+                                    
+                                          editSlot(staffNo!, daysValue, slot6, slot7, slot8, slot9, slot10);
+                                        },
+                                        child:  Flexible(
+                                          child: Text(
+                                            "Confirm",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: Device.screenType == ScreenType.tablet? 18:15,
+                                                fontFamily: 'Poppins',
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                    ),
                                   ),
-                                ),
-                              ],
-                        ), 
+                                ],
+                          ),
+                      ), 
                 ],
               ),
           ),

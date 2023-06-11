@@ -92,7 +92,7 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                        Container(
                       padding:Device.screenType == ScreenType.tablet? 
                        EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.15,vertical: deviceHeight(context) * 0.1):
-                      EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.09,vertical: deviceHeight(context) * 0.08),
+                      EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.09,vertical: deviceHeight(context) * 0.06),
                       height: deviceHeight(context) * 0.45,
                       width: deviceWidth(context) * 0.9,
                         decoration:   BoxDecoration(
@@ -152,32 +152,36 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                               ),
                             ),
                               SizedBox(height: 5.h),       
-                     SizedBox(
-                       width: double.infinity,
-                       child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Constants().secondaryColor,
-                            elevation: 0,
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                     Flexible(
+                       child: SizedBox(
+                         width: double.infinity,
+                         child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Constants().secondaryColor,
+                              elevation: 0,
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                                 
                             ),
-            
-                          ),
-                    
-                        onPressed: () async{
-                          nextScreenRemoveUntil(context, HomeStudents());
-                        },
-                         child:   Text(
-                           "Confirm",
-                           style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                              fontFamily: 'Poppins',
+                                         
+                          onPressed: () async{
+                            nextScreenRemoveUntil(context, HomeStudents());
+                          },
+                           child:   Flexible(
+                             child: Text(
+                               "Confirm",
+                               style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22,
+                                  fontFamily: 'Poppins',
+                               ),
+                             ),
                            ),
-                         ),
-                        ),
+                          ),
+                       ),
                      ),
                             ],
                           ),

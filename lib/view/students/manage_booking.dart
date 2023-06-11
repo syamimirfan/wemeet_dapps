@@ -409,7 +409,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                           "Sorry, No Appointment",
                                           style: TextStyle(
                                             fontFamily: 'Poppins',
-                                            fontSize: Device.screenType == ScreenType.tablet? 0.17.dp : 0.32.dp,
+                                            fontSize: Device.screenType == ScreenType.tablet? 18:14,
                                             fontWeight: FontWeight.w600,
                                             color: Constants().secondaryColor
                                           ),
