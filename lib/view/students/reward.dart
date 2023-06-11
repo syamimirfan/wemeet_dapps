@@ -122,7 +122,7 @@ class _RewardTokenState extends State<RewardToken> {
     
                    //for scan qr code button
                   SizedBox(
-                      width: Device.screenType == ScreenType.tablet? deviceWidth(context) * 0.3 : deviceWidth(context) * 0.55,
+                      width: Device.screenType == ScreenType.tablet? deviceWidth(context) * 0.33 : deviceWidth(context) * 0.55,
                       child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                              backgroundColor: Constants().secondaryColor,
