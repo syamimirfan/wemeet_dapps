@@ -64,7 +64,7 @@ class About extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                     children:  [
                                      Text(
-                                    "WeMeet Version 0",
+                                    "WeMeet Version 0.1",
                                     style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: Device.screenType == ScreenType.tablet? 
