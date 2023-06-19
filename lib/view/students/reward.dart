@@ -30,12 +30,17 @@ class _RewardTokenState extends State<RewardToken> {
   int? nullToken;
   String urlMining = 'https://sepolia-faucet.pk910.de/';
   String url = 'https://sepoliafaucet.com/';
+  String INFURA_SEPOLIA_ENDPOINT = "";
+  String CONTRACT_ABI = "";
+  String TOKEN_ADDRESS = "";
+
 
   String lectName = "";
 
   @override
   void initState() {
     super.initState();
+
     getStudentTokenAddress();
     
   }
@@ -43,7 +48,16 @@ class _RewardTokenState extends State<RewardToken> {
   getStudentTokenAddress() async{
     final SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
     var tokenAddress = _sharedPreferences.getString('tokenAddress');
-    getToken(tokenAddress);
+     final responseReward = await new Reward().getReward();
+    if(responseReward['success']){
+      setState(() {
+        INFURA_SEPOLIA_ENDPOINT = responseReward['address'][0]["INFURA_SEPOLIA_ENDPOINT"];
+        TOKEN_ADDRESS = responseReward['address'][0]["TOKEN_ADDRESS"];
+        CONTRACT_ABI = responseReward['address'][0]["CONTRACT_ABI"];
+      });
+    }
+   
+    getToken(tokenAddress, INFURA_SEPOLIA_ENDPOINT,TOKEN_ADDRESS,CONTRACT_ABI);
   }
 
   @override
@@ -264,7 +278,7 @@ class _RewardTokenState extends State<RewardToken> {
                                 color: Colors.black                
                               ),
                               recognizer: TapGestureRecognizer()..onTap = () {
-                                Clipboard.setData(ClipboardData(text: Connection.TOKEN_ADDRESS));
+                                Clipboard.setData(ClipboardData(text: TOKEN_ADDRESS));
                                  showSnackBarSuccessful(context, "UTHM Token Address copied", Constants().primaryColor);
                               }
                             ),
@@ -296,14 +310,25 @@ class _RewardTokenState extends State<RewardToken> {
     );
   }
 
+ getAddress() async {
+   final responseReward = await new Reward().getReward();
+    if(responseReward['success']){
+      setState(() {
+        INFURA_SEPOLIA_ENDPOINT = responseReward['address'][0]["INFURA_SEPOLIA_ENDPOINT"];
+        TOKEN_ADDRESS = responseReward['address'][0]["TOKEN_ADDRESS"];
+        CONTRACT_ABI = responseReward['address'][0]["CONTRACT_ABI"];
+      });
+    }
+ }
+
   //get total token from metamask for student
-getToken(String? studentMetamaskAddress) async {
+getToken(String? studentMetamaskAddress, String INFURA_SEPOLIA_ENDPOINT, String TOKEN_ADDRESS, String CONTRACT_ABI) async {
   EasyLoading.show(
     status: "Loading...",
     maskType: EasyLoadingMaskType.black,
   );
 
-  final responseReward = await new Reward().getTotalToken(studentMetamaskAddress!);
+  final responseReward = await new Reward().getTotalToken(studentMetamaskAddress!,INFURA_SEPOLIA_ENDPOINT,TOKEN_ADDRESS,CONTRACT_ABI);
 
   if (responseReward != "null") {
     EasyLoading.dismiss();

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wemeet_dapps/api_services/api_reward.dart';
 import 'package:wemeet_dapps/api_services/api_students.dart';
 import 'package:wemeet_dapps/constants/connection.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
@@ -32,6 +33,16 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
 
   bool isChecked = false;
   String textAgreement = "I have read all the instructions and successfuly import the token. If the token is not imported, I will responsible to not having any reward after the appointment";
+
+  String TOKEN_ADDRESS = "";
+
+   @override
+  void initState() {
+    super.initState();
+
+    getAddress();
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -353,6 +364,14 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
     );
   }
 
+   getAddress() async {
+   final responseReward = await new Reward().getReward();
+    if(responseReward['success']){
+      setState(() {
+        TOKEN_ADDRESS = responseReward['address'][0]["TOKEN_ADDRESS"];
+      });
+    }
+ }
 
   //show snackbar 
   void showSnackBarSuccessful(BuildContext context, String content, Color color) {
