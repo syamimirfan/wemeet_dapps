@@ -103,7 +103,7 @@ void configLoading() {
     theme: ThemeData(
       primaryColor: Constants().primaryColor,
       ), 
-      home: SplashScreen(),
+      // home: SplashScreen(),
       locale: Locale('en', 'US'),  
       builder: EasyLoading.init(),
       navigatorKey: navigatorKey,
