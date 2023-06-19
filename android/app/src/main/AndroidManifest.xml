@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.wemeet_dapps">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="WeMeet"
         android:name="${applicationName}"
@@ -32,6 +33,6 @@
             android:value="2" />
     </application>
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
-    <uses-permission android:name="android.permission.INTERNET" />
+  
     
 </manifest>
