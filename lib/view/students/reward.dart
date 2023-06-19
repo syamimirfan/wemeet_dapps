@@ -8,7 +8,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:wemeet_dapps/about.dart';
 import 'package:wemeet_dapps/api_services/api_lecturers.dart';
 import 'package:wemeet_dapps/api_services/api_reward.dart';
-import 'package:wemeet_dapps/constants/connection.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/view/students/qr_code.dart';
 import 'package:wemeet_dapps/widget/main_drawer_student.dart';
@@ -285,7 +284,7 @@ class _RewardTokenState extends State<RewardToken> {
                           ),
                             IconButton(
                             onPressed: () {
-                              Clipboard.setData(ClipboardData(text: Connection.TOKEN_ADDRESS));
+                              Clipboard.setData(ClipboardData(text: TOKEN_ADDRESS));
                               showSnackBarSuccessful(context, "UTHM Token Address copied", Constants().primaryColor);
                             }, 
                             icon: Icon(Icons.copy, color: const Color(0xff1B1B1B), )
@@ -294,7 +293,7 @@ class _RewardTokenState extends State<RewardToken> {
                          ),
                         ),
                         onTap: () => {
-                            Clipboard.setData(ClipboardData(text: Connection.TOKEN_ADDRESS)),
+                            Clipboard.setData(ClipboardData(text: TOKEN_ADDRESS)),
                            showSnackBarSuccessful(context, "UTHM Token Address copied", Constants().primaryColor)
                         },
                       ),

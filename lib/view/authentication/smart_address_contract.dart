@@ -1,12 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wemeet_dapps/api_services/api_reward.dart';
 import 'package:wemeet_dapps/api_services/api_students.dart';
-import 'package:wemeet_dapps/constants/connection.dart';
 import 'package:wemeet_dapps/shared/constants.dart';
 import 'package:wemeet_dapps/view/students/home_students.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
@@ -218,7 +216,7 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                            ),
                            IconButton(
                             onPressed: () {
-                              Clipboard.setData(ClipboardData(text: Connection.TOKEN_ADDRESS));
+                              Clipboard.setData(ClipboardData(text: TOKEN_ADDRESS));
                               showSnackBarSuccessful(context, "UTHM Token Address copied", Constants().primaryColor);
                             }, 
                             icon: Icon(Icons.copy, size: 25, color: Colors.black, )
