@@ -147,7 +147,7 @@ class _RewardTokenState extends State<RewardToken> {
                               ),
                             ),
                       onPressed: () {
-                          // nextScreen(context, QrCode());
+                          nextScreen(context, QrCode());
                       },
                        child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 4.h),
