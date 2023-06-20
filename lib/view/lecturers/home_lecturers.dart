@@ -83,15 +83,17 @@ class _HomeLecturerState extends State<HomeLecturer> {
                      mainAxisAlignment: MainAxisAlignment.start,
                      crossAxisAlignment: CrossAxisAlignment.start, 
                       children: [
-                      Text(
-                    "Hello, ",
-                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: Device.screenType == ScreenType.tablet? 
-                                18:18,
-                      fontFamily: 'Poppins',
-                     ),
-                  ),
+                      Flexible(
+                        child: Text(
+                        "Hello, ",
+                          style: TextStyle(
+                        color: Colors.white,
+                        fontSize: Device.screenType == ScreenType.tablet? 
+                                  18:18,
+                        fontFamily: 'Poppins',
+                            ),
+                        ),
+                      ),
                     ]),
                     ),
                   ),
@@ -133,16 +135,18 @@ class _HomeLecturerState extends State<HomeLecturer> {
                      mainAxisAlignment: MainAxisAlignment.start,
                      crossAxisAlignment: CrossAxisAlignment.start, 
                       children: [
-                        Text(
-                    "Welcome Back",
-                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize:  Device.screenType == ScreenType.tablet?  
-                                 30:23,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.bold,
-                     ),
-                  ),
+                        Flexible(
+                          child: Text(
+                        "Welcome Back",
+                          style: TextStyle(
+                          color: Colors.white,
+                          fontSize:  Device.screenType == ScreenType.tablet?  
+                          30:23,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                          ),
+                      ),
+                        ),
                     ]),
                     ),
                   ),
@@ -150,8 +154,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
            
                   const SizedBox(height: 36,),
                   
-                  Flexible(
-                    child: Container(
+                     Container(
                         decoration:  const BoxDecoration(
                         color: Colors.white,
                         borderRadius:
@@ -169,15 +172,17 @@ class _HomeLecturerState extends State<HomeLecturer> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children:  [
-                                 const Text(
-                                  "Appointment Requests",
-                                 style: TextStyle(
-                                  color:Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 24,
-                                  fontFamily: 'Poppins',
+                                 Flexible(
+                                   child: const Text(
+                                    "Appointment Requests",
+                                   style: TextStyle(
+                                    color:Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24,
+                                    fontFamily: 'Poppins',
+                                   ),
+                                   ),
                                  ),
-                                ),
       
                   
                                 Column(
@@ -212,8 +217,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                                 backgroundImage: NetworkImage(booking['studImage']),
                                             ),
                                           ),
-                                          Flexible(
-                                            child: Container(
+                                          Container(
                                               margin:  Device.screenType == ScreenType.tablet? 
                                               EdgeInsets.only(left: deviceWidth(context) * 0.05, top: deviceHeight(context) * 0.02):
                                               EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02),
@@ -225,14 +229,16 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                               margin: Device.screenType == ScreenType.tablet? 
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Text(
-                                                booking['matricNo'],
-                                                style:TextStyle(
-                                                    fontSize: Device.screenType == ScreenType.tablet? 
-                                                                20:14,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black,
+                                              child: Flexible(
+                                                child: Text(
+                                                  booking['matricNo'],
+                                                  style:TextStyle(
+                                                      fontSize: Device.screenType == ScreenType.tablet? 
+                                                                  20:14,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.black,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -240,81 +246,90 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                               margin: Device.screenType == ScreenType.tablet? 
                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Text(
-                                                booking['studName'],
-                                                style:TextStyle(
-                                                    fontSize: Device.screenType == ScreenType.tablet? 
-                                                                19:14,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
-                                             Container(
-                                              margin: Device.screenType == ScreenType.tablet? 
-                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
-                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Text(
-                                                booking['studTelephoneNo'],
-                                                style:TextStyle(
-                                                    fontSize: Device.screenType == ScreenType.tablet? 
-                                                                 19:14,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
-                                             Container(
-                                              margin: Device.screenType == ScreenType.tablet? 
-                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
-                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Text(
-                                                booking['numberOfStudents'].toString() + " students",
-                                                style:TextStyle(
-                                                    fontSize: Device.screenType == ScreenType.tablet? 
-                                                              19:14,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.black,
-                                                  ),
-                                                 ),
-                                                 ),
-                                            Container(
-                                              margin: Device.screenType == ScreenType.tablet? 
-                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
-                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Text(
-                                                booking['date'],
-                                                style:TextStyle(
-                                                    fontSize: Device.screenType == ScreenType.tablet? 
-                                                              19:14,
-                                                    fontFamily: 'Poppins',
+                                              child: Flexible(
+                                                child: Text(
+                                                  booking['studName'],
+                                                  style:TextStyle(
+                                                      fontSize: Device.screenType == ScreenType.tablet? 
+                                                                  19:14,
+                                                      fontFamily: 'Poppins',
                                                       fontWeight: FontWeight.w400,
-                                                    color: Colors.black,
+                                                      color: Colors.black,
                                                   ),
-                                                 ),
+                                                ),
+                                              ),
+                                            ),
+                                             Container(
+                                              margin: Device.screenType == ScreenType.tablet? 
+                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
+                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                              child: Flexible(
+                                                child: Text(
+                                                  booking['studTelephoneNo'],
+                                                  style:TextStyle(
+                                                      fontSize: Device.screenType == ScreenType.tablet? 
+                                                                   19:14,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight: FontWeight.w400,
+                                                      color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                             Container(
+                                              margin: Device.screenType == ScreenType.tablet? 
+                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
+                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                              child: Flexible(
+                                                child: Text(
+                                                  booking['numberOfStudents'].toString() + " students",
+                                                  style:TextStyle(
+                                                      fontSize: Device.screenType == ScreenType.tablet? 
+                                                                19:14,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight: FontWeight.w400,
+                                                      color: Colors.black,
+                                                    ),
+                                                   ),
+                                              ),
                                                  ),
                                             Container(
                                               margin: Device.screenType == ScreenType.tablet? 
                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Text(
-                                                booking['time'],
-                                                style:TextStyle(
-                                                    fontSize: Device.screenType == ScreenType.tablet? 
-                                                              19:14,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Constants().secondaryColor,
-                                                  ),
+                                              child: Flexible(
+                                                child: Text(
+                                                  booking['date'],
+                                                  style:TextStyle(
+                                                      fontSize: Device.screenType == ScreenType.tablet? 
+                                                                19:14,
+                                                      fontFamily: 'Poppins',
+                                                        fontWeight: FontWeight.w400,
+                                                      color: Colors.black,
+                                                    ),
+                                                   ),
+                                              ),
                                                  ),
+                                            Container(
+                                              margin: Device.screenType == ScreenType.tablet? 
+                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
+                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                              child: Flexible(
+                                                child: Text(
+                                                  booking['time'],
+                                                  style:TextStyle(
+                                                      fontSize: Device.screenType == ScreenType.tablet? 
+                                                                19:14,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Constants().secondaryColor,
+                                                    ),
+                                                   ),
+                                              ),
                                                  ),
                                                 ],
                                               ),
-                                            ),
-                                          ),
+                                            ),   
                                         ],
                                        ),
                                 //for divider between booking information and button
@@ -395,13 +410,15 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                     noData == "Empty Data" ?
                                     Container(
                                       margin: Device.screenType == ScreenType.tablet? EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.3) : EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.2),
-                                      child: Text(
-                                        "Sorry, No Appointment",
-                                        style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: Device.screenType == ScreenType.tablet? 18:14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Constants().secondaryColor
+                                      child: Flexible(
+                                        child: Text(
+                                          "Sorry, No Appointment",
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: Device.screenType == ScreenType.tablet? 18:14,
+                                            fontWeight: FontWeight.w600,
+                                            color: Constants().secondaryColor
+                                          ),
                                         ),
                                       ),
                                     ):Center(),
@@ -412,7 +429,6 @@ class _HomeLecturerState extends State<HomeLecturer> {
                           ),
                         ),
                       ),
-                  ),
                 ],
                ),
              ),

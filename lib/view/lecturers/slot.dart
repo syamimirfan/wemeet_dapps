@@ -211,19 +211,19 @@ class _SlotState extends State<Slot> {
                         Container(
                          margin: EdgeInsets.only(bottom: deviceHeight(context) * 0.02),
                          padding: EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05),
-                          child: 
-                          Flexible(
-                            child: Row(
+                          child: Row(
                               children: [ 
-                               Text(
-                               "Please be noted that",
-                               style: TextStyle(
-                               fontFamily: 'Poppins', 
-                               fontSize: Device.screenType == ScreenType.tablet? 20:17,
-                               fontWeight: FontWeight.w700,
-                               color: Colors.black
-                               ),
-                              ),  
+                               Flexible(
+                                 child: Text(
+                                 "Please be noted that",
+                                 style: TextStyle(
+                                 fontFamily: 'Poppins', 
+                                 fontSize: Device.screenType == ScreenType.tablet? 20:17,
+                                 fontWeight: FontWeight.w700,
+                                 color: Colors.black
+                                 ),
+                                                             ),
+                               ),  
                               
                               IconButton(
                                 onPressed: () {
@@ -237,30 +237,32 @@ class _SlotState extends State<Slot> {
                                 }, 
                                 icon: Icon(Icons.info_sharp, color: Constants().secondaryColor, size: Device.screenType == ScreenType.tablet? 20:25,)
                                 ),
-                                Text.rich(
-                                                  TextSpan(
-                                                 text: "Help",
-                                                 style:   TextStyle(
-                                                   color: Constants().secondaryColor,
-                                                   fontSize:  Device.screenType == ScreenType.tablet? 20:17,
-                                                   fontWeight: FontWeight.bold,
-                                                   fontFamily: 'Poppins',
-                                                 ),
-                                                 recognizer: TapGestureRecognizer()..onTap = () {
-                               setState(() {
-                                    isInfo = true;
-                                    if(isShowOpen) {
-                                      isInfo = false;
-                                      isShowOpen = false;
-                                    }
-                                  });
-                            }
-                                                   ),
-                                                  ),
+                                Flexible(
+                                  child: Text.rich(
+                                      TextSpan(
+                                      text: "Help",
+                                      style:   TextStyle(
+                                        color: Constants().secondaryColor,
+                                        fontSize:  Device.screenType == ScreenType.tablet? 20:17,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins',
+                                      ),
+                                      recognizer: TapGestureRecognizer()..onTap = () {
+                                                  setState(() {
+                                      isInfo = true;
+                                      if(isShowOpen) {
+                                        isInfo = false;
+                                        isShowOpen = false;
+                                      }
+                                    });
+                                                            }
+                                                     ),
+                                                    ),
+                                ),
                               
                              ],
                             ),
-                          ),            
+                            
                         ),     
                         if(isInfo) showHelp(),
                             //for button add slot and update slot
@@ -354,7 +356,6 @@ class _SlotState extends State<Slot> {
             ),
        ],
     ),
-       child:Flexible(
          child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -384,12 +385,11 @@ class _SlotState extends State<Slot> {
                       ],
                     ), 
                     SizedBox(height: deviceHeight(context) * 0.01,),
-                    Text("1. Update your slot with certain day.",textAlign: TextAlign.justify, style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),),
-                    Text("2. Please choose the day and new slot you want to update for the appointment.",textAlign: TextAlign.justify, style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),),
-                    Text("3. Button update slot will be enable after lecturer add 5 work days of appointment.",textAlign: TextAlign.justify, style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),),
+                    Flexible(child: Text("1. Update your slot with certain day.",textAlign: TextAlign.justify, style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),)),
+                    Flexible(child: Text("2. Please choose the day and new slot you want to update for the appointment.",textAlign: TextAlign.justify, style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),)),
+                    Flexible(child: Text("3. Button update slot will be enable after lecturer add 5 work days of appointment.",textAlign: TextAlign.justify, style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),)),
                  ],
                ),
-       ),
      );
   }
 

@@ -54,41 +54,44 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
             child: Form(
               key: _globalKey,
-              child: Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children:  [
-                    const Text(
-                      "Reset",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 40,
-                          fontFamily: 'Poppins',
+                    Flexible(
+                      child: const Text(
+                        "Reset",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 40,
+                            fontFamily: 'Poppins',
+                        ),
                       ),
                     ),
-                    Text.rich(
-                      TextSpan(
-                        text: "Password ",
-                        style: const TextStyle(
-                           color: Colors.white,
-                           fontWeight: FontWeight.bold,
-                           fontSize: 40,
-                           fontFamily: 'Poppins',
-                        ),
-                      
-                        children: [
-                          TextSpan(
-                            text: "?",
-                            style:  TextStyle(
-                               color: Constants().secondaryColor,
-                               fontWeight: FontWeight.bold,
-                               fontSize: 40,
-                               fontFamily: 'Poppins',
-                            ),
+                    Flexible(
+                      child: Text.rich(
+                        TextSpan(
+                          text: "Password ",
+                          style: const TextStyle(
+                             color: Colors.white,
+                             fontWeight: FontWeight.bold,
+                             fontSize: 40,
+                             fontFamily: 'Poppins',
                           ),
-                        ],
+                        
+                          children: [
+                            TextSpan(
+                              text: "?",
+                              style:  TextStyle(
+                                 color: Constants().secondaryColor,
+                                 fontWeight: FontWeight.bold,
+                                 fontSize: 40,
+                                 fontFamily: 'Poppins',
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),   
                   Device.screenType == ScreenType.tablet ?
@@ -297,7 +300,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     SizedBox(height: 20,),
                   ],
                 ),
-              ),
             ),
           ),
       ),

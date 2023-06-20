@@ -123,14 +123,16 @@ class _RewardTokenState extends State<RewardToken> {
                    //for token value
                    Container(
                      margin: EdgeInsets.only(bottom: deviceHeight(context) * 0.05),
-                     child:  Text(
-                      token.toString() + "\tUTHM",
-                      style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize:  Device.screenType == ScreenType.tablet? 30:25,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
+                     child:  Flexible(
+                       child: Text(
+                        token.toString() + "\tUTHM",
+                        style: TextStyle(
+                          fontFamily: "Poppins",
+                          fontSize:  Device.screenType == ScreenType.tablet? 30:25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                       ),
                      ),
                    ),
     
@@ -155,7 +157,7 @@ class _RewardTokenState extends State<RewardToken> {
                            children: [
                             Icon(Icons.qr_code_scanner,color: Colors.white,),
                             SizedBox(width: 2.h,),
-                              Expanded(
+                              Flexible(
                          
                                 child: Text(
                                 "Scan QR",
@@ -204,57 +206,65 @@ class _RewardTokenState extends State<RewardToken> {
                                   ),
                                 ),
                                SizedBox(width: deviceWidth(context) * 0.02,),
-                                GestureDetector(
-                               onTap: () {
-                                //create URL object
-                                Uri uri = Uri.parse(urlMining);
-                                 launchUrl(uri);
-                                 },
-                                child: Text(
-                                'https://sepolia-faucet.pk910.de/',
-                                 style: TextStyle(
-                                  fontSize: Device.screenType == ScreenType.tablet? 18:15,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.underline,
-                                 ),
-                              ),
-                             ),
-                            Text(
-                              "Or",
-                               textAlign: TextAlign.justify,
-                                style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: Device.screenType == ScreenType.tablet? 18:15,
-                                fontFamily: 'Poppins',        
-                                color: Colors.white                       
-                                  ),
-                             ),
-                               SizedBox(width: deviceWidth(context) * 0.02,),
-                                GestureDetector(
-                               onTap: () {
-                                // create URL object
-                                 Uri uri = Uri.parse(url);
-                                 launchUrl(uri);
-                                 },
-                                child: Text(
-                                'https://sepoliafaucet.com/',
-                                 style: TextStyle(
-                                      fontSize: Device.screenType == ScreenType.tablet? 18:15,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.underline,
-                                 ),
-                              ),
-                             ),
-                     SizedBox(height: 2.h,),
-                            Text(
-                                "Not Imported UTHM Token?",
-                                style: TextStyle(
-                                  fontFamily: "Poppins",
-                                 fontSize: Device.screenType == ScreenType.tablet? 18:16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                                Flexible(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                  //create URL object
+                                  Uri uri = Uri.parse(urlMining);
+                                   launchUrl(uri);
+                                   },
+                                  child: Text(
+                                  'https://sepolia-faucet.pk910.de/',
+                                   style: TextStyle(
+                                    fontSize: Device.screenType == ScreenType.tablet? 18:15,
+                                    color: Colors.white,
+                                    decoration: TextDecoration.underline,
+                                   ),
+                                          ),
+                                        ),
                                 ),
-                              ),
+                            Flexible(
+                              child: Text(
+                                "Or",
+                                 textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: Device.screenType == ScreenType.tablet? 18:15,
+                                  fontFamily: 'Poppins',        
+                                  color: Colors.white                       
+                                    ),
+                               ),
+                            ),
+                               SizedBox(width: deviceWidth(context) * 0.02,),
+                                Flexible(
+                                  child: GestureDetector(
+                                      onTap: () {
+                                  // create URL object
+                                   Uri uri = Uri.parse(url);
+                                   launchUrl(uri);
+                                   },
+                                  child: Text(
+                                  'https://sepoliafaucet.com/',
+                                   style: TextStyle(
+                                        fontSize: Device.screenType == ScreenType.tablet? 18:15,
+                                    color: Colors.white,
+                                    decoration: TextDecoration.underline,
+                                   ),
+                                                              ),
+                                                             ),
+                                ),
+                     SizedBox(height: 2.h,),
+                            Flexible(
+                              child: Text(
+                                  "Not Imported UTHM Token?",
+                                  style: TextStyle(
+                                    fontFamily: "Poppins",
+                                   fontSize: Device.screenType == ScreenType.tablet? 18:16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                            ),
                         SizedBox(height: 2.h,),
                           InkWell(
                             child: Container(

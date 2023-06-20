@@ -99,27 +99,31 @@ class _UpdateBookState extends State<UpdateBook> {
                 backgroundImage: NetworkImage(lectImage),
               ),
               ),
-               title: Text(
-                lectName,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: Device.screenType == ScreenType.tablet? 15:15,
-                  fontFamily: "Poppins",
-                  color: Colors.black,
-                    ),
-                   ),
+               title: Flexible(
+                 child: Text(
+                  lectName,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: Device.screenType == ScreenType.tablet? 15:15,
+                    fontFamily: "Poppins",
+                    color: Colors.black,
+                      ),
+                     ),
+               ),
              
                   subtitle: 
-                      Text(
-                   phoneNo + "\n" + faculty + ",\t" + floorLvl.toString() + ",\t" + roomNo.toString() ,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: Device.screenType == ScreenType.tablet? 12:12,
-                      fontFamily: "Poppins",
-                      color: Colors.black,
-                    ),
-                
-              ),
+                      Flexible(
+                        child: Text(
+                        phoneNo + "\n" + faculty + ",\t" + floorLvl.toString() + ",\t" + roomNo.toString() ,
+                        style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: Device.screenType == ScreenType.tablet? 12:12,
+                        fontFamily: "Poppins",
+                        color: Colors.black,
+                                          ),
+                                      
+                                    ),
+                      ),
        ),
      );
   }
@@ -442,26 +446,30 @@ class _UpdateBookState extends State<UpdateBook> {
                        mainAxisAlignment: MainAxisAlignment.start,
                        crossAxisAlignment: CrossAxisAlignment.start,
                        children: [
-                         Text(
-                          "Your Lecturer: ",
-                          style: TextStyle(
-                              color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                             fontSize: Device.screenType == ScreenType.tablet? 18:18,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
+                         Flexible(
+                           child: Text(
+                            "Your Lecturer: ",
+                            style: TextStyle(
+                                color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                               fontSize: Device.screenType == ScreenType.tablet? 18:18,
+                              fontFamily: 'Poppins',
+                            ),
+                                                 ),
+                         ),
                         selectedLecturer(),
                         const SizedBox(height: 30,),
-                                Text(
-                                "Number of Students",
-                                  style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: Device.screenType == ScreenType.tablet? 18:20,
-                                  fontFamily: 'Poppins',
-                                 ),
-                               ),         
+                                Flexible(
+                                  child: Text(
+                                  "Number of Students",
+                                    style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: Device.screenType == ScreenType.tablet? 18:20,
+                                    fontFamily: 'Poppins',
+                                   ),
+                                                               ),
+                                ),         
                               TextFormField(    
                               controller: _numberOfStudents,
                               keyboardType: TextInputType.number,
@@ -481,7 +489,7 @@ class _UpdateBookState extends State<UpdateBook> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 SizedBox(width: 50.0.w,),
-                                Expanded(
+                                Flexible(
                                   child: Text.rich(
                                     TextSpan(
                                       text: "Same Date&Slot?",
@@ -500,26 +508,30 @@ class _UpdateBookState extends State<UpdateBook> {
                               ],
                             ),
                           const SizedBox(height: 20,),
-                            Text(
-                          "Date",
-                            style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                              fontSize: Device.screenType == ScreenType.tablet? 18:20,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
+                            Flexible(
+                              child: Text(
+                             "Date",
+                              style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                                fontSize: Device.screenType == ScreenType.tablet? 18:20,
+                              fontFamily: 'Poppins',
+                                                      ),
+                                                    ),
+                            ),
                         buildDate(),
                          const SizedBox(height: 20,),
-                            Text(
-                          "Slot",
-                            style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: Device.screenType == ScreenType.tablet? 18:20,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
+                            Flexible(
+                              child: Text(
+                              "Slot",
+                              style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: Device.screenType == ScreenType.tablet? 18:20,
+                              fontFamily: 'Poppins',
+                                                      ),
+                                                    ),
+                            ),
                     
                  SizedBox(height: Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.40: deviceHeight(context) * 0.17,child: buildSlot()),
                              

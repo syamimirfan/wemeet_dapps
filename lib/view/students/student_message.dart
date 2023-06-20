@@ -242,7 +242,7 @@ class _MessageState extends State<Message> {
             ),
             child:  Column(
                     children: [
-                      Expanded(child: SizedBox(height:Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.85 : deviceHeight(context) * 0.78, child:  message(),)),
+                      Flexible(child: SizedBox(height:Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.85 : deviceHeight(context) * 0.78, child:  message(),)),
                       sendingMessage()
                     ],
                 ),

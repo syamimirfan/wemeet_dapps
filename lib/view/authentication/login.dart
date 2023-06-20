@@ -86,7 +86,6 @@ class _LoginState extends State<Login> {
             padding:  const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
             child: Form(
               key: _globalKey,
-              child: Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,41 +101,47 @@ class _LoginState extends State<Login> {
                              }, 
                            icon: const Icon(color: Colors.white,Icons.contact_support_rounded)
                          ),
-                          Text.rich(
-                          TextSpan(
-                         text: "Help",
-                         style:  const TextStyle(
-                           color: Colors.white,
-                           fontSize: 20,
-                           fontFamily: 'Poppins',
-                         ),
-                         recognizer: TapGestureRecognizer()..onTap = () {
-                            nextScreen(context, const Support());
-                         }
-                       ),
-                       ),
+                          Flexible(
+                            child: Text.rich(
+                            TextSpan(
+                              text: "Help",
+                            style:  const TextStyle(
+                             color: Colors.white,
+                             fontSize: 20,
+                             fontFamily: 'Poppins',
+                             ),
+                              recognizer: TapGestureRecognizer()..onTap = () {
+                              nextScreen(context, const Support());
+                                        }
+                                    ),
+                                 ),
+                          ),
                           ],
                         )
                       ),
-                      const Text(
-                      "Login",
-                      style: TextStyle(
-                         color:Colors.white,
-                         fontWeight: FontWeight.bold,
-                         fontFamily: 'Poppins',
-                         fontSize: 40,
+                      Flexible(
+                        child: const Text(
+                        "Login",
+                        style: TextStyle(
+                           color:Colors.white,
+                           fontWeight: FontWeight.bold,
+                           fontFamily: 'Poppins',
+                           fontSize: 40,
+                        ),
+                                          ),
                       ),
-                    ),
                        const SizedBox(height: 30,),
-                       const Text(
-                      "Login now to book your appointment! ",
-                      style: TextStyle(
-                         color:Colors.white,
-                         fontWeight: FontWeight.w400,
-                         fontSize: 16,
-                        fontFamily: 'Poppins',
-                      ),
-                    ),
+                       Flexible(
+                         child: const Text( 
+                            "Login now to book your appointment! ",
+                             style: TextStyle(
+                           color:Colors.white,
+                           fontWeight: FontWeight.w400,
+                           fontSize: 16,
+                          fontFamily: 'Poppins',
+                                             ),
+                                           ),
+                       ),
                          const SizedBox(height: 20,),
                         Device.screenType == ScreenType.tablet ?
                         Padding(
@@ -262,7 +267,7 @@ class _LoginState extends State<Login> {
                      ),
                   ],
                  ),
-              ),
+              
             ),
             ),
           ),

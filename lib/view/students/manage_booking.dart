@@ -151,9 +151,7 @@ class _ManageBookingState extends State<ManageBooking> {
               ),
               child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
-                  child: Expanded(
-                    child: Column(
-                         
+                    child: Column(                     
                       mainAxisAlignment: MainAxisAlignment.end,
                        children: [
                          Column(
@@ -185,22 +183,26 @@ class _ManageBookingState extends State<ManageBooking> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                      Text(
-                                        "Status: ",
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: "Poppins",
-                                          fontSize: Device.screenType == ScreenType.tablet? 18:15,
-                                          fontWeight: FontWeight.bold,
+                                      Flexible(
+                                        child: Text(
+                                          "Status: ",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontFamily: "Poppins",
+                                            fontSize: Device.screenType == ScreenType.tablet? 18:15,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
-                                      Text(
-                                        appointment['statusBooking'],
-                                        style: TextStyle(
-                                         color:  appointment['statusBooking'] == "Accepted" ? Constants().acceptedColor :  appointment['statusBooking'] == "Appending" ? Constants().primaryColor : appointment['statusBooking'] == "Rejected" ? Constants().secondaryColor : Colors.black,
-                                          fontFamily: "Poppins",
-                                           fontSize: Device.screenType == ScreenType.tablet? 18:15,
-                                          fontWeight: FontWeight.bold,
+                                      Flexible(
+                                        child: Text(
+                                          appointment['statusBooking'],
+                                          style: TextStyle(
+                                           color:  appointment['statusBooking'] == "Accepted" ? Constants().acceptedColor :  appointment['statusBooking'] == "Appending" ? Constants().primaryColor : appointment['statusBooking'] == "Rejected" ? Constants().secondaryColor : Colors.black,
+                                            fontFamily: "Poppins",
+                                             fontSize: Device.screenType == ScreenType.tablet? 18:15,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       )
                                   ],
@@ -220,8 +222,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                         ),
                                       ),
                                       //for booking information
-                                      Flexible(
-                                        child: Container(
+                                       Container(
                                            margin:  Device.screenType == ScreenType.tablet? 
                                            EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02):
                                           EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02),
@@ -236,14 +237,16 @@ class _ManageBookingState extends State<ManageBooking> {
                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.01,
                                                     right: deviceWidth(context) * 0.01,
                                                   ) ,
-                                                child: Text(
-                                                  appointment['lecturerName'],
-                                                  style:TextStyle(
-                                                      fontSize: Device.screenType == ScreenType.tablet? 
-                                                                  18:15,
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight: FontWeight.bold,
-                                                      color: Colors.black,
+                                                child: Flexible(
+                                                  child: Text(
+                                                    appointment['lecturerName'],
+                                                    style:TextStyle(
+                                                        fontSize: Device.screenType == ScreenType.tablet? 
+                                                                    18:15,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Colors.black,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -251,14 +254,16 @@ class _ManageBookingState extends State<ManageBooking> {
                                                 margin: Device.screenType == ScreenType.tablet? 
                                                   const EdgeInsets.only(bottom: 20):
                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                                child: Text(
-                                                    appointment['numberOfStudents'].toString() + " Student",
-                                                  style:TextStyle(
-                                                      fontSize: Device.screenType == ScreenType.tablet? 
-                                                                  18:14,
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight: FontWeight.w400,
-                                                      color: Colors.black,
+                                                child: Flexible(
+                                                  child: Text(
+                                                      appointment['numberOfStudents'].toString() + " Student",
+                                                    style:TextStyle(
+                                                        fontSize: Device.screenType == ScreenType.tablet? 
+                                                                    18:14,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight: FontWeight.w400,
+                                                        color: Colors.black,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -266,14 +271,16 @@ class _ManageBookingState extends State<ManageBooking> {
                                                 margin: Device.screenType == ScreenType.tablet? 
                                                   const EdgeInsets.only(bottom: 20):
                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.008) ,
-                                                child: Text(
-                                                    appointment['date'],
-                                                  style:TextStyle(
-                                                      fontSize: Device.screenType == ScreenType.tablet? 
-                                                                  18:14,
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight: FontWeight.w400,
-                                                      color: Colors.black,
+                                                child: Flexible(
+                                                  child: Text(
+                                                      appointment['date'],
+                                                    style:TextStyle(
+                                                        fontSize: Device.screenType == ScreenType.tablet? 
+                                                                    18:14,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight: FontWeight.w400,
+                                                        color: Colors.black,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -281,21 +288,23 @@ class _ManageBookingState extends State<ManageBooking> {
                                                 margin: Device.screenType == ScreenType.tablet? 
                                                   const EdgeInsets.only(bottom: 20):
                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                                child: Text(
-                                                   appointment['time'],
-                                                  style:TextStyle(
-                                                      fontSize: Device.screenType == ScreenType.tablet? 
-                                                                   18:14,
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight: FontWeight.bold,
-                                                      color: Constants().secondaryColor,
+                                                child: Flexible(
+                                                  child: Text(
+                                                     appointment['time'],
+                                                    style:TextStyle(
+                                                        fontSize: Device.screenType == ScreenType.tablet? 
+                                                                     18:14,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Constants().secondaryColor,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ],
                                           ),
                                         ),
-                                      ),
+                                      
                                    ],
                                 ),
                   
@@ -404,13 +413,15 @@ class _ManageBookingState extends State<ManageBooking> {
                                       noData == "Empty Data" ?
                                       Container(
                                         margin: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.4),
-                                        child: Text(
-                                          "Sorry, No Appointment",
-                                          style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: Device.screenType == ScreenType.tablet? 18:14,
-                                            fontWeight: FontWeight.w600,
-                                            color: Constants().secondaryColor
+                                        child: Flexible(
+                                          child: Text(
+                                            "Sorry, No Appointment",
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontSize: Device.screenType == ScreenType.tablet? 18:14,
+                                              fontWeight: FontWeight.w600,
+                                              color: Constants().secondaryColor
+                                            ),
                                           ),
                                         ),
                                       ):Center(),
@@ -419,7 +430,7 @@ class _ManageBookingState extends State<ManageBooking> {
                        ]
                                 
                     ),
-                  ),
+                  
               ),
           ),
         ),

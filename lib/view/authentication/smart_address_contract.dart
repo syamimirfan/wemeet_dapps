@@ -83,18 +83,19 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                 scrollDirection: Axis.vertical,
                 child: Container(
                   padding:EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05,vertical:deviceWidth(context) * 0.05),
-                  child: Expanded(
                     child: Column(
                       children: [
-                        const Text(
-                          "1. After you successfully done register your account, you will navigate to this interface: ",
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            fontFamily: 'Poppins',
-                            ),
-                         ),
+                        Flexible(
+                          child: const Text(
+                            "1. After you successfully done register your account, you will navigate to this interface: ",
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              fontFamily: 'Poppins',
+                              ),
+                           ),
+                        ),
                         SizedBox(height: 1.h,),
                         Image.asset(
                           "assets/import_token_1.png",
@@ -102,15 +103,17 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                           scale: 2,
                           height: 50.h,
                         ),
-                        const Text(
-                          "2. This is your Metamask account. The red arrow shows the address of your metamask account. Please do not lost it and keep it for the transaction.",
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            fontFamily: 'Poppins',
-                            ),
-                         ),
+                        Flexible(
+                          child: const Text(
+                            "2. This is your Metamask account. The red arrow shows the address of your metamask account. Please do not lost it and keep it for the transaction.",
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              fontFamily: 'Poppins',
+                              ),
+                           ),
+                        ),
                           SizedBox(height: 1.h,),     
                           Image.asset(
                           "assets/import_token_2.png",
@@ -119,14 +122,16 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                           height: 50.h,
                         ),
                         SizedBox(height: 1.h,),
-                         const Text(
-                          "3. Please change the Ethereum Main Network to Sepolia Test Network by click the option on the top and click Add Network",
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            fontFamily: 'Poppins',
-                            ),
+                         Flexible(
+                           child: const Text(
+                            "3. Please change the Ethereum Main Network to Sepolia Test Network by click the option on the top and click Add Network",
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              fontFamily: 'Poppins',
+                              ),
+                           ),
                          ),
                           SizedBox(height: 1.h,), 
                           Image.asset(
@@ -135,15 +140,17 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                           scale: 2,               
                         ),
                            SizedBox(height: 1.5.h,), 
-                          const SelectableText(
-                          "4. At the Custom Networks section, please fill this form : \n Network Name - Sepolia test network \n New RPC URL - https://sepolia.infura.io/v3/a16a56f42e774895b94db13a6342829e \n Chain ID - 11155111 \n Currency Symbol - SepoliaETH \n Block explorer URL - https://sepolia.etherscan.io/",
-                            
-                            style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            fontFamily: 'Poppins',
-                            ),
-                         ),
+                          Flexible(
+                            child: const SelectableText(
+                            "4. At the Custom Networks section, please fill this form : \n Network Name - Sepolia test network \n New RPC URL - https://sepolia.infura.io/v3/a16a56f42e774895b94db13a6342829e \n Chain ID - 11155111 \n Currency Symbol - SepoliaETH \n Block explorer URL - https://sepolia.etherscan.io/",
+                              
+                              style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              fontFamily: 'Poppins',
+                              ),
+                                                   ),
+                          ),
                           SizedBox(height: 1.h,),  
                           Image.asset(
                           "assets/import_token_9.png",
@@ -151,15 +158,17 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                           scale: 2,               
                         ),
                           SizedBox(height: 1.h,),  
-                          const Text(
-                          "4. You can see the test network has successfully changed to Sepolia.",
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            fontFamily: 'Poppins',
-                            ),
-                         ),
+                          Flexible(
+                            child: const Text(
+                            "5. You can see the test network has successfully changed to Sepolia.",
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              fontFamily: 'Poppins',
+                              ),
+                                                   ),
+                          ),
                                 
                                
                           Image.asset(
@@ -176,15 +185,17 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                           height: 50.h,
                         ),
                         SizedBox(height: 1.h,),
-                        const Text(
-                          "5. IMPORTANT!! you need to import the UTHM token in Goerli Test Network. Do not skip this part.",
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            fontFamily: 'Poppins',
-                            ),
-                         ),
+                        Flexible(
+                          child: const Text(
+                            "6. IMPORTANT!! you need to import the UTHM token in Goerli Test Network. Do not skip this part.",
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              fontFamily: 'Poppins',
+                              ),
+                           ),
+                        ),
                           SizedBox(height: 1.h,),
                          Image.asset(
                           "assets/import_token_5.png",
@@ -192,28 +203,32 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                           scale: 2,               
                         ),
                         SizedBox(height: 1.h,),
-                         const Text(
-                          "6. Click Import Token and copy the UTHM Token address below and paste it in Token Address input",
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            fontFamily: 'Poppins',
-                            ),
+                         Flexible(
+                           child: const Text(
+                            "7. Click Import Token and copy the UTHM Token address below and paste it in Token Address input",
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              fontFamily: 'Poppins',
+                              ),
+                           ),
                          ),
                          SizedBox(height: 1.h,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                         Text(
-                         "0xac60...b413",
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            fontFamily: 'Poppins',
-                            ),
-                           ),
+                         Flexible(
+                           child: Text(
+                           "0xac60...b413",
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              fontFamily: 'Poppins',
+                              ),
+                             ),
+                         ),
                            IconButton(
                             onPressed: () {
                               Clipboard.setData(ClipboardData(text: TOKEN_ADDRESS));
@@ -230,15 +245,17 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                           height: 50.h,
                         ),
                         SizedBox(height: 1.h,),
-                          const Text(
-                          "7. Token Symbol and Token Decimal will auto filled after you successfuly paste the UTHM Token Address",
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            fontFamily: 'Poppins',
-                            ),
-                         ),
+                          Flexible(
+                            child: const Text(
+                            "8. Token Symbol and Token Decimal will auto filled after you successfuly paste the UTHM Token Address",
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              fontFamily: 'Poppins',
+                              ),
+                                                   ),
+                          ),
                          SizedBox(height: 1.h,),
                           Image.asset(
                           "assets/import_token_7.png",
@@ -247,15 +264,17 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                           height: 50.h,
                         ),
                          SizedBox(height: 1.h,),
-                          const Text(
-                          "8. Click Import and you will see the UTHM token at your Metamask account",
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            fontFamily: 'Poppins',
-                            ),
-                         ),
+                          Flexible(
+                            child: const Text(
+                            "9. Click Import and you will see the UTHM token at your Metamask account",
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              fontFamily: 'Poppins',
+                              ),
+                                                   ),
+                          ),
                            Image.asset(
                           "assets/import_token_8.png",
                           width: 50.w,
@@ -277,7 +296,7 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                                 });
                               }
                               ),
-                            Expanded(child: Text(textAgreement, textAlign: TextAlign.justify,style: TextStyle(fontFamily: 'Poppins', fontSize: 15, ),)), 
+                            Flexible(child: Text(textAgreement, textAlign: TextAlign.justify,style: TextStyle(fontFamily: 'Poppins', fontSize: 15, ),)), 
                           ],
                        ),
                            SizedBox(height: 5.h,),
@@ -308,7 +327,6 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                           ),
                       ],
                     ),
-                  ),
                 ),
             ),
           ),

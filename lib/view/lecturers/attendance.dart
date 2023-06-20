@@ -127,8 +127,7 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                         ),
                                       ),
                                       //for booking information
-                                      Flexible(
-                                        child: Container(
+                                     Container(
                                            margin:  Device.screenType == ScreenType.tablet? 
                                           EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02):
                                           EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02),
@@ -140,14 +139,16 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                                 margin: Device.screenType == ScreenType.tablet? 
                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                                child: Text(
-                                                 booking['studName'],
-                                                  style:TextStyle(
-                                                      fontSize: Device.screenType == ScreenType.tablet? 
-                                                                18:14,
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight: FontWeight.bold,
-                                                      color: Colors.black,
+                                                child: Flexible(
+                                                  child: Text(
+                                                   booking['studName'],
+                                                    style:TextStyle(
+                                                        fontSize: Device.screenType == ScreenType.tablet? 
+                                                                  18:14,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Colors.black,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -155,14 +156,16 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                                 margin: Device.screenType == ScreenType.tablet? 
                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                                child: Text(
-                                                 booking['numberOfStudents'].toString() + " student",
-                                                  style:TextStyle(
-                                                      fontSize: Device.screenType == ScreenType.tablet? 
-                                                                18:14,
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight: FontWeight.w400,
-                                                      color: Colors.black,
+                                                child: Flexible(
+                                                  child: Text(
+                                                   booking['numberOfStudents'].toString() + " student",
+                                                    style:TextStyle(
+                                                        fontSize: Device.screenType == ScreenType.tablet? 
+                                                                  18:14,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight: FontWeight.w400,
+                                                        color: Colors.black,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -170,14 +173,16 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                                 margin: Device.screenType == ScreenType.tablet? 
                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                                child: Text(
-                                                  booking['date'],
-                                                  style:TextStyle(
-                                                      fontSize: Device.screenType == ScreenType.tablet? 
-                                                                18:14,
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight: FontWeight.w400,
-                                                      color: Colors.black,
+                                                child: Flexible(
+                                                  child: Text(
+                                                    booking['date'],
+                                                    style:TextStyle(
+                                                        fontSize: Device.screenType == ScreenType.tablet? 
+                                                                  18:14,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight: FontWeight.w400,
+                                                        color: Colors.black,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -185,21 +190,22 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                                                 margin: Device.screenType == ScreenType.tablet? 
                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                                child: Text(
-                                                 booking['time'],
-                                                  style:TextStyle(
-                                                      fontSize: Device.screenType == ScreenType.tablet? 
-                                                                18:14,
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight: FontWeight.bold,
-                                                      color: Constants().secondaryColor,
+                                                child: Flexible(
+                                                  child: Text(
+                                                   booking['time'],
+                                                    style:TextStyle(
+                                                        fontSize: Device.screenType == ScreenType.tablet? 
+                                                                  18:14,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Constants().secondaryColor,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ],
                                           ),
                                         ),
-                                      ),
                                    ],
                                 ),
                   
@@ -281,14 +287,16 @@ class _AttendanceAppointmentState extends State<AttendanceAppointment> {
                              noData == "Empty Data" ?
                               Container(
                                margin: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.4),
-                                child: Text(
-                                "Sorry, No Appointment",
-                                 style: TextStyle(
-                                 fontFamily: 'Poppins',
-                                  fontSize: Device.screenType == ScreenType.tablet? 18:14,
-                                 fontWeight: FontWeight.w600,
-                                 color: Constants().secondaryColor
-                                   ),
+                                child: Flexible(
+                                  child: Text(
+                                  "Sorry, No Appointment",
+                                   style: TextStyle(
+                                   fontFamily: 'Poppins',
+                                    fontSize: Device.screenType == ScreenType.tablet? 18:14,
+                                   fontWeight: FontWeight.w600,
+                                   color: Constants().secondaryColor
+                                     ),
+                                  ),
                                 ),
                               ):Center(),
                             ]

@@ -110,7 +110,6 @@ class _BookState extends State<Book> {
   //function of list of lecturers
   Widget lecturers() {
     return Container(
-      
        padding: Device.screenType == ScreenType.tablet? 
                  EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.03):
                 EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.02),
@@ -147,57 +146,67 @@ class _BookState extends State<Book> {
               backgroundImage: NetworkImage(selectedFaculty != "" ?  filterListViewLecturerList[index]['lecturerImage'] : _searchController.text.isNotEmpty ? filterLecturerList[index]['lecturerImage'] : lecturerList[index]['lecturerImage']),
             ),
             ),
-             title: Text( selectedFaculty != "" ?  filterListViewLecturerList[index]['lecturerName'] :
-             _searchController.text.isNotEmpty ? filterLecturerList[index]['lecturerName'] :  lecturerList[index]['lecturerName'],
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: Device.screenType == ScreenType.tablet? 15:15,
-                fontFamily: "Poppins",
-                color: Colors.black,
-                  ),
-                 ),
+             title: Flexible(
+               child: Text( selectedFaculty != "" ?  filterListViewLecturerList[index]['lecturerName'] :
+               _searchController.text.isNotEmpty ? filterLecturerList[index]['lecturerName'] :  lecturerList[index]['lecturerName'],
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: Device.screenType == ScreenType.tablet? 15:15,
+                  fontFamily: "Poppins",
+                  color: Colors.black,
+                    ),
+                   ),
+             ),
            
                 subtitle: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                      Text( selectedFaculty != "" ?  filterListViewLecturerList[index]['lecturerTelephoneNo'] :
-               _searchController.text.isNotEmpty ? filterLecturerList[index]['lecturerTelephoneNo'] :  lecturerList[index]['lecturerTelephoneNo'],
-                  style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: Device.screenType == ScreenType.tablet? 15:15,
-                    fontFamily: "Poppins",
-                    color: Colors.black,
-                  ),
-                  
-                    ),
+                      Flexible(
+                        child: Text( selectedFaculty != "" ?  filterListViewLecturerList[index]['lecturerTelephoneNo'] :
+                    _searchController.text.isNotEmpty ? filterLecturerList[index]['lecturerTelephoneNo'] :  lecturerList[index]['lecturerTelephoneNo'],
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: Device.screenType == ScreenType.tablet? 15:15,
+                        fontFamily: "Poppins",
+                        color: Colors.black,
+                      ),
+                      
+                        ),
+                      ),
                     Row(
                       children: [
-                        Text( selectedFaculty != "" ?  filterListViewLecturerList[index]['faculty'] :
-                          _searchController.text.isNotEmpty ? filterLecturerList[index]['faculty'] : lecturerList[index]['faculty'],
-                            style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: Device.screenType == ScreenType.tablet? 12:12,
-                            fontFamily: "Poppins",
-                            color: Colors.black,
-                          ),
-                         ),
-                           Text(",\tFLOOR "+ ( selectedFaculty != "" ?  filterListViewLecturerList[index]['floorLvl'].toString() : _searchController.text.isNotEmpty ? filterLecturerList[index]['floorLvl'].toString() : lecturerList[index]['floorLvl'].toString()),
-                            style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: Device.screenType == ScreenType.tablet? 12:12,
-                            fontFamily: "Poppins",
-                            color: Colors.black,
-                          ),
-                         ),
-                          Text( ",\tNO "+ ( selectedFaculty != "" ?  filterListViewLecturerList[index]['roomNo'].toString() : _searchController.text.isNotEmpty ? filterLecturerList[index]['roomNo'].toString() : lecturerList[index]['roomNo'].toString()),
-                            style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                             fontSize: Device.screenType == ScreenType.tablet? 12:12,
-                            fontFamily: "Poppins",
-                            color: Colors.black,
-                          ),
-                         )
+                        Flexible(
+                          child: Text( selectedFaculty != "" ?  filterListViewLecturerList[index]['faculty'] :
+                            _searchController.text.isNotEmpty ? filterLecturerList[index]['faculty'] : lecturerList[index]['faculty'],
+                              style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: Device.screenType == ScreenType.tablet? 12:12,
+                              fontFamily: "Poppins",
+                              color: Colors.black,
+                            ),
+                           ),
+                        ),
+                           Flexible(
+                             child: Text(",\tFLOOR "+ ( selectedFaculty != "" ?  filterListViewLecturerList[index]['floorLvl'].toString() : _searchController.text.isNotEmpty ? filterLecturerList[index]['floorLvl'].toString() : lecturerList[index]['floorLvl'].toString()),
+                              style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: Device.screenType == ScreenType.tablet? 12:12,
+                              fontFamily: "Poppins",
+                              color: Colors.black,
+                                                     ),
+                                                    ),
+                           ),
+                          Flexible(
+                            child: Text( ",\tNO "+ ( selectedFaculty != "" ?  filterListViewLecturerList[index]['roomNo'].toString() : _searchController.text.isNotEmpty ? filterLecturerList[index]['roomNo'].toString() : lecturerList[index]['roomNo'].toString()),
+                              style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                               fontSize: Device.screenType == ScreenType.tablet? 12:12,
+                              fontFamily: "Poppins",
+                              color: Colors.black,
+                            ),
+                                                   ),
+                          )
                       ],
                     )
                   ],
@@ -265,25 +274,29 @@ class _BookState extends State<Book> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                         Text(
-                          "Choose Meet With",
-                          style: TextStyle(
-                              color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                            fontSize: Device.screenType == ScreenType.tablet? 20:20,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
+                         Flexible(
+                           child: Text(
+                            "Choose Meet With",
+                            style: TextStyle(
+                                color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                              fontSize: Device.screenType == ScreenType.tablet? 20:20,
+                              fontFamily: 'Poppins',
+                            ),
+                                                 ),
+                         ),
                         const SizedBox(height: 10,),
-                         Text(
-                          "Your Hands",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize:  Device.screenType == ScreenType.tablet? 20:20,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
+                         Flexible(
+                           child: Text(
+                            "Your Hands",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize:  Device.screenType == ScreenType.tablet? 20:20,
+                              fontFamily: 'Poppins',
+                            ),
+                                                 ),
+                         ),
                           const SizedBox(height: 15,),
                          Form(
                           child: TextField(
@@ -303,15 +316,17 @@ class _BookState extends State<Book> {
                          ),
                         ),
                         const SizedBox(height: 20,),
-                         Text(
-                          "Category",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: Device.screenType == ScreenType.tablet? 15:15,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
+                         Flexible(
+                           child: Text(
+                            "Category",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: Device.screenType == ScreenType.tablet? 15:15,
+                              fontFamily: 'Poppins',
+                            ),
+                                                 ),
+                         ),
                         SizedBox(height: 150, child: facultyCategory(),),
                         lecturers(),
                       ],

@@ -87,16 +87,18 @@ class _HomeStudentsState extends State<HomeStudents> {
                      mainAxisAlignment: MainAxisAlignment.start,
                      crossAxisAlignment: CrossAxisAlignment.start, 
                       children: [
-                      Text(
-                    "Hello, ",
-                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: Device.screenType == ScreenType.tablet? 
-                                18:18,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400
-                     ),
-                  ),
+                      Flexible(
+                        child: Text(
+                                          "Hello, ",
+                                           style: TextStyle(
+                        color: Colors.white,
+                        fontSize: Device.screenType == ScreenType.tablet? 
+                                  18:18,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400
+                                           ),
+                                        ),
+                      ),
                     ]),
                     ),
                   ),
@@ -138,16 +140,18 @@ class _HomeStudentsState extends State<HomeStudents> {
                      mainAxisAlignment: MainAxisAlignment.start,
                      crossAxisAlignment: CrossAxisAlignment.start, 
                       children: [
-                        Text(
-                    "Welcome Back",
-                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize:  Device.screenType == ScreenType.tablet?  
-                                 30:23,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.bold,
-                     ),
-                  ),
+                        Flexible(
+                          child: Text(
+                        "Welcome Back",
+                          style: TextStyle(
+                          color: Colors.white,
+                          fontSize:  Device.screenType == ScreenType.tablet?  
+                            30:23,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                          ),
+                      ),
+                        ),
                     ]),
                     ),
                   ),

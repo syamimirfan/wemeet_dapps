@@ -61,8 +61,7 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                             topRight: Radius.circular(30)
                         )
                   ),
-                  child: Column(
-                    
+                  child: Column(              
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                         Gif(
@@ -72,23 +71,27 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                         
                          duration: const Duration(seconds: 3),
                         ),
-                        Text(
-                        "Update Successful",
-                        style: TextStyle(
-                          fontFamily: "Poppins",
-                          fontSize: Device.screenType == ScreenType.tablet? 20:23,
-                          fontWeight: FontWeight.bold,
+                        Flexible(
+                          child: Text(
+                          "Update Successful",
+                          style: TextStyle(
+                            fontFamily: "Poppins",
+                            fontSize: Device.screenType == ScreenType.tablet? 20:23,
+                            fontWeight: FontWeight.bold,
+                           ),
+                          ),
                         ),
-                       ),
                        SizedBox(height: 5,),
-                         Text(
-                        "You have successfully update your appointment",
-                        style: TextStyle(
-                          fontFamily: "Poppins",
-                          fontSize: Device.screenType == ScreenType.tablet?  18:14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                       ),
+                         Flexible(
+                           child: Text(
+                            "You have successfully update your appointment",
+                            style: TextStyle(
+                            fontFamily: "Poppins",
+                            fontSize: Device.screenType == ScreenType.tablet?  18:14,
+                            fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                         ),
                           SizedBox(height: 20,),
                        Container(
                       padding:Device.screenType == ScreenType.tablet? 
@@ -106,42 +109,50 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                             
                             children: [
                               SizedBox(width: 20,),
-                               Text(
-                              "Your Appointment Details:",
-                              style: TextStyle(
-                                fontFamily: "Poppins",
-                                 fontSize: Device.screenType == ScreenType.tablet? 18:16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                               Flexible(
+                                 child: Text(
+                                  "Your Appointment Details:",
+                                  style: TextStyle(
+                                  fontFamily: "Poppins",
+                                   fontSize: Device.screenType == ScreenType.tablet? 18:16,
+                                  fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                               ),
                                 SizedBox(height: 10,),
                                    
-                             Text(
-                             lecturerName,
-                              style: TextStyle(
-                                fontFamily: "Poppins",
-                                fontSize: Device.screenType == ScreenType.tablet? 18:15,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
+                             Flexible(
+                               child: Text(
+                               lecturerName,
+                                style: TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontSize: Device.screenType == ScreenType.tablet? 18:15,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                                         ),
+                             ),
                                      SizedBox(height: 5,),
-                               Text(
-                              numberOfStudents.toString() + " students",
-                              style: TextStyle(
-                                fontFamily: "Poppins",
-                                fontSize: Device.screenType == ScreenType.tablet? 18:15,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
+                               Flexible(
+                                 child: Text(
+                                  numberOfStudents.toString() + " students",
+                                  style: TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontSize: Device.screenType == ScreenType.tablet? 18:15,
+                                  fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                               ),
                                 SizedBox(height: 5,),
-                               Text(
-                              date,
-                              style: TextStyle(
-                                fontFamily: "Poppins",
-                               fontSize: Device.screenType == ScreenType.tablet? 18:15,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
+                               Flexible(
+                                 child: Text(
+                                  date,
+                                  style: TextStyle(
+                                  fontFamily: "Poppins",
+                                 fontSize: Device.screenType == ScreenType.tablet? 18:15,
+                                  fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                               ),
                                SizedBox(height: 5,),
                                Text(
                               time,

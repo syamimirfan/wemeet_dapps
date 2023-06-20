@@ -73,7 +73,6 @@ class _LecturerInformationState extends State<LecturerInformation> {
            ),
            child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
-            child: Flexible(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,14 +104,16 @@ class _LecturerInformationState extends State<LecturerInformation> {
                                             margin: Device.screenType == ScreenType.tablet? 
                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Text(
-                                              staffNo,
-                                                style:TextStyle(
-                                                    fontSize: Device.screenType == ScreenType.tablet? 
-                                                                30:20,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black,
+                                              child: Flexible(
+                                                child: Text(
+                                                staffNo,
+                                                  style:TextStyle(
+                                                      fontSize: Device.screenType == ScreenType.tablet? 
+                                                                  30:20,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.black,
+                                                  ),
                                                 ),
                                               ),
                                           ),
@@ -120,14 +121,16 @@ class _LecturerInformationState extends State<LecturerInformation> {
                                             margin: Device.screenType == ScreenType.tablet? 
                                                 const EdgeInsets.only(bottom: 20):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Text(
-                                                lectTelephoneNo,
-                                                style:TextStyle(
-                                                    fontSize: Device.screenType == ScreenType.tablet? 
-                                                               20:20,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black,
+                                              child: Flexible(
+                                                child: Text(
+                                                  lectTelephoneNo,
+                                                  style:TextStyle(
+                                                      fontSize: Device.screenType == ScreenType.tablet? 
+                                                                 20:20,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.black,
+                                                  ),
                                                 ),
                                               ),
                                           ),
@@ -135,14 +138,16 @@ class _LecturerInformationState extends State<LecturerInformation> {
                                              margin: Device.screenType == ScreenType.tablet? 
                                                 const EdgeInsets.only(bottom: 20):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Text(
-                                              faculty + ", LEVEL " + floorLvl.toString() + ", NO "+ roomNo.toString(),
-                                                style:TextStyle(
-                                                    fontSize: Device.screenType == ScreenType.tablet? 
-                                                                20:20,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black,
+                                              child: Flexible(
+                                                child: Text(
+                                                faculty + ", LEVEL " + floorLvl.toString() + ", NO "+ roomNo.toString(),
+                                                  style:TextStyle(
+                                                      fontSize: Device.screenType == ScreenType.tablet? 
+                                                                  20:20,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.black,
+                                                  ),
                                                 ),
                                               ),
                                           ),         
@@ -155,16 +160,18 @@ class _LecturerInformationState extends State<LecturerInformation> {
                       //for lecturer name
                       Container(
                         padding:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.015),
-                        child:  Text(
-                          lectName,
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                                       20:18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ), 
-                          textAlign: TextAlign.center,
+                        child:  Flexible(
+                          child: Text(
+                            lectName,
+                            style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontSize: Device.screenType == ScreenType.tablet? 
+                                         20:18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ), 
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
             
@@ -180,16 +187,18 @@ class _LecturerInformationState extends State<LecturerInformation> {
                       //for department
                     Container(
                       padding:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.015),
-                      child: Text(
-                        department,
-                         style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                                      20:18,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ), 
-                          textAlign: TextAlign.center,
+                      child: Flexible(
+                        child: Text(
+                          department,
+                           style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontSize: Device.screenType == ScreenType.tablet? 
+                                        20:18,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            ), 
+                            textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
             
@@ -199,16 +208,18 @@ class _LecturerInformationState extends State<LecturerInformation> {
                       children: [
                         Container(
                         padding:  EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.06),
-                        child: Text(
-                        "Academic Qualification",
-                         style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                                      20:18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ), 
-                         ),
+                        child: Flexible(
+                          child: Text(
+                          "Academic Qualification",
+                           style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontSize: Device.screenType == ScreenType.tablet? 
+                                        20:18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ), 
+                           ),
+                        ),
                         ),
                       ],
                     ),
@@ -218,65 +229,72 @@ class _LecturerInformationState extends State<LecturerInformation> {
                       children: [
                         Container(
                           padding:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.015),
-                          child: Text(
-                          academicQualification1,
-                         style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                                      20:18,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ), 
-                          textAlign: TextAlign.justify,
-                         ),
+                          child: Flexible(
+                            child: Text(
+                            academicQualification1,
+                                                   style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontSize: Device.screenType == ScreenType.tablet? 
+                                        20:18,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            ), 
+                            textAlign: TextAlign.justify,
+                                                   ),
+                          ),
                         ),
                               Container(
                           padding:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.015, vertical: deviceHeight(context) * 0.02),
-                          child: Text(
-                       academicQualification2,
-                         style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                                     20:18,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ), 
-                          textAlign: TextAlign.justify,
-                         ),
+                          child: Flexible(
+                            child: Text(
+                              academicQualification2,
+                                style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontSize: Device.screenType == ScreenType.tablet? 
+                                       20:18,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            ), 
+                            textAlign: TextAlign.justify,
+                                                   ),
+                          ),
                         ),
                               Container(
                           padding:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.015, vertical: deviceHeight(context) * 0.02),
-                          child: Text(
-                        academicQualification3,
-                         style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                                      20:18,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ), 
-                          textAlign: TextAlign.justify,
-                         ),
+                          child: Flexible(
+                            child: Text(
+                              academicQualification3,
+                                style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontSize: Device.screenType == ScreenType.tablet? 
+                                        20:18,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            ), 
+                            textAlign: TextAlign.justify,
+                                                   ),
+                          ),
                         ),
                               Container(
                           padding:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.015, vertical: deviceHeight(context) * 0.02),
-                          child: Text(
-                       academicQualification4,
-                         style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: Device.screenType == ScreenType.tablet? 
-                                      20:18,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ), 
-                          textAlign: TextAlign.justify,
-                         ),
+                          child: Flexible(
+                            child: Text(
+                              academicQualification4,
+                                style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontSize: Device.screenType == ScreenType.tablet? 
+                                        20:18,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            ), 
+                            textAlign: TextAlign.justify,
+                                                   ),
+                          ),
                         ),
                       ],
                     ),
                   ],
               ),
-            ),
           ),
         ),
       ),
