@@ -122,8 +122,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                    Flexible(
-                                      child: Text(
+                                    Text(
                                         "Status: ",
                                         style: TextStyle(
                                           color: Colors.black,
@@ -132,9 +131,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    ),
-                                    Flexible(
-                                      child: Text(
+                                     Text(
                                         attendance['status'],
                                         style: TextStyle(
                                          color:  attendance['status'] == "Attend" ? Constants().acceptedColor :  attendance['status'] == "Absent" ? Constants().secondaryColor : Colors.black,
@@ -142,8 +139,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                           fontSize: Device.screenType == ScreenType.tablet? 18:15,
                                           fontWeight: FontWeight.bold,
                                         ),
-                                      ),
-                                    ),
+                                      ),                             
     
                                 ],
                                ),
@@ -176,7 +172,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01,
                                                   right: deviceWidth(context) * 0.01,
                                                 ) ,
-                                              child: Flexible(
+                                       
                                                 child: Text(
                                                   attendance['lecturerName'],
                                                   style:TextStyle(
@@ -186,30 +182,31 @@ class _ManageHistoryState extends State<ManageHistory> {
                                                       fontWeight: FontWeight.bold,
                                                       color: Colors.black,
                                                   ),
-                                                ),
+                                                
                                               ),
                                             ),
                                              Container(
                                               margin: Device.screenType == ScreenType.tablet? 
                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.008):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Text(
-                                                attendance['numberOfStudents'].toString() + " Student",
-                                                style:TextStyle(
-                                                    fontSize: Device.screenType == ScreenType.tablet? 
-                                                              18:14,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black,
-                                                ),
+                                        
+                                                child: Text(
+                                                  attendance['numberOfStudents'].toString() + " Student",
+                                                  style:TextStyle(
+                                                      fontSize: Device.screenType == ScreenType.tablet? 
+                                                                18:14,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.black,
+                                                  ),
+                                                
                                               ),
                                             ),
                                              Container(
                                               margin: Device.screenType == ScreenType.tablet? 
                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.008):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.008) ,
-                                              child: Flexible(
-                                                child: Text(
+                                              child:  Text(
                                                   attendance['date'],
                                                   style:TextStyle(
                                                       fontSize: Device.screenType == ScreenType.tablet? 
@@ -218,15 +215,14 @@ class _ManageHistoryState extends State<ManageHistory> {
                                                       fontWeight: FontWeight.w500,
                                                       color: Colors.black,
                                                   ),
-                                                ),
+                                                
                                               ),
                                             ),
                                              Container(
                                               margin: Device.screenType == ScreenType.tablet? 
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.008):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Flexible(
-                                                child: Text(
+                                              child: Text(
                                                   attendance['time'],
                                                   style:TextStyle(
                                                       fontSize: Device.screenType == ScreenType.tablet? 
@@ -237,7 +233,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                                   ),
                                                 ),
                                               ),
-                                            ),
+                                            
                                           ],
                                         ),
                                       ),
@@ -259,8 +255,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                               margin: Device.screenType == ScreenType.tablet? 
                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Flexible(
-                                                child: Text(
+                                              child: Text(
                                                   "Token Gained: ",
                                                   style:TextStyle(
                                                       fontSize: Device.screenType == ScreenType.tablet? 
@@ -270,14 +265,13 @@ class _ManageHistoryState extends State<ManageHistory> {
                                                       color: Colors.black,
                                                   ),
                                                 ),
-                                              ),
+                                              
                                             ),
                                        Container(
                                               margin: Device.screenType == ScreenType.tablet? 
                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Flexible(
-                                                child: Text(
+                                              child: Text(
                                                  attendance['statusReward'] == "Not Send" ? "0 UTHM":
                                                 attendance['statusReward'] == "Send" ? "1 UTHM" :
                                                 "NO Token Send",
@@ -288,7 +282,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                                       fontWeight: FontWeight.bold,
                                                       color: attendance['statusReward'] == "Not Send" ? Constants().secondaryColor: attendance['statusReward'] == "Send" ? Constants().primaryColor: Colors.black,
                                                   ),
-                                                ),
+                                                
                                               ),
                                             ),
                                        SizedBox(width: 15.w,) ,
@@ -332,8 +326,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                              noData == "Empty Data" ?
                               Container(
                                margin: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.4),
-                                child: Flexible(
-                                  child: Text(
+                                child: Text(
                                   "Sorry, No Appointment",
                                    style: TextStyle(
                                    fontFamily: 'Poppins',
@@ -342,7 +335,7 @@ class _ManageHistoryState extends State<ManageHistory> {
                                    color: Constants().secondaryColor
                                      ),
                                   ),
-                                ),
+                               
                               ):Center(),
                             ]
                        ),

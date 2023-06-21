@@ -229,7 +229,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                               margin: Device.screenType == ScreenType.tablet? 
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Flexible(
+                                              
                                                 child: Text(
                                                   booking['matricNo'],
                                                   style:TextStyle(
@@ -238,7 +238,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                                       fontFamily: 'Poppins',
                                                       fontWeight: FontWeight.bold,
                                                       color: Colors.black,
-                                                  ),
+                                                  
                                                 ),
                                               ),
                                             ),
@@ -246,7 +246,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                               margin: Device.screenType == ScreenType.tablet? 
                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Flexible(
+                                              
                                                 child: Text(
                                                   booking['studName'],
                                                   style:TextStyle(
@@ -255,7 +255,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                                       fontFamily: 'Poppins',
                                                       fontWeight: FontWeight.w400,
                                                       color: Colors.black,
-                                                  ),
+                                                  
                                                 ),
                                               ),
                                             ),
@@ -263,7 +263,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                               margin: Device.screenType == ScreenType.tablet? 
                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Flexible(
+                                              
                                                 child: Text(
                                                   booking['studTelephoneNo'],
                                                   style:TextStyle(
@@ -273,14 +273,14 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                                       fontWeight: FontWeight.w400,
                                                       color: Colors.black,
                                                   ),
-                                                ),
+                                                
                                               ),
                                             ),
                                              Container(
                                               margin: Device.screenType == ScreenType.tablet? 
                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Flexible(
+                                           
                                                 child: Text(
                                                   booking['numberOfStudents'].toString() + " students",
                                                   style:TextStyle(
@@ -290,14 +290,14 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                                       fontWeight: FontWeight.w400,
                                                       color: Colors.black,
                                                     ),
-                                                   ),
+                                                   
                                               ),
                                                  ),
                                             Container(
                                               margin: Device.screenType == ScreenType.tablet? 
                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Flexible(
+                                           
                                                 child: Text(
                                                   booking['date'],
                                                   style:TextStyle(
@@ -308,13 +308,13 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                                       color: Colors.black,
                                                     ),
                                                    ),
-                                              ),
+                                              
                                                  ),
                                             Container(
                                               margin: Device.screenType == ScreenType.tablet? 
                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Flexible(
+                                          
                                                 child: Text(
                                                   booking['time'],
                                                   style:TextStyle(
@@ -325,7 +325,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                                       color: Constants().secondaryColor,
                                                     ),
                                                    ),
-                                              ),
+                                              
                                                  ),
                                                 ],
                                               ),
@@ -410,8 +410,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                     noData == "Empty Data" ?
                                     Container(
                                       margin: Device.screenType == ScreenType.tablet? EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.3) : EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.2),
-                                      child: Flexible(
-                                        child: Text(
+                                      child:  Text(
                                           "Sorry, No Appointment",
                                           style: TextStyle(
                                             fontFamily: 'Poppins',
@@ -420,7 +419,7 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                             color: Constants().secondaryColor
                                           ),
                                         ),
-                                      ),
+                                      
                                     ):Center(),
                                   ],
                                 )

@@ -93,8 +93,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
             
                           SizedBox(width: 20,),
                           //for lecturer basic information
-                           Flexible(
-                                  child: Container(
+                              Container(
                                     padding:  EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.04, horizontal: deviceWidth(context) *0.01),
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.start,
@@ -104,8 +103,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
                                             margin: Device.screenType == ScreenType.tablet? 
                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Flexible(
-                                                child: Text(
+                                              child: Text(
                                                 staffNo,
                                                   style:TextStyle(
                                                       fontSize: Device.screenType == ScreenType.tablet? 
@@ -115,14 +113,13 @@ class _LecturerInformationState extends State<LecturerInformation> {
                                                       color: Colors.black,
                                                   ),
                                                 ),
-                                              ),
+                                              
                                           ),
                                           Container(
                                             margin: Device.screenType == ScreenType.tablet? 
                                                 const EdgeInsets.only(bottom: 20):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Flexible(
-                                                child: Text(
+                                              child:  Text(
                                                   lectTelephoneNo,
                                                   style:TextStyle(
                                                       fontSize: Device.screenType == ScreenType.tablet? 
@@ -132,14 +129,13 @@ class _LecturerInformationState extends State<LecturerInformation> {
                                                       color: Colors.black,
                                                   ),
                                                 ),
-                                              ),
+                                              
                                           ),
                                           Container( 
                                              margin: Device.screenType == ScreenType.tablet? 
                                                 const EdgeInsets.only(bottom: 20):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Flexible(
-                                                child: Text(
+                                              child:  Text(
                                                 faculty + ", LEVEL " + floorLvl.toString() + ", NO "+ roomNo.toString(),
                                                   style:TextStyle(
                                                       fontSize: Device.screenType == ScreenType.tablet? 
@@ -149,19 +145,17 @@ class _LecturerInformationState extends State<LecturerInformation> {
                                                       color: Colors.black,
                                                   ),
                                                 ),
-                                              ),
+                                              
                                           ),         
                                       ],
                                     ),
                                   )
-                                 ),
                           ],
                        ),
                       //for lecturer name
                       Container(
                         padding:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.015),
-                        child:  Flexible(
-                          child: Text(
+                        child:  Text(
                             lectName,
                             style: TextStyle(
                               fontFamily: "Poppins",
@@ -172,7 +166,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
                             ), 
                             textAlign: TextAlign.center,
                           ),
-                        ),
+                        
                       ),
             
                       //for divider between basic information and academic information
@@ -187,8 +181,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
                       //for department
                     Container(
                       padding:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.015),
-                      child: Flexible(
-                        child: Text(
+                      child:Text(
                           department,
                            style: TextStyle(
                               fontFamily: "Poppins",
@@ -199,7 +192,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
                             ), 
                             textAlign: TextAlign.center,
                         ),
-                      ),
+                      
                     ),
             
                     //for academic qualification title
@@ -208,8 +201,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
                       children: [
                         Container(
                         padding:  EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.06),
-                        child: Flexible(
-                          child: Text(
+                        child: Text(
                           "Academic Qualification",
                            style: TextStyle(
                               fontFamily: "Poppins",
@@ -219,7 +211,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
                               color: Colors.black,
                             ), 
                            ),
-                        ),
+                        
                         ),
                       ],
                     ),
@@ -229,8 +221,7 @@ class _LecturerInformationState extends State<LecturerInformation> {
                       children: [
                         Container(
                           padding:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.015),
-                          child: Flexible(
-                            child: Text(
+                          child:  Text(
                             academicQualification1,
                                                    style: TextStyle(
                               fontFamily: "Poppins",
@@ -240,12 +231,12 @@ class _LecturerInformationState extends State<LecturerInformation> {
                               color: Colors.black,
                             ), 
                             textAlign: TextAlign.justify,
-                                                   ),
-                          ),
+                                ),
+                          
                         ),
                               Container(
                           padding:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.015, vertical: deviceHeight(context) * 0.02),
-                          child: Flexible(
+                      
                             child: Text(
                               academicQualification2,
                                 style: TextStyle(
@@ -258,10 +249,10 @@ class _LecturerInformationState extends State<LecturerInformation> {
                             textAlign: TextAlign.justify,
                                                    ),
                           ),
-                        ),
+                        
                               Container(
                           padding:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.015, vertical: deviceHeight(context) * 0.02),
-                          child: Flexible(
+                         
                             child: Text(
                               academicQualification3,
                                 style: TextStyle(
@@ -272,12 +263,12 @@ class _LecturerInformationState extends State<LecturerInformation> {
                               color: Colors.black,
                             ), 
                             textAlign: TextAlign.justify,
-                                                   ),
-                          ),
+                                   ),
+                          
                         ),
                               Container(
                           padding:  EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.015, vertical: deviceHeight(context) * 0.02),
-                          child: Flexible(
+                     
                             child: Text(
                               academicQualification4,
                                 style: TextStyle(
@@ -288,8 +279,8 @@ class _LecturerInformationState extends State<LecturerInformation> {
                               color: Colors.black,
                             ), 
                             textAlign: TextAlign.justify,
-                                                   ),
-                          ),
+                                  ),
+                         
                         ),
                       ],
                     ),

@@ -169,28 +169,5 @@ Future lecturerInformation(String staffNo, int floorLvl, int roomNo, String acad
       }
    }
 
-  //API to update firebase token
-   Future updateFirebaseToken(String staffNo, String firebaseToken) async {
-     EasyLoading.show(
-          status: "Loading...",
-          maskType: EasyLoadingMaskType.black,
-      );
-    final response = await http.patch(Uri.parse('${Utils.baseURL}/lecturer/updatefirebasetoken/${staffNo}'),
-      headers: {
-         "Accept": "application/json;charset=UTF-8",
-        'Charset': 'utf-8'
-      },
-      body: {
-        'firebaseToken' : firebaseToken
-      }
-    );
-    if(response.statusCode == 200) {
-       EasyLoading.dismiss();
-       return jsonDecode(response.body);
-    }else{
-       EasyLoading.showError("ERROR!");
-       throw Exception(response.statusCode);
-    }
-  }
-
+  
 }

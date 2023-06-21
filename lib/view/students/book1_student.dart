@@ -146,8 +146,7 @@ class _BookState extends State<Book> {
               backgroundImage: NetworkImage(selectedFaculty != "" ?  filterListViewLecturerList[index]['lecturerImage'] : _searchController.text.isNotEmpty ? filterLecturerList[index]['lecturerImage'] : lecturerList[index]['lecturerImage']),
             ),
             ),
-             title: Flexible(
-               child: Text( selectedFaculty != "" ?  filterListViewLecturerList[index]['lecturerName'] :
+             title: Text( selectedFaculty != "" ?  filterListViewLecturerList[index]['lecturerName'] :
                _searchController.text.isNotEmpty ? filterLecturerList[index]['lecturerName'] :  lecturerList[index]['lecturerName'],
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -156,14 +155,11 @@ class _BookState extends State<Book> {
                   color: Colors.black,
                     ),
                    ),
-             ),
            
                 subtitle: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                      Flexible(
-                        child: Text( selectedFaculty != "" ?  filterListViewLecturerList[index]['lecturerTelephoneNo'] :
+                  children: [ Text( selectedFaculty != "" ?  filterListViewLecturerList[index]['lecturerTelephoneNo'] :
                     _searchController.text.isNotEmpty ? filterLecturerList[index]['lecturerTelephoneNo'] :  lecturerList[index]['lecturerTelephoneNo'],
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
@@ -171,13 +167,10 @@ class _BookState extends State<Book> {
                         fontFamily: "Poppins",
                         color: Colors.black,
                       ),
-                      
                         ),
-                      ),
                     Row(
                       children: [
-                        Flexible(
-                          child: Text( selectedFaculty != "" ?  filterListViewLecturerList[index]['faculty'] :
+                            Text( selectedFaculty != "" ?  filterListViewLecturerList[index]['faculty'] :
                             _searchController.text.isNotEmpty ? filterLecturerList[index]['faculty'] : lecturerList[index]['faculty'],
                               style: TextStyle(
                               fontWeight: FontWeight.w400,
@@ -186,7 +179,7 @@ class _BookState extends State<Book> {
                               color: Colors.black,
                             ),
                            ),
-                        ),
+                        
                            Flexible(
                              child: Text(",\tFLOOR "+ ( selectedFaculty != "" ?  filterListViewLecturerList[index]['floorLvl'].toString() : _searchController.text.isNotEmpty ? filterLecturerList[index]['floorLvl'].toString() : lecturerList[index]['floorLvl'].toString()),
                               style: TextStyle(
@@ -197,16 +190,15 @@ class _BookState extends State<Book> {
                                                      ),
                                                     ),
                            ),
-                          Flexible(
-                            child: Text( ",\tNO "+ ( selectedFaculty != "" ?  filterListViewLecturerList[index]['roomNo'].toString() : _searchController.text.isNotEmpty ? filterLecturerList[index]['roomNo'].toString() : lecturerList[index]['roomNo'].toString()),
+                           Text( ",\tNO "+ ( selectedFaculty != "" ?  filterListViewLecturerList[index]['roomNo'].toString() : _searchController.text.isNotEmpty ? filterLecturerList[index]['roomNo'].toString() : lecturerList[index]['roomNo'].toString()),
                               style: TextStyle(
                               fontWeight: FontWeight.w400,
                                fontSize: Device.screenType == ScreenType.tablet? 12:12,
                               fontFamily: "Poppins",
                               color: Colors.black,
                             ),
-                                                   ),
-                          )
+                           ),
+                          
                       ],
                     )
                   ],

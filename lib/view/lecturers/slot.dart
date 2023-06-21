@@ -426,19 +426,18 @@ class _SlotState extends State<Slot> {
                    padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
                   child: Row(
                   children: [
-                   Flexible(child: Text("Day: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                   Text("Day: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),),
                    SizedBox(width:  Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.15 : deviceWidth(context) * 0.1,),
                   Container(
                     width:  Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.20 :  deviceWidth(context) * 0.35,
-                    child: Flexible(
                       child: DropdownButton<String>(
                       isDense: true,
                       elevation: 5,
                       isExpanded: true,
                       focusColor: Colors.black,
                       style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize:  Device.screenType == ScreenType.tablet? 18:15),
-                      hint:  dayIsChecked ? Flexible(child: Text(daysValue,style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize: Device.screenType == ScreenType.tablet? 0.14.dp : 0.28.dp), )):  
-                      Flexible(child: Text("Select Day",style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize: 15), )),
+                      hint:  dayIsChecked ?Text(daysValue,style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize: Device.screenType == ScreenType.tablet? 0.14.dp : 0.28.dp), ):  
+                      Text("Select Day",style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize: 15), ),
                       items: days.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(value: value, child: Text(value));
                       }).toList(), 
@@ -450,7 +449,7 @@ class _SlotState extends State<Slot> {
                                 
                         }
                       ),
-                    ),
+                    
                   ),
                   ],
                                ),
@@ -461,7 +460,7 @@ class _SlotState extends State<Slot> {
                   padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
                  child: Row(
                     children: [
-                       Flexible(child: Text("Slot 1: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                    Text("Slot 1: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),),
                       SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
                       Checkbox(
                       value: isChecked1, 
@@ -473,7 +472,7 @@ class _SlotState extends State<Slot> {
                           });       
                       }),
                             
-                       Flexible(child: Text("8.00 AM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),)),
+                     Text("8.00 AM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),),
                     ],
                  ),
                ),
@@ -482,7 +481,7 @@ class _SlotState extends State<Slot> {
                   padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
                  child: Row(
                     children: [
-                       Flexible(child: Text("Slot 2: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                   Text("Slot 2: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),),
                       SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
                       Checkbox(
                       value: isChecked2, 
@@ -494,7 +493,7 @@ class _SlotState extends State<Slot> {
                           });       
                       }),
                             
-                     Flexible(child: Text("10.00 AM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),)),
+                Text("10.00 AM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),),
                     ],
                  ),
                ),
@@ -503,7 +502,7 @@ class _SlotState extends State<Slot> {
                  padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
                  child: Row(
                     children: [
-                      Flexible(child: Text("Slot 3: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                  Text("Slot 3: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),),
                       SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
                       Checkbox(
                       value: isChecked3, 
@@ -515,7 +514,7 @@ class _SlotState extends State<Slot> {
                           });       
                       }),
                             
-                       Flexible(child: Text("12.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),)),
+                    Text("12.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),),
                     ],
                  ),
                ),
@@ -524,7 +523,7 @@ class _SlotState extends State<Slot> {
                  padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
                  child: Row(
                     children: [
-                      Flexible(child: Text("Slot 4: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                    Text("Slot 4: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),),
                       SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
                       Checkbox(
                       value: isChecked4, 
@@ -536,7 +535,7 @@ class _SlotState extends State<Slot> {
                           });       
                       }),
                             
-                       Flexible(child: Text("2.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),)),
+                   Text("2.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),),
                     ],
                  ),
                ),
@@ -545,7 +544,7 @@ class _SlotState extends State<Slot> {
                   padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
                  child: Row(
                     children: [
-                     Flexible(child: Text("Slot 5: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                     Text("Slot 5: ",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),),
                       SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
                       Checkbox(
                       value: isChecked5, 
@@ -556,7 +555,7 @@ class _SlotState extends State<Slot> {
                             slot5 = isChecked5 ? "4.00 PM" : "";
                           });       
                       }),
-                     Flexible(child: Text("4.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),)),
+                      Text("4.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize:  Device.screenType == ScreenType.tablet? 18:15, ),),
                     ],
                    ),
                ),
@@ -668,19 +667,19 @@ class _SlotState extends State<Slot> {
                     padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.02),
                      child: Row(
                       children: [
-                      Flexible(child: Text("Day: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                      Text("Day: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),),
                       SizedBox(width:  Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.15 : deviceWidth(context) * 0.1,),
                       Container(
                      width:  Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.20 :  deviceWidth(context) * 0.35,
-                     child: Flexible(
+                 
                        child: DropdownButton<String>(
                         isDense: true,
                         elevation: 5,
                         isExpanded: true,
                          focusColor: Colors.black,
                          style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize:  Device.screenType == ScreenType.tablet? 18:15),
-                         hint:  dayIsChecked ? Flexible(child: Text(daysValue,style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize: Device.screenType == ScreenType.tablet? 18:15,), )):  
-                         Flexible(child: Text("Select Day",style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize: 15), )),
+                         hint:  dayIsChecked ? Text(daysValue,style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize: Device.screenType == ScreenType.tablet? 18:15,), ):  
+                       Text("Select Day",style: TextStyle(fontFamily: 'Poppins', color: Colors.black, fontSize: 15), ),
                          items: days.map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(value: value, child: Text(value));
                         }).toList(), 
@@ -691,7 +690,7 @@ class _SlotState extends State<Slot> {
                        });                         
                         }
                              ),
-                     ),
+                     
                           ),
                          ],
                         ),
@@ -701,7 +700,7 @@ class _SlotState extends State<Slot> {
                 padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
                  child: Row(
                     children: [
-                     Flexible(child: Text("Slot 1: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                     Text("Slot 1: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),),
                       SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
                       Checkbox(
                       value: isChecked6, 
@@ -713,7 +712,7 @@ class _SlotState extends State<Slot> {
                           });       
                       }),
                             
-                       Flexible(child: Text("8.00 AM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),)),
+                    Text("8.00 AM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),),
                     ],
                  ),
                ),
@@ -722,7 +721,7 @@ class _SlotState extends State<Slot> {
                   padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
                  child: Row(
                     children: [
-                       Flexible(child: Text("Slot 2: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                       Text("Slot 2: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),),
                       SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
                       Checkbox(
                       value: isChecked7, 
@@ -734,7 +733,7 @@ class _SlotState extends State<Slot> {
                           });       
                       }),
                             
-                     Flexible(child: Text("10.00 AM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),)),
+                   Text("10.00 AM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),),
                     ],
                  ),
                ),
@@ -743,7 +742,7 @@ class _SlotState extends State<Slot> {
                   padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
                  child: Row(
                     children: [
-                       Flexible(child: Text("Slot 3: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                       Text("Slot 3: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),),
                       SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
                       Checkbox(
                       value: isChecked8, 
@@ -755,7 +754,7 @@ class _SlotState extends State<Slot> {
                           });       
                       }),
                             
-                       Flexible(child: Text("12.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),)),
+                       Text("12.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),),
                     ],
                  ),
                ),
@@ -764,7 +763,7 @@ class _SlotState extends State<Slot> {
                  padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
                  child: Row(
                     children: [
-                       Flexible(child: Text("Slot 4: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                     Text("Slot 4: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),),
                       SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
                       Checkbox(
                       value: isChecked9, 
@@ -776,7 +775,7 @@ class _SlotState extends State<Slot> {
                           });       
                       }),
                             
-                       Flexible(child: Text("2.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),)),
+                     Text("2.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),),
                     ],
                  ),
                ),
@@ -785,7 +784,7 @@ class _SlotState extends State<Slot> {
                   padding: Device.screenType == ScreenType.tablet ?  EdgeInsets.only(left: deviceWidth(context) * 0.10) : EdgeInsets.only(left: deviceWidth(context) * 0.05),
                  child: Row(
                     children: [
-                       Flexible(child: Text("Slot 5: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),)),
+                      Text("Slot 5: ",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, fontWeight: FontWeight.bold),),
                       SizedBox(width: Device.screenType == ScreenType.tablet ?  deviceWidth(context) * 0.13 : deviceWidth(context) * 0.06,),
                       Checkbox(
                       value: isChecked10, 
@@ -796,7 +795,7 @@ class _SlotState extends State<Slot> {
                             slot10 = isChecked10 ? "4.00 PM" : "";
                           });       
                       }),
-                     Flexible(child: Text("4.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),)),
+                    Text("4.00 PM",style: TextStyle(fontFamily: 'Poppins', fontSize: Device.screenType == ScreenType.tablet? 18:15, ),),
                     ],
                    ),
                ),
@@ -821,8 +820,7 @@ class _SlotState extends State<Slot> {
                                             isUpdate = false;
                                           });
                                         },
-                                        child:  Flexible(
-                                          child: Text(
+                                        child: Text(
                                             "Close",
                                             style: TextStyle(
                                                 color: Colors.black,
@@ -831,7 +829,7 @@ class _SlotState extends State<Slot> {
                                                 fontFamily: 'Poppins',
                                             ),
                                           ),
-                                        ),
+                                        
                                     ),
                                   ),
                                     SizedBox(width: 1.h,),
@@ -850,8 +848,7 @@ class _SlotState extends State<Slot> {
                                     
                                           editSlot(staffNo!, daysValue, slot6, slot7, slot8, slot9, slot10);
                                         },
-                                        child:  Flexible(
-                                          child: Text(
+                                        child: Text(
                                             "Confirm",
                                             style: TextStyle(
                                                 color: Colors.white,
@@ -860,7 +857,7 @@ class _SlotState extends State<Slot> {
                                                 fontFamily: 'Poppins',
                                             ),
                                           ),
-                                        ),
+                                        
                                     ),
                                   ),
                                 ],

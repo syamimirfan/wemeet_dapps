@@ -87,8 +87,7 @@ class _UpdateBookNumberStudentState extends State<UpdateBookNumberStudent> {
                 backgroundImage: NetworkImage(lectImage),
               ),
               ),
-               title: Flexible(
-                 child: Text(
+               title:  Text(
                   lectName,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -97,21 +96,18 @@ class _UpdateBookNumberStudentState extends State<UpdateBookNumberStudent> {
                     color: Colors.black,
                       ),
                      ),
-               ),
+               
              
-                  subtitle: 
-                      Flexible(
-                        child: Text(
+                  subtitle: Text(
                         phoneNo + "\n" + faculty + ",\t" + floorLvl.toString() + ",\t" + roomNo.toString() ,
                         style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: Device.screenType == ScreenType.tablet? 12:12,
                         fontFamily: "Poppins",
                         color: Colors.black,
-                                          ),
-                                      
-                                    ),
-                      ),
+                                   ),
+                           ),
+                      
        ),
      );
   }

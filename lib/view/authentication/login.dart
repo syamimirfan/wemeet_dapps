@@ -324,7 +324,7 @@ class _LoginState extends State<Login> {
       _sharedPreferences.setInt('statusStudent', statusStudent);
      _sharedPreferences.setString('tokenAddress', tokenAddress);
 
-      updateFirebaseTokenStudent(matricNumber);
+     nextScreenRemoveUntil(context, HomeStudents());
 
     }else if(responseLecturer['success'] && responseLecturer['status'] == 2) {
 
@@ -335,7 +335,7 @@ class _LoginState extends State<Login> {
       _sharedPreferences.setString('staffNo',staffNo);
       _sharedPreferences.setInt('statusLecturer', statusLecturer);
        
-     updateFirebaseTokenLecturer(staffNo);
+    nextScreenRemoveUntil(context, HomeLecturer());
   
     } else {
      showErrorMessage(context, "Invalid User", "Email or Password are not valid", "OK");
@@ -343,25 +343,7 @@ class _LoginState extends State<Login> {
 
   }
 
-  //to update firebase token for student
-  updateFirebaseTokenStudent(String matricNo) async{
-      final SharedPreferences  _sharedPreferences = await SharedPreferences.getInstance();
-      String? firebaseToken =  _sharedPreferences.getString("tokenNotification");
-      var responseNotification = await new Student().updateFirebaseToken(matricNo, firebaseToken!);
-      if(responseNotification['success']){
-          nextScreenRemoveUntil(context, HomeStudents());
-      }
-  }
 
-    //to update firebase token for lecturer
-  updateFirebaseTokenLecturer(String staffNo) async{
-      final SharedPreferences  _sharedPreferences = await SharedPreferences.getInstance();
-      String? firebaseToken =  _sharedPreferences.getString("tokenNotification");
-      var responseNotification = await new Lecturer().updateFirebaseToken(staffNo, firebaseToken!);
-      if(responseNotification['success']){
-          nextScreenRemoveUntil(context, HomeLecturer());
-      }
-  }
 
   //error message if user enter wrong email or password
   static void showErrorMessage(BuildContext context, String title, String message, String buttonText) {

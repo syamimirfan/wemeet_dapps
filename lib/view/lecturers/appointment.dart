@@ -138,8 +138,7 @@ class _AppointmentState extends State<Appointment> {
                                                   margin: Device.screenType == ScreenType.tablet? 
                                                      EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                     EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                                  child: Flexible(
-                                                    child: Text(
+                                                  child: Text(
                                                       booking['studName'],
                                                       style:TextStyle(
                                                           fontSize: Device.screenType == ScreenType.tablet? 
@@ -149,13 +148,13 @@ class _AppointmentState extends State<Appointment> {
                                                           color: Colors.black,
                                                       ),
                                                     ),
-                                                  ),
+                                                  
                                                 ),
                                                  Container(
                                                   margin: Device.screenType == ScreenType.tablet? 
                                                      EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                     EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                                  child: Flexible(
+                                                  
                                                     child: Text(
                                                       booking['numberOfStudents'].toString() + " student",
                                                       style:TextStyle(
@@ -164,7 +163,7 @@ class _AppointmentState extends State<Appointment> {
                                                           fontFamily: 'Poppins',
                                                           fontWeight: FontWeight.w400,
                                                           color: Colors.black,
-                                                      ),
+                                                      
                                                     ),
                                                   ),
                                                 ),
@@ -172,7 +171,7 @@ class _AppointmentState extends State<Appointment> {
                                                   margin: Device.screenType == ScreenType.tablet? 
                                                    EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                     EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                                  child: Flexible(
+                                              
                                                     child: Text(
                                                       booking['date'],
                                                       style:TextStyle(
@@ -181,7 +180,7 @@ class _AppointmentState extends State<Appointment> {
                                                           fontFamily: 'Poppins',
                                                           fontWeight: FontWeight.w400,
                                                           color: Colors.black,
-                                                      ),
+                                                      
                                                     ),
                                                   ),
                                                 ),
@@ -189,7 +188,7 @@ class _AppointmentState extends State<Appointment> {
                                                   margin: Device.screenType == ScreenType.tablet? 
                                                      EdgeInsets.only(bottom: deviceWidth(context) * 0.01):
                                                     EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                                  child: Flexible(
+                                               
                                                     child: Text(
                                                       booking['time'],
                                                       style:TextStyle(
@@ -199,7 +198,7 @@ class _AppointmentState extends State<Appointment> {
                                                           fontWeight: FontWeight.bold,
                                                           color: Constants().secondaryColor,
                                                       ),
-                                                    ),
+                                                    
                                                   ),
                                                 ),
                                               ],
@@ -283,8 +282,7 @@ class _AppointmentState extends State<Appointment> {
                                noData == "Empty Data" ?
                                 Container(
                                  margin: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.4),
-                                  child: Flexible(
-                                    child: Text(
+                                  child: Text(
                                     "Sorry, No Appointment",
                                      style: TextStyle(
                                      fontFamily: 'Poppins',
@@ -293,7 +291,7 @@ class _AppointmentState extends State<Appointment> {
                                      color: Constants().secondaryColor
                                        ),
                                     ),
-                                  ),
+                                  
                                 ):Center(),
                               ]
                          ),

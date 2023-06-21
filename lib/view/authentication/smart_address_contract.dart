@@ -337,10 +337,10 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
    //function to update token address and firebase token when first time login
   updateToken(String? matricNo, String tokenAddress, int statusStudent) async {
      final SharedPreferences _sharePreferences = await SharedPreferences.getInstance();
-     String? firebaseToken =  _sharePreferences.getString("tokenNotification");
+
      var responseStudent = await new Student().updateTokenAddress(matricNo!, tokenAddress);
-     var responseNotification = await new Student().updateFirebaseToken(matricNo, firebaseToken!);
-     if(responseStudent['success'] && responseNotification['success']){
+
+     if(responseStudent['success']){
         _sharePreferences.setString('matricNo', matricNo);
         _sharePreferences.setInt('statusStudent', statusStudent);
         _sharePreferences.setString('tokenAddress', tokenAddress);

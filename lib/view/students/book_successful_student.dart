@@ -71,19 +71,17 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                         
                          duration: const Duration(seconds: 3),
                         ),
-                        Flexible(
-                          child: Text(
+                          Text(
                           "Booking Successful",
                           style: TextStyle(
                             fontFamily: "Poppins",
                             fontSize: Device.screenType == ScreenType.tablet? 20:23,
                             fontWeight: FontWeight.bold,
                           ),
-                                               ),
-                        ),
+                                   ),
+                       
                        SizedBox(height: 5,),
-                            Flexible(
-                              child: Text(
+                             Text(
                               "You have successfully book your appointment",
                               style: TextStyle(
                                 fontFamily: "Poppins",
@@ -91,7 +89,7 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                                 fontWeight: FontWeight.w400,
                               ),
                               ),
-                            ),
+                            
                           SizedBox(height: 20,),
                        Container(
                       padding:Device.screenType == ScreenType.tablet? 
@@ -109,8 +107,7 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                             
                             children: [
                               SizedBox(width: 20,),
-                               Flexible(
-                                 child: Text(
+                                Text(
                                     "Your Appointment Details:",
                                     style: TextStyle(
                                   fontFamily: "Poppins",
@@ -118,11 +115,10 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                                   fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                               ),
+                               
                                 SizedBox(height: 10,),
                                    
-                               Flexible(
-                                 child: Text(
+                                Text(
                                   lecturerName,
                                   style: TextStyle(
                                   fontFamily: "Poppins",
@@ -130,10 +126,9 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                                   fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                               ),
+                               
                                      SizedBox(height: 5,),
-                               Flexible(
-                                 child: Text(
+                                Text(
                                     numberOfStudents.toString() + " students",
                                     style: TextStyle(
                                   fontFamily: "Poppins",
@@ -141,21 +136,18 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                                   fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                               ),
+                               
                                       SizedBox(height: 5,),
-                              Flexible(
-                                child: Text(
+                                Text(
                                 date ,
                                 style: TextStyle(
                                   fontFamily: "Poppins",
                                   fontSize: Device.screenType == ScreenType.tablet? 18:15,
                                   fontWeight: FontWeight.w400,
                                 ),
-                                                          ),
-                              ),
+                                ),
                                SizedBox(height: 5,),
-                               Flexible(
-                                 child: Text(
+                                Text(
                                  time,
                                   style: TextStyle(
                                   fontFamily: "Poppins",
@@ -164,10 +156,10 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                                   color: Constants().secondaryColor,
                                     ),
                                   ),
-                               ),
+                               
                               SizedBox(height: 5.h),       
-                     Flexible(
-                       child: SizedBox(
+                     
+                       SizedBox(
                          width: double.infinity,
                          child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -183,8 +175,7 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                           onPressed: () async{
                             nextScreenRemoveUntil(context, HomeStudents());
                           },
-                           child:   Flexible(
-                             child: Text(
+                           child:   Text(
                                "Confirm",
                                style: TextStyle(
                                   color: Colors.white,
@@ -195,8 +186,8 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                              ),
                            ),
                           ),
-                       ),
-                     ),
+                       
+                     
                             ],
                           ),
                        ),

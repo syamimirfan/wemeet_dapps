@@ -183,8 +183,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                      Flexible(
-                                        child: Text(
+                                       Text(
                                           "Status: ",
                                           style: TextStyle(
                                             color: Colors.black,
@@ -193,9 +192,8 @@ class _ManageBookingState extends State<ManageBooking> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                      ),
-                                      Flexible(
-                                        child: Text(
+                                      
+                                       Text(
                                           appointment['statusBooking'],
                                           style: TextStyle(
                                            color:  appointment['statusBooking'] == "Accepted" ? Constants().acceptedColor :  appointment['statusBooking'] == "Appending" ? Constants().primaryColor : appointment['statusBooking'] == "Rejected" ? Constants().secondaryColor : Colors.black,
@@ -204,7 +202,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                      )
+                                      
                                   ],
                               ),
                                 ),
@@ -237,7 +235,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.01,
                                                     right: deviceWidth(context) * 0.01,
                                                   ) ,
-                                                child: Flexible(
+                  
                                                   child: Text(
                                                     appointment['lecturerName'],
                                                     style:TextStyle(
@@ -248,13 +246,13 @@ class _ManageBookingState extends State<ManageBooking> {
                                                         color: Colors.black,
                                                     ),
                                                   ),
-                                                ),
+                                                
                                               ),
                                                Container(
                                                 margin: Device.screenType == ScreenType.tablet? 
                                                   const EdgeInsets.only(bottom: 20):
                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                                child: Flexible(
+                                            
                                                   child: Text(
                                                       appointment['numberOfStudents'].toString() + " Student",
                                                     style:TextStyle(
@@ -264,14 +262,14 @@ class _ManageBookingState extends State<ManageBooking> {
                                                         fontWeight: FontWeight.w400,
                                                         color: Colors.black,
                                                     ),
-                                                  ),
+                                                  
                                                 ),
                                               ),
                                                Container(
                                                 margin: Device.screenType == ScreenType.tablet? 
                                                   const EdgeInsets.only(bottom: 20):
                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.008) ,
-                                                child: Flexible(
+                                           
                                                   child: Text(
                                                       appointment['date'],
                                                     style:TextStyle(
@@ -282,13 +280,13 @@ class _ManageBookingState extends State<ManageBooking> {
                                                         color: Colors.black,
                                                     ),
                                                   ),
-                                                ),
+                                                
                                               ),
                                                Container(
                                                 margin: Device.screenType == ScreenType.tablet? 
                                                   const EdgeInsets.only(bottom: 20):
                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                                child: Flexible(
+                                                
                                                   child: Text(
                                                      appointment['time'],
                                                     style:TextStyle(
@@ -298,7 +296,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                                         fontWeight: FontWeight.bold,
                                                         color: Constants().secondaryColor,
                                                     ),
-                                                  ),
+                                                  
                                                 ),
                                               ),
                                             ],
@@ -413,8 +411,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                       noData == "Empty Data" ?
                                       Container(
                                         margin: EdgeInsets.symmetric(vertical: deviceHeight(context) * 0.4),
-                                        child: Flexible(
-                                          child: Text(
+                                        child: Text(
                                             "Sorry, No Appointment",
                                             style: TextStyle(
                                               fontFamily: 'Poppins',
@@ -423,7 +420,7 @@ class _ManageBookingState extends State<ManageBooking> {
                                               color: Constants().secondaryColor
                                             ),
                                           ),
-                                        ),
+                                        
                                       ):Center(),
                                     ],
                                   )
@@ -447,7 +444,7 @@ class _ManageBookingState extends State<ManageBooking> {
                   context: context, 
                   builder: (context) {
                     return  AlertDialog(
-                      title:  const Text("Exit App",  
+                      title:  const Text(" it App",  
                       style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,

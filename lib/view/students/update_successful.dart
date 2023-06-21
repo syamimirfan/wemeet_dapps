@@ -71,8 +71,7 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                         
                          duration: const Duration(seconds: 3),
                         ),
-                        Flexible(
-                          child: Text(
+                         Text(
                           "Update Successful",
                           style: TextStyle(
                             fontFamily: "Poppins",
@@ -80,10 +79,9 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                             fontWeight: FontWeight.bold,
                            ),
                           ),
-                        ),
+                        
                        SizedBox(height: 5,),
-                         Flexible(
-                           child: Text(
+                          Text(
                             "You have successfully update your appointment",
                             style: TextStyle(
                             fontFamily: "Poppins",
@@ -91,7 +89,7 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                             fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                         ),
+                         
                           SizedBox(height: 20,),
                        Container(
                       padding:Device.screenType == ScreenType.tablet? 
@@ -109,8 +107,7 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                             
                             children: [
                               SizedBox(width: 20,),
-                               Flexible(
-                                 child: Text(
+                                Text(
                                   "Your Appointment Details:",
                                   style: TextStyle(
                                   fontFamily: "Poppins",
@@ -118,11 +115,10 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                                   fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                               ),
+                               
                                 SizedBox(height: 10,),
                                    
-                             Flexible(
-                               child: Text(
+                              Text(
                                lecturerName,
                                 style: TextStyle(
                                   fontFamily: "Poppins",
@@ -130,10 +126,10 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                                   fontWeight: FontWeight.w500,
                                 ),
                                                          ),
-                             ),
-                                     SizedBox(height: 5,),
-                               Flexible(
-                                 child: Text(
+                             
+                                SizedBox(height: 5,),
+                                
+                                Text(
                                   numberOfStudents.toString() + " students",
                                   style: TextStyle(
                                   fontFamily: "Poppins",
@@ -141,10 +137,9 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                                   fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                               ),
+                               
                                 SizedBox(height: 5,),
-                               Flexible(
-                                 child: Text(
+                                Text(
                                   date,
                                   style: TextStyle(
                                   fontFamily: "Poppins",
@@ -152,20 +147,21 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                                   fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                               ),
+                               
                                SizedBox(height: 5,),
+                              
                                Text(
-                              time,
-                              style: TextStyle(
-                                fontFamily: "Poppins",
-                               fontSize: Device.screenType == ScreenType.tablet? 18:15,
-                                fontWeight: FontWeight.bold,
-                                color: Constants().secondaryColor,
-                              ),
-                            ),
+                                  time,
+                                  style: TextStyle(
+                                  fontFamily: "Poppins",
+                                 fontSize: Device.screenType == ScreenType.tablet? 18:15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Constants().secondaryColor,
+                                    ),
+                                  ),
+                               
                               SizedBox(height: 5.h),       
-                     Flexible(
-                       child: SizedBox(
+                          SizedBox(
                          width: double.infinity,
                          child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -181,8 +177,7 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                           onPressed: () async{
                             nextScreenRemoveUntil(context, ManageBooking());
                           },
-                           child:   Flexible(
-                             child: Text(
+                           child:  Text(
                                "Go to Appointment",
                                style: TextStyle(
                                   color: Colors.white,
@@ -192,9 +187,9 @@ class _UpdateSuccessfulState extends State<UpdateSuccessful> {
                                ),
                              ),
                            ),
-                          ),
+                          
                        ),
-                     ),
+                     
                             ],
                           ),
                        ),

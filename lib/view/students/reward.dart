@@ -123,8 +123,7 @@ class _RewardTokenState extends State<RewardToken> {
                    //for token value
                    Container(
                      margin: EdgeInsets.only(bottom: deviceHeight(context) * 0.05),
-                     child:  Flexible(
-                       child: Text(
+                     child: Text(
                         token.toString() + "\tUTHM",
                         style: TextStyle(
                           fontFamily: "Poppins",
@@ -133,7 +132,7 @@ class _RewardTokenState extends State<RewardToken> {
                           color: Colors.black,
                         ),
                        ),
-                     ),
+                
                    ),
     
                    //for scan qr code button
@@ -157,8 +156,7 @@ class _RewardTokenState extends State<RewardToken> {
                            children: [
                             Icon(Icons.qr_code_scanner,color: Colors.white,),
                             SizedBox(width: 2.h,),
-                              Flexible(
-                         
+                              Flexible(                        
                                 child: Text(
                                 "Scan QR",
                                  style: TextStyle(
@@ -206,8 +204,7 @@ class _RewardTokenState extends State<RewardToken> {
                                   ),
                                 ),
                                SizedBox(width: deviceWidth(context) * 0.02,),
-                                Flexible(
-                                  child: GestureDetector(
+                                 GestureDetector(
                                     onTap: () {
                                   //create URL object
                                   Uri uri = Uri.parse(urlMining);
@@ -222,9 +219,8 @@ class _RewardTokenState extends State<RewardToken> {
                                    ),
                                           ),
                                         ),
-                                ),
-                            Flexible(
-                              child: Text(
+   
+                             Text(
                                 "Or",
                                  textAlign: TextAlign.justify,
                                   style: TextStyle(
@@ -234,10 +230,9 @@ class _RewardTokenState extends State<RewardToken> {
                                   color: Colors.white                       
                                     ),
                                ),
-                            ),
+                            
                                SizedBox(width: deviceWidth(context) * 0.02,),
-                                Flexible(
-                                  child: GestureDetector(
+                                 GestureDetector(
                                       onTap: () {
                                   // create URL object
                                    Uri uri = Uri.parse(url);
@@ -250,12 +245,11 @@ class _RewardTokenState extends State<RewardToken> {
                                     color: Colors.white,
                                     decoration: TextDecoration.underline,
                                    ),
-                                                              ),
-                                                             ),
-                                ),
+                                      ),
+                                      ),
+                                
                      SizedBox(height: 2.h,),
-                            Flexible(
-                              child: Text(
+                            Text(
                                   "Not Imported UTHM Token?",
                                   style: TextStyle(
                                     fontFamily: "Poppins",
@@ -264,7 +258,7 @@ class _RewardTokenState extends State<RewardToken> {
                                     color: Colors.white,
                                   ),
                                 ),
-                            ),
+                            
                         SizedBox(height: 2.h,),
                           InkWell(
                             child: Container(
