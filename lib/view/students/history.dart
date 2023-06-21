@@ -246,7 +246,8 @@ class _ManageHistoryState extends State<ManageHistory> {
                                color: Constants().dividerColor,
                                thickness: 1.5,
                               ),
-                    SizedBox(height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.01 : deviceHeight(context) * 0.01,),
+                    SizedBox(
+                      height:  Device.screenType == ScreenType.tablet? deviceHeight(context) * 0.01 : deviceHeight(context) * 0.01,),
                               Container(         
                                 child: Row(
                              mainAxisAlignment: MainAxisAlignment.spaceAround,

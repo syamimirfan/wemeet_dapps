@@ -64,7 +64,7 @@ class About extends StatelessWidget {
                                     children:  [
                                      Flexible(
                                        child: Text(
-                                           "WeMeet Version 0.1",
+                                           "WeMeet Version 0.2",
                                             style: TextStyle(
                                            fontWeight: FontWeight.bold,
                                           fontSize: Device.screenType == ScreenType.tablet? 18:18,
