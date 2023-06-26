@@ -246,18 +246,18 @@ class _HomeLecturerState extends State<HomeLecturer> {
                                               margin: Device.screenType == ScreenType.tablet? 
                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.001):
                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              
-                                                child: Text(
-                                                  booking['studName'],
-                                                  style:TextStyle(
-                                                      fontSize: Device.screenType == ScreenType.tablet? 
-                                                                  19:14,
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight: FontWeight.w400,
-                                                      color: Colors.black,
+
+                                                  child: Text(
+                                                    booking['studName'],
+                                                    style:TextStyle(
+                                                        fontSize: Device.screenType == ScreenType.tablet? 
+                                                                    19:14,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight: FontWeight.w400,
+                                                        color: Colors.black,
                                                   
-                                                ),
-                                              ),
+                                                  ),
+                                                  ),   
                                             ),
                                              Container(
                                               margin: Device.screenType == ScreenType.tablet? 

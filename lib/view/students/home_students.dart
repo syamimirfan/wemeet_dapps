@@ -89,8 +89,8 @@ class _HomeStudentsState extends State<HomeStudents> {
                       children: [
                       Flexible(
                         child: Text(
-                                          "Hello, ",
-                                           style: TextStyle(
+                        "Hello, ",
+                          style: TextStyle(
                         color: Colors.white,
                         fontSize: Device.screenType == ScreenType.tablet? 
                                   18:18,
