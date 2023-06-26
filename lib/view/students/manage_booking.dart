@@ -444,7 +444,7 @@ class _ManageBookingState extends State<ManageBooking> {
                   context: context, 
                   builder: (context) {
                     return  AlertDialog(
-                      title:  const Text(" it App",  
+                      title:  const Text("Exit App",  
                       style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
