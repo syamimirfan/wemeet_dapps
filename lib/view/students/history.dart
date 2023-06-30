@@ -157,86 +157,88 @@ class _ManageHistoryState extends State<ManageHistory> {
                                       ),
                                     ),
                                     //for booking information
-                                     Container(
-                                         margin:  Device.screenType == ScreenType.tablet? 
-                                         EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02):
-                                        EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                              margin: Device.screenType == ScreenType.tablet? 
-                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.01,
-                                                  right: deviceWidth(context) * 0.01,):
-                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01,
-                                                  right: deviceWidth(context) * 0.01,
-                                                ) ,
-                                       
-                                                child: Text(
-                                                  attendance['lecturerName'],
-                                                  style:TextStyle(
-                                                      fontSize: Device.screenType == ScreenType.tablet? 
-                                                                  18:15,
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight: FontWeight.bold,
-                                                      color: Colors.black,
-                                                  ),
-                                                
-                                              ),
-                                            ),
-                                             Container(
-                                              margin: Device.screenType == ScreenType.tablet? 
-                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.008):
-                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                        
-                                                child: Text(
-                                                  attendance['numberOfStudents'].toString() + " Student",
-                                                  style:TextStyle(
-                                                      fontSize: Device.screenType == ScreenType.tablet? 
-                                                                18:14,
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.black,
-                                                  ),
-                                                
-                                              ),
-                                            ),
-                                             Container(
-                                              margin: Device.screenType == ScreenType.tablet? 
-                                                 EdgeInsets.only(bottom: deviceWidth(context) * 0.008):
-                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.008) ,
-                                              child:  Text(
-                                                  attendance['date'],
-                                                  style:TextStyle(
-                                                      fontSize: Device.screenType == ScreenType.tablet? 
-                                                                 18:14,
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.black,
-                                                  ),
-                                                
-                                              ),
-                                            ),
-                                             Container(
-                                              margin: Device.screenType == ScreenType.tablet? 
-                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.008):
-                                                EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
-                                              child: Text(
-                                                  attendance['time'],
-                                                  style:TextStyle(
-                                                      fontSize: Device.screenType == ScreenType.tablet? 
-                                                                18:14,
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight: FontWeight.bold,
-                                                      color: Constants().secondaryColor,
-                                                  ),
+                                     Flexible(
+                                       child: Container(
+                                           margin:  Device.screenType == ScreenType.tablet? 
+                                           EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02):
+                                          EdgeInsets.only(left: deviceWidth(context) * 0.02, top: deviceHeight(context) * 0.02),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                margin: Device.screenType == ScreenType.tablet? 
+                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.01,
+                                                    right: deviceWidth(context) * 0.01,):
+                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.01,
+                                                    right: deviceWidth(context) * 0.01,
+                                                  ) ,
+                                         
+                                                  child: Text(
+                                                    attendance['lecturerName'],
+                                                    style:TextStyle(
+                                                        fontSize: Device.screenType == ScreenType.tablet? 
+                                                                    18:15,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Colors.black,
+                                                    ),
+                                                  
                                                 ),
                                               ),
-                                            
-                                          ],
+                                               Container(
+                                                margin: Device.screenType == ScreenType.tablet? 
+                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.008):
+                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                          
+                                                  child: Text(
+                                                    attendance['numberOfStudents'].toString() + " Student",
+                                                    style:TextStyle(
+                                                        fontSize: Device.screenType == ScreenType.tablet? 
+                                                                  18:14,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black,
+                                                    ),
+                                                  
+                                                ),
+                                              ),
+                                               Container(
+                                                margin: Device.screenType == ScreenType.tablet? 
+                                                   EdgeInsets.only(bottom: deviceWidth(context) * 0.008):
+                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.008) ,
+                                                child:  Text(
+                                                    attendance['date'],
+                                                    style:TextStyle(
+                                                        fontSize: Device.screenType == ScreenType.tablet? 
+                                                                   18:14,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black,
+                                                    ),
+                                                  
+                                                ),
+                                              ),
+                                               Container(
+                                                margin: Device.screenType == ScreenType.tablet? 
+                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.008):
+                                                  EdgeInsets.only(bottom: deviceWidth(context) * 0.01) ,
+                                                child: Text(
+                                                    attendance['time'],
+                                                    style:TextStyle(
+                                                        fontSize: Device.screenType == ScreenType.tablet? 
+                                                                  18:14,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Constants().secondaryColor,
+                                                    ),
+                                                  ),
+                                                ),
+                                              
+                                            ],
+                                          ),
                                         ),
-                                      ),
+                                     ),
                                     
                                  ],
                               ),
