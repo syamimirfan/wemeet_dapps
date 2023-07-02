@@ -264,7 +264,7 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
                          Text("Your wallet address: ",style: TextStyle(fontFamily: 'Poppins', fontSize: 15, ),),       
                           TextFormField(
                             decoration: InputDecoration(
-                              hintText: "e.g 0xbCC498fcF6DCb9180Dd6E45FB02d0DDa2AB17391",
+                              hintText: "e.g 0xbCC4..7391",
                               filled: true,
                               fillColor: Colors.white,
                               prefixIcon: Icon(
