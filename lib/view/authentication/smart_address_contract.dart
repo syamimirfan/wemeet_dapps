@@ -10,26 +10,28 @@ import 'package:wemeet_dapps/view/students/home_students.dart';
 import 'package:wemeet_dapps/widget/widgets.dart';
 
 class SmartContractAddress extends StatefulWidget {
-  SmartContractAddress({Key? key, required this.matricNo, required this.statusStudent, required this.tokenAddress}): super(key: key);
+  SmartContractAddress({Key? key, required this.matricNo, required this.statusStudent}): super(key: key);
 
   final String matricNo;
-  final String tokenAddress;
   final int statusStudent;
 
   @override
-  State<SmartContractAddress> createState() => _SmartContractAddressState(this.matricNo, this.statusStudent, this.tokenAddress);
+  State<SmartContractAddress> createState() => _SmartContractAddressState(this.matricNo, this.statusStudent);
 }
 
 class _SmartContractAddressState extends State<SmartContractAddress> {
-  _SmartContractAddressState(this.matricNo, this.statusStudent, this.tokenAddress);
+  _SmartContractAddressState(this.matricNo, this.statusStudent);
   String matricNo;
-  String tokenAddress;
   int statusStudent;
   
   double deviceHeight(BuildContext context) =>  MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) =>  MediaQuery.of(context).size.width;
 
+  final TextEditingController _controllerWalletAddress = TextEditingController();
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+
   bool isChecked = false;
+
   String textAgreement = "I have read all the instructions and successfuly import the token. If the token is not imported, I will responsible to not having any reward after the appointment";
 
   String TOKEN_ADDRESS = "";
@@ -44,11 +46,7 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        return false;
-      },
-      child: Scaffold(
+       return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         appBar: AppBar(
           title: const Text(
@@ -64,275 +62,306 @@ class _SmartContractAddressState extends State<SmartContractAddress> {
           backgroundColor: Theme.of(context).primaryColor,
         ),
     
-        body: Padding(
-          padding:  Device.screenType == ScreenType.tablet? 
-                    const EdgeInsets.symmetric(vertical: 10,horizontal: 42,):
-                    EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
-          child: Container(
-             height: 100.h,
-             width: 100.w,
-                decoration:  const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius:
-                         BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30)
-                      )
-                ),
-            child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Container(
-                  padding:EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05,vertical:deviceWidth(context) * 0.05),
+        body: Form(
+          key: _globalKey,
+          child: Padding(
+            padding:  Device.screenType == ScreenType.tablet? 
+                      EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,) :
+                      EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.001,),
+            child: Container(
+                height: 100.h,
+                width: 100.w,
+                  decoration:  const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                           BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30)
+                        )
+                  ),
+               
+              child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Container(
+                      padding:EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.05,vertical:deviceWidth(context) * 0.05),
                     child: Column(
-                      children: [
-                        Flexible(
-                          child: const Text(
-                            "1. After you successfully done register your account, you will navigate to this interface: ",
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              fontFamily: 'Poppins',
+                            children: [
+                                const Text(
+                                  "1. After you successfully done register your account, you will navigate to this interface: ",           
+                                    style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    fontFamily: 'Poppins',
+                                    ),
+                                 ),
+                            
+                              SizedBox(height: 1.h,),
+                              Image.asset(
+                                "assets/import_token_1.png",
+                                width: 50.w,
+                                scale: 2,
+                                height: 50.h,
                               ),
-                           ),
-                        ),
-                        SizedBox(height: 1.h,),
-                        Image.asset(
-                          "assets/import_token_1.png",
-                          width: 50.w,
-                          scale: 2,
-                          height: 50.h,
-                        ),
-                        Flexible(
-                          child: const Text(
-                            "2. This is your Metamask account. The red arrow shows the address of your metamask account. Please do not lost it and keep it for the transaction.",
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              fontFamily: 'Poppins',
+                               const Text(
+                                  "2. This is your Metamask account. The red arrow shows the address of your metamask account. Please do not lost it and keep it for the transaction.",
+                                    style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    fontFamily: 'Poppins',
+                                    ),
+                                 ),
+                             
+                                SizedBox(height: 1.h,),     
+                                Image.asset(
+                                "assets/import_token_2.png",
+                                width: 50.w,
+                                scale: 2,
+                                height: 50.h,
                               ),
-                           ),
-                        ),
-                          SizedBox(height: 1.h,),     
-                          Image.asset(
-                          "assets/import_token_2.png",
-                          width: 50.w,
-                          scale: 2,
-                          height: 50.h,
-                        ),
-                        SizedBox(height: 1.h,),
-                         Flexible(
-                           child: const Text(
-                            "3. Please change the Ethereum Main Network to Sepolia Test Network by click the option on the top and click Add Network",
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              fontFamily: 'Poppins',
-                              ),
-                           ),
-                         ),
-                          SizedBox(height: 1.h,), 
-                          Image.asset(
-                          "assets/import_token_3.png",
-                          width: 70.w,
-                          scale: 2,               
-                        ),
-                           SizedBox(height: 1.5.h,), 
-                          Flexible(
-                            child: const SelectableText(
-                            "4. At the Custom Networks section, please fill this form : \n Network Name - Sepolia test network \n New RPC URL - https://sepolia.infura.io/v3/a16a56f42e774895b94db13a6342829e \n Chain ID - 11155111 \n Currency Symbol - SepoliaETH \n Block explorer URL - https://sepolia.etherscan.io/",
-                              
-                              style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              fontFamily: 'Poppins',
-                              ),
-                                                   ),
-                          ),
-                          SizedBox(height: 1.h,),  
-                          Image.asset(
-                          "assets/import_token_9.png",
-                          width: 70.w,
-                          scale: 2,               
-                        ),
-                          SizedBox(height: 1.h,),  
-                          Flexible(
-                            child: const Text(
-                            "5. You can see the test network has successfully changed to Sepolia.",
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              fontFamily: 'Poppins',
-                              ),
-                                                   ),
-                          ),
-                                
+                              SizedBox(height: 1.h,),
+                                const Text(
+                                  "3. Please change the Ethereum Main Network to Sepolia Test Network by click the option on the top and click Add Network",                                
+                                    style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    fontFamily: 'Poppins',
+                                    ),
+                                 ),
                                
-                          Image.asset(
-                          "assets/import_token_9.png",
-                          width: 50.w,
-                          scale: 2,
-                          height: 50.h,
-                        ),
-                         SizedBox(height: 1.h,),  
-                          Image.asset(
-                          "assets/import_token_4.png",
-                          width: 50.w,
-                          scale: 2,
-                          height: 50.h,
-                        ),
-                        SizedBox(height: 1.h,),
-                        Flexible(
-                          child: const Text(
-                            "6. IMPORTANT!! you need to import the UTHM token in Goerli Test Network. Do not skip this part.",
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              fontFamily: 'Poppins',
+                                SizedBox(height: 1.h,), 
+                                Image.asset(
+                                "assets/import_token_3.png",
+                                width: 70.w,
+                                scale: 2,               
                               ),
-                           ),
-                        ),
-                          SizedBox(height: 1.h,),
-                         Image.asset(
-                          "assets/import_token_5.png",
-                          width: 70.w,
-                          scale: 2,               
-                        ),
-                        SizedBox(height: 1.h,),
-                         Flexible(
-                           child: const Text(
-                            "7. Click Import Token and copy the UTHM Token address below and paste it in Token Address input",
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              fontFamily: 'Poppins',
-                              ),
-                           ),
-                         ),
-                         SizedBox(height: 1.h,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                         Flexible(
-                           child: Text(
-                           "0xac60...b413",
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              fontFamily: 'Poppins',
-                              ),
-                             ),
-                         ),
-                           IconButton(
-                            onPressed: () {
-                              Clipboard.setData(ClipboardData(text: TOKEN_ADDRESS));
-                              showSnackBarSuccessful(context, "UTHM Token Address copied", Constants().primaryColor);
-                            }, 
-                            icon: Icon(Icons.copy, size: 25, color: Colors.black, )
-                            ),
-                          ],
-                        ),
-                          Image.asset(
-                          "assets/import_token_6.png",
-                          width: 50.w,
-                          scale: 2,
-                          height: 50.h,
-                        ),
-                        SizedBox(height: 1.h,),
-                          Flexible(
-                            child: const Text(
-                            "8. Token Symbol and Token Decimal will auto filled after you successfuly paste the UTHM Token Address",
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              fontFamily: 'Poppins',
-                              ),
-                                                   ),
-                          ),
-                         SizedBox(height: 1.h,),
-                          Image.asset(
-                          "assets/import_token_7.png",
-                          width: 50.w,
-                          scale: 2,
-                          height: 50.h,
-                        ),
-                         SizedBox(height: 1.h,),
-                          Flexible(
-                            child: const Text(
-                            "9. Click Import and you will see the UTHM token at your Metamask account",
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              fontFamily: 'Poppins',
-                              ),
-                                                   ),
-                          ),
-                           Image.asset(
-                          "assets/import_token_8.png",
-                          width: 50.w,
-                          scale: 2,
-                          height: 50.h,
-                        ),
-                        SizedBox(height: 3.h,),
-                       Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Checkbox(
-                              value: isChecked, 
-                              activeColor: Constants().primaryColor,
-                              onChanged: (bool? newChecked) {
-                                setState(() {
-                                  isChecked = newChecked!;
+                                 SizedBox(height: 1.5.h,), 
+                                 const SelectableText(
+                                  "4. At the Custom Networks section, please fill this form : \n Network Name - Sepolia test network \n New RPC URL - https://sepolia.infura.io/v3/a16a56f42e774895b94db13a6342829e \n Chain ID - 11155111 \n Currency Symbol - SepoliaETH \n Block explorer URL - https://sepolia.etherscan.io/",                
+                                    style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    fontFamily: 'Poppins',
+                                    ),
+                                  ),
                                 
-                                });
+                                SizedBox(height: 1.h,),  
+                                Image.asset(
+                                "assets/import_token_9.png",
+                                width: 70.w,
+                                scale: 2,               
+                              ),
+                                SizedBox(height: 1.h,),  
+                                const Text(
+                                  "5. You can see the test network has successfully changed to Sepolia.",
+                                    style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    fontFamily: 'Poppins',
+                                    ),
+                                    ),
+                                
+                                Image.asset(
+                                "assets/import_token_9.png",
+                                width: 50.w,
+                                scale: 2,
+                                height: 50.h,
+                              ),
+                               SizedBox(height: 1.h,),  
+                                Image.asset(
+                                "assets/import_token_4.png",
+                                width: 50.w,
+                                scale: 2,
+                                height: 50.h,
+                              ),
+                              SizedBox(height: 1.h,),
+                              const Text(
+                                  "6. IMPORTANT!! you need to import the UTHM token in Goerli Test Network. Do not skip this part.", 
+                                    style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    fontFamily: 'Poppins',
+                                    ),
+                                 ),
+                              
+                                SizedBox(height: 1.h,),
+                               Image.asset(
+                                "assets/import_token_5.png",
+                                width: 70.w,
+                                scale: 2,               
+                              ),
+                              SizedBox(height: 1.h,),
+                               const Text(
+                                  "7. Click Import Token and copy the UTHM Token address below and paste it in Token Address input",
+                                    style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    fontFamily: 'Poppins',
+                                    ),
+                                 ),
+                               
+                               SizedBox(height: 1.h,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                               Text(
+                                 "0xac60...b413",
+                                    style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    fontFamily: 'Poppins',
+                                    ),
+                                   ),
+                               
+                                 IconButton(
+                                  onPressed: () {
+                                    Clipboard.setData(ClipboardData(text: TOKEN_ADDRESS));
+                                    showSnackBarSuccessful(context, "UTHM Token Address copied", Constants().primaryColor);
+                                  }, 
+                                  icon: Icon(Icons.copy, size: 25, color: Colors.black, )
+                                  ),
+                                ],
+                              ),
+                                Image.asset(
+                                "assets/import_token_6.png",
+                                width: 50.w,
+                                scale: 2,
+                                height: 50.h,
+                              ),
+                              SizedBox(height: 1.h,),
+                                const Text(
+                                  "8. Token Symbol and Token Decimal will auto filled after you successfuly paste the UTHM Token Address",
+                                    style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    fontFamily: 'Poppins',
+                                    ),
+                                         ),
+                                
+                               SizedBox(height: 1.h,),
+                                Image.asset(
+                                "assets/import_token_7.png",
+                                width: 50.w,
+                                scale: 2,
+                                height: 50.h,
+                              ),
+                               SizedBox(height: 1.h,),
+                               const Text(
+                                  "9. Click Import and you will see the UTHM token at your Metamask account",
+                                    style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    fontFamily: 'Poppins',
+                                    ),
+                                  ),
+                                
+                                 Image.asset(
+                                "assets/import_token_8.png",
+                                width: 50.w,
+                                scale: 2,
+                                height: 50.h,
+                              ),
+                              SizedBox(height: 3.h,),
+                         Text("Your wallet address: ",style: TextStyle(fontFamily: 'Poppins', fontSize: 15, ),),       
+                          TextFormField(
+                            decoration: InputDecoration(
+                              hintText: "e.g 0xbCC498fcF6DCb9180Dd6E45FB02d0DDa2AB17391",
+                              filled: true,
+                              fillColor: Colors.white,
+                              prefixIcon: Icon(
+                                Icons.token,
+                                color: Constants().messageGreyColor,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Constants().secondaryColor,
+                                  width: 2.0,
+                                ),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.red,
+                                  width: 2.0,
+                                ),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              errorStyle: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
+                            controller: _controllerWalletAddress,
+                            validator: (value) {
+                              // Regular expression pattern to match a valid Ethereum address
+                              final pattern = r'^0x[a-fA-F0-9]{40}$';
+                              final regExp = RegExp(pattern);
+                              if (value!.isEmpty) {
+                                return 'Please enter your wallet address.';
+                              }else if (!regExp.hasMatch(value)) {
+                                return 'Please enter a valid wallet address.';
+                              } else {
+                               return null; // Return null if the value is valid
                               }
-                              ),
-                            Flexible(child: Text(textAgreement, textAlign: TextAlign.justify,style: TextStyle(fontFamily: 'Poppins', fontSize: 15, ),)), 
-                          ],
-                       ),
-                           SizedBox(height: 5.h,),
-                        SizedBox(
-                         width: 75.w,
-                         child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Constants().secondaryColor,
-                              elevation: 0,
-                              padding: const EdgeInsets.symmetric(vertical: 15),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),  
-                          onPressed: !isChecked ? null : () async{
-                             showConfirmationImportTokenBox(context, "Confirm?", "Please confirm that you have import UTHM token in Metamask Apps",matricNo, tokenAddress,statusStudent);
-                          },
-                           child:  const Text(
-                             "Save",
-                             style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22,
-                                fontFamily: 'Poppins',
+                            },
+                          ),
+        
+                    
+                           SizedBox(height: 1.h,),
+                             Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Checkbox(
+                                    value: isChecked, 
+                                    activeColor: Constants().primaryColor,
+                                    onChanged: (bool? newChecked) {
+                                      setState(() {
+                                        isChecked = newChecked!;       
+                                      });
+                                    }
+                                    ),
+                                  Flexible(child: Text(textAgreement,style: TextStyle(fontFamily: 'Poppins', fontSize: 15, ),)),
+                                ],
                              ),
-                           ),
+                                 SizedBox(height: 5.h,),
+                              SizedBox(
+                               width: 75.w,
+                               child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Constants().secondaryColor,
+                                    elevation: 0,
+                                    padding: const EdgeInsets.symmetric(vertical: 15),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                  ),  
+                                onPressed: !isChecked ? null : () async{
+                                      if(_globalKey.currentState!.validate()) {
+                                      showConfirmationImportTokenBox(context, "Confirm?", "Please confirm that you have import UTHM token in Metamask Apps",matricNo, _controllerWalletAddress.text.toString(),statusStudent);
+                                    }                               
+                                },
+                                 child:  const Text(
+                                   "Save",
+                                   style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22,
+                                      fontFamily: 'Poppins',
+                                   ),
+                                 ),
+                                ),
+                                ),
+                            ],
                           ),
-                          ),
-                      ],
+                  ),
                     ),
-                ),
-            ),
-          ),
+                  ),
+              ),
         ),
-      ),
-    );
+          );
+
   }
    //function to update token address and firebase token when first time login
   updateToken(String? matricNo, String tokenAddress, int statusStudent) async {

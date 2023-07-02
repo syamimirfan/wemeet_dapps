@@ -4,7 +4,6 @@ import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wemeet_dapps/api_services/api_lecturers.dart';
@@ -29,17 +28,20 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  var connector = WalletConnect(
-      bridge: 'https://bridge.walletconnect.org',
-      clientMeta: const PeerMeta(
-          name: 'My App',
-          description: 'An app for converting pictures to NFT',
+  // Create a connector
+    final connector = WalletConnect(
+        bridge: 'https://bridge.walletconnect.org',
+        clientMeta: PeerMeta(
+          name: 'WalletConnect',
+          description: 'WalletConnect Developer App',
           url: 'https://walletconnect.org',
           icons: [
-            'https://files.gitbook.com/v0/b/gitbook-legacy-files/o/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media'
-          ]));
+            'https://gblobscdn.gitbook.com/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media'
+          ],
+        ),
+    );
 
-  var _session, session;
+   var _session, _uri, _signature, session;
   
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
@@ -53,16 +55,19 @@ class _LoginState extends State<Login> {
     if (!connector.connected) {
       try {
             session = await connector.createSession(onDisplayUri: (uri) async {
-            await launchUrlString(uri, mode: LaunchMode.externalApplication);
+            _uri = uri;
+             await launchUrlString(uri, mode: LaunchMode.externalApplication);
+            // nextScreenRemoveUntil(context, SmartContractAddress(matricNo: matricNo, statusStudent: statusStudent, tokenAddress: session.accounts[0].toString()));
           });
           print(session.accounts[0]);
           setState(() { 
             _session = session;
           }); 
+          
       } catch (e) {
         print(e); 
       }
-      nextScreenReplacement(context, SmartContractAddress(matricNo: matricNo, statusStudent: statusStudent, tokenAddress: session.accounts[0].toString(),));
+     
     }
 
   }
@@ -249,7 +254,6 @@ class _LoginState extends State<Login> {
                     
                         onPressed: () async{
                           if(_globalKey.currentState!.validate()) {
-                            SpinKitFadingCircle(color:Colors.white ,size: 25,);
                             login(_controllerEmail.text.toString(), _controllerPassword.text.toString());
                           }
                   
@@ -279,24 +283,24 @@ class _LoginState extends State<Login> {
 
    //function for authorization login student and lecturer
    login(String email, String password) async{
-           connector.on(
-        'connect',
-        (session) => setState(
-              () {
-                _session = _session;
-              },
-            ));
-    connector.on(
-        'session_update',
-        (payload) => setState(() {
-              _session = payload;
+    //        connector.on(
+    //     'connect',
+    //     (session) => setState(
+    //           () {
+    //             _session = _session;
+    //           },
+    //         ));
+    // connector.on(
+    //     'session_update',
+    //     (payload) => setState(() {
+    //           _session = payload;
        
-            }));
-    connector.on(
-        'disconnect',
-        (payload) => setState(() {
-              _session = null;
-            }));
+    //         }));
+    // connector.on(
+    //     'disconnect',
+    //     (payload) => setState(() {
+    //           _session = null;
+    //         }));
    final SharedPreferences  _sharedPreferences = await SharedPreferences.getInstance();
 
     var responseStudent = await new Student().studentLogin(email.trim(), password.trim());
@@ -312,7 +316,8 @@ class _LoginState extends State<Login> {
       String matricNumber = responseStudent['student'][0]['matricNo'];
       int statusStudent = responseStudent['student'][0]['status'];
       
-      loginUsingMetamask(context, matricNumber, statusStudent);
+      // loginUsingMetamask(context, matricNumber, statusStudent);
+      nextScreenRemoveUntil(context, SmartContractAddress(matricNo: matricNumber, statusStudent: statusStudent));
 
     } else if(responseStudent['success'] && responseStudent['status'] == 1 && responseStudent["tokenAddress"] != "") {
       //to set the sesssion and keep logged 
