@@ -85,8 +85,8 @@ class _BookSuccessfulState extends State<BookSuccessful> {
                               "You have successfully book your appointment",
                               style: TextStyle(
                                 fontFamily: "Poppins",
-                                fontSize: Device.screenType == ScreenType.tablet? 18:15,
-                                fontWeight: FontWeight.w400,
+                                fontSize: Device.screenType == ScreenType.tablet? 18:14,
+                                fontWeight: FontWeight.w500,
                               ),
                               ),
                             
